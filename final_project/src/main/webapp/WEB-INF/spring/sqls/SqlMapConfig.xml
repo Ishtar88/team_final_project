@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<typeAliases>
+		<typeAlias type="com.jsr.project.dtos.MembersDto" alias="MembersDto"/>
+		<typeAlias type="com.jsr.project.dtos.QnaBoardDto" alias="QnaBoardDto"/>
+		<typeAlias type="com.jsr.project.dtos.AcountDto" alias="AcountDto"/>
+		<typeAlias type="com.jsr.project.dtos.PointDto" alias="PointDto"/>
+	</typeAliases>
+	
+	<mappers>
+		<mapper resource="/sqls/Members_mapper.xml"/>
+		<mapper resource="/sqls/Acount_mapper.xml"/>
+		<mapper resource="/sqls/Qnaboard_mapper.xml"/>
+	</mappers>
+</configuration>
