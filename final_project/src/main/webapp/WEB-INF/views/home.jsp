@@ -2,7 +2,7 @@
 <%request.setCharacterEncoding("UTF-8"); %>
 <%response.setContentType("text/html; charset=UTF-8"); %>
 <!DOCTYPE html>
-<<jsp:include page="header.jsp"></jsp:include>
+<jsp:include page="header.jsp"/>
 <html>
 <head>
 	<title>Home</title>
@@ -134,7 +134,7 @@
     <a class="item" href="acount.do">자산관리</a>
     <a class="item">패턴분석</a>
     <a class="item">포인트몰</a>
-    <a class="item">고객센터</a>
+    <a class="item" href="customer.do">고객센터</a>
     <div class="right menu">
       <div class="item">
         <a class="ui button">로그인</a>
@@ -152,7 +152,7 @@
     <a class="item" href="acount.do">자산관리</a>
     <a class="item">패턴분석</a>
     <a class="item">포인트몰</a>
-    <a class="item">고객센터</a>
+    <a class="item" href="customer.do">고객센터</a>
   <a class="item">로그인</a>
   <a class="item">회원가입</a>
 </div>
@@ -171,7 +171,7 @@
     <a class="item" href="acount.do">자산관리</a>
     <a class="item">패턴분석</a>
     <a class="item">포인트몰</a>
-    <a class="item">고객센터</a>
+    <a class="item"  href="customer.do">고객센터</a>
         <div class="right item">
           <a class="ui inverted button">로그인</a>
           <a class="ui inverted button">회원가입</a>
@@ -182,10 +182,10 @@
 <!-- Page Contents -->
     <div class="ui text container">
       <h1 class="ui inverted header">
-        Imagine-a-Company
+        오직 당신을 위한 가계부 
       </h1>
-      <h2>Do whatever you want when you want to.</h2>
-      <div class="ui huge primary button">Get Started <i class="right arrow icon"></i></div>
+      <h2>simple cash로 예산설정, 패턴분석까지 한번에!</h2>
+      <div class="ui huge primary button"> 지금 시작하기 <i class="right arrow icon"></i></div>
     </div>
 
   </div>

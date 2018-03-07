@@ -4,6 +4,11 @@
 <!DOCTYPE html>
 <html>
 <head>
+<style type="text/css">
+	
+	h2 {background-color:#343DEA;}
+	
+</style>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="stylesheet" type="text/css" href="resources/assets/semantic.min.css">
 <script
@@ -12,8 +17,11 @@
   crossorigin="anonymous"></script>
 <script src="resources/assets/semantic.min.js"></script>
 <title>Insert title here</title>
+
 </head>
 
 <body>
+<h2>헤더 적용됨</h2>
+
 </body>
 </html>
