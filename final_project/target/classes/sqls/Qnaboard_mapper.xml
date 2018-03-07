@@ -2,30 +2,46 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 	<mapper namespace="com.jsr.project">
+	
+			<resultMap type="com.jsr.project.dtos.QnaBoardDto" id="QnaBoardDto">
+			<result property="q_seq" column="Q_SEQ"/>
+			<result property="id" column="ID"/>
+			<result property="q_name" column="Q_NAME"/>
+			<result property="q_title" column="Q_TITLE"/>
+			<result property="q_content" column="Q_CONTENT"/>
+			<result property="q_regDate" column="Q_REGDATE"/>
+			<result property="q_refer" column="Q_REFER"/>
+			<result property="q_step" column="Q_STEP"/>
+			<result property="q_depth" column="Q_DEPTH"/>
+			<result property="q_readcount" column="Q_READCOUNT"/>
+			<result property="q_delflag" column="Q_DELFLAG"/>
+			<result property="q_viewable" column="Q_VIEWABLE"/>
+
+		</resultMap>
 		
 		
 <!-- 		글 목록 조회 - 유저   -->
 		<select id="qnaboard" resultType="QnaBoardDto"	parameterType="Map">
-			SELECT Q_SEQ, ID, Q_NAME, Q_TITLE, Q_WRDATE, Q_REFER, Q_STEP, Q_DEPTH, Q_READCOUNT, Q_DELFLAG, Q_VIEWABLE
+			SELECT Q_SEQ, ID, Q_NAME, Q_TITLE, Q_REGDATE, Q_REFER, Q_STEP, Q_DEPTH, Q_READCOUNT, Q_DELFLAG, Q_VIEWABLE
 			FROM QNA 
 		</select>
 		
 <!-- 		공개글 상세 조회 - 유저 -->
 		<select id ="q_detailboard" resultType="QnaBoardDto" parameterType="int">
-		 SELECT Q_SEQ, ID, Q_NAME, Q_TITLE, Q_CONTENT, Q_WRDATE, Q_REFER, Q_STEP, Q_DEPTH, 
+		 SELECT Q_SEQ, ID, Q_NAME, Q_TITLE, Q_CONTENT, Q_REGDATE, Q_REFER, Q_STEP, Q_DEPTH, 
 		 Q_READCOUNT, Q_DELFLAG FROM QNA WHERE Q_SEQ=#{q_seq} AND Q_VIEWABLE='Y'
 		</select>
 		
 <!-- 		모든글 상세 조회 - 관리자 -->
 		<select id ="q_detailboard_all" resultType="QnaBoardDto" parameterType="int">
-		 SELECT Q_SEQ, ID, Q_NAME, Q_TITLE, Q_CONTENT, Q_WRDATE, Q_REFER, Q_STEP, Q_DEPTH, 
+		 SELECT Q_SEQ, ID, Q_NAME, Q_TITLE, Q_CONTENT, Q_REGDATE, Q_REFER, Q_STEP, Q_DEPTH, 
 		 Q_READCOUNT, Q_DELFLAG FROM QNA WHERE Q_SEQ=#{q_seq} AND Q_VIEWABLE='Y'
 		</select>
 		
 <!-- 		새로운 글 입력 - 모두 -->
 		<insert id="q_insertboard" parameterType="QnaBoardDto">
 			INSERT INTO QNA
-			( Q_SEQ, ID, Q_NAME, Q_TITLE, Q_CONTENT, Q_WRDATE, Q_REFER, Q_STEP, Q_DEPTH, Q_READCOUNT, Q_DELFLAG, Q_VIEWABLE)
+			( Q_SEQ, ID, Q_NAME, Q_TITLE, Q_CONTENT, Q_REGDATE, Q_REFER, Q_STEP, Q_DEPTH, Q_READCOUNT, Q_DELFLAG, Q_VIEWABLE)
 			VALUES 
 			( QNA_SEQ.NEXTVAL, #{id}, #{q_name}, #{q_title}, #{q_content}, SYSDATE, (SELECT NVL(MAX(REFER)+1), 0) FROM ANSWERBOARD),0,0,0,'N',#{q_viewable})
 		</insert>
@@ -33,7 +49,7 @@
 <!-- 새로운 답변 입력 -관리자 -->
 		<insert id="q_ansinsert" parameterType="QnaBoardDto">
 			INSERT INTO QNA
-			( Q_SEQ, ID, Q_NAME, Q_TITLE, Q_CONTENT, Q_WRDATE, Q_REFER, Q_STEP, Q_DEPTH, Q_READCOUNT, Q_DELFLAG, Q_VIEWABLE)
+			( Q_SEQ, ID, Q_NAME, Q_TITLE, Q_CONTENT, Q_REGDATE, Q_REFER, Q_STEP, Q_DEPTH, Q_READCOUNT, Q_DELFLAG, Q_VIEWABLE)
 			VALUES 
 			( QNA_SEQ.NEXTVAL, #{id}, #{q_name}, #{q_title}, #{q_content}, SYSDATE, 
 			(SELECT REFER FROM ANSWERBOARD WHERE SEQ=#{q_seq}),
@@ -44,7 +60,7 @@
 		
 <!-- 	일반 글 수정  -모두 -->
 	<update id="q_updateboard" parameterType="QnaBoardDto">
-		UPDATE QNA SET Q_TITLE=#{q_title}, Q_CONTENT=#{q_content}, REGDATE=SYSDATE 
+		UPDATE QNA SET Q_TITLE=#{q_title}, Q_CONTENT=#{q_content}, Q_REGDATE=SYSDATE 
 		WHERE SEQ=#{seq}
 	</update>
 	

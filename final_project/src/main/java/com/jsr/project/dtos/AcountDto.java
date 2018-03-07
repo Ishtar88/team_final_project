@@ -2,59 +2,88 @@ package com.jsr.project.dtos;
 
 public class AcountDto {
 	
-	private int g_seq;
-	private String id;
-	private String g_name;
-	private int g_money;
-	private String g_memo;
+	private int ac_money;
 	
-	public AcountDto() {
-		// TODO Auto-generated constructor stub
+	private int f_seq;
+	
+	private int s_seq;
+	
+	private int l_seq;
+	
+	private int st_seq;
+	
+	private String id;
+
+	public int getAc_money() {
+		return ac_money;
 	}
-	public int getG_seq() {
-		return g_seq;
+
+	public void setAc_money(int ac_money) {
+		this.ac_money = ac_money;
 	}
-	public void setG_seq(int g_seq) {
-		this.g_seq = g_seq;
+
+	public int getF_seq() {
+		return f_seq;
 	}
+
+	public void setF_seq(int f_seq) {
+		this.f_seq = f_seq;
+	}
+
+	public int getS_seq() {
+		return s_seq;
+	}
+
+	public void setS_seq(int s_seq) {
+		this.s_seq = s_seq;
+	}
+
+	public int getL_seq() {
+		return l_seq;
+	}
+
+	public void setL_seq(int l_seq) {
+		this.l_seq = l_seq;
+	}
+
+	public int getSt_seq() {
+		return st_seq;
+	}
+
+	public void setSt_seq(int st_seq) {
+		this.st_seq = st_seq;
+	}
+
 	public String getId() {
 		return id;
 	}
+
 	public void setId(String id) {
 		this.id = id;
 	}
-	public String getG_name() {
-		return g_name;
+
+	public AcountDto() {
+		super();
+		// TODO Auto-generated constructor stub
 	}
-	public void setG_name(String g_name) {
-		this.g_name = g_name;
+
+	public AcountDto(int ac_money, int f_seq, int s_seq, int l_seq, int st_seq, String id) {
+		super();
+		this.ac_money = ac_money;
+		this.f_seq = f_seq;
+		this.s_seq = s_seq;
+		this.l_seq = l_seq;
+		this.st_seq = st_seq;
+		this.id = id;
 	}
-	public int getG_money() {
-		return g_money;
-	}
-	public void setG_money(int g_money) {
-		this.g_money = g_money;
-	}
-	public String getG_memo() {
-		return g_memo;
-	}
-	public void setG_memo(String g_memo) {
-		this.g_memo = g_memo;
-	}
+
 	@Override
 	public String toString() {
-		return "AcountDto [g_seq=" + g_seq + ", id=" + id + ", g_name=" + g_name + ", g_money=" + g_money + ", g_memo="
-				+ g_memo + "]";
+		return "AcountDto [ac_money=" + ac_money + ", f_seq=" + f_seq + ", s_seq=" + s_seq + ", l_seq=" + l_seq
+				+ ", st_seq=" + st_seq + ", id=" + id + "]";
 	}
-	public AcountDto(int g_seq, String id, String g_name, int g_money, String g_memo) {
-		super();
-		this.g_seq = g_seq;
-		this.id = id;
-		this.g_name = g_name;
-		this.g_money = g_money;
-		this.g_memo = g_memo;
-	}
-	
-	
 
+	
+	
+	
 }

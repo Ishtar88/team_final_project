@@ -9,7 +9,7 @@ public class QnaBoardDto {
 	private String q_name;
 	private String q_title; 
 	private String q_content; 
-	private Date q_wrdate; 
+	private Date q_regDate; 
 	private int q_refer; 
 	private int q_step;
 	private int q_depth; 
@@ -20,11 +20,10 @@ public class QnaBoardDto {
 	
 	public QnaBoardDto() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 	
 	
-	public QnaBoardDto(int q_seq, String id, String q_name, String q_title, String q_content, Date q_wrdate,
+	public QnaBoardDto(int q_seq, String id, String q_name, String q_title, String q_content, Date q_regDate,
 			int q_refer, int q_step, int q_depth, int q_readcount, String q_delflag, String q_viewable) {
 		super();
 		this.q_seq = q_seq;
@@ -32,7 +31,7 @@ public class QnaBoardDto {
 		this.q_name = q_name;
 		this.q_title = q_title;
 		this.q_content = q_content;
-		this.q_wrdate = q_wrdate;
+		this.q_regDate = q_regDate;
 		this.q_refer = q_refer;
 		this.q_step = q_step;
 		this.q_depth = q_depth;
@@ -43,7 +42,7 @@ public class QnaBoardDto {
 	@Override
 	public String toString() {
 		return "qnaBoardDto [q_seq=" + q_seq + ", id=" + id + ", q_name=" + q_name + ", q_title=" + q_title
-				+ ", q_content=" + q_content + ", q_wrdate=" + q_wrdate + ", q_refer=" + q_refer + ", q_step=" + q_step
+				+ ", q_content=" + q_content + ", q_wrdate=" + q_regDate + ", q_refer=" + q_refer + ", q_step=" + q_step
 				+ ", q_depth=" + q_depth + ", q_readcount=" + q_readcount + ", q_delflag=" + q_delflag + ", q_viewable="
 				+ q_viewable + "]";
 	}
@@ -78,10 +77,10 @@ public class QnaBoardDto {
 		this.q_content = q_content;
 	}
 	public Date getQ_wrdate() {
-		return q_wrdate;
+		return q_regDate;
 	}
-	public void setQ_wrdate(Date q_wrdate) {
-		this.q_wrdate = q_wrdate;
+	public void setQ_wrdate(Date q_regDate) {
+		this.q_regDate = q_regDate;
 	}
 	public int getQ_refer() {
 		return q_refer;

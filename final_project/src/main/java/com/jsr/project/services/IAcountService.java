@@ -1,13 +1,20 @@
 package com.jsr.project.services;
 
 
-import com.jsr.project.dtos.AcountDto;
-import com.jsr.project.dtos.PointDto;
+import java.util.List;
+
+import com.jsr.project.dtos.*;
 
 public interface IAcountService {
 	
-	public boolean goalInsert(AcountDto dto);
+	public boolean goalInsert(GoalDto dto);
 	
-	public boolean goalPointInsert(AcountDto dto);
+	public boolean goalPointInsert(GoalDto dto);
+	
+	public AcountDto acountTotalSearch(MembersDto dto); 
+	
+	public List<StockDto> stockAllSearch(String id);
+	
+	public List<FundDto> fundAllSearch(String id);
 
 }
