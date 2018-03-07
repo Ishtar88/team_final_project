@@ -3,7 +3,7 @@
 
 	<mapper namespace="com.jsr.project.acount">
 	
-		<resultMap type="com.jsr.project.dtos.AcountDto" id="AcountDto">
+		<resultMap type="com.jsr.project.dtos.GoalDto" id="GoalDto">
 			<result property="id" column="ID"/>
 			<result property="g_seq" column="G_SEQ"/>
 			<result property="g_name" column="G_NAME"/>
@@ -11,18 +11,40 @@
 			<result property="g_memo" column="G_MEMO"/>
 		</resultMap>
 		
-		<insert id="goalInsert" parameterType="AcountDto">
+		<insert id="goalInsert" parameterType="GoalDto">
 			INSERT INTO GOAL(G_SEQ,ID,G_NAME,G_MONEY,G_MEMO)
 			VALUES(GOAL_SEQ.NEXTVAL,#{id} ,#{g_name}, #{g_money}, #{g_memo})
 		</insert>
 		
-		<update id="goalRegInsert" parameterType="AcountDto">
+		<update id="goalRegInsert" parameterType="GoalDto">
 			UPDATE MEMBERS SET M_GOALDATE=SYSDATE WHERE ID=#{id}
 		</update>
 		
-		<insert id="goalPointInsert" parameterType="AcountDto">
+		<insert id="goalPointInsert" parameterType="GoalDto">
 			INSERT INTO POINT(PO_SEQ,ID,PO_REGDATE,PO_NAME,PO_DETAIL,PO_POINT)
 			VALUES(POINT_SEQ.NEXTVAL,#{id},SYSDATE,'일반','목표설정 포인트 적립',100)
 		</insert>
+		
+		<select id="acountTotal" resultType="AcountDto" parameterType="MembersDto">
+			SELECT (ST_SUM+F_SUM+S_SUM) AS AC_MONEY
+					FROM (SELECT DISTINCT SUM(ST_SUM) OVER(PARTITION BY ID) AS ST_SUM,ID 
+							FROM (SELECT ST_COUNT*ST_ADD AS ST_SUM, ID,ST_COUNT,ST_MONEY,ST_SEQ FROM STOCK WHERE ID=#{id})
+						  ) ST 
+				    JOIN (SELECT F_SUM,S_SUM,F.ID 
+				  		 FROM (SELECT DISTINCT SUM(F_ADD) OVER(PARTITION BY ID) AS F_SUM,ID FROM FUND WHERE ID=#{id}) F 
+				  		  JOIN (SELECT DISTINCT SUM(S_ADD) OVER(PARTITION BY ID) AS S_SUM,ID FROM SAVE WHERE ID=#{id}) S
+				  ON F.ID=S.ID) SF 
+			ON SF.ID=ST.ID
+		</select>
+		
+		<select id="stockAllSearch" resultType="StockDto" parameterType="String">
+			SELECT ID,ST_SEQ,ST_NAME,ST_COUNT,ST_MONEY,ST_ADD,ST_BUYDATE,ST_MODIDATE,ST_SELLDATE,ST_SELLABLE,ST_MEMO 
+			FROM STOCK WHERE ID=#{id}
+		</select>
+		
+		<select id="fundAllSearch" resultType="fundDto" parameterType="String">
+			SELECT ID,F_SEQ,F_NAME,F_MONEY,F_ADD,F_BUYDATE,F_ENDDATE,F_MEMO
+			FROM FUND WHERE ID=#{id}
+		</select>
 	
 	</mapper>

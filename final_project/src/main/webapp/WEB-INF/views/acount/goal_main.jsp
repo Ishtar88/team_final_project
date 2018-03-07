@@ -40,9 +40,9 @@
 				<div id="acountName" style="width: 100px;"></div>
 			</div>
 			<div class="ui input" id="insertAcount">
-				<input type="text" name="g_money" placeholder="금액입력" style="width: 200px;">
+				<input type="text" name="g_money" value="${gDto.g_money }" style="width: 200px;">
 				<div>&nbsp;</div>
-				<input type="text" name="g_memo" placeholder="내용을 입력해주세요.">
+				<input type="text" name="g_memo" value="${gDto.g_memo }">
 			</div>
 		</div>
 			<div class="ui dividing header"></div>
