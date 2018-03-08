@@ -2,6 +2,7 @@
 <%request.setCharacterEncoding("UTF-8"); %>
 <%response.setContentType("text/html; charset=UTF-8"); %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <jsp:include page="../header.jsp"></jsp:include>
 <jsp:include page="acount_header.jsp"></jsp:include>
@@ -86,12 +87,28 @@ function toggleDataSeries(e) {
 }
 </script>
 <script type="text/javascript">
+
+
 	function stToggle(){
 		$(".stock_Tr").toggle();
 	}
 	
 	function fdToggle(){
 		$(".fund_Tr").toggle();
+	}
+	
+	function lnToggle(){
+		$(".loan_Tr").toggle();
+	}
+	function svToggle(){
+		$(".save_Tr").toggle();
+	}
+	
+	function save_detail(s_seq){
+		var url='save_detail.do?seq='+s_seq;
+		var prop='width=600px; height=600px;';
+		
+		open(url,'',prop);
 	}
 </script>
 <style type="text/css">
@@ -136,18 +153,67 @@ function toggleDataSeries(e) {
 		<div class="header_wrap">
 			<header>
 				<div class="ui right aligned">
-			    <a class="active item" href="home.do">홈</a>
-			    <a class="item" href="acount.do">자산관리</a>
-			    <a class="item">패턴분석</a>
-			    <a class="item">포인트몰</a>
-			    <a class="item">고객센터</a>
-			        <div class="right item">
-			          <a class="ui inverted button">로그인</a>
-			          <a class="ui inverted button">회원가입</a>
-			        </div>
-		    </div>
+				    <a class="active item" href="goal_main.do">목표관리</a>
+				    <a class="item" href="goal_main.do">저축추가</a>
+				    <a class="item" href="acount.do">수정</a>
+				    <a class="item">삭제</a>
+			    </div>
 			</header>
-		</div>
+	    </div>
+	</div>
+		  <!------  ---------->		
+		<!---  저축정보 테이블   ---->
+		  <!------  ---------->
+		<div class="save_body">
+			<div class="save_body">
+				<header>
+					<a href="#" onclick="svToggle()">
+						<img alt="plus/minus_icon" src="resources/icon/down_triangle.png" style="width: 20px; height: 20px;">
+					</a>
+					<span style="vertical-align: middle;">저축</span>
+				</header>
+				<table class="save_Tr" id="svBody" border="1" style="display: none;">
+					<tr>
+						<th>저축분류</th>
+						<th>저축/적금/보험명</th>
+						<th>현재금액</th>
+						<th>시작날짜</th>
+						<th>만기날짜</th>
+					</tr>
+					<c:choose>
+						<c:when test="${empty svList }">
+							<tr>
+								<td colspan="7" style="text-align: center;">-------조회된 결과가 없습니다.--------</td>
+							</tr>
+						</c:when><c:otherwise>
+							<c:forEach items="${svList }" var="svDto">
+								<tr>
+									<td>${svDto.s_detail }</td>
+									<td>
+										<a href="#" onclick="save_detail('${svDto.s_seq}')">
+											${svDto.s_name }
+										</a>
+									</td>
+									<td>${svDto.s_add } 원</td>
+									<td>${svDto.s_startdate } </td>
+									<td>${svDto.s_enddate }</td>
+								</tr>
+							</c:forEach>
+								<tr>
+								<td colspan="3"></td>
+									<th>합계</th>
+									<td>
+										<c:set var="total" value="0" />
+										<c:forEach items="${svList}" var="svDto">
+											<c:set var="total" value="${total+svDto.s_add}" />
+										</c:forEach>
+										${total}
+									</td>
+								</tr>	
+						</c:otherwise>
+					</c:choose>
+				</table>
+			</div>
 		  <!------  ---------->		
 		<!---  주식정보 테이블   ---->
 		  <!------  ---------->
@@ -155,7 +221,7 @@ function toggleDataSeries(e) {
 			<div class="stock_body">
 				<header>
 					<a onclick="stToggle()">
-						<img alt="plus/minus_icon" src="resources/icon/plus.png" style="width: 20px; height: 20px;">
+						<img alt="plus/minus_icon" class="st_icon" src="resources/icon/plus.png" style="width: 20px; height: 20px;">
 					</a>
 					<span style="vertical-align: middle;">주식</span>
 				</header>
@@ -167,7 +233,6 @@ function toggleDataSeries(e) {
 						<th>손익률</th>
 						<th>평가금</th>
 						<th>매수날짜</th>
-						<th>비고</th>
 					</tr>
 					<c:choose>
 						<c:when test="${empty sList }">
@@ -183,9 +248,19 @@ function toggleDataSeries(e) {
 									<td>${sDto.st_money/sDto.st_add } %</td>
 									<td>${sDto.st_count*sDto.st_add }원 </td>
 									<td>${sDto.st_buydate }</td>
-									<td>${sDto.st_memo }</td>
 								</tr>
 							</c:forEach>
+								<tr>
+								<td colspan="4"></td>
+									<th>합계</th>
+									<td>
+										<c:set var="total" value="0" />
+										<c:forEach items="${sList}" var="sDto">
+											<c:set var="total" value="${total+(sDto.st_count*sDto.st_add)}" />
+										</c:forEach>
+										${total}
+									</td>
+								</tr>	
 						</c:otherwise>
 					</c:choose>
 				</table>
@@ -199,7 +274,7 @@ function toggleDataSeries(e) {
 					<a onclick="fdToggle()">
 						<img alt="plus/minus_icon" src="resources/icon/plus.png" style="width: 20px; height: 20px;">
 					</a>
-					<span style="vertical-align: middle;">주식</span>
+					<span style="vertical-align: middle;">펀드</span>
 				</header>
 				<table class="fund_Tr" border="1" style="display: none;">
 					<tr>
@@ -209,7 +284,6 @@ function toggleDataSeries(e) {
 						<th>평가금</th>
 						<th>등록날짜</th>
 						<th>만기날짜</th>
-						<th>비고</th>
 					</tr>
 					<c:choose>
 						<c:when test="${empty fList }">
@@ -227,12 +301,72 @@ function toggleDataSeries(e) {
 									<td>${fDto.f_enddate }</td>
 								</tr>
 							</c:forEach>
+								<tr>
+								<td colspan="4"></td>
+									<th>합계</th>
+									<td>
+										<c:set var="total" value="0" />
+										<c:forEach items="${fList}" var="fDto">
+											<c:set var="total" value="${total+fDto.f_add}" />
+										</c:forEach>
+										${total}
+									</td>
+								</tr>	
+						</c:otherwise>
+					</c:choose>
+				</table>
+			</div>
+		  <!------  ---------->		
+		<!---  대출정보 테이블   ---->
+		  <!------  ---------->
+		  	<div class="loan_body">
+				<header>
+					<a onclick="lnToggle()">
+						<img alt="plus/minus_icon" src="resources/icon/plus.png" style="width: 20px; height: 20px;">
+					</a>
+					<span style="vertical-align: middle;">대출</span>
+				</header>
+				<table class="loan_Tr" border="1" style="display: none;">
+					<tr>
+						<th>대출명</th>
+						<th>대출원금</th>
+						<th>잔액</th>
+						<th>등록날짜</th>
+						<th>만기날짜</th>
+					</tr>
+					<c:choose>
+						<c:when test="${empty lList }">
+							<tr>
+								<td colspan="7" style="text-align: center;">-------조회된 결과가 없습니다.--------</td>
+							</tr>
+						</c:when><c:otherwise>
+							<c:forEach items="${lList }" var="lDto">
+								<tr>
+									<td>${lDto.l_name }</td>
+									<td>${lDto.l_money }</td>
+									<td>${lDto.l_bal }</td>
+									<td>${lDto.l_startdate }</td>
+									<td>${lDto.l_enddate }</td>
+								</tr>
+							</c:forEach>
+								<tr>
+								<td colspan="3"></td>
+									<th>잔액합계</th>
+									<td>
+										<c:set var="total" value="0" />
+										<c:forEach items="${lList}" var="lDto">
+											<c:set var="total" value="${total+lDto.l_bal}" />
+										</c:forEach>
+										${total}
+									</td>
+								</tr>	
 						</c:otherwise>
 					</c:choose>
 				</table>
 			</div>
 		</div>
+			
+		</div>
 	</div>
-</div>
 </body>
 </html>
