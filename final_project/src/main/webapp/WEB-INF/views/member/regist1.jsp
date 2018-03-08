@@ -24,6 +24,7 @@ var date=date.getDate();
 
 	function idChk() {
 		var id = $("input[name=id]").val();
+	
 		$.ajax({
 
 			url : "idChkAjax.do",
@@ -63,24 +64,71 @@ var date=date.getDate();
 		var phone3=$("input[name=phone3]").val();
 		var gender=$("input[name=m_gender]").val();
 
-		var a="사용 가능한 아이디입니다.";
-		var b="비밀번호를 확인 해 주세요.";
+		var idchk=$("#idchk").text();
+		var pwchk=$("#pwchk").text();
+		var mailchk=$("#mailChk").text();
 		
 		if(id==""||pw==""||pwchk==""||email1==""||email2==""||phone1==""||phone2==""||phone3==""||gender==null){
 			alert("모든 칸을 정확히 입력 해 주세요.");
 			return false;
-		}
-		if($("#idchk").text().indexOf("이미")>-1){
-			alert("a");
+		}else if(idchk.match("이미")||idchk==""){
+			alert("아이디를 확인 해 주세요.");
+			return false;
+		}else if(pwchk.match("확인")){
+			alert("비밀번호를 확인 해 주세요.");
+			return false;
+		}else if(mailchk.match("않은")){
+			alert("인증번호를 확인 해 주세요.");
 			return false;
 		}
-		
+
 	}
+	
+	var chkNum="";
+	
+	function sendMail(){
+		var email1=$("input[name=email1]").val();
+		var email2=$("input[name=email2]").val();
+		var m_email=email1+"@"+email2;
+
+		$.ajax({
+
+			url : "mailChkAjax.do",
+			data : "m_email=" + m_email,
+			type : "post",
+			datatype : "json",
+			async: false,
+			success : function(obj) {
+				alert("인증번호를 발송하였습니다. 인증번호를 확인 후 입력 해 주세요.");
+				chkNum=obj["chkNum"];
+			}
+		});
+	}
+	
+	function chkMail(){
+ 		var inputNum=$("input[name=chkEmail]").val();
+ 		if(inputNum==chkNum){
+ 			$("#mailChk").text("올바른 인증 번호입니다.");
+ 		}else{
+ 			$("#mailChk").text("올바르지 않은 인증 번호입니다.");
+ 		}
+	}
+	
+	$(function(){
+		
+	$('.phoneNum').keyup(function () { 
+	    this.value = this.value.replace(/[^0-9]/g,'');
+	});
+	
+	});
 
 </script>
+<style type="text/css">
+
+</style>
 </head>
 <body>
-	<form action="regist2.do" onsubmit="return formChk()">
+	<form action="regist2.do" onsubmit="return formChk()" method="post">
 		<table border="1">
 			<tr>
 				<td>아이디</td>
@@ -112,17 +160,17 @@ var date=date.getDate();
 						<option value="naver.com">naver.com</option>
 						<option value="daum.net">daum.net</option>
 				</select></td>
-				<td><input type="button" value="인증"></td>
+				<td><input type="button" value="인증" onclick="sendMail()"></td>
 			</tr>
 			<tr>
 				<td>인증번호 입력</td>
-				<td><input type="text"/></td>
-				<td><input type="button" value="확인"></td>
+				<td colspan="2"><input type="text" name="chkEmail" onchange="chkMail()"/><p id="mailChk"></p></td>
+				
 			</tr>
 			<tr>
 				<td>연락처</td>
-				<td><input type="text" name="phone1" />-<input type="text"
-					name="phone2" />-<input type="text" name="phone3" /></td>
+				<td><input type="text" name="phone1" maxlength="3" class="phoneNum"/>-<input type="text"
+					name="phone2" maxlength="4" class="phoneNum"/>-<input type="text" name="phone3" maxlength="4" class="phoneNum"/></td>
 				<td></td>
 			</tr>
 			<tr>
