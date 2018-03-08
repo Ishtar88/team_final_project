@@ -24,9 +24,6 @@
 		  <div class="ui inverted vertical masthead center aligned segment">
 		    <div class="ui container">
 		      <div class="ui large secondary inverted pointing menu">
-		        <a class="toc item">
-		          <i class="sidebar icon"></i>
-		        </a>
 		    <a class="active item" href="home.do">홈</a>
 		    <a class="item" href="acount.do">자산관리</a>
 		    <a class="item">패턴분석</a>

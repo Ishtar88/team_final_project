@@ -39,12 +39,83 @@
 		
 		<select id="stockAllSearch" resultType="StockDto" parameterType="String">
 			SELECT ID,ST_SEQ,ST_NAME,ST_COUNT,ST_MONEY,ST_ADD,ST_BUYDATE,ST_MODIDATE,ST_SELLDATE,ST_SELLABLE,ST_MEMO 
-			FROM STOCK WHERE ID=#{id}
+			FROM STOCK WHERE ID=#{id} AND ST_SELLABLE='N'
 		</select>
 		
-		<select id="fundAllSearch" resultType="fundDto" parameterType="String">
+		<select id="fundAllSearch" resultType="FundDto" parameterType="String">
 			SELECT ID,F_SEQ,F_NAME,F_MONEY,F_ADD,F_BUYDATE,F_ENDDATE,F_MEMO
-			FROM FUND WHERE ID=#{id}
+			FROM FUND WHERE ID=#{id} AND F_ENDABLE='N'
 		</select>
-	
+		
+		<select id="loanAllSearch" resultType="LoanDto" parameterType="String">
+			SELECT ID,L_SEQ,L_NAME,L_MONEY,L_REMANE,L_BAL,L_STARTDATE,L_ENDDATE,L_MEMO
+			FROM LOAN WHERE ID=#{id} AND L_ENDABLE='N'
+		</select>
+		
+		<select id="saveAllSearch" resultType="SaveDto" parameterType="String">
+			SELECT ID,S_SEQ,S_NAME,S_DETAIL,S_MONEY,S_ADD,S_TAX,S_COUNT,S_REGDATE,S_STARTDATE,S_ENDDATE,S_ENDABLE,S_MEMO
+			FROM SAVE WHERE ID=#{id} AND S_ENDABLE='N'
+		</select>
+		
+		<select id="saveDetailSearch" resultType="SaveDto" parameterType="int">
+			SELECT ID,S_SEQ,S_NAME,S_DETAIL,S_MONEY,S_ADD,S_TAX,S_COUNT,S_REGDATE,S_STARTDATE,S_ENDDATE,S_ENDABLE,S_MEMO
+			FROM SAVE WHERE S_SEQ=#{s_seq}
+		</select>
+		
+		<delete id="saveDelete" parameterType="int">
+			DELETE FROM SAVE WHERE S_SEQ=#{s_seq} 
+		</delete>
+		
+		<update id="saveUpdate" parameterType="SaveDto">
+			UPDATE SAVE SET 
+							<choose>
+								<when test="s_name!=null">
+									S_NAME=#{s_name}
+								</when><otherwise>
+									S_NAME=NULL
+								</otherwise>
+							</choose>
+							,
+							<choose>
+								<when test="s_money!=null">
+									S_MONEY=#{s_money}
+								</when><otherwise>
+									S_MOENY=NULL
+								</otherwise>
+							</choose>
+							,
+							<choose>
+								<when test="s_tax!=null">
+									S_TAX=#{s_tax}
+								</when><otherwise>
+									S_TAX=NULL
+								</otherwise>
+							</choose>
+							,
+							<choose>
+								<when test="s_startdate!=null">
+									S_STARTDATE=#{s_startdate}
+								</when><otherwise>
+									S_STARTDATE=NULL
+								</otherwise>
+							</choose>
+							,
+							<choose>
+								<when test="s_enddate!=null">
+									S_ENDDATE#{s_enddate}
+								</when><otherwise>
+									S_ENDDATE=NULL
+								</otherwise>
+							</choose>
+							,
+							<choose>
+								<when test="s_memo!=null">
+									S_MEMO=#{s_memo}
+								</when><otherwise>
+									S_MEMO=NULL
+								</otherwise>
+							</choose>
+			WHERE S_SEQ=#{s_seq}
+		</update>
+		
 	</mapper>
