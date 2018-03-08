@@ -21,7 +21,7 @@
 		
 		
 <!-- 		글 목록 조회 - 유저   -->
-		<select id="qnaboard" resultType="QnaBoardDto"	parameterType="Map">
+		<select id="qnaboard" resultType="QnaBoardDto">
 			SELECT Q_SEQ, ID, Q_NAME, Q_TITLE, Q_REGDATE, Q_REFER, Q_STEP, Q_DEPTH, Q_READCOUNT, Q_DELFLAG, Q_VIEWABLE
 			FROM QNA 
 		</select>
@@ -41,9 +41,11 @@
 <!-- 		새로운 글 입력 - 모두 -->
 		<insert id="q_insertboard" parameterType="QnaBoardDto">
 			INSERT INTO QNA
-			( Q_SEQ, ID, Q_NAME, Q_TITLE, Q_CONTENT, Q_REGDATE, Q_REFER, Q_STEP, Q_DEPTH, Q_READCOUNT, Q_DELFLAG, Q_VIEWABLE)
+			( Q_SEQ, ID, Q_NAME, Q_TITLE, Q_CONTENT, Q_REGDATE, Q_REFER, Q_STEP, Q_DEPTH, 
+			Q_READCOUNT, Q_DELFLAG, Q_VIEWABLE)
 			VALUES 
-			( QNA_SEQ.NEXTVAL, #{id}, #{q_name}, #{q_title}, #{q_content}, SYSDATE, (SELECT NVL(MAX(REFER)+1), 0) FROM ANSWERBOARD),0,0,0,'N',#{q_viewable})
+			( QNA_SEQ.NEXTVAL, #{id}, #{q_name}, #{q_title}, #{q_content}, SYSDATE, 
+			(SELECT NVL(MAX(REFER)+1), 0) FROM ANSWERBOARD),0,0,0,'N',#{q_viewable})
 		</insert>
 		
 <!-- 새로운 답변 입력 -관리자 -->

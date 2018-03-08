@@ -42,7 +42,7 @@ public class QnaBoardDto {
 	@Override
 	public String toString() {
 		return "qnaBoardDto [q_seq=" + q_seq + ", id=" + id + ", q_name=" + q_name + ", q_title=" + q_title
-				+ ", q_content=" + q_content + ", q_wrdate=" + q_regDate + ", q_refer=" + q_refer + ", q_step=" + q_step
+				+ ", q_content=" + q_content + ", q_regDate=" + q_regDate + ", q_refer=" + q_refer + ", q_step=" + q_step
 				+ ", q_depth=" + q_depth + ", q_readcount=" + q_readcount + ", q_delflag=" + q_delflag + ", q_viewable="
 				+ q_viewable + "]";
 	}
@@ -76,10 +76,10 @@ public class QnaBoardDto {
 	public void setQ_content(String q_content) {
 		this.q_content = q_content;
 	}
-	public Date getQ_wrdate() {
+	public Date getQ_regDate() {
 		return q_regDate;
 	}
-	public void setQ_wrdate(Date q_regDate) {
+	public void setQ_regDate(Date q_regDate) {
 		this.q_regDate = q_regDate;
 	}
 	public int getQ_refer() {

@@ -15,48 +15,49 @@ public class QnaService implements IQnaService{
 	private IQnaBoardDao qnaDao;
 
 	@Override
-	public List<QnaBoardDto> getAlllist() {
-		return qnaDao.getAllList(); 
+	public List<QnaBoardDto> q_getAlllist() {
+		return qnaDao.q_getAllList(); 
 	}
 
 	@Override
-	public boolean insertBoard(QnaBoardDto dto) {
+	public boolean q_insertBoard(QnaBoardDto dto) {
 		return qnaDao.q_insertBoard(dto);
 	}
 
 	@Override
-	public boolean readcount(int q_seq) {
-		return qnaDao.readCount(q_seq);
+	public boolean q_readcount(int q_seq) {
+		return qnaDao.q_readCount(q_seq);
 	}
 
 	@Override
-	public QnaBoardDto getBoard(int q_seq) {
-		return qnaDao.getBoard(q_seq);
+	public QnaBoardDto q_getBoard(int q_seq) {
+		return qnaDao.q_getBoard(q_seq);
 	}
 
 	@Override
-	public boolean updateBoard(QnaBoardDto dto) {
-		return qnaDao.updateBoard(dto);
+	public boolean q_updateBoard(QnaBoardDto dto) {
+		return qnaDao.q_updateBoard(dto);
 	}
 
 	@Override
-	public boolean mulDelBoard(String[] q_seq) {
-		return qnaDao.mulDelBoard(q_seq);
+	public boolean q_mulDelBoard(String[] q_seq) {
+		return qnaDao.q_mulDelBoard(q_seq);
 	}
 
 	@Override
-	public boolean deleteBoard(int q_seq) {
-		return qnaDao.deleteOne(q_seq);
+	public boolean q_deleteBoard(int q_seq) {
+		return qnaDao.q_deleteOne(q_seq);
 	}
 
 	@Override
-	public boolean replyBoard(QnaBoardDto dto) {
-		return qnaDao.replyBoard(dto);
+	public boolean q_replyBoard(QnaBoardDto dto) {
+		return qnaDao.q_replyBoard(dto);
 	}
 
 	@Override
-	public QnaBoardDto getBoardAjax(int q_seq) {
-		return qnaDao.getBoardAjax(q_seq);
+	public QnaBoardDto q_getBoardAjax(int q_seq) {
+		
+		return qnaDao.q_getBoardAjax(q_seq);
 	}
 	
 	

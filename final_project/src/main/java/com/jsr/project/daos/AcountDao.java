@@ -10,8 +10,10 @@ import org.springframework.stereotype.Repository;
 import com.jsr.project.dtos.AcountDto;
 import com.jsr.project.dtos.FundDto;
 import com.jsr.project.dtos.GoalDto;
+import com.jsr.project.dtos.LoanDto;
 import com.jsr.project.dtos.MembersDto;
 import com.jsr.project.dtos.PointDto;
+import com.jsr.project.dtos.SaveDto;
 import com.jsr.project.dtos.StockDto;
 
 @Repository
@@ -74,5 +76,49 @@ public class AcountDao implements IAcountDao {
 		
 		return dto;
 	}
+
+	@Override
+	public List<LoanDto> loanAllSearch(String id) {
+		
+		List<LoanDto> dto=sqlSession.selectList(namespace+"loanAllSearch", id);
+		System.out.println("List<LoanDto>: "+dto);
+		
+		return dto;
+	}
+
+	@Override
+	public List<SaveDto> saveAllSearch(String id) {
+		
+		List<SaveDto> dto=sqlSession.selectList(namespace+"saveAllSearch", id);
+		System.out.println("List<SaveDto>: "+dto);
+		
+		return dto;
+	}
+
+	@Override
+	public SaveDto saveDetailSearch(int seq) {
+		
+		SaveDto dto=sqlSession.selectOne(namespace+"saveDetailSearch", seq);
+		
+		return dto;
+	}
+
+	@Override
+	public boolean saveDelete(int seq) {
+		int count=0;
+		
+		count=sqlSession.delete(namespace+"saveDelete", seq);
+		
+		return count>0?true:false;
+	}
+
+	@Override
+	public boolean saveUpdate(SaveDto dto) {
+		int count=0;
+		
+		count=sqlSession.update(namespace+"saveUpdate", dto);
+		return count>0?true:false;
+	}
+
 
 }

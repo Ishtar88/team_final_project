@@ -211,9 +211,13 @@ public class MembersController {
 	
 	@RequestMapping(value = "/modifyUser.do", method = RequestMethod.GET)
 	public String modifyUser(Model model,HttpServletRequest request, HttpSession session) {
+<<<<<<< HEAD
 		MembersDto loginDto=(MembersDto)session.getAttribute("loginDto");
 		MembersDto mdto=memberService.getUser(loginDto.getId());
 		model.addAttribute("mdto",mdto);
+=======
+		
+>>>>>>> refs/remotes/origin/master
 		return "member/memberModify";
 	}
 	

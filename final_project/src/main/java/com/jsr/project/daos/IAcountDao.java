@@ -5,8 +5,10 @@ import java.util.List;
 import com.jsr.project.dtos.AcountDto;
 import com.jsr.project.dtos.FundDto;
 import com.jsr.project.dtos.GoalDto;
+import com.jsr.project.dtos.LoanDto;
 import com.jsr.project.dtos.MembersDto;
 import com.jsr.project.dtos.PointDto;
+import com.jsr.project.dtos.SaveDto;
 import com.jsr.project.dtos.StockDto;
 
 public interface IAcountDao {
@@ -22,5 +24,15 @@ public interface IAcountDao {
 	public List<StockDto> stockAllSearch(String id);
 	
 	public List<FundDto> fundAllSearch(String id);
+
+	public List<LoanDto> loanAllSearch(String id);
+
+	public List<SaveDto> saveAllSearch(String id);
+	
+	public SaveDto saveDetailSearch(int seq);
+	
+	public boolean saveDelete(int seq);
+	
+	public boolean saveUpdate(SaveDto dto);
 
 }
