@@ -1,5 +1,14 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@page import="java.util.Calendar"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"%>
+<%
+	request.setCharacterEncoding("UTF-8");
+%>
+<%
+	response.setContentType("text/html; charset=UTF-8");
+%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="f"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -7,93 +16,125 @@
 <title>Insert title here</title>
 <script type="text/javascript"
 	src="http://code.jquery.com/jquery-latest.js"></script>
-	
+<%
+	Calendar cal = Calendar.getInstance();
+	int year = cal.get(Calendar.YEAR);
+	int month = cal.get(Calendar.MONTH) + 1;
+	int date = cal.get(Calendar.DATE);
+%>
 <script type="text/javascript">
+var date=new Date();
+var year=date.getFullYear();
+var month=date.getMonth()+1;
+var date=date.getDate();
+
+$(function(){
+	
+});
+
 	function searchAdd() {
-		window.open("searchAdd.do", "ÁÖ¼ÒÃ£±â");
+		window.open("searchAdd.do", "ì£¼ì†Œì°¾ê¸°");
+	}
+	function changeImg(){
+		window.open("imgForm.do", "í”„ë¡œí•„ì´ë¯¸ì§€ ë³€ê²½");
+		self.close();
 	}
 </script>
+<style type="text/css">
+img {
+	height: 300px;
+	width: 200px;
+}
+</style>
 </head>
 <body>
-<table border="1">
+	<table border="1">
 		<tr>
-			<th>ÀÌ¹ÌÁö</th>
-			<td><img alt="ÇÁ·ÎÇÊ" src="${mdto.m_profile_img}" name="profile"></td>
+			<th>ì´ë¯¸ì§€</th>
+			<td><img alt="í”„ë¡œí•„" src="${mdto.m_profile_img}" name="profile"><input type="button" value="ì´ë¯¸ì§€ë³€ê²½" onclick="changeImg()"/></td>
 		</tr>
 		<tr>
-			<th>¾ÆÀÌµğ</th>
-			<td><input type="text" value="${mdto.id}" readonly="readonly"/></td>
+			<th>ì•„ì´ë””</th>
+			<td><input type="text" value="${mdto.id}" readonly="readonly" /></td>
 		</tr>
 		<tr>
-			<th>ÀÌ¸§</th>
-			<td><input type="text" value="${mdto.m_name}" readonly="readonly"/></td>
+			<th>ì´ë¦„</th>
+			<td><input type="text" value="${mdto.m_name}"
+				readonly="readonly" /></td>
 		</tr>
 		<tr>
-			<th>ÀÌ¸ŞÀÏ</th>
-			<td><input type="text" value="${${mdto.m_email}}" readonly="readonly"/></td>
+			<th>ì´ë©”ì¼</th>
+			<td><input type="text" value="${mdto.m_email}"
+				readonly="readonly" /></td>
 		</tr>
 		<tr>
-			<th>¿¬¶ôÃ³</th>
-			<td><input type="text"><input type="text"><input type="text"></td>
+			<th>ì—°ë½ì²˜</th>
+			<c:set var="phone" value="${mdto.m_phone}"/>
+			<td><input type="text" maxlength="3" value="${fn:substring(phone,0,3)}">-<input type="text"  value="${fn:substring(phone,4,8)}">-<input
+				type="text" value="${fn:substring(phone,9,13)}"></td>
+		</tr>
+
+		<tr>
+			<th>ìƒë…„ì›”ì¼</th>
+			<c:set var="birthDate" value="${mdto.m_birthDate}"/>
+			<td><select id="year" name="year">
+					<c:forEach var="i" begin="1950" end="<%=year%>">
+						<option value="${i}" ${i eq fn:substring(birthDate,0,4)?"selected":""}>${i}</option>
+					</c:forEach>
+			</select> <select id="month" name="month" onchange="changeDate()">
+					<c:forEach var="i" begin="1" end="12">
+						<option value="${i}">${i}</option>
+					</c:forEach>
+			</select> <select id="date" name="date">
+					<c:forEach var="i" begin="1" end="31">
+						<option value="${i}">${i}</option>
+					</c:forEach>
+			</select></td>
 		</tr>
 		<tr>
-			<th>³ªÀÌ</th>
-			<td><input type="text" value="${mdto.id}" readonly="readonly"/></td>
-			<td>${mdto.m_age}</td>
+			<td>ì„±ë³„</td>
+			<td colspan="2"><input type="radio" name="m_gender" value="MALE" ${mdto.m_gender eq "MALE"?"checked":""}/>ë‚¨ì
+				<input type="radio" value="FEMALE" ${mdto.m_gender eq "FEMALE"?"checked":""} name="m_gender" />ì—¬ì</td>
 		</tr>
 		<tr>
-			<th>¼ºº°</th>
-			<td><input type="radio" name="m_gender"
-						value="MALE" />³²ÀÚ
-				<input type="radio" value="FEMALE" name="m_gender"/>¿©ÀÚ</td>
+		<c:set var="address" value="${mdto.m_address}"/>
+		<th>ìš°í¸ë²ˆí˜¸</th>
+		<td><input type="hidden" id="confmKey" name="confmKey"
+			value="U01TX0FVVEgyMDE4MDEyNTE2MjU1MjEwNzYzMDc="> <input
+			type="text" name="zipNo" id="zipNo" value="${fn:split(address,'+')[0]}"> <input
+			type="button" value="ì£¼ì†Œê²€ìƒ‰" onclick="searchAdd();"></td>
 		</tr>
 		<tr>
-			<th>¿ìÆí¹øÈ£</th>
-			<td><input type="hidden" id="confmKey" name="confmKey"
-					value="U01TX0FVVEgyMDE4MDEyNTE2MjU1MjEwNzYzMDc="> <input
-					type="text" name="zipNo" id="zipNo" value="">
-					<input type="button" value="ÁÖ¼Ò°Ë»ö" onclick="searchAdd();"></td>
-			</tr>
-			<tr>
-				<th><label>µµ·Î¸íÁÖ¼Ò</label></th>
-				<td><input type="text" id="addrRoad" name="addrRoad" value=""></td>
-			</tr>
-			<tr>
-				<th>»ó¼¼ÁÖ¼Ò</th>
-				<td><input type="text" name="addrDetail" value=""></td>
+			<th><label>ë„ë¡œëª…ì£¼ì†Œ</label></th>
+			<td><input type="text" id="addrRoad" name="addrRoad" value="${fn:split(address,'+')[1]}"></td>
 		</tr>
 		<tr>
-			<th>ÁÖ¼Ò</th>
-			<td><input type="text" value="${mdto.id}" readonly="readonly"/></td>
-			<td>${mdto.m_address}</td>
+			<th>ìƒì„¸ì£¼ì†Œ</th>
+			<td><input type="text" name="addrDetail"  value="${fn:split(address,'+')[2]}"></td>
+		</tr>
+
+		<tr>
+			<td>ì§ì—…</td>
+			<td><input type="text" name="m_job" value="${mdto.m_job}"/></td>
 		</tr>
 		<tr>
-			<th>Á÷¾÷</th>
-			<td><input type="text" value="${mdto.id}" readonly="readonly"/></td>
-			<td>${mdto.m_job}</td>
+			<td>ê²°í˜¼ì—¬ë¶€</td>
+			<td><input type="radio" name="m_mariable" value="Y" ${mdto.m_mariable eq "Y"?"checked":""}/>ê¸°í˜¼ <input
+				type="radio" name="m_mariable" value="N" ${mdto.m_mariable eq "N"?"checked":""}/>ë¯¸í˜¼</td>
 		</tr>
 		<tr>
-			<th>°áÈ¥</th>
-			<td><input type="radio" name="m_mariable" value="Y" />±âÈ¥ <input
-					type="radio" name="m_mariable" value="N" />¹ÌÈ¥</td>
+			<td>ê´€ì‹¬ë¶„ì•¼</td>
+			<td><input type="checkbox" name="m_favorite" value="íŒ¨ì…˜/ë·°í‹°" ${mdto.m_favorite eq "íŒ¨ì…˜/ë·°í‹°"?"checked":""}>íŒ¨ì…˜/ë·°í‹°
+				<input type="checkbox" name="m_favorite" value="ìŒì‹/ìš”ë¦¬" ${mdto.m_favorite eq "ìŒì‹/ìš”ë¦¬"?"checked":""}>ìŒì‹/ìš”ë¦¬
+				<input type="checkbox" name="m_favorite" value="ê¸ˆìœµ/ê²½ì œ" ${mdto.m_favorite eq "ê¸ˆìœµ/ê²½ì œ"?"checked":""}>ê¸ˆìœµ/ê²½ì œ
+			</td>
 		</tr>
 		<tr>
-				<td>°ü½ÉºĞ¾ß</td>
-				<td><input type="checkbox" name="m_favorite" value="ÆĞ¼Ç/ºäÆ¼">ÆĞ¼Ç/ºäÆ¼
-					<input type="checkbox" name="m_favorite" value="À½½Ä/¿ä¸®">À½½Ä/¿ä¸®
-					<input type="checkbox" name="m_favorite" value="±İÀ¶/°æÁ¦">±İÀ¶/°æÁ¦
-				</td>
-			</tr>
-			<tr>
-				<td colspan="2"><input type="checkbox" name="m_favorite"
-					value="À¯Èï/°ÔÀÓ">À¯Èï/°ÔÀÓ <input type="checkbox"
-					name="m_favorite" value="½ºÆ÷Ã÷/·¹Àú">½ºÆ÷Ã÷/·¹Àú <input
-					type="checkbox" name="m_favorite" value="¹®È­/¿¹¼ú">¹®È­/¿¹¼ú <input
-					type="checkbox" name="m_favorite" value="±³À°/ÇĞ½À">±³À°/ÇĞ½À</td>
-			</tr>
-		<tr>
-			<th>°¡ÀÔÀÏ</th>
-			<td><input type="text" value="${mdto.m_regDate}" readonly="readonly"/></td>
+			<td colspan="2">
+			<input type="checkbox" name="m_favorite" value="ìœ í¥/ê²Œì„" ${mdto.m_favorite eq "ìœ í¥/ê²Œì„"?"checked":""}>ìœ í¥/ê²Œì„
+				<input type="checkbox" name="m_favorite" value="ìŠ¤í¬ì¸ /ë ˆì €" ${mdto.m_favorite eq "ìŠ¤í¬ì¸ /ë ˆì €"?"checked":""}>ìŠ¤í¬ì¸ /ë ˆì €
+				<input type="checkbox" name="m_favorite" value="ë¬¸í™”/ì˜ˆìˆ " ${mdto.m_favorite eq "ë¬¸í™”/ì˜ˆìˆ "?"checked":""}>ë¬¸í™”/ì˜ˆìˆ 
+				<input type="checkbox" name="m_favorite" value="êµìœ¡/í•™ìŠµ" ${mdto.m_favorite eq "êµìœ¡/í•™ìŠµ"?"checked":""}>êµìœ¡/í•™ìŠµ</td>
 		</tr>
 	</table>
 </body>

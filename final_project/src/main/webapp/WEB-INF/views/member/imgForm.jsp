@@ -24,9 +24,6 @@
 		location.href = "imgChange.do?m_profile_img=" + m_profile_img;
 	}
 
-	function upload() {
-
-	}
 </script>
 <style type="text/css">
 img {
@@ -65,10 +62,6 @@ img {
 			<td><input type="radio" name="radioChk" /></td>
 			<td><img alt="프로필" src="resources/img/profile4.gif"></td>
 			<td><input type="hidden" value="resources/img/profile1.gif" /></td>
-		</tr>
-		<tr>
-			<td>직접 추가</td>
-			<td><input type="file" name="uploadFile" required="required" /></td>
 		</tr>
 		<tr>
 			<td colspan="12"><input type="button" value="취소" onclick="end()" />

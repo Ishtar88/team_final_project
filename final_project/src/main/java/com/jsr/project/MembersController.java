@@ -105,7 +105,7 @@ public class MembersController {
 		String zipNo=request.getParameter("zipNo");
 		String roadAdd=request.getParameter("addrRoad");
 		String addrDetail=request.getParameter("addrDetail");
-		String m_address=zipNo+" "+roadAdd+" "+addrDetail;
+		String m_address=zipNo+"/"+roadAdd+"/"+addrDetail;
 		mdto.setM_address(m_address);
 
 		boolean isS=memberService.regist(mdto);
@@ -200,24 +200,17 @@ public class MembersController {
 		return "member/searchAdd";
 	}
 	
-	@RequestMapping(value = "/getUser.do", method = RequestMethod.GET)
-	public String getUser(Model model,HttpServletRequest request, HttpSession session) {
-		MembersDto loginDto=(MembersDto)session.getAttribute("loginDto");
-		MembersDto mdto=memberService.getUser(loginDto.getId());
-		model.addAttribute("mdto",mdto);
-		System.out.println(mdto);
-		return "member/memberInfo";
-	}
-	
 	@RequestMapping(value = "/modifyUser.do", method = RequestMethod.GET)
 	public String modifyUser(Model model,HttpServletRequest request, HttpSession session) {
-<<<<<<< HEAD
+
 		MembersDto loginDto=(MembersDto)session.getAttribute("loginDto");
 		MembersDto mdto=memberService.getUser(loginDto.getId());
+		String phone1=mdto.getM_phone().substring(0, 2);
+		String phone2=mdto.getM_phone().substring(4, 7);
+		String phone3=mdto.getM_phone().substring(9, 12);
+
 		model.addAttribute("mdto",mdto);
-=======
-		
->>>>>>> refs/remotes/origin/master
+
 		return "member/memberModify";
 	}
 	
@@ -240,6 +233,6 @@ public class MembersController {
 		MembersDto memDto=memberService.getUser(loginDto.getId());
 		System.out.println(memDto);
 		model.addAttribute("mdto",memDto);
-		return "member/memberInfo";
+		return "member/memberModify";
 	}
 }
