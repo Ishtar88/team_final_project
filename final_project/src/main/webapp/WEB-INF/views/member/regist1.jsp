@@ -1,6 +1,7 @@
 <%@page import="java.util.Calendar"%>
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-	pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"%>
+<%request.setCharacterEncoding("UTF-8"); %>
+<%response.setContentType("text/html; charset=UTF-8"); %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="f"%>
@@ -33,9 +34,9 @@ var date=date.getDate();
 			datatype : "json",
 			success : function(obj) {
 				if (obj["mdto"] == null) {
-					$("#idchk").text("»ç¿ë °¡´ÉÇÑ ¾ÆÀÌµğÀÔ´Ï´Ù.");
+					$("#idchk").text("ì‚¬ìš© ê°€ëŠ¥í•œ ì•„ì´ë””ì…ë‹ˆë‹¤.");
 				} else {
-					$("#idchk").text("ÀÌ¹Ì »ç¿ëÁßÀÎ ¾ÆÀÌµğÀÔ´Ï´Ù.");
+					$("#idchk").text("ì´ë¯¸ ì‚¬ìš©ì¤‘ì¸ ì•„ì´ë””ì…ë‹ˆë‹¤.");
 				}
 			}
 		});
@@ -45,11 +46,11 @@ var date=date.getDate();
 		var pw1 = $("input[name=m_password]").val();
 		var pw2 = $("input[name=m_password_chk]").val();
 		if (pw1 != pw2) {
-			//alert("ºñ¹Ğ¹øÈ£¸¦ È®ÀÎ ÇØ ÁÖ¼¼¿ä");
-			$("#pwchk").text("ºñ¹Ğ¹øÈ£¸¦ È®ÀÎ ÇØ ÁÖ¼¼¿ä.");
+			//alert("ë¹„ë°€ë²ˆí˜¸ë¥¼ í™•ì¸ í•´ ì£¼ì„¸ìš”");
+			$("#pwchk").text("ë¹„ë°€ë²ˆí˜¸ë¥¼ í™•ì¸ í•´ ì£¼ì„¸ìš”.");
 		} else {
 			$("#pwchk").text("");
-			$("#pwchk").text("¿Ã¹Ù¸¥ ºñ¹Ğ¹øÈ£ÀÔ´Ï´Ù.");
+			$("#pwchk").text("ì˜¬ë°”ë¥¸ ë¹„ë°€ë²ˆí˜¸ì…ë‹ˆë‹¤.");
 		}
 	}
 	
@@ -69,16 +70,16 @@ var date=date.getDate();
 		var mailchk=$("#mailChk").text();
 		
 		if(id==""||pw==""||pwchk==""||email1==""||email2==""||phone1==""||phone2==""||phone3==""||gender==null){
-			alert("¸ğµç Ä­À» Á¤È®È÷ ÀÔ·Â ÇØ ÁÖ¼¼¿ä.");
+			alert("ëª¨ë“  ì¹¸ì„ ì •í™•íˆ ì…ë ¥ í•´ ì£¼ì„¸ìš”.");
 			return false;
-		}else if(idchk.match("ÀÌ¹Ì")||idchk==""){
-			alert("¾ÆÀÌµğ¸¦ È®ÀÎ ÇØ ÁÖ¼¼¿ä.");
+		}else if(idchk.match("ì´ë¯¸")||idchk==""){
+			alert("ì•„ì´ë””ë¥¼ í™•ì¸ í•´ ì£¼ì„¸ìš”.");
 			return false;
-		}else if(pwchk.match("È®ÀÎ")){
-			alert("ºñ¹Ğ¹øÈ£¸¦ È®ÀÎ ÇØ ÁÖ¼¼¿ä.");
+		}else if(pwchk.match("í™•ì¸")){
+			alert("ë¹„ë°€ë²ˆí˜¸ë¥¼ í™•ì¸ í•´ ì£¼ì„¸ìš”.");
 			return false;
-		}else if(mailchk.match("¾ÊÀº")){
-			alert("ÀÎÁõ¹øÈ£¸¦ È®ÀÎ ÇØ ÁÖ¼¼¿ä.");
+		}else if(mailchk.match("ì•Šì€")){
+			alert("ì¸ì¦ë²ˆí˜¸ë¥¼ í™•ì¸ í•´ ì£¼ì„¸ìš”.");
 			return false;
 		}
 
@@ -99,7 +100,7 @@ var date=date.getDate();
 			datatype : "json",
 			async: false,
 			success : function(obj) {
-				alert("ÀÎÁõ¹øÈ£¸¦ ¹ß¼ÛÇÏ¿´½À´Ï´Ù. ÀÎÁõ¹øÈ£¸¦ È®ÀÎ ÈÄ ÀÔ·Â ÇØ ÁÖ¼¼¿ä.");
+				alert("ì¸ì¦ë²ˆí˜¸ë¥¼ ë°œì†¡í•˜ì˜€ìŠµë‹ˆë‹¤. ì¸ì¦ë²ˆí˜¸ë¥¼ í™•ì¸ í›„ ì…ë ¥ í•´ ì£¼ì„¸ìš”.");
 				chkNum=obj["chkNum"];
 			}
 		});
@@ -108,9 +109,9 @@ var date=date.getDate();
 	function chkMail(){
  		var inputNum=$("input[name=chkEmail]").val();
  		if(inputNum==chkNum){
- 			$("#mailChk").text("¿Ã¹Ù¸¥ ÀÎÁõ ¹øÈ£ÀÔ´Ï´Ù.");
+ 			$("#mailChk").text("ì˜¬ë°”ë¥¸ ì¸ì¦ ë²ˆí˜¸ì…ë‹ˆë‹¤.");
  		}else{
- 			$("#mailChk").text("¿Ã¹Ù¸£Áö ¾ÊÀº ÀÎÁõ ¹øÈ£ÀÔ´Ï´Ù.");
+ 			$("#mailChk").text("ì˜¬ë°”ë¥´ì§€ ì•Šì€ ì¸ì¦ ë²ˆí˜¸ì…ë‹ˆë‹¤.");
  		}
 	}
 	
@@ -131,50 +132,50 @@ var date=date.getDate();
 	<form action="regist2.do" onsubmit="return formChk()" method="post">
 		<table border="1">
 			<tr>
-				<td>¾ÆÀÌµğ</td>
+				<td>ì•„ì´ë””</td>
 				<td><input type="text" name="id" />
 				<p id="idchk"></p>
 				</td>
-				<td><input type="button" value="Áßº¹È®ÀÎ" onclick="idChk()"></td>
+				<td><input type="button" value="ì¤‘ë³µí™•ì¸" onclick="idChk()"></td>
 			</tr>
 			<tr>
-				<td>ÀÌ¸§</td>
+				<td>ì´ë¦„</td>
 				<td colspan="2"><input type="text" name="m_name" /></td>
 			</tr>
 			<tr>
-				<td>ºñ¹Ğ¹øÈ£</td>
+				<td>ë¹„ë°€ë²ˆí˜¸</td>
 				<td colspan="2"><input type="password" name="m_password" /></td>
 			</tr>
 			<tr>
-				<td>ºñ¹Ğ¹øÈ£ È®ÀÎ</td>
+				<td>ë¹„ë°€ë²ˆí˜¸ í™•ì¸</td>
 				<td colspan="2"><input type="password" name="m_password_chk"
 					onchange="pwChk()" />
 					<p id="pwchk"></p></td>
 			</tr>
 			<tr>
-				<td>ÀÌ¸ŞÀÏ</td>
+				<td>ì´ë©”ì¼</td>
 				<td><input type="text" name="email1" />@ <input type="text"
 					name="email2" /> <select id="mailadd" onchange="mailadd()">
-						<option value="self">Á÷Á¢ ÀÔ·Â</option>
+						<option value="self">ì§ì ‘ ì…ë ¥</option>
 						<option value="gmail.com">gmail.com</option>
 						<option value="naver.com">naver.com</option>
 						<option value="daum.net">daum.net</option>
 				</select></td>
-				<td><input type="button" value="ÀÎÁõ" onclick="sendMail()"></td>
+				<td><input type="button" value="ì¸ì¦" onclick="sendMail()"></td>
 			</tr>
 			<tr>
-				<td>ÀÎÁõ¹øÈ£ ÀÔ·Â</td>
+				<td>ì¸ì¦ë²ˆí˜¸ ì…ë ¥</td>
 				<td colspan="2"><input type="text" name="chkEmail" onchange="chkMail()"/><p id="mailChk"></p></td>
 				
 			</tr>
 			<tr>
-				<td>¿¬¶ôÃ³</td>
+				<td>ì—°ë½ì²˜</td>
 				<td><input type="text" name="phone1" maxlength="3" class="phoneNum"/>-<input type="text"
 					name="phone2" maxlength="4" class="phoneNum"/>-<input type="text" name="phone3" maxlength="4" class="phoneNum"/></td>
 				<td></td>
 			</tr>
 			<tr>
-				<td>»ı³â¿ùÀÏ</td>
+				<td>ìƒë…„ì›”ì¼</td>
 				<td colspan="2">
 				<select id="year" name="year">
 						<c:forEach var="i" begin="1950" end="<%=year%>">
@@ -194,13 +195,13 @@ var date=date.getDate();
 				</td>
 			</tr>
 			<tr>
-				<td>¼ºº°</td>
+				<td>ì„±ë³„</td>
 				<td colspan="2"><input type="radio" name="m_gender"
-						value="MALE" />³²ÀÚ
-				<input type="radio" value="FEMALE" name="m_gender"/>¿©ÀÚ</td>
+						value="MALE" />ë‚¨ì
+				<input type="radio" value="FEMALE" name="m_gender"/>ì—¬ì</td>
 			</tr>
 			<tr>
-			<td><input type="submit" value="´ÙÀ½"/></td>
+			<td><input type="submit" value="ë‹¤ìŒ"/></td>
 			</tr>
 		</table>
 	</form>

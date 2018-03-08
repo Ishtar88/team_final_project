@@ -9,6 +9,7 @@
 		<result property="m_email" column="M_EMAIL" />
 		<result property="m_password" column="M_PASSWORD" />
 		<result property="m_phone" column="M_PHONE" />
+		<result property="m_age" column="M_AGE" />
 		<result property="m_birthDate" column="M_BIRTHDATE" />
 		<result property="m_profile_img" column="M_PROFILE_IMG" />
 		<result property="m_gender" column="M_GENDER" />
@@ -29,7 +30,7 @@
 		(SELECT
 		(SUBSTR(TO_CHAR(SYSDATE,'YYYY-MM-DD'),1,4)-SUBSTR(TO_CHAR(M_BIRTHDATE,'YYYY-MM-DD'),1,4))+1
 		AS AGE FROM MEMBERS WHERE ID=#{id}) AS AGE,
-		M_GENDER,M_ADDRESS,M_JOB,M_REGDATE,M_USEABLE,M_MARIABLE,M_FAVORITE,PO_POINT
+		M_GENDER,M_ADDRESS,M_JOB,M_REGDATE,M_USEABLE,M_MARIABLE,M_FAVORITE,M_PROFILE_IMG,PO_POINT
 		FROM MEMBERS M LEFT JOIN POINT P ON M.ID=P.ID WHERE M.ID=#{id} AND
 		M_PASSWORD=#{m_password}
 	</select>
@@ -81,4 +82,18 @@
 		,
 		'Y',SYSDATE)
 	</insert>
+	
+	<select id="getUser" parameterType="Map" resultMap="MembersDto">
+	SELECT
+		M.ID,M_NAME,M_EMAIL,M_PASSWORD,M_PHONE,
+		(SELECT
+		(SUBSTR(TO_CHAR(SYSDATE,'YYYY-MM-DD'),1,4)-SUBSTR(TO_CHAR(M_BIRTHDATE,'YYYY-MM-DD'),1,4))+1
+		AS M_AGE FROM MEMBERS WHERE ID=#{id}) AS M_AGE,
+		M_GENDER,M_ADDRESS,M_JOB,M_REGDATE,M_USEABLE,M_MARIABLE,M_FAVORITE,M_PROFILE_IMG,PO_POINT
+		FROM MEMBERS M LEFT JOIN POINT P ON M.ID=P.ID WHERE M.ID=#{id}
+	</select>
+	
+	<update id="changeProfile" parameterType="MembersDto">
+	UPDATE MEMBERS SET M_PROFILE_IMG=#{m_profile_img} WHERE ID=#{id}
+	</update>
 </mapper>

@@ -26,6 +26,16 @@ public class MembersService implements IMembersService {
 	public boolean regist(MembersDto mdto) {
 		return ImemberDao.regist(mdto);
 	}
+
+	@Override
+	public MembersDto getUser(String id) {
+		return ImemberDao.getUser(id);
+	}
+
+	@Override
+	public boolean changeProfile(MembersDto mdto) {
+		return ImemberDao.changeProfile(mdto);
+	}
 	
 
 }

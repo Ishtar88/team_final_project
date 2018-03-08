@@ -25,6 +25,7 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -48,6 +49,7 @@ public class MembersController {
 			return "redirect:index.jsp";
 		}else {
 			session.setAttribute("loginDto", loginDto);
+			session.setMaxInactiveInterval(60*60);
 			return "home";	
 		}
 	}
@@ -99,6 +101,12 @@ public class MembersController {
 		mdto.setM_phone(reg1.getM_phone());
 		mdto.setM_birthDate(reg1.getM_birthDate());
 		mdto.setM_gender(reg1.getM_gender());
+		
+		String zipNo=request.getParameter("zipNo");
+		String roadAdd=request.getParameter("addrRoad");
+		String addrDetail=request.getParameter("addrDetail");
+		String m_address=zipNo+" "+roadAdd+" "+addrDetail;
+		mdto.setM_address(m_address);
 
 		boolean isS=memberService.regist(mdto);
 		if(isS==true){
@@ -170,11 +178,11 @@ public class MembersController {
 			MimeMessage message=new MimeMessage(session);
 			message.setFrom(new InternetAddress(user));
 			message.addRecipient(Message.RecipientType.TO, new InternetAddress(m_email));
-			message.setSubject("¸ÞÀÏ ÀÎÁõ ¹øÈ£ÀÔ´Ï´Ù.");
+			message.setSubject("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È£ï¿½Ô´Ï´ï¿½.");
 			message.setText(chkNum);
 			
 			Transport.send(message);
-			System.out.println("¸ÞÀÏ¹ß½Å¼º°ø");
+			System.out.println("ï¿½ï¿½ï¿½Ï¹ß½Å¼ï¿½ï¿½ï¿½");
 			
 			
 		} catch (AddressException e) {
@@ -186,5 +194,48 @@ public class MembersController {
 		return map;
 
 	}
-
+	
+	@RequestMapping(value = "/searchAdd.do", method = RequestMethod.GET)
+	public String searchAdd(HttpServletRequest request, HttpSession session) {
+		return "member/searchAdd";
+	}
+	
+	@RequestMapping(value = "/getUser.do", method = RequestMethod.GET)
+	public String getUser(Model model,HttpServletRequest request, HttpSession session) {
+		MembersDto loginDto=(MembersDto)session.getAttribute("loginDto");
+		MembersDto mdto=memberService.getUser(loginDto.getId());
+		model.addAttribute("mdto",mdto);
+		System.out.println(mdto);
+		return "member/memberInfo";
+	}
+	
+	@RequestMapping(value = "/modifyUser.do", method = RequestMethod.GET)
+	public String modifyUser(Model model,HttpServletRequest request, HttpSession session) {
+		MembersDto loginDto=(MembersDto)session.getAttribute("loginDto");
+		MembersDto mdto=memberService.getUser(loginDto.getId());
+		model.addAttribute("mdto",mdto);
+		return "member/memberModify";
+	}
+	
+		
+	@RequestMapping(value = "/imgForm.do", method = RequestMethod.GET)
+	public String imgForm(Model model,HttpServletRequest request, HttpSession session) {
+		return "member/imgForm";
+	}
+	
+	@RequestMapping(value = "/imgChange.do", method = RequestMethod.GET)
+	public String imgChange(HttpServletRequest request, HttpSession session,MembersDto mdto,Model model) {
+		MembersDto loginDto=(MembersDto)session.getAttribute("loginDto");
+		mdto.setId(loginDto.getId());
+		boolean isS=memberService.changeProfile(mdto);
+		if(isS) {
+			System.out.println("ìˆ˜ì •ì„±ê³µ");
+		}else {
+			System.out.println("ìˆ˜ì •ì‹¤íŒ¨");
+		}
+		MembersDto memDto=memberService.getUser(loginDto.getId());
+		System.out.println(memDto);
+		model.addAttribute("mdto",memDto);
+		return "member/memberInfo";
+	}
 }

@@ -1,151 +1,70 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-	pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"%>
+<%request.setCharacterEncoding("UTF-8"); %>
+<%response.setContentType("text/html; charset=UTF-8"); %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>Insert title here</title>
-<script type="text/JavaScript" src="/js/jquery-1.8.3.min.js" ></script>
-<script language="javascript">
+<script type="text/javascript"
+	src="http://code.jquery.com/jquery-latest.js"></script>
 
-function getAddr(){
-	$.ajax({
-		 url :"http://www.juso.go.kr/addrlink/addrLinkApiJsonp.do"  //ÀÎÅÍ³İ¸Á
-		,type:"post"
-		,data:$("#form").serialize()
-		,dataType:"json"
-		,crossDomain:true
-		,success:function(jsonStr){
-			$("#list").html("");
-			var errCode = jsonStr.results.common.errorCode;
-			var errDesc = jsonStr.results.common.errorMessage;
-			if(errCode != "0"){
-				alert(errCode+"="+errDesc);
-			}else{
-				if(jsonStr != null){
-					makeListJson(jsonStr);
-				}
-			}
-		}
-	    ,error: function(xhr,status, error){
-	    	alert("¿¡·¯¹ß»ı");
-	    }
-	});
-}
-function makeListJson(jsonStr){
-	var htmlStr = "";
-	htmlStr += "<table>";
-	$(jsonStr.results.juso).each(function(){
-		htmlStr += "<tr>";
-		htmlStr += "<td>"+this.roadAddr+"</td>";
-		htmlStr += "<td>"+this.roadAddrPart1+"</td>";
-		htmlStr += "<td>"+this.roadAddrPart2+"</td>";
-		htmlStr += "<td>"+this.jibunAddr+"</td>";
-		htmlStr += "<td>"+this.engAddr+"</td>";
-		htmlStr += "<td>"+this.zipNo+"</td>";
-		htmlStr += "<td>"+this.admCd+"</td>";
-		htmlStr += "<td>"+this.rnMgtSn+"</td>";
-		htmlStr += "<td>"+this.bdMgtSn+"</td>";
-		htmlStr += "<td>"+this.detBdNmList+"</td>";
-		/** API ¼­ºñ½º Á¦°øÇ×¸ñ È®´ë (2017.02) **/
-		htmlStr += "<td>"+this.bdNm+"</td>";
-		htmlStr += "<td>"+this.bdKdcd+"</td>";
-		htmlStr += "<td>"+this.siNm+"</td>";
-		htmlStr += "<td>"+this.sggNm+"</td>";
-		htmlStr += "<td>"+this.emdNm+"</td>";
-		htmlStr += "<td>"+this.liNm+"</td>";
-		htmlStr += "<td>"+this.rn+"</td>";
-		htmlStr += "<td>"+this.udrtYn+"</td>";
-		htmlStr += "<td>"+this.buldMnnm+"</td>";
-		htmlStr += "<td>"+this.buldSlno+"</td>";
-		htmlStr += "<td>"+this.mtYn+"</td>";
-		htmlStr += "<td>"+this.lnbrMnnm+"</td>";
-		htmlStr += "<td>"+this.lnbrSlno+"</td>";
-		htmlStr += "<td>"+this.emdNo+"</td>";
-		htmlStr += "</tr>";
-	});
-	htmlStr += "</table>";
-	$("#list").html(htmlStr);
-}
-
-function enterSearch() {
-	var evt_code = (window.netscape) ? ev.which : event.keyCode;
-	if (evt_code == 13) {    
-		event.keyCode = 0;  
-		getAddr(); //jsonp»ç¿ë½Ã enter°Ë»ö 
-	} 
-}
-
+<script type="text/javascript">
+	function searchAdd() {
+		window.open("searchAdd.do", "ì£¼ì†Œì°¾ê¸°");
+	}
+	
+	
 </script>
 </head>
 <body>
-<form name="form" id="form" method="post">
-	<input type="text" name="currentPage" value="1"/> <-- ¿äÃ» º¯¼ö ¼³Á¤ (ÇöÀç ÆäÀÌÁö. currentPage : n > 0) -->
-	<input type="text" name="countPerPage" value="10"/><!-- ¿äÃ» º¯¼ö ¼³Á¤ (ÆäÀÌÁö´ç Ãâ·Â °³¼ö. countPerPage ¹üÀ§ : 0 < n <= 100) -->
-	<input type="text" name="resultType" value="json"/> <-- ¿äÃ» º¯¼ö ¼³Á¤ (°Ë»ö°á°úÇü½Ä ¼³Á¤, json) --> 
-	<input type="text" name="confmKey" value="U01TX0FVVEgyMDE4MDMwNzE4MTEzMzEwNzcxMjU="/><!-- ¿äÃ» º¯¼ö ¼³Á¤ (½ÂÀÎÅ°) -->
-	<input type="text" name="keyword" value="" onkeydown="enterSearch();"/><!-- ¿äÃ» º¯¼ö ¼³Á¤ (Å°¿öµå) -->
-	<input type="button" onclick="getAddr()" value="ÁÖ¼Ò°Ë»öÇÏ±â"/>
-	<div id="list" ></div><!-- °Ë»ö °á°ú ¸®½ºÆ® Ãâ·Â ¿µ¿ª -->
-</form>
 
-<form action="regist3.do" method="post">
-	<table border="1">
-		<tr>
-		<tr>
-					<th>¿ìÆí¹øÈ£</th>
-					<td>
-					    <input type="hidden" id="confmKey" name="confmKey" value=""  >
-						<input type="text" id="zipNo" name="zipNo" readonly style="width:100px">
-						<input type="button"  value="ÁÖ¼Ò°Ë»ö" onclick="goPopup();">
-					</td>
-				</tr>
-				<tr>
-					<th>µµ·Î¸íÁÖ¼Ò</th>
-					<td><input type="text" id="roadAddrPart1" style="width:85%"></td>
-				</tr>
-				<tr>
-					<th>»ó¼¼ÁÖ¼Ò</th>
-					<td>
-						<input type="text" id="addrDetail" style="width:40%" value="">
-						<input type="text" id="roadAddrPart2"  style="width:40%" value="">
-					</td>
-				</tr>
-		</tr>
-		<tr>
-			<td>»ó¼¼ÁÖ¼Ò</td>
-			<td><input type="text" name="address2"/></td>
-		</tr>
-		<tr>
-		<td>Á÷¾÷</td>
-		<td>
-		<input type="text" name="m_job"/>
-		</td>
-		</tr>
-		<tr>
-			<td>°áÈ¥¿©ºÎ</td>
-			<td><input type="radio" name="m_mariable" value="Y" />±âÈ¥
-				<input type="radio" name="m_mariable" value="N" />¹ÌÈ¥</td>
-		</tr>
-		<tr>
-			<td>°ü½ÉºĞ¾ß</td>
-			<td><input type="checkbox" name="m_favorite" value="ÆĞ¼Ç/ºäÆ¼">ÆĞ¼Ç/ºäÆ¼
-			<input type="checkbox" name="m_favorite" value="À½½Ä/¿ä¸®">À½½Ä/¿ä¸®
-			<input type="checkbox" name="m_favorite" value="±İÀ¶/°æÁ¦">±İÀ¶/°æÁ¦
-			</td>
-		</tr>
-		<tr>
-		<td colspan="2">
-			<input type="checkbox" name="m_favorite" value="À¯Èï/°ÔÀÓ">À¯Èï/°ÔÀÓ
-			<input type="checkbox" name="m_favorite" value="½ºÆ÷Ã÷/·¹Àú">½ºÆ÷Ã÷/·¹Àú
-			<input type="checkbox" name="m_favorite" value="¹®È­/¿¹¼ú">¹®È­/¿¹¼ú
-			<input type="checkbox" name="m_favorite" value="±³À°/ÇĞ½À">±³À°/ÇĞ½À
-		</td>
-		</tr>
-		<tr>
-		<td colspan="2"><input type="submit" value="È¸¿ø°¡ÀÔ"/></td>
-		</tr>
-	</table>
-</form>
+
+	<form action="regist3.do" method="post">
+		<table border="1">
+			<tr>
+				<th>ìš°í¸ë²ˆí˜¸</th>
+				<td><input type="hidden" id="confmKey" name="confmKey"
+					value="U01TX0FVVEgyMDE4MDEyNTE2MjU1MjEwNzYzMDc="> <input
+					type="text" name="zipNo" id="zipNo" readonly="readonly">
+					<input type="button" value="ì£¼ì†Œê²€ìƒ‰" onclick="searchAdd();"></td>
+			</tr>
+			<tr>
+				<th><label>ë„ë¡œëª…ì£¼ì†Œ</label></th>
+				<td><input type="text" id="addrRoad" name="addrRoad"></td>
+			</tr>
+			<tr>
+				<th>ìƒì„¸ì£¼ì†Œ</th>
+				<td><input type="text" name="addrDetail"></td>
+			</tr>
+
+			<tr>
+				<td>ì§ì—…</td>
+				<td><input type="text" name="m_job" /></td>
+			</tr>
+			<tr>
+				<td>ê²°í˜¼ì—¬ë¶€</td>
+				<td><input type="radio" name="m_mariable" value="Y" />ê¸°í˜¼ <input
+					type="radio" name="m_mariable" value="N" />ë¯¸í˜¼</td>
+			</tr>
+			<tr>
+				<td>ê´€ì‹¬ë¶„ì•¼</td>
+				<td><input type="checkbox" name="m_favorite" value="íŒ¨ì…˜/ë·°í‹°">íŒ¨ì…˜/ë·°í‹°
+					<input type="checkbox" name="m_favorite" value="ìŒì‹/ìš”ë¦¬">ìŒì‹/ìš”ë¦¬
+					<input type="checkbox" name="m_favorite" value="ê¸ˆìœµ/ê²½ì œ">ê¸ˆìœµ/ê²½ì œ
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2"><input type="checkbox" name="m_favorite"
+					value="ìœ í¥/ê²Œì„">ìœ í¥/ê²Œì„ <input type="checkbox"
+					name="m_favorite" value="ìŠ¤í¬ì¸ /ë ˆì €">ìŠ¤í¬ì¸ /ë ˆì € <input
+					type="checkbox" name="m_favorite" value="ë¬¸í™”/ì˜ˆìˆ ">ë¬¸í™”/ì˜ˆìˆ  <input
+					type="checkbox" name="m_favorite" value="êµìœ¡/í•™ìŠµ">êµìœ¡/í•™ìŠµ</td>
+			</tr>
+			<tr>
+				<td colspan="2"><input type="submit" value="íšŒì›ê°€ì…" /></td>
+			</tr>
+		</table>
+	</form>
 </body>
 </html>
