@@ -9,4 +9,6 @@ public interface IMembersService {
 	public boolean regist(MembersDto mdto);
 	public MembersDto getUser(String id);
 	public boolean changeProfile(MembersDto mdto);
+	public boolean modifyUser(MembersDto mdto);
+	public boolean kakaoLogin(MembersDto mdto);
 }
