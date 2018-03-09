@@ -1,5 +1,7 @@
 package com.jsr.project;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.lang.ProcessBuilder.Redirect;
 import java.net.PasswordAuthentication;
 import java.util.HashMap;
@@ -16,6 +18,7 @@ import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.coyote.Request;
@@ -41,17 +44,30 @@ public class MembersController {
 	private JavaMailSenderImpl mailSender;
 
 	@RequestMapping(value = "/login.do", method = RequestMethod.GET)
-	public String login(HttpServletRequest request,MembersDto mdto, HttpSession session) {
+	public String login(HttpServletRequest request,MembersDto mdto, HttpSession session,HttpServletResponse response) throws IOException {
 
 		MembersDto loginDto=memberService.login(mdto);
 		System.out.println(loginDto);
 		if(loginDto==null){
 			return "redirect:index.jsp";
 		}else {
+			jsFoward("로그인성공", response);
 			session.setAttribute("loginDto", loginDto);
 			session.setMaxInactiveInterval(60*60);
-			return "home";	
+			return "home";
 		}
+	}
+	
+	@RequestMapping(value = "/logout.do", method = RequestMethod.GET)
+	public String logout(HttpServletRequest request,MembersDto mdto, HttpSession session) {
+		session.invalidate();
+		return "redirect:index.jsp";
+		
+	}
+	
+	@RequestMapping(value = "/gohome.do", method = RequestMethod.GET)
+	public String home(HttpServletRequest request,HttpSession session) {
+			return "home";
 	}
 
 	@RequestMapping(value = "/regist1.do", method = RequestMethod.GET)
@@ -71,11 +87,6 @@ public class MembersController {
 		String phone3=request.getParameter("phone3");
 		String m_phone=phone1+"-"+phone2+"-"+phone3;
 		mdto.setM_phone(m_phone);
-
-		String address1=request.getParameter("address1");
-		String address2=request.getParameter("address2");
-		String m_address=address1+" "+address2;
-		mdto.setM_address(m_address);
 
 		String year=request.getParameter("year");
 		String month=request.getParameter("month");
@@ -105,7 +116,7 @@ public class MembersController {
 		String zipNo=request.getParameter("zipNo");
 		String roadAdd=request.getParameter("addrRoad");
 		String addrDetail=request.getParameter("addrDetail");
-		String m_address=zipNo+"/"+roadAdd+"/"+addrDetail;
+		String m_address=zipNo+"+"+roadAdd+"+"+addrDetail;
 		mdto.setM_address(m_address);
 
 		boolean isS=memberService.regist(mdto);
@@ -200,15 +211,11 @@ public class MembersController {
 		return "member/searchAdd";
 	}
 	
-	@RequestMapping(value = "/modifyUser.do", method = RequestMethod.GET)
-	public String modifyUser(Model model,HttpServletRequest request, HttpSession session) {
+	@RequestMapping(value = "/getUser.do", method = RequestMethod.GET)
+	public String getUser(Model model,HttpServletRequest request, HttpSession session) {
 
 		MembersDto loginDto=(MembersDto)session.getAttribute("loginDto");
 		MembersDto mdto=memberService.getUser(loginDto.getId());
-		String phone1=mdto.getM_phone().substring(0, 2);
-		String phone2=mdto.getM_phone().substring(4, 7);
-		String phone3=mdto.getM_phone().substring(9, 12);
-
 		model.addAttribute("mdto",mdto);
 
 		return "member/memberModify";
@@ -234,5 +241,83 @@ public class MembersController {
 		System.out.println(memDto);
 		model.addAttribute("mdto",memDto);
 		return "member/memberModify";
+	}
+	
+	@RequestMapping(value = "/modifyUser.do", method = RequestMethod.POST)
+	public String modifyUser(Model model,HttpServletRequest request, HttpSession session,MembersDto mdto) {
+		String phone1=request.getParameter("phone1");
+		String phone2=request.getParameter("phone2");
+		String phone3=request.getParameter("phone3");
+		String m_phone=phone1+"-"+phone2+"-"+phone3;
+		mdto.setM_phone(m_phone);
+		
+		String year=request.getParameter("year");
+		String month=request.getParameter("month");
+		String date=request.getParameter("date");
+		String m_birthDate=year+"-"+month+"-"+date;
+		mdto.setM_birthDate(m_birthDate);
+		
+		String zipNo=request.getParameter("zipNo");
+		String roadAdd=request.getParameter("addrRoad");
+		String addrDetail=request.getParameter("addrDetail");
+		String m_address=zipNo+"+"+roadAdd+"+"+addrDetail;
+		mdto.setM_address(m_address);
+		boolean isS=memberService.modifyUser(mdto);
+		if(isS) {
+			System.out.println("수정성공");
+		}else {
+			System.out.println("수정실패");
+		}
+		
+		MembersDto loginDto=(MembersDto)session.getAttribute("loginDto");
+		MembersDto memDto=memberService.getUser(loginDto.getId());
+		System.out.println(memDto);
+		model.addAttribute("mdto",memDto);
+		return "member/memberModify";
+	}
+	
+	@RequestMapping(value = "/kakaoLogin.do", method = RequestMethod.GET)
+	public String kakaoLogin(HttpServletRequest request, HttpSession session,MembersDto mdto,Model model) {
+		String kakaoId=request.getParameter("kakaoId");
+		String m_password="kakao_"+kakaoId;
+		
+		mdto.setId(request.getParameter("m_email"));
+		mdto.setM_password(m_password);
+		
+		String name=request.getParameter("name");
+		String m_name=name.substring(1, name.lastIndexOf("\""));
+		mdto.setM_name(m_name);
+		
+		MembersDto loginDto=memberService.login(mdto);
+		System.out.println(loginDto);
+		
+		if(loginDto==null){
+			boolean isS=memberService.kakaoLogin(mdto);
+			if(isS) {
+				System.out.println("가입완료");
+				
+				MembersDto loginDto2=memberService.login(mdto);
+				session.setAttribute("loginDto", loginDto2);
+				session.setMaxInactiveInterval(60*60);
+				return "home";
+			}else {
+				System.out.println("가입실패");
+				return "redirect:index.jsp";
+			}
+		}else {
+			System.out.println("이미 가입된 회원");
+			session.setAttribute("loginDto", loginDto);
+			session.setMaxInactiveInterval(60*60);
+			return "home";
+		}
+
+	}
+	
+	public void jsFoward(String msg,HttpServletResponse response) throws IOException{
+		String str="<script type='text/javascript'>"
+				+ "alert('"+msg+"');"
+				+  "</script>";
+		PrintWriter pw=response.getWriter();
+		pw.print(str);
 	}
 }

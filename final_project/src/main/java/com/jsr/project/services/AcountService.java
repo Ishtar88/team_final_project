@@ -95,9 +95,53 @@ public class AcountService implements IAcountService {
 		return acountDaoImp.saveUpdate(dto);
 	}
 
-	
-	
-	
+	@Override
+	public boolean goalRegInsert(GoalDto dto) {
+		return acountDaoImp.goalRegInsert(dto);
+	}
+
+	@Transactional
+	@Override
+	public boolean saveInsert(SaveDto dto) {
+		boolean isc=false;
+		
+		acountDaoImp.saveInsert(dto);
+		isc=acountDaoImp.saveAddInsert();
+		
+		return isc;
+	}
+
+	@Override
+	public boolean stockInsert(StockDto dto) {
+		return acountDaoImp.stockInsert(dto);
+	}
+
+	@Override
+	public boolean fundInsert(FundDto dto) {
+		return acountDaoImp.fundInsert(dto);
+	}
+
+	@Override
+	public boolean loanInsert(LoanDto dto) {
+		return acountDaoImp.loanInsert(dto);
+	}
+
+	@Override
+	public StockDto stockDetailSearch(int seq) {
+		return acountDaoImp.stockDetailSearch(seq);
+	}
+
+	@Override
+	public FundDto fundDetailSearch(int seq) {
+		return acountDaoImp.fundDetailSearch(seq);
+	}
+
+	@Override
+	public LoanDto loanDetailSearch(int seq) {
+		return acountDaoImp.loanDetailSearch(seq);
+	}
+
+
 	
 	
 	

@@ -4,176 +4,106 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
-<jsp:include page="../header.jsp"></jsp:include>
-<jsp:include page="acount_header.jsp"></jsp:include>
+<jsp:include page="income_header.jsp"></jsp:include>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 <!----------------------
-	자산정보 캔버스 처리
+	수입정보 캔버스 처리
 ----------------------->
 <script>
 window.onload = function () {
 
-var chart = new CanvasJS.Chart("chartContainer", {
-	animationEnabled: true,
-	title:{
-		text: "Crude Oil Reserves vs Production, 2016"
-	},	
-	axisY: {
-		title: "Billions of Barrels",
-		titleFontColor: "#4F81BC",
-		lineColor: "#4F81BC",
-		labelFontColor: "#4F81BC",
-		tickColor: "#4F81BC"
-	},
-	axisY2: {
-		title: "Millions of Barrels/day",
-		titleFontColor: "#C0504E",
-		lineColor: "#C0504E",
-		labelFontColor: "#C0504E",
-		tickColor: "#C0504E"
-	},	
-	toolTip: {
-		shared: true
-	},
-	legend: {
-		cursor:"pointer",
-		itemclick: toggleDataSeries
-	},
-	data: [{
-		type: "column",
-		name: "Proven Oil Reserves (bn)",
-		legendText: "Proven Oil Reserves",
-		showInLegend: true, 
-		dataPoints:[
-			{ label: "Saudi", y: 266.21 },
-			{ label: "Venezuela", y: 302.25 },
-			{ label: "Iran", y: 157.20 },
-			{ label: "Iraq", y: 148.77 },
-			{ label: "Kuwait", y: 101.50 },
-			{ label: "UAE", y: 97.8 }
-		]
-	},
-	{
-		type: "column",	
-		name: "Oil Production (million/day)",
-		legendText: "Oil Production",
-		axisYType: "secondary",
-		showInLegend: true,
-		dataPoints:[
-			{ label: "Saudi", y: 10.46 },
-			{ label: "Venezuela", y: 2.27 },
-			{ label: "Iran", y: 3.99 },
-			{ label: "Iraq", y: 4.45 },
-			{ label: "Kuwait", y: 2.92 },
-			{ label: "UAE", y: 3.1 }
-		]
-	}]
-});
-chart.render();
-
-function toggleDataSeries(e) {
-	if (typeof(e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
-		e.dataSeries.visible = false;
-	}
-	else {
-		e.dataSeries.visible = true;
-	}
+	var chart = new CanvasJS.Chart("chartContainer", {
+		theme: "dark2",
+		exportFileName: "Doughnut Chart",
+		exportEnabled: true,
+		animationEnabled: true,
+		title:{
+			text: "Monthly Expense"
+		},
+		legend:{
+			cursor: "pointer",
+			itemclick: explodePie
+		},
+		data: [{
+			type: "doughnut",
+			innerRadius: 90,
+			showInLegend: true,
+			toolTipContent: "<b>{name}</b>: ${y} (#percent%)",
+			indexLabel: "{name} - #percent%",
+			dataPoints: [
+				{ y: 450, name: "Food" },
+				{ y: 120, name: "Insurance" },
+				{ y: 300, name: "Travelling" },
+				{ y: 800, name: "Housing" },
+				{ y: 150, name: "Education" },
+				{ y: 150, name: "Shopping"},
+				{ y: 250, name: "Others" }
+			]
+		}]
+	});
 	chart.render();
-}
 
-}
+	function explodePie (e) {
+		if(typeof (e.dataSeries.dataPoints[e.dataPointIndex].exploded) === "undefined" || !e.dataSeries.dataPoints[e.dataPointIndex].exploded) {
+			e.dataSeries.dataPoints[e.dataPointIndex].exploded = true;
+		} else {
+			e.dataSeries.dataPoints[e.dataPointIndex].exploded = false;
+		}
+		e.chart.render();
+	}
+
+	}
 </script>
 <script type="text/javascript">
 
-
-	function stToggle(){
-		$(".stock_Tr").toggle();
-	}
-	
-	function fdToggle(){
-		$(".fund_Tr").toggle();
-	}
-	
-	function lnToggle(){
-		$(".loan_Tr").toggle();
-	}
-	function svToggle(){
-		$(".save_Tr").toggle();
-	}
-	
-	function saveDetail(s_seq){
+	function save_detail(s_seq){
 		var url='save_detail.do?seq='+s_seq;
-		var prop='width=600px; height=600px;';
-		
-		open(url,'',prop);
-	}
-	
-	function stockDetail(st_seq){
-		var url='stock_detail.do?seq='+st_seq;
-		var prop='width=600px; height=600px;';
-		
-		open(url,'',prop);
-	}
-	
-	function fundDetail(f_seq){
-		var url='fund_detail.do?seq='+f_seq;
-		var prop='width=600px; height=600px;';
-		
-		open(url,'',prop);
-	}
-	
-	function loanDetail(l_seq){
-		var url='loan_detail.do?seq='+l_seq;
 		var prop='width=600px; height=600px;';
 		
 		open(url,'',prop);
 	}
 </script>
 <style type="text/css">
-	body{position: relative;}
-	.acount_header_wrap{
-		text-align: center;
-		border: 1px;
-	}
-	.acount_canvas_wrap,.acount_total_wrap{
-		align-content: center;
-	}
-	.acount_body_wrap{
-	
-	}
-	.acount_total_wrap{
-		left: 500px;
-		width: 200px; height: 200px;
-		background-color: grey;
-	}
+
 	
 </style>
 </head>
 <body>
 <div class="acount_body_wrap">
 	<header>
-		<div class="acount_canvas_wrap">
-			<div id="chartContainer" style="height: 370px; width: 40%;"></div>
+		<div class="income_canvas_wrap">
+			<div id="chartContainer" style="height: 300px; width: 100%;"></div>
 			<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 		</div>
-		<div class="acount_total_wrap">
+		<div class="income_total_wrap">
 			<div class="acount_total_money">
-				<p class="field">총예산: </p>
+				<p class="field">총수입: </p>
 				<div class="field">${aDto.ac_money }</div>
+				<div class="field">
+					<span>수입 TOP5</span>
+					<div></div>
+				</div>
 			</div>
 		</div>
 	</header>
-	<div class="acount_body_wrap">
-		<div class="acount_header_wrap">
+	<div class="income_body_wrap">
+		<div class="income_header_wrap">
 			<header>
 				<div class="ui right aligned">
-				    <a class="active item" href="goal_main.do">목표관리</a>
-				    <a class="item" href="goal_main.do">저축추가</a>
-				    <a class="item" href="acount.do">수정</a>
-				    <a class="item">삭제</a>
+				    <a href="#" >◁◁</a>
+				    <a href="#" >◀</a>
+				    <div class="income_searchDate">
+				    	<span class="income_year"></span>
+				    	<span class="income_month"></span>
+				    </div>
+				    <a href="#" >▷▷</a>
+				    <a href="#" >▶</a>
+			    </div>
+			    <div class="income_updateForm">
+			    	<a></a>
 			    </div>
 			</header>
 	    </div>
@@ -210,7 +140,7 @@ function toggleDataSeries(e) {
 								<tr>
 									<td>${svDto.s_detail }</td>
 									<td>
-										<a href="#" onclick="saveDetail('${svDto.s_seq}')">
+										<a href="#" onclick="save_detail('${svDto.s_seq}')">
 											${svDto.s_name }
 										</a>
 									</td>
@@ -262,16 +192,12 @@ function toggleDataSeries(e) {
 						</c:when><c:otherwise>
 							<c:forEach items="${sList }" var="sDto">
 								<tr>
-									<td>
-										<a href="#" onclick="stockDetail('${sDto.st_seq}')">
-											${sDto.st_name }
-										</a>
-									</td>
+									<td>${sDto.st_name }</td>
 									<td>${sDto.st_count }</td>
 									<td>${sDto.st_count*sDto.st_money } 원</td>
 									<td>${sDto.st_money/sDto.st_add } %</td>
 									<td>${sDto.st_count*sDto.st_add }원 </td>
-									<td><fmt:formatDate value="${sDto.st_buydate }" pattern="yyyy-MM-dd"/></td>
+									<td>${sDto.st_buydate }</td>
 								</tr>
 							</c:forEach>
 								<tr>
@@ -317,16 +243,12 @@ function toggleDataSeries(e) {
 						</c:when><c:otherwise>
 							<c:forEach items="${fList }" var="fDto">
 								<tr>
-									<td>
-										<a href="#" onclick="fundDetail('${fDto.f_seq}')">
-											${fDto.f_name }
-										</a>
-									</td>
+									<td>${fDto.f_name }</td>
 									<td>${fDto.f_money }</td>
 									<td>${fDto.f_money/fDto.f_add }</td>
 									<td>${fDto.f_add }</td>
-									<td><fmt:formatDate value="${fDto.f_buydate }" pattern="yyyy-MM-dd"/></td>
-									<td><fmt:formatDate value="${fDto.f_enddate }" pattern="yyyy-MM-dd"/></td>
+									<td>${fDto.f_buydate }</td>
+									<td>${fDto.f_enddate }</td>
 								</tr>
 							</c:forEach>
 								<tr>
@@ -370,15 +292,11 @@ function toggleDataSeries(e) {
 						</c:when><c:otherwise>
 							<c:forEach items="${lList }" var="lDto">
 								<tr>
-									<td>
-										<a href="#" onclick="loanDetail('${lDto.l_seq}')">
-											${lDto.l_name }
-										</a>
-									</td>
+									<td>${lDto.l_name }</td>
 									<td>${lDto.l_money }</td>
 									<td>${lDto.l_bal }</td>
-									<td><fmt:formatDate value="${lDto.l_startdate }" pattern="yyyy-MM-dd"/></td>
-									<td><fmt:formatDate value="${lDto.l_enddate }" pattern="yyyy-MM-dd"/></td>
+									<td>${lDto.l_startdate }</td>
+									<td>${lDto.l_enddate }</td>
 								</tr>
 							</c:forEach>
 								<tr>

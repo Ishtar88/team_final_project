@@ -173,8 +173,8 @@
     <a class="item">포인트몰</a>
     <a class="item"  href="customer.do">고객센터</a>
         <div class="right item">
-          <a class="ui inverted button" href="modifyUser.do">${loginDto.m_name}님</a>
-          <a class="ui inverted button">로그아웃</a>
+          <a class="ui inverted button" href="getUser.do">${loginDto.m_name}님</a>
+          <a class="ui inverted button" href="logout.do">로그아웃</a>
         </div>
       </div>
     </div>

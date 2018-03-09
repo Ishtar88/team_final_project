@@ -2,10 +2,13 @@ package com.jsr.project;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.Date;
 import java.util.List;
 import java.util.Locale;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -39,7 +42,6 @@ public class AcountController {
 		logger.info("acount main page");
 		
 		MembersDto lDto=(MembersDto)session.getAttribute("loginDto");
-		
 		String id=lDto.getId();
 		
 		System.out.println(id);
@@ -147,6 +149,59 @@ public class AcountController {
 		return "acount/save/save_detail";
 	}
 	
+	@RequestMapping(value = "/stock_detail.do", method = RequestMethod.GET)
+	public String stock_detail(Model model,String seq) {
+		logger.info("stock detail start");
+
+		System.out.println("seq: "+seq);
+		
+		int st_seq=Integer.parseInt(seq);
+		
+		StockDto sDto=acountService.stockDetailSearch(st_seq);
+		model.addAttribute("sDto", sDto);
+		
+		System.out.println("sDto: "+sDto);
+		
+		logger.info("stock detail end");
+		return "acount/stock/stock_detail";
+	}
+	
+	@RequestMapping(value = "/fund_detail.do", method = RequestMethod.GET)
+	public String fund_detail(Model model,String seq) {
+		logger.info("fund detail start");
+
+		System.out.println("seq: "+seq);
+		
+		int f_seq=Integer.parseInt(seq);
+		
+		FundDto fDto=acountService.fundDetailSearch(f_seq);
+		model.addAttribute("fDto", fDto);
+		
+		System.out.println("fDto: "+fDto);
+		
+		logger.info("fund detail end");
+		return "acount/fund/fund_detail";
+	}
+	
+	@RequestMapping(value = "/loan_detail.do", method = RequestMethod.GET)
+	public String loan_detail(Model model,String seq) {
+		logger.info("loan detail start");
+
+		System.out.println("seq: "+seq);
+		
+		int l_seq=Integer.parseInt(seq);
+		
+		LoanDto lDto=acountService.loanDetailSearch(l_seq);
+		model.addAttribute("lDto", lDto);
+		
+		System.out.println("lDto: "+lDto);
+		
+		logger.info("loan detail end");
+		return "acount/loan/loan_detail";
+	}
+	
+	
+	
 	@RequestMapping(value = "/save_update_page.do", method = RequestMethod.GET)
 	public String save_update_page(Model model,String seq) {
 		logger.info("save update page");
@@ -154,6 +209,29 @@ public class AcountController {
 		int s_seq=Integer.parseInt(seq);
 		
 		SaveDto svDto=acountService.saveDetailSearch(s_seq);
+		
+		//java.util.Date일때
+/*		try {
+			Date date=svDto.getS_startdate();
+			SimpleDateFormat stDf=new SimpleDateFormat("YYYY-MM-DD HH:mm:ss");
+			String stDate=stDf.format(date);
+			SimpleDateFormat stDf2=new SimpleDateFormat("YYYY-MM-DD");
+			Date s_startdate= stDf2.parse(stDate);
+			svDto.setS_startdate(s_startdate);
+			System.out.println(s_startdate);
+			
+			Date date2=svDto.getS_enddate();
+			SimpleDateFormat enDf=new SimpleDateFormat("YYYY-MM-DD HH:mm:ss");
+			String enDate=enDf.format(date2);
+			SimpleDateFormat enDf2=new SimpleDateFormat("YYYY-MM-DD");
+			Date s_enddate= enDf2.parse(enDate);
+			svDto.setS_startdate(s_enddate);
+			
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}*/
+		
 		model.addAttribute("svDto", svDto);
 		
 		return "acount/save/save_update_page";
@@ -172,41 +250,43 @@ public class AcountController {
 	}
 
 	@RequestMapping(value = "/save_delete.do", method = RequestMethod.GET)
-	public String save_delete(String seq) {
+	public String save_delete(Model model,String seq,HttpServletResponse response) {
 		logger.info("save delete start");
 		
 		int s_seq=Integer.parseInt(seq);
 		
 		boolean isc=acountService.saveDelete(s_seq);
-		if (isc) {
-			
+		if(isc) {
+			model.addAttribute("isc", isc);
 		}else {
-			jsForward("self.close();");
+			model.addAttribute("isc", isc);
 		}
 		
 		return "acount/save/save_detail";
 	}
 	
 	@RequestMapping(value = "/save_update.do", method = RequestMethod.POST)
-	public String save_update(Model model,SaveDto dto) {
+	public String save_update(Model model,SaveDto dto) throws ParseException {
 		logger.info("save update start");
 		
-		try {
-			String stDate=dto.getS_startdate().toString();
+			Date stDate=dto.getS_startdate();
+			
 			SimpleDateFormat df=new SimpleDateFormat("YYYY-MM-DD");
 			String st=df.format(stDate);
-			Date startDate=df.parse(st);
-			dto.setS_startdate((java.sql.Date) startDate);
+			java.sql.Date startDate = java.sql.Date.valueOf(st);
+			System.out.println(startDate);
 			
-			String enDate=dto.getS_startdate().toString();
+			dto.setS_startdate(startDate);
+			
+			Date enDate=dto.getS_startdate();
 			SimpleDateFormat df2=new SimpleDateFormat("YYYY-MM-DD");
 			String en=df2.format(enDate);
-			Date endDate=df2.parse(en);
-			dto.setS_enddate((java.sql.Date) endDate);
+			java.sql.Date endDate = java.sql.Date.valueOf(en);
 			
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
+			System.out.println(endDate);
+			
+			dto.setS_startdate(endDate);
+			
 		
 		boolean isc=acountService.saveUpdate(dto);
 		if (isc) {
@@ -215,18 +295,68 @@ public class AcountController {
 			System.out.println("save update fail");
 		}
 		
+		int s_seq=dto.getS_seq();
+		
+		SaveDto svDto=acountService.saveDetailSearch(s_seq);
+		model.addAttribute("svDto", svDto);
+		
 		
 		return "acount/save/save_detail";
 	}
 	
-	
-	public String jsForward(String msg){
-		String str="<script type='text/javascript'> "
-						+msg+
-				"   </script> ";
+	@RequestMapping(value = "/acount_insert_page.do", method = RequestMethod.GET)
+	public String save_insert_page(Model model,String seq,HttpSession session) {
+		logger.info("save insert page");
 		
-	return str;
+		MembersDto lDto=(MembersDto)session.getAttribute("loginDto");
+		
+		model.addAttribute("lDto", lDto);
+		
+		return "acount/acount_insert";
+	}
+
+	@RequestMapping(value = "/save_insert.do", method = RequestMethod.POST)
+	public String save_insert(SaveDto dto) {
+		logger.info("save insert start");
+		
+/*		//시작날짜
+		Date stInputDate=dto.getS_startdate();
+		SimpleDateFormat df=new SimpleDateFormat("YYYY-MM-DD HH:mm:ss");
+		String stInput=df.format(stInputDate);
+		java.sql.Date stDate = java.sql.Date.valueOf(stInput);
+		dto.setS_startdate(stDate);
+		
+		//만기날짜
+		Date enInputDate=dto.getS_enddate();
+		SimpleDateFormat df2=new SimpleDateFormat("YYYY-MM-DD HH:mm:ss");
+		String enInput=df2.format(enInputDate);
+		java.sql.Date enDate = java.sql.Date.valueOf(enInput);
+		dto.setS_startdate(enDate);*/
+		
+		
+		boolean isc=acountService.saveInsert(dto);
+		if (isc) {
+			System.out.println("save insert success.");
+		}else {
+			System.out.println("save insert fail.");
+		}
+		
+		
+		
+		
+		return "redirect:acount.do";
 	}
 	
-	
+	public static void jsClose(HttpServletResponse response){
+		String str="<script type='text/javascript'>"
+				 + "	self.close();"
+				 + "</script> ";
+		PrintWriter pw = null;
+		try {
+			pw = response.getWriter();
+			pw.println(str);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 }
