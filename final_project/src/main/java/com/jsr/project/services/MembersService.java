@@ -36,6 +36,16 @@ public class MembersService implements IMembersService {
 	public boolean changeProfile(MembersDto mdto) {
 		return ImemberDao.changeProfile(mdto);
 	}
+
+	@Override
+	public boolean modifyUser(MembersDto mdto) {
+		return ImemberDao.modifyUser(mdto);
+	}
+
+	@Override
+	public boolean kakaoLogin(MembersDto mdto) {
+		return ImemberDao.kakaoLogin(mdto);
+	}
 	
 
 }

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <%request.setCharacterEncoding("UTF-8"); %>
 <%response.setContentType("text/html; charset=UTF-8"); %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,17 +15,22 @@
 <title>Insert title here</title>
 </head>
 <body>
-<table>
+<c:if test="${isc }">
+	<script type="text/javascript">
+		self.close();
+	</script>
+</c:if>
+<table class="save_detail">
 	<tr>
 		<th>저축분류</th>
 		<td>
-			<input type="text" name="s_name" value="${svDto.s_name }" readonly="readonly">
+			<input type="text" name="s_detail" value="${svDto.s_detail }" readonly="readonly">
 		</td>
 	</tr>
 	<tr>
 		<th>저축/적금/보험명</th>
 		<td>
-			<input type="text" name="s_detail" value="${svDto.s_detail }" readonly="readonly">
+			<input type="text" name="s_name" value="${svDto.s_name }" readonly="readonly">
 		</td>
 	</tr>
 	<tr>
@@ -66,9 +72,8 @@
 	<tr>
 		<td>
 			<input type="button" value="수정" onclick="location.href='save_update_page.do?seq='+${svDto.s_seq}">
-		</td>
-		<td>
 			<input type="button" value="삭제" onclick="location.href='save_delete.do?seq='+${svDto.s_seq}">
+			<input type="button" value="닫기" onclick="self.close()">
 		</td>
 	</tr>
 </table>

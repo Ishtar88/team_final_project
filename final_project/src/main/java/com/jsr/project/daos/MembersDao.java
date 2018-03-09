@@ -49,6 +49,20 @@ public class MembersDao implements IMembersDao {
 		count=sqlSession.update(namespace+"changeProfile", mdto);
 		return count>0?true:false;
 	}
+
+	@Override
+	public boolean modifyUser(MembersDto mdto) {
+		int count=0;
+		count=sqlSession.update(namespace+"modifyUser", mdto);
+		return count>0?true:false;
+	}
+
+	@Override
+	public boolean kakaoLogin(MembersDto mdto) {
+		int count=0;
+		count=sqlSession.insert(namespace+"kakaoRegist", mdto);
+		return count>0?true:false;
+	}
 	
 
 	

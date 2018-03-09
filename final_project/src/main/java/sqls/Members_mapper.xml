@@ -30,7 +30,7 @@
 		(SELECT
 		(SUBSTR(TO_CHAR(SYSDATE,'YYYY-MM-DD'),1,4)-SUBSTR(TO_CHAR(M_BIRTHDATE,'YYYY-MM-DD'),1,4))+1
 		AS AGE FROM MEMBERS WHERE ID=#{id}) AS AGE,
-		M_GENDER,M_ADDRESS,M_JOB,M_REGDATE,M_USEABLE,M_MARIABLE,M_FAVORITE,M_PROFILE_IMG,PO_POINT
+		M_GENDER,M_ADDRESS,M_JOB,M_REGDATE,M_USEABLE,M_MARIABLE,M_BIRTHDATE,M_FAVORITE,M_PROFILE_IMG,PO_POINT
 		FROM MEMBERS M LEFT JOIN POINT P ON M.ID=P.ID WHERE M.ID=#{id} AND
 		M_PASSWORD=#{m_password}
 	</select>
@@ -82,18 +82,31 @@
 		,
 		'Y',SYSDATE)
 	</insert>
-	
+
 	<select id="getUser" parameterType="Map" resultMap="MembersDto">
-	SELECT
+		SELECT
 		M.ID,M_NAME,M_EMAIL,M_PASSWORD,M_PHONE,
 		(SELECT
 		(SUBSTR(TO_CHAR(SYSDATE,'YYYY-MM-DD'),1,4)-SUBSTR(TO_CHAR(M_BIRTHDATE,'YYYY-MM-DD'),1,4))+1
 		AS M_AGE FROM MEMBERS WHERE ID=#{id}) AS M_AGE,
-		M_GENDER,M_ADDRESS,M_JOB,M_REGDATE,M_USEABLE,M_MARIABLE,M_FAVORITE,M_PROFILE_IMG,PO_POINT
+		M_GENDER,M_ADDRESS,M_JOB,M_REGDATE,M_USEABLE,M_MARIABLE,M_BIRTHDATE,M_FAVORITE,M_PROFILE_IMG,PO_POINT
 		FROM MEMBERS M LEFT JOIN POINT P ON M.ID=P.ID WHERE M.ID=#{id}
 	</select>
-	
+
 	<update id="changeProfile" parameterType="MembersDto">
-	UPDATE MEMBERS SET M_PROFILE_IMG=#{m_profile_img} WHERE ID=#{id}
+		UPDATE MEMBERS SET
+		M_PROFILE_IMG=#{m_profile_img} WHERE ID=#{id}
 	</update>
+
+	<update id="modifyUser" parameterType="MembersDto">
+		UPDATE MEMBERS SET
+		M_PHONE=#{m_phone},M_BIRTHDATE=#{m_birthDate},M_GENDER=#{m_gender}
+		,M_ADDRESS=#{m_address},M_JOB=#{m_job},M_MARIABLE=#{m_mariable},M_FAVORITE=#{m_favorite}
+		WHERE ID=#{id}
+	</update>
+
+	<insert id="kakaoRegist" parameterType="MembersDto">
+		INSERT INTO MEMBERS(ID,M_NAME,M_EMAIL,M_PASSWORD,M_PHONE,M_GENDER)
+		VALUES(#{id},#{m_name},#{m_email},#{m_password},' ',' ')
+	</insert>
 </mapper>

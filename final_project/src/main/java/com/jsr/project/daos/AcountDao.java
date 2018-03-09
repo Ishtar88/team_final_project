@@ -95,6 +95,8 @@ public class AcountDao implements IAcountDao {
 		return dto;
 	}
 
+	
+	
 	@Override
 	public SaveDto saveDetailSearch(int seq) {
 		
@@ -102,6 +104,31 @@ public class AcountDao implements IAcountDao {
 		
 		return dto;
 	}
+	
+	@Override
+	public StockDto stockDetailSearch(int seq) {
+		
+		StockDto dto=sqlSession.selectOne(namespace+"stockDetailSearch", seq);
+		
+		return dto;
+	}
+
+	@Override
+	public FundDto fundDetailSearch(int seq) {
+		
+		FundDto dto=sqlSession.selectOne(namespace+"fundDetailSearch", seq);
+		
+		return dto;
+	}
+
+	@Override
+	public LoanDto loanDetailSearch(int seq) {
+		
+		LoanDto dto=sqlSession.selectOne(namespace+"loanDetailSearch", seq);
+		
+		return dto;
+	}
+	
 
 	@Override
 	public boolean saveDelete(int seq) {
@@ -119,6 +146,49 @@ public class AcountDao implements IAcountDao {
 		count=sqlSession.update(namespace+"saveUpdate", dto);
 		return count>0?true:false;
 	}
+
+	@Override
+	public boolean saveInsert(SaveDto dto) {
+		int count=0;
+		
+		count=sqlSession.insert(namespace+"saveInsert", dto);
+		return count>0?true:false;
+	}
+	@Override
+	public boolean saveAddInsert() {
+		int count=0;
+		
+		count=sqlSession.insert(namespace+"saveAddInsert");
+		return count>0?true:false;
+	}
+
+	@Override
+	public boolean stockInsert(StockDto dto) {
+		int count=0;
+		
+		count=sqlSession.insert(namespace+"stockInsert", dto);
+		return count>0?true:false;
+	}
+
+	@Override
+	public boolean fundInsert(FundDto dto) {
+		int count=0;
+		
+		count=sqlSession.insert(namespace+"fundInsert", dto);
+		return count>0?true:false;
+	}
+
+	@Override
+	public boolean loanInsert(LoanDto dto) {
+		int count=0;
+		
+		count=sqlSession.insert(namespace+"loanInsert", dto);
+		return count>0?true:false;
+	}
+
+
+
+
 
 
 }

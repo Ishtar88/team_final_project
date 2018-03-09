@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <%request.setCharacterEncoding("UTF-8"); %>
 <%response.setContentType("text/html; charset=UTF-8"); %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,11 +14,7 @@
   crossorigin="anonymous"></script>
 <script src="resources/assets/semantic.min.js"></script>
 <title>Insert title here</title>
-<script type="text/javascript">
 
-
-
-</script>
 </head>
 <body>
 <form action="save_update.do" method="post">
@@ -25,13 +23,13 @@
 		<tr>
 			<th>저축분류</th>
 			<td>
-				<input type="text" name="s_name" value="${svDto.s_detail }" readonly="readonly">
+				<input type="text" name="s_detail" value="${svDto.s_detail }" readonly="readonly">
 			</td>
 		</tr>
 		<tr>
 			<th>저축/적금/보험명</th>
 			<td>
-				<input type="text" name="s_detail" value="${svDto.s_name }">
+				<input type="text" name="s_name" value="${svDto.s_name }">
 			</td>
 		</tr>
 		<tr>
@@ -55,8 +53,7 @@
 		<tr>
 			<th>시작날짜</th>
 			<td>
-				<input type="date" name="s_startdate" value="${svDto.s_startdate }">
-				
+				<input type="date" name="s_startdate" value="${svDto.s_startdate }">e
 			</td>
 		</tr>
 		<tr>

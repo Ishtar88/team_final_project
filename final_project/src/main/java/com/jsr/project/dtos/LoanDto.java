@@ -1,6 +1,6 @@
 package com.jsr.project.dtos;
 
-import java.sql.Date;
+import java.util.Date;
 
 public class LoanDto {
 	
@@ -14,9 +14,9 @@ public class LoanDto {
 	
 	private int l_remane;
 	
-	private int _bal;
+	private int l_bal;
 	
-	private Date l_regdate;
+	private Date l_startdate;
 	
 	private Date l_modidate;
 	
@@ -66,20 +66,20 @@ public class LoanDto {
 		this.l_remane = l_remane;
 	}
 
-	public int get_bal() {
-		return _bal;
+	public int getL_bal() {
+		return l_bal;
 	}
 
-	public void set_bal(int _bal) {
-		this._bal = _bal;
+	public void setL_bal(int l_bal) {
+		this.l_bal = l_bal;
 	}
 
-	public Date getL_regdate() {
-		return l_regdate;
+	public Date getL_startdate() {
+		return l_startdate;
 	}
 
-	public void setL_regdate(Date l_regdate) {
-		this.l_regdate = l_regdate;
+	public void setL_startdate(Date l_startdate) {
+		this.l_startdate = l_startdate;
 	}
 
 	public Date getL_modidate() {
@@ -119,7 +119,7 @@ public class LoanDto {
 		// TODO Auto-generated constructor stub
 	}
 
-	public LoanDto(String id, int l_seq, String l_name, int l_money, int l_remane, int _bal, Date l_regdate,
+	public LoanDto(String id, int l_seq, String l_name, int l_money, int l_remane, int _bal, Date l_startdate,
 			Date l_modidate, Date l_enddate, String l_endable, String l_memo) {
 		super();
 		this.id = id;
@@ -127,8 +127,8 @@ public class LoanDto {
 		this.l_name = l_name;
 		this.l_money = l_money;
 		this.l_remane = l_remane;
-		this._bal = _bal;
-		this.l_regdate = l_regdate;
+		this.l_bal = _bal;
+		this.l_startdate = l_startdate;
 		this.l_modidate = l_modidate;
 		this.l_enddate = l_enddate;
 		this.l_endable = l_endable;
@@ -138,7 +138,7 @@ public class LoanDto {
 	@Override
 	public String toString() {
 		return "LoanDto [id=" + id + ", l_seq=" + l_seq + ", l_name=" + l_name + ", l_money=" + l_money + ", l_remane="
-				+ l_remane + ", _bal=" + _bal + ", l_regdate=" + l_regdate + ", l_modidate=" + l_modidate
+				+ l_remane + ", l_bal=" + l_bal + ", l_startdate=" + l_startdate + ", l_modidate=" + l_modidate
 				+ ", l_enddate=" + l_enddate + ", l_endable=" + l_endable + ", l_memo=" + l_memo + "]";
 	}
 	

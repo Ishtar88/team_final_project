@@ -2,14 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 	<mapper namespace="com.jsr.project.acount">
-	
-		<resultMap type="com.jsr.project.dtos.GoalDto" id="GoalDto">
-			<result property="id" column="ID"/>
-			<result property="g_seq" column="G_SEQ"/>
-			<result property="g_name" column="G_NAME"/>
-			<result property="g_money" column="G_MONEY"/>
-			<result property="g_memo" column="G_MEMO"/>
-		</resultMap>
+		
+		<!--////////////// 목표 등록 기능//////////////-->
 		
 		<insert id="goalInsert" parameterType="GoalDto">
 			INSERT INTO GOAL(G_SEQ,ID,G_NAME,G_MONEY,G_MEMO)
@@ -25,6 +19,11 @@
 			VALUES(POINT_SEQ.NEXTVAL,#{id},SYSDATE,'일반','목표설정 포인트 적립',100)
 		</insert>
 		
+		<!-- ////////////////////////////////////////// -->
+		
+		
+		<!--////////////// 자산 정보 조회 기능 //////////////-->
+		
 		<select id="acountTotal" resultType="AcountDto" parameterType="MembersDto">
 			SELECT (ST_SUM+F_SUM+S_SUM) AS AC_MONEY
 					FROM (SELECT DISTINCT SUM(ST_SUM) OVER(PARTITION BY ID) AS ST_SUM,ID 
@@ -39,28 +38,53 @@
 		
 		<select id="stockAllSearch" resultType="StockDto" parameterType="String">
 			SELECT ID,ST_SEQ,ST_NAME,ST_COUNT,ST_MONEY,ST_ADD,ST_BUYDATE,ST_MODIDATE,ST_SELLDATE,ST_SELLABLE,ST_MEMO 
-			FROM STOCK WHERE ID=#{id} AND ST_SELLABLE='N'
+			FROM STOCK WHERE ID=#{id}
 		</select>
 		
 		<select id="fundAllSearch" resultType="FundDto" parameterType="String">
 			SELECT ID,F_SEQ,F_NAME,F_MONEY,F_ADD,F_BUYDATE,F_ENDDATE,F_MEMO
-			FROM FUND WHERE ID=#{id} AND F_ENDABLE='N'
+			FROM FUND WHERE ID=#{id}
 		</select>
 		
 		<select id="loanAllSearch" resultType="LoanDto" parameterType="String">
 			SELECT ID,L_SEQ,L_NAME,L_MONEY,L_REMANE,L_BAL,L_STARTDATE,L_ENDDATE,L_MEMO
-			FROM LOAN WHERE ID=#{id} AND L_ENDABLE='N'
+			FROM LOAN WHERE ID=#{id}
 		</select>
 		
 		<select id="saveAllSearch" resultType="SaveDto" parameterType="String">
 			SELECT ID,S_SEQ,S_NAME,S_DETAIL,S_MONEY,S_ADD,S_TAX,S_COUNT,S_REGDATE,S_STARTDATE,S_ENDDATE,S_ENDABLE,S_MEMO
-			FROM SAVE WHERE ID=#{id} AND S_ENDABLE='N'
+			FROM SAVE WHERE ID=#{id}
 		</select>
+
+		<!-- //////////////////////////////////////////// -->
+
 		
+		<!--////////////// 자산 정보 상세 기능 //////////////-->
+
 		<select id="saveDetailSearch" resultType="SaveDto" parameterType="int">
 			SELECT ID,S_SEQ,S_NAME,S_DETAIL,S_MONEY,S_ADD,S_TAX,S_COUNT,S_REGDATE,S_STARTDATE,S_ENDDATE,S_ENDABLE,S_MEMO
 			FROM SAVE WHERE S_SEQ=#{s_seq}
 		</select>
+
+		<select id="stockDetailSearch" resultType="StockDto" parameterType="int">
+			SELECT ID,ST_SEQ,ST_NAME,ST_DETAIL,ST_MONEY,ST_ADD,ST_COUNT,ST_BUYDATE,ST_MODIDATE,ST_SELLDATE,ST_SELLABLE,ST_MEMO
+			FROM STOCK WHERE ST_SEQ=#{st_seq}
+		</select>
+		
+		<select id="fundDetailSearch" resultType="FundDto" parameterType="int">
+			SELECT ID,F_SEQ,F_NAME,F_MONEY,F_ADD,F_BUYDATE,F_MODIDATE,F_ENDDATE,F_ENDABLE,F_MEMO
+			FROM FUND WHERE F_SEQ=#{f_seq}
+		</select>
+		
+		<select id="loanDetailSearch" resultType="LoanDto" parameterType="int">
+			SELECT ID,L_SEQ,L_NAME,L_MONEY,L_REMANE,L_BAL,L_STARTDATE,L_MODIDATE,L_ENDDATE,L_ENDABLE,L_MEMO
+			FROM LOAN WHERE L_SEQ=#{l_seq}
+		</select>
+
+		<!-- //////////////////////////////////////////// -->
+		
+		
+		<!--////////////// 자산 수정 및 삭제 기능 //////////////-->
 		
 		<delete id="saveDelete" parameterType="int">
 			DELETE FROM SAVE WHERE S_SEQ=#{s_seq} 
@@ -102,7 +126,7 @@
 							,
 							<choose>
 								<when test="s_enddate!=null">
-									S_ENDDATE#{s_enddate}
+									S_ENDDATE=#{s_enddate}
 								</when><otherwise>
 									S_ENDDATE=NULL
 								</otherwise>
@@ -117,5 +141,41 @@
 							</choose>
 			WHERE S_SEQ=#{s_seq}
 		</update>
+		
+		<!-- //////////////////////////////////////////// -->
+		
+		<!--/////////////// 자산 등록 기능 /////////////////////-->
+		<insert id="saveInsert" parameterType="SaveDto">
+			INSERT INTO SAVE(ID,S_SEQ,S_NAME,S_DETAIL,S_MONEY,S_TAX,S_REGDATE,S_STARTDATE,S_ENDDATE,S_MEMO)
+			VALUES(#{id},SAVE_SEQ.NEXTVAL,#{s_name},#{s_detail},#{s_money},#{s_tax},SYSDATE,TO_CHAR(#{s_startdate},'YYYY-MM-DD'),TO_CHAR(#{s_enddate},'YYYY-MM-DD'),#{s_memo})
+		</insert>
+		
+		<update id="saveAddInsert">
+			UPDATE SAVE SET S_ADD=NVL(S_ADD,0)+(SELECT S_MONEY FROM SAVE 
+												WHERE S_SEQ=(SELECT MAX(S_SEQ) FROM SAVE))
+												,S_COUNT=NVL((SELECT S_COUNT FROM SAVE 
+																WHERE S_SEQ=(SELECT MAX(S_SEQ) FROM SAVE)),0)+1 
+			WHERE S_SEQ=(SELECT MAX(S_SEQ) FROM SAVE)
+		</update>
+		
+		<insert id="stockInsert" parameterType="StockDto">
+			INSERT INTO STOCK(ID,ST_SEQ,ST_NAME,ST_COUNT,ST_MONEY,ST_BUYDATE,ST_MEMO)
+			VALUES(#{id},STOCK_SEQ.NEXTVAL,#{st_name},#{st_count},#{st_money},#{st_buydate},#{st_memo})
+		</insert>
+		
+		<insert id="fundInsert" parameterType="FundDto">
+			INSERT INTO FUND(ID,F_SEQ,F_NAME,F_MONEY,F_ADD,F_BUYDATE,F_ENDDATE,F_MEMO)
+			VALUES(#{id},FUND_SEQ.NEXTVAL,#{f_name},#{f_money},#{f_add},#{f_buydate},#{f_enddate},#{f_memo})
+		</insert>
+		
+		<insert id="loanInsert" parameterType="LoanDto">
+			INSERT INTO LOAN(ID,L_SEQ,L_NAME,L_MONEY,L_REMANE,L_STARTDATE,L_ENDDATE,L_MEMO)
+			VALUES(#{id},LOAN_SEQ.NEXTVAL,#{l_name},#{l_money},#{l_remane},#{l_startdate},#{l_enddate},#{l_memo})
+		</insert>
+		
+		<!-- ///////////////////////////////////////////// -->
+		
+		
+		
 		
 	</mapper>
