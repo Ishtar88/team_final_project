@@ -3,10 +3,7 @@ package com.jsr.project.util;
 
 import java.io.PrintWriter;
 
-<<<<<<< HEAD
-=======
 import org.apache.jasper.tagplugins.jstl.core.Out;
->>>>>>> refs/remotes/origin/master
 
 public class Util {
 	
@@ -37,5 +34,4 @@ public class Util {
 		return str;
 	}
 }
-
 
