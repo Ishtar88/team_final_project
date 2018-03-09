@@ -6,7 +6,7 @@
 <head>
 <style type="text/css">
 	
-	h2 {background-color:#343DEA;}
+	#purple {background-color:#343DEA;}
 	
 </style>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -21,7 +21,10 @@
 </head>
 
 <body>
-<h2>헤더 적용됨</h2>
+<div id="purple">
+<h2>헤더 적용됨</h2> 
+<h3><a href="home.do">메인으로 돌아갑세</a></h3>
+</div>
 
 </body>
 </html>

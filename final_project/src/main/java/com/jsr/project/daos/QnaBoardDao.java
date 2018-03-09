@@ -15,7 +15,7 @@ public class QnaBoardDao implements IQnaBoardDao{
 
 	@Autowired
 	private SqlSessionTemplate sqlSession; 
-	private String namespace="com.jsr.project.";
+	private String namespace="com.jsr.project.qnaboard.";
 	
 //	글 목록 조회 - 유저 
 	@Override
@@ -62,7 +62,9 @@ public class QnaBoardDao implements IQnaBoardDao{
 //	답변 글 수정 - 관리자
 	@Override
 	public boolean q_updateReply(QnaBoardDto dto) {
-		return false;
+		int count=0; 
+		count=sqlSession.update(namespace+"q_ansupdate", dto);
+		return count>0?true:false;
 	}
 	
 	
@@ -87,14 +89,14 @@ public class QnaBoardDao implements IQnaBoardDao{
 	public boolean q_mulDelBoard(String[] q_seq) {
 		Map<String, String[]>map=new HashMap<String, String[]>();
 		map.put("q_seqs", q_seq);
-		int count=sqlSession.update(namespace+"q_ansupdate", map); 
+		int count=sqlSession.update(namespace+"q_muldelboard", map); 
 		return count>0?true:false;
 	}
 
 //  ajax 처리
 	@Override
 	public QnaBoardDto q_getBoardAjax(int q_seq) {
-		return sqlSession.selectOne(namespace+"detailAjax", q_seq);
+		return sqlSession.selectOne(namespace+"q_detailAjax", q_seq);
 	}
 
 

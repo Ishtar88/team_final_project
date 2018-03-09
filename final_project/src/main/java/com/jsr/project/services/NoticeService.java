@@ -15,42 +15,42 @@ public class NoticeService implements INoticeService{
 	private INoticeDao noticeDao; 
 	
 	@Override
-	public List<NoticeBoardDto> getAllList() {
+	public List<NoticeBoardDto> n_getAllList() {
 		return noticeDao.n_getAllList();
 	}
 
 	@Override
-	public boolean insertBoard(NoticeBoardDto dto) {
+	public boolean n_insertBoard(NoticeBoardDto dto) {
 		return noticeDao.n_insertBoard(dto);
 	}
 
 	@Override
-	public boolean readcount(int n_seq) {
+	public boolean n_readcount(int n_seq) {
 		return noticeDao.n_readCount(n_seq);
 	}
 
 	@Override
-	public NoticeBoardDto detailBoard(int n_seq) {
+	public NoticeBoardDto n_detailBoard(int n_seq) {
 		return noticeDao.n_detailBoard(n_seq);
 	}
 
 	@Override
-	public boolean updateBoard(NoticeBoardDto dto) {
+	public boolean n_updateBoard(NoticeBoardDto dto) {
 		return noticeDao.n_updateBoard(dto); 
 	}
 
 	@Override
-	public boolean mulDelBoard(String[] n_seq) {
+	public boolean n_mulDelBoard(String[] n_seq) {
 		return noticeDao.n_muldelBoard(n_seq); 
 	}
 
 	@Override
-	public boolean deleteBoard(int n_seq) {
-		return noticeDao.n_deleteOne(n_seq);
+	public boolean n_deleteBoard(NoticeBoardDto dto) {
+		return noticeDao.n_deleteOne(dto);
 	}
 
 	@Override
-	public NoticeBoardDto getBoardAjax(int n_seq) {
+	public NoticeBoardDto n_getBoardAjax(int n_seq) {
 		return noticeDao.n_getBoardAjax(n_seq);
 	}
 

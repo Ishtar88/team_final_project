@@ -6,11 +6,12 @@ pageEncoding="UTF-8"%>
 <%response.setContentType("text/html; charset=UTF-8"); %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="f" %>
+<jsp:include page="..\header.jsp"></jsp:include>
+<jsp:useBean id="util"  class="com.jsr.project.util.Util"  />
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
-<title>Insert title here</title>
+<title>QnA Board Page</title>
 <style type="text/css">
  
  #boardtable {
@@ -24,14 +25,13 @@ pageEncoding="UTF-8"%>
 	}
 	
 	function showoption(){
-		toggle.		
+		toggle;	
 	}
 
 </script>
 </head>
 <body>
-<jsp:include page="..\header.jsp"></jsp:include>
-<jsp:useBean id="util"  class="com.jsr.project.util.Util"  />
+
 <h1 onclick="showoption()">QnA 게시판</h1>
 <div id="boardtable">
 	<table border="1">
@@ -67,13 +67,11 @@ pageEncoding="UTF-8"%>
 						</c:otherwise>
 					</c:choose>
 					<td><f:formatDate value="${dto.q_regDate}" pattern="yy년MM월dd일"/> </td>
-					<div id="options">
 					<td>${dto.q_readcount}</td>
 					<td>${dto.q_refer}</td>
 					<td>${dto.q_step}</td>
 					<td>${dto.q_depth}</td>
 					<td>${dto.q_delflag}</td>
-					</div>
 				</tr>
 			</c:forEach>
 		</c:otherwise>

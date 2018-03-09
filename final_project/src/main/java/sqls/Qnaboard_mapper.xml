@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-	<mapper namespace="com.jsr.project">
+	<mapper namespace="com.jsr.project.qnaboard">
 	
 			<resultMap type="com.jsr.project.dtos.QnaBoardDto" id="QnaBoardDto">
 			<result property="q_seq" column="Q_SEQ"/>
@@ -45,7 +45,7 @@
 			Q_READCOUNT, Q_DELFLAG, Q_VIEWABLE)
 			VALUES 
 			( QNA_SEQ.NEXTVAL, #{id}, #{q_name}, #{q_title}, #{q_content}, SYSDATE, 
-			(SELECT NVL(MAX(REFER)+1), 0) FROM ANSWERBOARD),0,0,0,'N',#{q_viewable})
+			(SELECT NVL(MAX(REFER)+1, 0) FROM ANSWERBOARD),0,0,0,'N',#{q_viewable})
 		</insert>
 		
 <!-- 새로운 답변 입력 -관리자 -->
@@ -61,7 +61,7 @@
 		</insert>
 		
 <!-- 	일반 글 수정  -모두 -->
-	<update id="q_updateboard" parameterType="QnaBoardDto">
+	<update id="q_updateboard" parameterType="Map">
 		UPDATE QNA SET Q_TITLE=#{q_title}, Q_CONTENT=#{q_content}, Q_REGDATE=SYSDATE 
 		WHERE SEQ=#{seq}
 	</update>
@@ -95,7 +95,7 @@
 
 	
 <!-- ajax 처리  -->
-	<select id="detailAjax" parameterType="int" resultType="QnaboardDto">
+	<select id="q_detailAjax" parameterType="int" resultType="QnaBoardDto">
 		SELECT Q_SEQ, ID, Q_TITLE, Q_CONTENT, Q_REFER, Q_STEP, Q_DEPTH,
 		Q_READCONT, Q_DELFLAG, Q_VIEABLE FROM ANSWERBOARD 
 		WHERE Q_SEQ=#{q_seq}

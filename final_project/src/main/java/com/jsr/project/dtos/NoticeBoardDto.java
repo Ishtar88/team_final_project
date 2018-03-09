@@ -8,7 +8,7 @@ public class NoticeBoardDto {
 	private String id;
 	private String n_title;
 	private String n_content;
-	private Date n_regdate;
+	private Date n_regDate;
 	private int n_readcount;
 	private String n_delflag;
 	
@@ -17,14 +17,14 @@ public class NoticeBoardDto {
 	}
 	
 	
-	public NoticeBoardDto(int n_seq, String id, String n_title, String n_content, Date n_regdate, int n_readcount,
+	public NoticeBoardDto(int n_seq, String id, String n_title, String n_content, Date n_regDate, int n_readcount,
 			String n_delflag) {
 		super();
 		this.n_seq = n_seq;
 		this.id = id;
 		this.n_title = n_title;
 		this.n_content = n_content;
-		this.n_regdate = n_regdate;
+		this.n_regDate = n_regDate;
 		this.n_readcount = n_readcount;
 		this.n_delflag = n_delflag;
 	}
@@ -34,7 +34,7 @@ public class NoticeBoardDto {
 	@Override
 	public String toString() {
 		return "NoticeBoardDto [n_seq=" + n_seq + ", id=" + id + ", n_title=" + n_title + ", n_content=" + n_content
-				+ ", n_regdate=" + n_regdate + ", n_readcount=" + n_readcount + ", n_delflag=" + n_delflag + "]";
+				+ ", n_regDate=" + n_regDate + ", n_readcount=" + n_readcount + ", n_delflag=" + n_delflag + "]";
 	}
 	public int getN_seq() {
 		return n_seq;
@@ -60,11 +60,11 @@ public class NoticeBoardDto {
 	public void setN_content(String n_content) {
 		this.n_content = n_content;
 	}
-	public Date getN_regdate() {
-		return n_regdate;
+	public Date getn_regDate() {
+		return n_regDate;
 	}
-	public void setN_regdate(Date n_regdate) {
-		this.n_regdate = n_regdate;
+	public void setn_regDate(Date n_regDate) {
+		this.n_regDate = n_regDate;
 	}
 	public int getN_readcount() {
 		return n_readcount;

@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.jsr.project.dtos.NoticeBoardDto;
 import com.jsr.project.dtos.QnaBoardDto;
 import com.jsr.project.services.INoticeService;
 import com.jsr.project.services.IQnaService;
@@ -30,13 +31,22 @@ public class CustomerController {
 	//Qnaservice랑 NoticeService를 넣을거예요. 
 	@Autowired
 	private IQnaService qnaService;
+	
+	@Autowired
 	private INoticeService noticeService;
 	
 
 	///////////////
 	//공지게시판 명령 
 	
-	
+	@RequestMapping(value="notice.do", method = {RequestMethod.POST, RequestMethod.GET})
+	public String notice_home(Model model) {
+		logger.info("notice board main page");
+		List<NoticeBoardDto> lists=noticeService.n_getAllList(); 
+		System.out.println(lists.size());
+		model.addAttribute("lists", lists);
+		return "customer/noticeboardmain";
+	}
 	
 	
 	
@@ -48,14 +58,18 @@ public class CustomerController {
 	
 	//고객센터 메인보기
 	@RequestMapping(value = "/customer.do", method = {RequestMethod.POST,RequestMethod.GET})
-	public String home() {
+	public String customer_home(Locale locale, Model model) {
 		logger.info("customer board main page");
+		List<QnaBoardDto> q_lists=qnaService.q_getAlllist();
+		List<NoticeBoardDto> n_lists=noticeService.n_getAllList(); 
+		model.addAttribute("q_lists", q_lists);
+		model.addAttribute("n_lists", n_lists);
 		return "customer/Customer_main";
 	}
 	
 	//질문게시판 목록페이지 보기 
 	@RequestMapping(value="/qnamain.do", method={RequestMethod.POST,RequestMethod.GET})
-	public String qnalist(Locale locale, Model model) {
+	public String qnalist(Model model) {
 		logger.info("qna board main page"); 
 			List<QnaBoardDto> lists=qnaService.q_getAlllist();
 			model.addAttribute("lists", lists);

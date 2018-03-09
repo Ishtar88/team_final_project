@@ -23,7 +23,7 @@ public class Util {
 		for (int i = 0; i < depthInt; i++) {
 			nbsp+="&nbsp;&nbsp;&nbsp;&nbsp;";
 		}
-		this.arrowNbsp = (depthInt>0?nbsp+"<img src='img/arrow.png' alt='�떟湲�'/>":"");
+		this.arrowNbsp = (depthInt>0?nbsp+"<img src='img/arrow.png' alt='답글'/>":"");
 	}
 
 	public static String jsForward(String msg,String url){

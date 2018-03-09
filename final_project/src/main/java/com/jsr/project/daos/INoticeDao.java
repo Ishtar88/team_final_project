@@ -12,6 +12,6 @@ public interface INoticeDao {
 	public boolean n_readCount(int n_seq);
 	public boolean n_updateBoard(NoticeBoardDto dto); 
 	public boolean n_muldelBoard(String[] n_seq); 
-	public boolean n_deleteOne(int n_seq);
+	public boolean n_deleteOne(NoticeBoardDto dto);
 	public NoticeBoardDto n_getBoardAjax(int n_seq);
 }
