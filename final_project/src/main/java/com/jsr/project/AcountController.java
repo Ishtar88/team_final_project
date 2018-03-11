@@ -4,7 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -32,6 +32,119 @@ public class AcountController {
 	
 	@Autowired
 	private IAcountService acountService;
+	
+	String reVal="";
+	
+	public String detail_factory(String acount,String seq,Model model) {
+		logger.info("aocunt_detail factory start");
+		
+		int a_seq=Integer.parseInt(seq);
+		
+		if (acount.equals("save")) {
+			
+			SaveDto svDto=acountService.saveDetailSearch(a_seq);
+			model.addAttribute("svDto", svDto);
+			System.out.println("svDto: "+svDto);
+			
+			reVal="acount/save/save_detail";
+			
+		}else if (acount.equals("stock")) {
+
+			StockDto sDto=acountService.stockDetailSearch(a_seq);
+			model.addAttribute("sDto", sDto);
+			System.out.println("sDto: "+sDto);
+			
+			reVal="acount/stock/stock_detail";
+			
+		}else if (acount.equals("fund")) {
+
+			FundDto fDto=acountService.fundDetailSearch(a_seq);
+			model.addAttribute("fDto", fDto);
+			System.out.println("fDto: "+fDto);
+			
+			reVal="acount/fund/fund_detail";
+			
+		}else if (acount.equals("loan")) {
+
+			LoanDto lDto=acountService.loanDetailSearch(a_seq);
+			model.addAttribute("lDto", lDto);
+			System.out.println("lDto: "+lDto);
+			
+			reVal="acount/loan/loan_detail";
+			
+		}
+		
+		logger.info("save detail end.");
+		
+		return reVal;
+	}
+	
+	public String delete_factory(Model model,String seq,String acount) {
+		logger.info("acount delete factory start");
+		
+		int a_seq=Integer.parseInt(seq);
+		
+		if (acount.equals("save")) {
+			
+			logger.info("save delete start");
+				
+			boolean isc=acountService.saveDelete(a_seq);
+			if(isc) {
+				model.addAttribute("isc", isc);
+				logger.info("save delete success");
+			}else {
+				model.addAttribute("isc", isc);
+				logger.info("save delete fail");
+			}
+			
+			reVal="acount/save/save_detail";
+				
+		}else if (acount.equals("stock")) {
+			
+			logger.info("stock delete start");
+			
+			boolean isc=acountService.stockDelete(a_seq);
+			if(isc) {
+				model.addAttribute("isc", isc);
+				logger.info("stock delete success.");
+			}else {
+				model.addAttribute("isc", isc);
+				logger.info("stock delete fail.");
+			}
+			reVal="acount/stock/stock_detail";
+			
+		}else if (acount.equals("fund")) {
+			
+			logger.info("fund delete start");
+			
+			boolean isc=acountService.fundDelete(a_seq);
+			if(isc) {
+				model.addAttribute("isc", isc);
+				logger.info("fund delete success.");
+			}else {
+				model.addAttribute("isc", isc);
+				logger.info("fund delete fail.");
+			}
+			reVal="acount/fund/fund_detail";
+			
+		}else if (acount.equals("loan")) {
+			
+			logger.info("loan delete start");
+			
+			boolean isc=acountService.loanDelete(a_seq);
+			if(isc) {
+				model.addAttribute("isc", isc);
+				logger.info("loan delete success.");
+			}else {
+				model.addAttribute("isc", isc);
+				logger.info("loan delete fail.");
+			}
+			reVal="acount/loan/loan_detail";
+			
+		}
+		
+		return reVal;
+	}
 	
 	/**
 	 * Simply selects the home view to render by returning its name.
@@ -77,7 +190,6 @@ public class AcountController {
 	@RequestMapping(value = "/goal_main.do", method = RequestMethod.GET)
 	public String goal_main() {
 		logger.info("goal main page");
-		
 		
 		return "acount/goal_main";
 	}
@@ -132,74 +244,16 @@ public class AcountController {
 		return "acount/goal_main";
 	}
 
-	@RequestMapping(value = "/save_detail.do", method = RequestMethod.GET)
-	public String save_detail(Model model,String seq) {
+	@RequestMapping(value = "/acount_detail.do", method = RequestMethod.GET)
+	public String acount_detail(Model model,String seq,String acount) {
 		logger.info("save detail start");
 
-		System.out.println("seq: "+seq);
-		
-		int s_seq=Integer.parseInt(seq);
-		
-		SaveDto svDto=acountService.saveDetailSearch(s_seq);
-		model.addAttribute("svDto", svDto);
-		
-		System.out.println("svDto: "+svDto);
+		reVal=detail_factory(acount, seq, model);
 		
 		logger.info("save detail end");
-		return "acount/save/save_detail";
+		
+		return reVal;
 	}
-	
-	@RequestMapping(value = "/stock_detail.do", method = RequestMethod.GET)
-	public String stock_detail(Model model,String seq) {
-		logger.info("stock detail start");
-
-		System.out.println("seq: "+seq);
-		
-		int st_seq=Integer.parseInt(seq);
-		
-		StockDto sDto=acountService.stockDetailSearch(st_seq);
-		model.addAttribute("sDto", sDto);
-		
-		System.out.println("sDto: "+sDto);
-		
-		logger.info("stock detail end");
-		return "acount/stock/stock_detail";
-	}
-	
-	@RequestMapping(value = "/fund_detail.do", method = RequestMethod.GET)
-	public String fund_detail(Model model,String seq) {
-		logger.info("fund detail start");
-
-		System.out.println("seq: "+seq);
-		
-		int f_seq=Integer.parseInt(seq);
-		
-		FundDto fDto=acountService.fundDetailSearch(f_seq);
-		model.addAttribute("fDto", fDto);
-		
-		System.out.println("fDto: "+fDto);
-		
-		logger.info("fund detail end");
-		return "acount/fund/fund_detail";
-	}
-	
-	@RequestMapping(value = "/loan_detail.do", method = RequestMethod.GET)
-	public String loan_detail(Model model,String seq) {
-		logger.info("loan detail start");
-
-		System.out.println("seq: "+seq);
-		
-		int l_seq=Integer.parseInt(seq);
-		
-		LoanDto lDto=acountService.loanDetailSearch(l_seq);
-		model.addAttribute("lDto", lDto);
-		
-		System.out.println("lDto: "+lDto);
-		
-		logger.info("loan detail end");
-		return "acount/loan/loan_detail";
-	}
-	
 	
 	
 	@RequestMapping(value = "/save_update_page.do", method = RequestMethod.GET)
@@ -210,66 +264,36 @@ public class AcountController {
 		
 		SaveDto svDto=acountService.saveDetailSearch(s_seq);
 		
-		//java.util.Date일때
-/*		try {
-			Date date=svDto.getS_startdate();
-			SimpleDateFormat stDf=new SimpleDateFormat("YYYY-MM-DD HH:mm:ss");
-			String stDate=stDf.format(date);
-			SimpleDateFormat stDf2=new SimpleDateFormat("YYYY-MM-DD");
-			Date s_startdate= stDf2.parse(stDate);
-			svDto.setS_startdate(s_startdate);
-			System.out.println(s_startdate);
-			
-			Date date2=svDto.getS_enddate();
-			SimpleDateFormat enDf=new SimpleDateFormat("YYYY-MM-DD HH:mm:ss");
-			String enDate=enDf.format(date2);
-			SimpleDateFormat enDf2=new SimpleDateFormat("YYYY-MM-DD");
-			Date s_enddate= enDf2.parse(enDate);
-			svDto.setS_startdate(s_enddate);
-			
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
-		
 		model.addAttribute("svDto", svDto);
 		
 		return "acount/save/save_update_page";
 	}
 
-	@RequestMapping(value = "/save_cancel.do", method = RequestMethod.GET)
-	public String save_cancel(Model model,String seq) {
-		logger.info("save cancel");
+	@RequestMapping(value = "/acount_cancel.do", method = RequestMethod.GET)
+	public String save_cancel(Model model,String seq,String acount) {
+		logger.info("acount cancel start");
 		
-		int s_seq=Integer.parseInt(seq);
+		reVal=detail_factory(acount, seq, model);
 		
-		SaveDto svDto=acountService.saveDetailSearch(s_seq);
-		model.addAttribute("svDto", svDto);
+		logger.info("acount cancel end.");
 		
-		return "acount/save/save_detail";
+		return reVal;
 	}
 
-	@RequestMapping(value = "/save_delete.do", method = RequestMethod.GET)
-	public String save_delete(Model model,String seq,HttpServletResponse response) {
-		logger.info("save delete start");
+	@RequestMapping(value = "/acount_delete.do", method = RequestMethod.GET)
+	public String acount_delete(Model model,String seq,String acount,HttpServletResponse response) {
+		logger.info("acount delete start");
 		
-		int s_seq=Integer.parseInt(seq);
+		delete_factory(model, seq, acount);
 		
-		boolean isc=acountService.saveDelete(s_seq);
-		if(isc) {
-			model.addAttribute("isc", isc);
-		}else {
-			model.addAttribute("isc", isc);
-		}
-		
-		return "acount/save/save_detail";
+		return reVal;
 	}
 	
 	@RequestMapping(value = "/save_update.do", method = RequestMethod.POST)
-	public String save_update(Model model,SaveDto dto) throws ParseException {
+	public String save_update(Model model,SaveDto dto) {
 		logger.info("save update start");
 		
-			Date stDate=dto.getS_startdate();
+/*			Date stDate=dto.getS_startdate();
 			
 			SimpleDateFormat df=new SimpleDateFormat("YYYY-MM-DD");
 			String st=df.format(stDate);
@@ -285,7 +309,7 @@ public class AcountController {
 			
 			System.out.println(endDate);
 			
-			dto.setS_startdate(endDate);
+			dto.setS_startdate(endDate);*/
 			
 		
 		boolean isc=acountService.saveUpdate(dto);
@@ -304,6 +328,130 @@ public class AcountController {
 		return "acount/save/save_detail";
 	}
 	
+	@RequestMapping(value = "/stock_update.do", method = RequestMethod.POST)
+	public String stock_update(Model model,StockDto dto) {
+		logger.info("save update start");
+		
+			Date stDate=dto.getSt_buydate();
+			
+			SimpleDateFormat df=new SimpleDateFormat("YYYY-MM-DD");
+			String st=df.format(stDate);
+			java.sql.Date startDate = java.sql.Date.valueOf(st);
+			System.out.println(startDate);
+			
+			dto.setSt_buydate(startDate);
+			
+			Date enDate=dto.getSt_selldate();
+			SimpleDateFormat df2=new SimpleDateFormat("YYYY-MM-DD");
+			String en=df2.format(enDate);
+			java.sql.Date endDate = java.sql.Date.valueOf(en);
+			
+			System.out.println(endDate);
+			
+			dto.setSt_selldate(endDate);
+			
+		
+		boolean isc=acountService.stockupdate(dto);
+		if (isc) {
+			System.out.println("save update end");
+		}else {
+			System.out.println("save update fail");
+		}
+		
+		int s_seq=dto.getSt_seq();
+		
+		StockDto sDto=acountService.stockDetailSearch(s_seq);
+		model.addAttribute("sDto", sDto);
+		
+		return "acount/stock/stock_detail";
+	}
+	
+	
+	@RequestMapping(value = "/fund_update.do", method = RequestMethod.POST)
+	public String fund_update(Model model,FundDto dto) {
+		logger.info("save update start");
+		
+			Date stDate=dto.getF_buydate();
+			
+			SimpleDateFormat df=new SimpleDateFormat("YYYY-MM-DD");
+			String st=df.format(stDate);
+			java.sql.Date startDate = java.sql.Date.valueOf(st);
+			System.out.println(startDate);
+			
+			dto.setF_buydate(startDate);
+			
+			Date enDate=dto.getF_enddate();
+			SimpleDateFormat df2=new SimpleDateFormat("YYYY-MM-DD");
+			String en=df2.format(enDate);
+			java.sql.Date endDate = java.sql.Date.valueOf(en);
+			
+			System.out.println(endDate);
+			
+			dto.setF_enddate(endDate);
+			
+		
+		boolean isc=acountService.fundUpdate(dto);
+		if (isc) {
+			System.out.println("save update end");
+		}else {
+			System.out.println("save update fail");
+		}
+		
+		int s_seq=dto.getF_seq();
+		
+		FundDto fDto=acountService.fundDetailSearch(s_seq);
+		model.addAttribute("fDto", fDto);
+		
+		
+		return "acount/fund/fund_detail";
+	}
+	
+	@RequestMapping(value = "/loan_update.do", method = RequestMethod.POST)
+	public String loan_update(Model model,LoanDto dto) {
+		logger.info("save update start");
+		
+			try {
+				Date stDate=dto.getL_startdate();
+				
+				SimpleDateFormat inputDf=new SimpleDateFormat("YYYY-MM-DD HH:mm:ss");
+				SimpleDateFormat df=new SimpleDateFormat("YYYY-MM-DD");
+				String inputDate=inputDf.format(stDate);
+				Date startDate=df.parse(inputDate);
+				
+				dto.setL_startdate(startDate);
+				
+				Date enDate=dto.getL_enddate();
+				SimpleDateFormat df2=new SimpleDateFormat("YYYY-MM-DD");
+				String en=df2.format(enDate);
+				java.sql.Date endDate = java.sql.Date.valueOf(en);
+				
+				System.out.println(endDate);
+				
+				dto.setL_enddate(endDate);
+				
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+			
+		
+		boolean isc=acountService.loanUpdate(dto);
+		if (isc) {
+			System.out.println("save update end");
+		}else {
+			System.out.println("save update fail");
+		}
+		
+		int s_seq=dto.getL_seq();
+		
+		LoanDto lDto=acountService.loanDetailSearch(s_seq);
+		model.addAttribute("lDto", lDto);
+		
+		
+		return "acount/loan/loan_detail";
+	}
+	
+	
+	
 	@RequestMapping(value = "/acount_insert_page.do", method = RequestMethod.GET)
 	public String save_insert_page(Model model,String seq,HttpSession session) {
 		logger.info("save insert page");
@@ -319,20 +467,36 @@ public class AcountController {
 	public String save_insert(SaveDto dto) {
 		logger.info("save insert start");
 		
-/*		//시작날짜
-		Date stInputDate=dto.getS_startdate();
-		SimpleDateFormat df=new SimpleDateFormat("YYYY-MM-DD HH:mm:ss");
-		String stInput=df.format(stInputDate);
-		java.sql.Date stDate = java.sql.Date.valueOf(stInput);
-		dto.setS_startdate(stDate);
+		System.out.println("input saveDto: "+dto);
 		
+		try {
+			//시작날짜
+			Date stDate=dto.getS_startdate();
+			SimpleDateFormat inputDf=new SimpleDateFormat("YYYY-MM-DD HH:mm:ss");
+			SimpleDateFormat df=new SimpleDateFormat("YYYY-MM-DD");
+			String inputDate=inputDf.format(stDate);
+			Date startDate=df.parse(inputDate);
+					
+			dto.setS_startdate(startDate);
+			
+			
+			Date enInputDate=dto.getS_enddate();
+			SimpleDateFormat inputDf2=new SimpleDateFormat("YYYY-MM-DD HH:mm:ss");
+			SimpleDateFormat df2=new SimpleDateFormat("YYYY-MM-DD");
+			String inputDate2=inputDf.format(enInputDate);
+			Date enDate=df.parse(inputDate2);
+			dto.setS_startdate(enDate);
+			
 		//만기날짜
-		Date enInputDate=dto.getS_enddate();
-		SimpleDateFormat df2=new SimpleDateFormat("YYYY-MM-DD HH:mm:ss");
+/*		Date enInputDate=dto.getS_enddate();
+		SimpleDateFormat df2=new SimpleDateFormat("YYYY-MM-DD");
 		String enInput=df2.format(enInputDate);
 		java.sql.Date enDate = java.sql.Date.valueOf(enInput);
 		dto.setS_startdate(enDate);*/
 		
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
 		
 		boolean isc=acountService.saveInsert(dto);
 		if (isc) {
@@ -341,8 +505,47 @@ public class AcountController {
 			System.out.println("save insert fail.");
 		}
 		
+		return "redirect:acount.do";
+	}
+	
+	@RequestMapping(value = "/stock_insert.do", method = RequestMethod.POST)
+	public String stock_insert(StockDto dto) {
+		logger.info("stock insert start");
 		
+		boolean isc=acountService.stockInsert(dto);
+		if (isc) {
+			System.out.println("stock insert success.");
+		}else {
+			System.out.println("stock insert fail.");
+		}
 		
+		return "redirect:acount.do";
+	}
+	
+	@RequestMapping(value = "/fund_insert.do", method = RequestMethod.POST)
+	public String fund_insert(FundDto dto) {
+		logger.info("fund insert start");
+		
+		boolean isc=acountService.fundInsert(dto);
+		if (isc) {
+			System.out.println("fund insert success.");
+		}else {
+			System.out.println("fund insert fail.");
+		}
+		
+		return "redirect:acount.do";
+	}
+	
+	@RequestMapping(value = "/loan_insert.do", method = RequestMethod.POST)
+	public String loan_insert(LoanDto dto) {
+		logger.info("stock insert start");
+		
+		boolean isc=acountService.loanInsert(dto);
+		if (isc) {
+			System.out.println("loan insert success.");
+		}else {
+			System.out.println("loan insert fail.");
+		}
 		
 		return "redirect:acount.do";
 	}

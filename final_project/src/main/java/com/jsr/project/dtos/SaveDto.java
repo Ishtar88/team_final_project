@@ -1,6 +1,6 @@
 package com.jsr.project.dtos;
 
-import java.sql.Date;
+import java.util.Date;
 
 public class SaveDto {
 	
@@ -164,6 +164,8 @@ public class SaveDto {
 				+ s_regdate + ", s_startdate=" + s_startdate + ", s_enddate=" + s_enddate + ", s_endable=" + s_endable
 				+ ", s_memo=" + s_memo + "]";
 	}
+
+
 	
 
 }

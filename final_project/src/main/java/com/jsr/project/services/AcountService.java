@@ -46,19 +46,7 @@ public class AcountService implements IAcountService {
 		return acountDaoImp.acountTotalSearch(dto);
 	}
 	
-	@Override
-	public boolean acountAllSearch(String id) {
-		boolean isc=false;
-		
-		acountDaoImp.stockAllSearch(id);
-		acountDaoImp.fundAllSearch(id);
-		acountDaoImp.loanAllSearch(id);
-		acountDaoImp.saveAllSearch(id);
-		
-		return false;
-	}
-	
-	
+	//----------------------------------------------
 
 	@Override
 	public List<StockDto> stockAllSearch(String id) {
@@ -79,21 +67,74 @@ public class AcountService implements IAcountService {
 	public List<SaveDto> saveAllSearch(String id) {
 		return acountDaoImp.saveAllSearch(id);
 	}
+	
+	//----------------------------------------------
 
 	@Override
 	public SaveDto saveDetailSearch(int seq) {
 		return acountDaoImp.saveDetailSearch(seq);
 	}
+	
+	@Override
+	public StockDto stockDetailSearch(int seq) {
+		return acountDaoImp.stockDetailSearch(seq);
+	}
+
+	@Override
+	public FundDto fundDetailSearch(int seq) {
+		return acountDaoImp.fundDetailSearch(seq);
+	}
+
+	@Override
+	public LoanDto loanDetailSearch(int seq) {
+		return acountDaoImp.loanDetailSearch(seq);
+	}
+	
+	//----------------------------------------------
 
 	@Override
 	public boolean saveDelete(int seq) {
 		return acountDaoImp.saveDelete(seq);
 	}
+	
+	@Override
+	public boolean stockDelete(int seq) {
+		return acountDaoImp.stockDelete(seq);
+	}
+
+	@Override
+	public boolean fundDelete(int seq) {
+		return acountDaoImp.fundDelete(seq);
+	}
+
+	@Override
+	public boolean loanDelete(int seq) {
+		return acountDaoImp.loanDelete(seq);
+	}
+	
+	//----------------------------------------------
 
 	@Override
 	public boolean saveUpdate(SaveDto dto) {
 		return acountDaoImp.saveUpdate(dto);
 	}
+	
+	@Override
+	public boolean stockupdate(StockDto dto) {
+		return acountDaoImp.stockupdate(dto);
+	}
+
+	@Override
+	public boolean fundUpdate(FundDto dto) {
+		return acountDaoImp.fundUpdate(dto);
+	}
+
+	@Override
+	public boolean loanUpdate(LoanDto dto) {
+		return acountDaoImp.loanUpdate(dto);
+	}
+	
+	//----------------------------------------------
 
 	@Override
 	public boolean goalRegInsert(GoalDto dto) {
@@ -126,20 +167,12 @@ public class AcountService implements IAcountService {
 		return acountDaoImp.loanInsert(dto);
 	}
 
-	@Override
-	public StockDto stockDetailSearch(int seq) {
-		return acountDaoImp.stockDetailSearch(seq);
-	}
 
-	@Override
-	public FundDto fundDetailSearch(int seq) {
-		return acountDaoImp.fundDetailSearch(seq);
-	}
 
-	@Override
-	public LoanDto loanDetailSearch(int seq) {
-		return acountDaoImp.loanDetailSearch(seq);
-	}
+
+
+
+
 
 
 	

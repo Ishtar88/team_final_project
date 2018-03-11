@@ -90,6 +90,18 @@
 			DELETE FROM SAVE WHERE S_SEQ=#{s_seq} 
 		</delete>
 		
+		<delete id="stockDetele" parameterType="int">
+			DELETE FROM STOCK WHERE ST_SEQ=#{st_seq} 
+		</delete>
+		
+		<delete id="fundDelete" parameterType="int">
+			DELETE FROM FUND WHERE F_SEQ=#{f_seq} 
+		</delete>
+		
+		<delete id="loanDelete" parameterType="int">
+			DELETE FROM LOAN WHERE L_SEQ=#{l_seq} 
+		</delete>
+		
 		<update id="saveUpdate" parameterType="SaveDto">
 			UPDATE SAVE SET 
 							<choose>
@@ -142,12 +154,160 @@
 			WHERE S_SEQ=#{s_seq}
 		</update>
 		
+		<update id="stockUpdate" parameterType="StockDto">
+			UPDATE STOCK SET 
+							<choose>
+								<when test="st_name!=null">
+									ST_NAME=#{st_name}
+								</when><otherwise>
+									ST_NAME=NULL
+								</otherwise>
+							</choose>
+							,
+							<choose>
+								<when test="st_money!=null">
+									ST_MONEY=#{st_money}
+								</when><otherwise>
+									ST_MOENY=NULL
+								</otherwise>
+							</choose>
+							,
+							<choose>
+								<when test="st_count!=null">
+									ST_COUNT=#{st_count}
+								</when><otherwise>
+									ST_COUNT=NULL
+								</otherwise>
+							</choose>
+							,
+							<choose>
+								<when test="st_add!=null">
+									ST_ADD=#{st_add}
+								</when><otherwise>
+									ST_ADD=NULL
+								</otherwise>
+							</choose>
+							,
+							<choose>
+								<when test="st_buydate!=null">
+									ST_BUYDATE=#{st_buydate}
+								</when><otherwise>
+									ST_BUYDATE=NULL
+								</otherwise>
+							</choose>
+							,
+							<choose>
+								<when test="st_memo!=null">
+									ST_MEMO=#{st_memo}
+								</when><otherwise>
+									ST_MEMO=NULL
+								</otherwise>
+							</choose>
+			WHERE ST_SEQ=#{st_seq}
+		</update>
+		
+		<update id="fundUpdate" parameterType="FundDto">
+			UPDATE FUND SET 
+							<choose>
+								<when test="f_name!=null">
+									F_NAME=#{f_name}
+								</when><otherwise>
+									F_NAME=NULL
+								</otherwise>
+							</choose>
+							,
+							<choose>
+								<when test="f_money!=null">
+									F_MONEY=#{f_money}
+								</when><otherwise>
+									F_MOENY=NULL
+								</otherwise>
+							</choose>
+							,
+							<choose>
+								<when test="f_add!=null">
+									F_ADD=#{f_add}
+								</when><otherwise>
+									F_ADD=NULL
+								</otherwise>
+							</choose>
+							,
+							<choose>
+								<when test="f_buydate!=null">
+									F_BUYDATE=#{f_buydate}
+								</when><otherwise>
+									F_BUYDATE=NULL
+								</otherwise>
+							</choose>
+							,
+							<choose>
+								<when test="f_enddate!=null">
+									F_ENDDATE=#{f_enddate}
+								</when><otherwise>
+									F_ENDDATE=NULL
+								</otherwise>
+							</choose>
+							,
+							<choose>
+								<when test="f_memo!=null">
+									F_MEMO=#{f_memo}
+								</when><otherwise>
+									F_MEMO=NULL
+								</otherwise>
+							</choose>
+			WHERE F_SEQ=#{f_seq}
+		</update>
+		
+		<update id="loanUpdate" parameterType="LoanDto">
+			UPDATE LOAN SET 
+							<choose>
+								<when test="l_name!=null">
+									L_NAME=#{l_name}
+								</when><otherwise>
+									L_NAME=NULL
+								</otherwise>
+							</choose>
+							,
+							<choose>
+								<when test="l_money!=null">
+									L_MONEY=#{l_money}
+								</when><otherwise>
+									L_MOENY=NULL
+								</otherwise>
+							</choose>
+							,
+							<choose>
+								<when test="l_startdate!=null">
+									L_STARTDATE=#{l_startdate}
+								</when><otherwise>
+									L_STARTDATE=NULL
+								</otherwise>
+							</choose>
+							,
+							<choose>
+								<when test="l_enddate!=null">
+									L_ENDDATE=#{l_enddate}
+								</when><otherwise>
+									L_ENDDATE=NULL
+								</otherwise>
+							</choose>
+							,
+							<choose>
+								<when test="l_memo!=null">
+									L_MEMO=#{l_memo}
+								</when><otherwise>
+									L_MEMO=NULL
+								</otherwise>
+							</choose>
+			WHERE L_SEQ=#{l_seq}
+		</update>
+		
 		<!-- //////////////////////////////////////////// -->
 		
 		<!--/////////////// 자산 등록 기능 /////////////////////-->
 		<insert id="saveInsert" parameterType="SaveDto">
 			INSERT INTO SAVE(ID,S_SEQ,S_NAME,S_DETAIL,S_MONEY,S_TAX,S_REGDATE,S_STARTDATE,S_ENDDATE,S_MEMO)
-			VALUES(#{id},SAVE_SEQ.NEXTVAL,#{s_name},#{s_detail},#{s_money},#{s_tax},SYSDATE,TO_CHAR(#{s_startdate},'YYYY-MM-DD'),TO_CHAR(#{s_enddate},'YYYY-MM-DD'),#{s_memo})
+			VALUES(#{id},SAVE_SEQ.NEXTVAL,#{s_name},#{s_detail},#{s_money},#{s_tax},SYSDATE,TO_DATE(#{s_startdate},'YYYY-MM-DD HH:mm:ss'),TO_DATE(#{s_enddate},'YYYY-MM-DD HH:mm:ss'),#{s_memo})
 		</insert>
 		
 		<update id="saveAddInsert">

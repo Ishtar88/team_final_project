@@ -21,5 +21,6 @@
 		<mapper resource="/sqls/Acount_mapper.xml"/>
 		<mapper resource="/sqls/Qnaboard_mapper.xml"/>
 		<mapper resource="/sqls/Noticeboard_mapper.xml"/>
+		<mapper resource="/sqls/Income_mapper.xml"/>
 	</mappers>
 </configuration>

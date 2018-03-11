@@ -67,15 +67,29 @@ window.onload = function () {
 	}
 </script>
 <style type="text/css">
-
-	
+		body{position: relative;}
+	.income_header_wrap{
+		text-align: center;
+		border: 1px;
+	}
+	.income_canvas_wrap,.income_total_wrap{
+		align-content: center;
+	}
+	.income_body_wrap{
+		align-content: center;
+	}
+	.income_total_wrap{
+		left: 500px;
+		width: 200px; height: 200px;
+		background-color: grey;
+	}	
 </style>
 </head>
 <body>
 <div class="acount_body_wrap">
 	<header>
 		<div class="income_canvas_wrap">
-			<div id="chartContainer" style="height: 300px; width: 100%;"></div>
+			<div id="chartContainer" style="height: 400px; width: 50%;"></div>
 			<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 		</div>
 		<div class="income_total_wrap">
@@ -93,14 +107,14 @@ window.onload = function () {
 		<div class="income_header_wrap">
 			<header>
 				<div class="ui right aligned">
-				    <a href="#" >◁◁</a>
-				    <a href="#" >◀</a>
 				    <div class="income_searchDate">
-				    	<span class="income_year"></span>
-				    	<span class="income_month"></span>
+					    <a href="#" >◁◁</a>
+					    <a href="#" >◀</a>
+					    	<span class="income_year">${year }년 </span>
+					    	<span class="income_month">${month }월</span>
+					    <a href="#" >▶</a>
+					    <a href="#" >▷▷</a>
 				    </div>
-				    <a href="#" >▷▷</a>
-				    <a href="#" >▶</a>
 			    </div>
 			    <div class="income_updateForm">
 			    	<a></a>
@@ -164,157 +178,7 @@ window.onload = function () {
 					</c:choose>
 				</table>
 			</div>
-		  <!------  ---------->		
-		<!---  주식정보 테이블   ---->
-		  <!------  ---------->
-		<div class="acount_body">
-			<div class="stock_body">
-				<header>
-					<a onclick="stToggle()">
-						<img alt="plus/minus_icon" class="st_icon" src="resources/icon/plus.png" style="width: 20px; height: 20px;">
-					</a>
-					<span style="vertical-align: middle;">주식</span>
-				</header>
-				<table class="stock_Tr" border="1" style="display: none;">
-					<tr>
-						<th>주식명</th>
-						<th>구매 수량</th>
-						<th>매수 금액</th>
-						<th>손익률</th>
-						<th>평가금</th>
-						<th>매수날짜</th>
-					</tr>
-					<c:choose>
-						<c:when test="${empty sList }">
-							<tr>
-								<td colspan="7" style="text-align: center;">-------조회된 결과가 없습니다.--------</td>
-							</tr>
-						</c:when><c:otherwise>
-							<c:forEach items="${sList }" var="sDto">
-								<tr>
-									<td>${sDto.st_name }</td>
-									<td>${sDto.st_count }</td>
-									<td>${sDto.st_count*sDto.st_money } 원</td>
-									<td>${sDto.st_money/sDto.st_add } %</td>
-									<td>${sDto.st_count*sDto.st_add }원 </td>
-									<td>${sDto.st_buydate }</td>
-								</tr>
-							</c:forEach>
-								<tr>
-								<td colspan="4"></td>
-									<th>합계</th>
-									<td>
-										<c:set var="total" value="0" />
-										<c:forEach items="${sList}" var="sDto">
-											<c:set var="total" value="${total+(sDto.st_count*sDto.st_add)}" />
-										</c:forEach>
-										${total}
-									</td>
-								</tr>	
-						</c:otherwise>
-					</c:choose>
-				</table>
-			</div>
-			
-		  <!------  ---------->		
-		<!---  펀드정보 테이블   ---->
-		  <!------  ---------->
-		  	<div class="fund_body">
-				<header>
-					<a onclick="fdToggle()">
-						<img alt="plus/minus_icon" src="resources/icon/plus.png" style="width: 20px; height: 20px;">
-					</a>
-					<span style="vertical-align: middle;">펀드</span>
-				</header>
-				<table class="fund_Tr" border="1" style="display: none;">
-					<tr>
-						<th>펀드명</th>
-						<th>투자원금</th>
-						<th>손익률</th>
-						<th>평가금</th>
-						<th>등록날짜</th>
-						<th>만기날짜</th>
-					</tr>
-					<c:choose>
-						<c:when test="${empty fList }">
-							<tr>
-								<td colspan="7" style="text-align: center;">-------조회된 결과가 없습니다.--------</td>
-							</tr>
-						</c:when><c:otherwise>
-							<c:forEach items="${fList }" var="fDto">
-								<tr>
-									<td>${fDto.f_name }</td>
-									<td>${fDto.f_money }</td>
-									<td>${fDto.f_money/fDto.f_add }</td>
-									<td>${fDto.f_add }</td>
-									<td>${fDto.f_buydate }</td>
-									<td>${fDto.f_enddate }</td>
-								</tr>
-							</c:forEach>
-								<tr>
-								<td colspan="4"></td>
-									<th>합계</th>
-									<td>
-										<c:set var="total" value="0" />
-										<c:forEach items="${fList}" var="fDto">
-											<c:set var="total" value="${total+fDto.f_add}" />
-										</c:forEach>
-										${total}
-									</td>
-								</tr>	
-						</c:otherwise>
-					</c:choose>
-				</table>
-			</div>
-		  <!------  ---------->		
-		<!---  대출정보 테이블   ---->
-		  <!------  ---------->
-		  	<div class="loan_body">
-				<header>
-					<a onclick="lnToggle()">
-						<img alt="plus/minus_icon" src="resources/icon/plus.png" style="width: 20px; height: 20px;">
-					</a>
-					<span style="vertical-align: middle;">대출</span>
-				</header>
-				<table class="loan_Tr" border="1" style="display: none;">
-					<tr>
-						<th>대출명</th>
-						<th>대출원금</th>
-						<th>잔액</th>
-						<th>등록날짜</th>
-						<th>만기날짜</th>
-					</tr>
-					<c:choose>
-						<c:when test="${empty lList }">
-							<tr>
-								<td colspan="7" style="text-align: center;">-------조회된 결과가 없습니다.--------</td>
-							</tr>
-						</c:when><c:otherwise>
-							<c:forEach items="${lList }" var="lDto">
-								<tr>
-									<td>${lDto.l_name }</td>
-									<td>${lDto.l_money }</td>
-									<td>${lDto.l_bal }</td>
-									<td>${lDto.l_startdate }</td>
-									<td>${lDto.l_enddate }</td>
-								</tr>
-							</c:forEach>
-								<tr>
-								<td colspan="3"></td>
-									<th>잔액합계</th>
-									<td>
-										<c:set var="total" value="0" />
-										<c:forEach items="${lList}" var="lDto">
-											<c:set var="total" value="${total+lDto.l_bal}" />
-										</c:forEach>
-										${total}
-									</td>
-								</tr>	
-						</c:otherwise>
-					</c:choose>
-				</table>
-			</div>
-		</div>
+
 			
 		</div>
 	</div>

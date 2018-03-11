@@ -4,7 +4,6 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
-<jsp:include page="../header.jsp"></jsp:include>
 <jsp:include page="acount_header.jsp"></jsp:include>
 <html>
 <head>
@@ -105,28 +104,28 @@ function toggleDataSeries(e) {
 	}
 	
 	function saveDetail(s_seq){
-		var url='save_detail.do?seq='+s_seq;
+		var url='acount_detail.do?acount=save&seq='+s_seq;
 		var prop='width=600px; height=600px;';
 		
 		open(url,'',prop);
 	}
 	
 	function stockDetail(st_seq){
-		var url='stock_detail.do?seq='+st_seq;
+		var url='acount_detail.do?acount=stock&seq='+st_seq;
 		var prop='width=600px; height=600px;';
 		
 		open(url,'',prop);
 	}
 	
 	function fundDetail(f_seq){
-		var url='fund_detail.do?seq='+f_seq;
+		var url='acount_detail.do?acount=fund&seq='+f_seq;
 		var prop='width=600px; height=600px;';
 		
 		open(url,'',prop);
 	}
 	
 	function loanDetail(l_seq){
-		var url='loan_detail.do?seq='+l_seq;
+		var url='acount_detail.do?acount=loan&seq='+l_seq;
 		var prop='width=600px; height=600px;';
 		
 		open(url,'',prop);
@@ -171,7 +170,7 @@ function toggleDataSeries(e) {
 			<header>
 				<div class="ui right aligned">
 				    <a class="active item" href="goal_main.do">목표관리</a>
-				    <a class="item" href="goal_main.do">저축추가</a>
+				    <a class="item" href="income_main.do?year=2018&month=03">수입관리</a>
 				    <a class="item" href="acount.do">수정</a>
 				    <a class="item">삭제</a>
 			    </div>

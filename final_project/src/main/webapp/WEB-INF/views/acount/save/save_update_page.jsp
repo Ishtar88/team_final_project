@@ -53,7 +53,7 @@
 		<tr>
 			<th>시작날짜</th>
 			<td>
-				<input type="date" name="s_startdate" value="${svDto.s_startdate }">e
+				<input type="date" name="s_startdate" value="${svDto.s_startdate }">
 			</td>
 		</tr>
 		<tr>
@@ -71,9 +71,7 @@
 		<tr>
 			<td>
 				<input type="submit" value="완료">
-			</td>
-			<td>
-				<input type="button" value="취소" onclick="location.href='save_cancel.do?seq='+${svDto.s_seq }">
+				<input type="button" value="취소" onclick="location.href='acount_cancel.do?acount='save'&seq='+${svDto.s_seq }">
 			</td>
 		</tr>
 	</table>

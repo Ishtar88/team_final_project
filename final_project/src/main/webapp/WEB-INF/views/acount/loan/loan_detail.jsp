@@ -20,54 +20,48 @@
 		self.close();
 	</script>
 </c:if>
-<table class="stock_detail">
+<table class="loan_detail">
 	<tr>
-		<th>주식명</th>
+		<th>대출명</th>
 		<td>
-			<input type="text" name="s_name" value="${sDto.st_name }" readonly="readonly">
+			<input type="text" name="l_name" value="${sDto.st_name }" readonly="readonly">
 		</td>
 	</tr>
 	<tr>
-		<th>구매수량</th>
+		<th>대출원금</th>
 		<td>
-			<input type="text" name="st_count" value="${sDto.st_count }" readonly="readonly">
+			<input type="text" name="l_money" value="${lDto.l_money }" readonly="readonly">
 		</td>
 	</tr>
 	<tr>
-		<th>매수금액</th>
+		<th>대출상환금</th>
 		<td>
-			<input type="text" name="st_money" value="${sDto.st_money }" readonly="readonly">
+			<input type="text" name="l_remane" value="${lDto.l_remane }" readonly="readonly">
 		</td>
 	</tr>
 	<tr>
-		<th>손익률</th>
+		<th>시작날짜</th>
 		<td>
-			<input type="text" name="s_inter" value="${sDto.st_money/sDto.st_add }%" readonly="readonly">
+			<input type="date" name="l_startdate" value="${lDto.l_startdate }" readonly="readonly">
 		</td>
 	</tr>
 	<tr>
-		<th>총 평가금액</th>
+		<th>만기날짜</th>
 		<td>
-			<input type="text" name="st_add" value="${sDto.st_add*st_count }" readonly="readonly">
-		</td>
-	</tr>
-	<tr>
-		<th>매수날짜</th>
-		<td>
-			<input type="date" name="st_buydate" value="${sDto.st_buydate }" readonly="readonly">
+			<input type="date" name="l_enddate" value="${lDto.l_enddate }" readonly="readonly">
 		</td>
 	</tr>
 	<tr>
 		<th>메모</th>
 		<td>
-			<input type="text" name="st_memo" value="${sDto.st_memo }" readonly="readonly">
+			<input type="text" name="l_memo" value="${lDto.l_memo }" readonly="readonly">
 		</td>
 	</tr>
 
 	<tr>
 		<td>
-			<input type="button" value="수정" onclick="location.href='stock_update_page.do?seq='+${sDto.st_seq}">
-			<input type="button" value="삭제" onclick="location.href='stock_delete.do?seq='+${sDto.st_seq}">
+			<input type="button" value="수정" onclick="location.href='loan_update_page.do?seq='+${lDto.l_seq}">
+			<input type="button" value="삭제" onclick="location.href='loan_delete.do?seq='+${lDto.l_seq}">
 			<input type="button" value="닫기" onclick="self.close()">
 		</td>
 	</tr>

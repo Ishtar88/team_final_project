@@ -51,7 +51,19 @@ public interface IAcountDao {
 	//자산 수정 및 삭제 기능
 	public boolean saveDelete(int seq);
 	
+	public boolean stockDelete(int seq);
+	
+	public boolean fundDelete(int seq);
+	
+	public boolean loanDelete(int seq);
+	
 	public boolean saveUpdate(SaveDto dto);
+	
+	public boolean stockupdate(StockDto dto);
+	
+	public boolean fundUpdate(FundDto dto);
+	
+	public boolean loanUpdate(LoanDto dto);
 	
 	//----------------------------------
 	

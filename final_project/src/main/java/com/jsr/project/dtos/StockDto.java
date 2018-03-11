@@ -1,6 +1,6 @@
 package com.jsr.project.dtos;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class StockDto {
 	

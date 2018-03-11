@@ -37,7 +37,7 @@
 			$('.input_body_wrap').children().remove();
 			//form 및 테이블 생성
 			$('.input_body_wrap').append('<form class="stock_form" action="stock_insert.do" method="post">'+
-											'<input type="hidden" name="id" value="${lDto.id}">'+
+											'<input type="text" name="id" value="${lDto.id}">'+
 													'<table class="stock_body" border="1">'+
 													'<tr><th>주식명</th><td><input type="text" name="st_name">'+
 													'<tr><th>구매수량</th><td><input type="text" name="st_count">'+
@@ -57,7 +57,7 @@
 			$('.input_body_wrap').children().remove();
 			//form 및 테이블 생성
 			$('.input_body_wrap').append('<form class="fund_form" action="fund_insert.do" method="post">'+
-											'<input type="hidden" name="id" value="${lDto.id}">'+
+											'<input type="text" name="id" value="${lDto.id}">'+
 													'<table class="fund_body" border="1">'+
 													'<tr><th>펀드명</th><td><input type="text" name="f_name">'+
 													'<tr><th>투자원금</th><td><input type="text" name="f_money">'+
@@ -77,7 +77,7 @@
 			$('.input_body_wrap').children().remove();
 			//form 및 테이블 생성
 			$('.input_body_wrap').append('<form class="loan_form" action="loan_insert.do" method="post">'+
-											'<input type="hidden" name="id" value="${lDto.id}">'+
+											'<input type="text" name="id" value="${lDto.id}">'+
 													'<table class="loan_body" border="1">'+
 													'<tr><th>대출명</th><td><input type="text" name="l_name">'+
 													'<tr><th>대출원금</th><td><input type="text" name="l_money">'+
