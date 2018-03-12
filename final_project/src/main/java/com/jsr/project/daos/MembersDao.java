@@ -18,7 +18,7 @@ public class MembersDao implements IMembersDao {
 
 	@Override
 	public MembersDto login(MembersDto mdto) {
-		System.out.println("id:"+mdto.getId()+"pw:"+mdto.getM_password());
+		System.out.println("id:"+mdto.getId()+"/pw:"+mdto.getM_password());
 		return sqlSession.selectOne(namespace+"login", mdto);
 	}
 
@@ -61,6 +61,46 @@ public class MembersDao implements IMembersDao {
 	public boolean kakaoLogin(MembersDto mdto) {
 		int count=0;
 		count=sqlSession.insert(namespace+"kakaoRegist", mdto);
+		return count>0?true:false;
+	}
+
+	@Override
+	public boolean addPoint(MembersDto mdto) {
+		int count=0;
+		count=sqlSession.insert(namespace+"addPoint", mdto);
+		return count>0?true:false;
+	}
+
+	@Override
+	public MembersDto chkPw(MembersDto mdto) {
+		return sqlSession.selectOne(namespace+"chkPassword", mdto);
+	}
+
+	@Override
+	public boolean leaveUser(MembersDto mdto) {
+		int count=0;
+		count=sqlSession.insert(namespace+"leaveUser", mdto);
+		return count>0?true:false;
+	}
+
+	@Override
+	public MembersDto findId(MembersDto mdto) {
+		return sqlSession.selectOne(namespace+"findId",mdto);
+	}
+
+	@Override
+	public MembersDto findPw(MembersDto mdto) {
+		return sqlSession.selectOne(namespace+"findPw",mdto);
+	}
+
+	@Override
+	public boolean changePW(String id, String m_password) {
+		Map<String, String> map=new HashMap<String,String>();
+		map.put("id", id);
+		map.put("m_password", m_password);
+		
+		int count=0;
+		count=sqlSession.update(namespace+"changePw", map);
 		return count>0?true:false;
 	}
 	

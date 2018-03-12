@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jsr.project.reward">
+
+	<resultMap type="com.jsr.project.dtos.RewardDto" id="RewardDto">
+		<result property="r_seq" column="R_SEQ" />
+		<result property="r_name" column="R_NAME" />
+		<result property="b_seq" column="B_SEQ" />
+		<result property="r_point" column="R_POINT" />
+		<result property="r_sell" column="R_SELL" />
+		<result property="r_location" column="R_LOCATION" />
+		<result property="r_file" column="R_FILE" />
+		<result property="r_regDate" column="R_REGDATE" />
+		<result property="r_modiDate" column="R_MODIDATE" />
+	</resultMap>
+
+	<insert id="insertReward" parameterType="RewardDto">
+		INSERT INTO REWARD
+		(R_SEQ,R_NAME,B_SEQ,R_POINT,R_SELL,R_FILE)
+		VALUES
+		(REWARD_SEQ.NEXTVAL,#{r_name},#{b_seq},#{r_point},'Y',#{r_file})
+	</insert>
+	
+	<select id="rewardList" resultMap="RewardDto">
+	SELECT R_SEQ,R_NAME,B_SEQ,R_POINT,R_FILE,R_REGDATE FROM REWARD WHERE R_SELL='Y'
+	</select>
+</mapper>

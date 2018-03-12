@@ -41,7 +41,11 @@
 	}
 
 	function goHome() {
-		location.href = "gohome.do"
+		location.href = "gohome.do";
+	}
+	function leaveUser() {
+		window.open("leaveUser.do", "비밀번호 재확인",
+				'location=yes,height=570,width=520,scrollbars=yes,status=yes');
 	}
 </script>
 <style type="text/css">
@@ -52,6 +56,9 @@ img {
 </style>
 </head>
 <body>
+	<a href="getUser.do">내 정보</a>
+	<a href="goal_main.do">예산 설정</a>
+	<a>구매 내역</a>
 	<form action="modifyUser.do" method="post">
 		<table border="1">
 			<tr>
@@ -95,12 +102,12 @@ img {
 				</select> <select id="month" name="month" onchange="changeDate()">
 						<c:forEach var="i" begin="1" end="12">
 							<option value="${i}"
-							${i eq fn:substring(birthDate,5,7)?"selected":""}>${i}</option>
+								${i eq fn:substring(birthDate,5,7)?"selected":""}>${i}</option>
 						</c:forEach>
 				</select> <select id="date" name="date">
 						<c:forEach var="i" begin="1" end="31">
 							<option value="${i}"
-							${i eq fn:substring(birthDate,8,10)?"selected":""}>${i}</option>
+								${i eq fn:substring(birthDate,8,10)?"selected":""}>${i}</option>
 						</c:forEach>
 				</select></td>
 			</tr>
@@ -117,8 +124,8 @@ img {
 				<td><input type="hidden" id="confmKey" name="confmKey"
 					value="U01TX0FVVEgyMDE4MDEyNTE2MjU1MjEwNzYzMDc="> <input
 					type="text" name="zipNo" id="zipNo"
-					value="${fn:split(address,'+')[0]}" readonly="readonly"> <input type="button"
-					value="주소검색" onclick="searchAdd();"></td>
+					value="${fn:split(address,'+')[0]}" readonly="readonly"> <input
+					type="button" value="주소검색" onclick="searchAdd();"></td>
 			</tr>
 			<tr>
 				<th><label>도로명주소</label></th>
@@ -163,10 +170,10 @@ img {
 			</tr>
 			<tr>
 				<td colspan="2"><input type="button" value="취소"
-					onclick="goHome()" /> <input type="submit" value="수정/확인" /></td>
+					onclick="goHome()" /> <input type="submit" value="수정/확인" /> <input
+					type="button" value="탈퇴" onclick="leaveUser()" /></td>
 			</tr>
 		</table>
 	</form>
 </body>
->>>>>>> refs/remotes/origin/master
 </html>
