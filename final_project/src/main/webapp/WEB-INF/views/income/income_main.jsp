@@ -59,8 +59,19 @@ window.onload = function () {
 </script>
 <script type="text/javascript">
 
-	function save_detail(s_seq){
-		var url='save_detail.do?seq='+s_seq;
+	function income_insert_page(){
+		var url='income_insert_page.do';
+		var prop='width=600px; height=600px;';
+		
+		open(url,'',prop);
+	}
+	
+	function incomeToggle(){
+		$(".income_Tr").toggle();
+	}
+	
+	function income_detail(seq){
+		var url='income_detail.do?i_seq='+seq;
 		var prop='width=600px; height=600px;';
 		
 		open(url,'',prop);
@@ -95,10 +106,35 @@ window.onload = function () {
 		<div class="income_total_wrap">
 			<div class="acount_total_money">
 				<p class="field">총수입: </p>
-				<div class="field">${aDto.ac_money }</div>
+				<div class="field">
+					<c:set var="total" value="0" />
+						<c:forEach items="${iList}" var="iDto">
+						<c:set var="total" value="${total+iDto.i_money}" />
+					</c:forEach>
+					${total}
+				</div>
 				<div class="field">
 					<span>수입 TOP5</span>
-					<div></div>
+					<div class="income_top5">
+						<c:choose>
+							<c:when test="${empty dtos }">
+								<div>수입이 없습니다.</div>
+							</c:when><c:otherwise>
+								<table>
+									<tr>
+										<th>수입명</th>
+										<th>금액</th>
+									</tr>
+									<c:forEach items="${dtos }" var="dtos">
+										<tr>
+											<td>${dtos.i_name }</td>
+											<td>${dtos.i_money }</td>
+										</tr>
+									</c:forEach>
+								</table>
+							</c:otherwise>
+						</c:choose>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -112,7 +148,7 @@ window.onload = function () {
 					    <a href="#" >◀</a>
 					    	<span class="income_year">${year }년 </span>
 					    	<span class="income_month">${month }월</span>
-					    <a href="#" >▶</a>
+					    <a href="" >▶</a>
 					    <a href="#" >▷▷</a>
 				    </div>
 			    </div>
@@ -122,58 +158,47 @@ window.onload = function () {
 			</header>
 	    </div>
 	</div>
-	<div class="acount_insert_icon">
-		<a href="acount_insert_page.do">저축등록</a>	
+	<div class="income_insert_icon">
+		<a href="#" onclick="income_insert_page()">수입등록</a>	
 	</div>
 		  <!------  ---------->		
-		<!---  저축정보 테이블   ---->
+		<!---  상세내역 테이블   ---->
 		  <!------  ---------->
-		<div class="save_body">
-			<div class="save_body">
+		<div class="income_list_body">
+			<div class="income_body">
 				<header>
-					<a href="#" onclick="svToggle()">
+					<a href="#" onclick="incomeToggle()">
 						<img alt="plus/minus_icon" src="resources/icon/down_triangle.png" style="width: 20px; height: 20px;">
 					</a>
 					<span style="vertical-align: middle;">저축</span>
 				</header>
-				<table class="save_Tr" id="svBody" border="1" style="display: none;">
+				<table class="income_Tr" id="svBody" border="1" style="display: none;">
 					<tr>
-						<th>저축분류</th>
-						<th>저축/적금/보험명</th>
-						<th>현재금액</th>
-						<th>시작날짜</th>
-						<th>만기날짜</th>
+						<th>수입명</th>
+						<th>금액</th>
+						<th>고정여부</th>
+						<th>날짜</th>
+						<th>메모</th>
 					</tr>
 					<c:choose>
-						<c:when test="${empty svList }">
+						<c:when test="${empty iList }">
 							<tr>
-								<td colspan="7" style="text-align: center;">-------조회된 결과가 없습니다.--------</td>
+								<td colspan="6" style="text-align: center;">-------조회된 결과가 없습니다.--------</td>
 							</tr>
 						</c:when><c:otherwise>
-							<c:forEach items="${svList }" var="svDto">
+							<c:forEach items="${iList }" var="iDto">
 								<tr>
-									<td>${svDto.s_detail }</td>
 									<td>
-										<a href="#" onclick="save_detail('${svDto.s_seq}')">
-											${svDto.s_name }
+										<a href="#" onclick="income_detail('${iDto.i_seq}')">
+											${iDto.i_name }
 										</a>
 									</td>
-									<td>${svDto.s_add } 원</td>
-									<td><fmt:formatDate value="${svDto.s_startdate }" pattern="yyyy-MM-dd"/> </td>
-									<td><fmt:formatDate value="${svDto.s_enddate }" pattern="yyyy-MM-dd"/></td>
+									<td>${iDto.i_money } 원</td>
+									<td>${iDto.i_fix.equals("Y")?"고정수입":"변동수입" }</td>
+									<td><fmt:formatDate value="${iDto.i_regdate }" pattern="yyyy-MM-dd"/></td>
+									<td>${iDto.i_memo }</td>
 								</tr>
 							</c:forEach>
-								<tr>
-								<td colspan="3"></td>
-									<th>합계</th>
-									<td>
-										<c:set var="total" value="0" />
-										<c:forEach items="${svList}" var="svDto">
-											<c:set var="total" value="${total+svDto.s_add}" />
-										</c:forEach>
-										${total}
-									</td>
-								</tr>	
 						</c:otherwise>
 					</c:choose>
 				</table>

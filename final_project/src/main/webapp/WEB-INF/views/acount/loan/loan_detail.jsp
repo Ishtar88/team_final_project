@@ -42,13 +42,13 @@
 	<tr>
 		<th>시작날짜</th>
 		<td>
-			<input type="date" name="l_startdate" value="${lDto.l_startdate }" readonly="readonly">
+			<input type="date" name="l_startdate" value='<fmt:formatDate value="${lDto.l_startdate }" pattern="yyyy-MM-dd"/>' readonly="readonly">
 		</td>
 	</tr>
 	<tr>
 		<th>만기날짜</th>
 		<td>
-			<input type="date" name="l_enddate" value="${lDto.l_enddate }" readonly="readonly">
+			<input type="date" name="l_enddate" value='<fmt:formatDate value="${lDto.l_enddate }" pattern="yyyy-MM-dd"/>' readonly="readonly">
 		</td>
 	</tr>
 	<tr>
@@ -60,8 +60,8 @@
 
 	<tr>
 		<td>
-			<input type="button" value="수정" onclick="location.href='loan_update_page.do?seq='+${lDto.l_seq}">
-			<input type="button" value="삭제" onclick="location.href='loan_delete.do?seq='+${lDto.l_seq}">
+			<input type="button" value="수정" onclick="location.href='acount_update_page.do?acount=loan&seq='+${lDto.l_seq}">
+			<input type="button" value="삭제" onclick="location.href='acount_delete.do?acount=loan&seq='+${lDto.l_seq}">
 			<input type="button" value="닫기" onclick="self.close()">
 		</td>
 	</tr>

@@ -25,7 +25,7 @@
 	</resultMap>
 
 	<select id="login" resultMap="MembersDto" parameterType="MembersDto">
-		SELECT
+		SELECT DISTINCT
 		M.ID,M_NAME,M_EMAIL,M_PASSWORD,M_PHONE,
 		(SELECT
 		(SUBSTR(TO_CHAR(SYSDATE,'YYYY-MM-DD'),1,4)-SUBSTR(TO_CHAR(M_BIRTHDATE,'YYYY-MM-DD'),1,4))+1

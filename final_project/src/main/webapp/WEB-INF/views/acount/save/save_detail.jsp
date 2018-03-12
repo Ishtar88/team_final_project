@@ -2,6 +2,7 @@
 <%request.setCharacterEncoding("UTF-8"); %>
 <%response.setContentType("text/html; charset=UTF-8"); %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -54,13 +55,13 @@
 	<tr>
 		<th>시작날짜</th>
 		<td>
-			<input type="date" name="s_startdate" value="${svDto.s_startdate }" readonly="readonly">
+			<input type="date" name="s_startdate" value='<fmt:formatDate value="${svDto.s_startdate }" pattern="yyyy-MM-dd"/>' readonly="readonly">
 		</td>
 	</tr>
 	<tr>
 		<th>만기날짜</th>
 		<td>
-			<input type="date" name="s_enddate" value="${svDto.s_enddate }" readonly="readonly">
+			<input type="date" name="s_enddate" value='<fmt:formatDate value="${svDto.s_enddate }" pattern="yyyy-MM-dd"/>' readonly="readonly">
 		</td>
 	</tr>
 	<tr>
@@ -71,8 +72,8 @@
 	</tr>
 	<tr>
 		<td>
-			<input type="button" value="수정" onclick="location.href='save_update_page.do?seq='+${svDto.s_seq}">
-			<input type="button" value="삭제" onclick="location.href='save_delete.do?seq='+${svDto.s_seq}">
+			<input type="button" value="수정" onclick="location.href='acount_update_page.do?acount=save&seq='+${svDto.s_seq}">
+			<input type="button" value="삭제" onclick="location.href='acount_delete.do?acount=save&seq='+${svDto.s_seq}">
 			<input type="button" value="닫기" onclick="self.close()">
 		</td>
 	</tr>

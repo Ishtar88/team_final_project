@@ -15,55 +15,49 @@
 <title>Insert title here</title>
 </head>
 <body>
-<form action="stock_update.do" method="post">
-<table class="stock_update_body">
+<form action="loan_update" method="post">
+<table class="loan_detail">
 	<tr>
-		<th>주식명</th>
+		<th>대출명</th>
 		<td>
-			<input type="text" name="s_name" value="${sDto.st_name }">
+			<input type="text" name="l_name" value="${lDto.l_name }">
 		</td>
 	</tr>
 	<tr>
-		<th>구매수량</th>
+		<th>대출원금</th>
 		<td>
-			<input type="text" name="st_count" value="${sDto.st_count }">
+			<input type="text" name="l_money" value="${lDto.l_money }">
 		</td>
 	</tr>
 	<tr>
-		<th>매수금액</th>
+		<th>대출상환금</th>
 		<td>
-			<input type="text" name="st_money" value="${sDto.st_money }">
+			<input type="text" name="l_remane" value="${lDto.l_remane }" readonly="readonly">
 		</td>
 	</tr>
 	<tr>
-		<th>손익률</th>
+		<th>시작날짜</th>
 		<td>
-			<input type="text" name="s_inter" value="${sDto.st_money/sDto.st_add }%" readonly="readonly">
+			<input type="date" name="st_date" value='<fmt:formatDate value="${lDto.l_startdate }" pattern="yyyy-MM-dd"/>'>
 		</td>
 	</tr>
 	<tr>
-		<th>총 평가금액</th>
+		<th>만기날짜</th>
 		<td>
-			<input type="text" name="st_add" value="${sDto.st_add*st_count }">
-		</td>
-	</tr>
-	<tr>
-		<th>매수날짜</th>
-		<td>
-			<input type="date" name="st_buydate" value="${sDto.st_buydate }">
+			<input type="date" name="en_date" value='<fmt:formatDate value="${lDto.l_enddate }" pattern="yyyy-MM-dd"/>'>
 		</td>
 	</tr>
 	<tr>
 		<th>메모</th>
 		<td>
-			<input type="text" name="st_memo" value="${sDto.st_memo }">
+			<input type="text" name="l_memo" value="${lDto.l_memo }">
 		</td>
 	</tr>
 
 	<tr>
 		<td>
 			<input type="submit" value="완료">
-			<input type="button" value="취소" onclick="location.href='acount_cancel.do?acount='stock'&seq='+${sDto.st_seq }">
+			<input type="button" value="취소" onclick="location.href='acount_cancel.do?acount=loan&seq='+${lDto.l_seq }">
 		</td>
 	</tr>
 </table>

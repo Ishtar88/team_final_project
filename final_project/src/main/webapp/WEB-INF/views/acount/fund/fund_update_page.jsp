@@ -15,52 +15,56 @@
 <title>Insert title here</title>
 </head>
 <body>
-<form action="loan_update" method="post">
-<table class="loan_detail">
+<table class="fund_detail">
 	<tr>
-		<th>대출명</th>
+		<th>펀드명</th>
 		<td>
-			<input type="text" name="l_name" value="${lDto.l_name }">
+			<input type="text" name="f_name" value="${fDto.f_name }">
 		</td>
 	</tr>
 	<tr>
-		<th>대출원금</th>
+		<th>투자원금</th>
 		<td>
-			<input type="text" name="l_money" value="${lDto.l_money }">
+			<input type="text" name="f_money" value="${fDto.f_money }">
 		</td>
 	</tr>
 	<tr>
-		<th>대출상환금</th>
+		<th>손익률</th>
 		<td>
-			<input type="text" name="l_remane" value="${lDto.l_remane }" readonly="readonly">
+			<input type="text" name="s_inter" value="${sDto.st_money/sDto.st_add }%" readonly="readonly">
 		</td>
 	</tr>
 	<tr>
-		<th>시작날짜</th>
+		<th>총 평가금액</th>
 		<td>
-			<input type="date" name="l_startdate" value="${lDto.l_startdate }">
+			<input type="text" name="f_add" value="${fDto.f_add }">
+		</td>
+	</tr>
+	<tr>
+		<th>매수날짜</th>
+		<td>
+			<input type="date" name="buy_date" value='<fmt:formatDate value="${fDto.f_buydate }" pattern="yyyy-MM-dd"/>'>
 		</td>
 	</tr>
 	<tr>
 		<th>만기날짜</th>
 		<td>
-			<input type="date" name="l_enddate" value="${lDto.l_enddate }">
+			<input type="date" name="en_date" value='<fmt:formatDate value="${fDto.f_enddate }" pattern="yyyy-MM-dd"/>'>
 		</td>
 	</tr>
 	<tr>
 		<th>메모</th>
 		<td>
-			<input type="text" name="l_memo" value="${lDto.l_memo }">
+			<input type="text" name="f_memo" value="${fDto.f_memo }">
 		</td>
 	</tr>
 
 	<tr>
 		<td>
 			<input type="submit" value="완료">
-			<input type="button" value="취소" onclick="location.href='acount_cancel.do?acount='loan'&seq='+${lDto.l_seq }">
+			<input type="button" value="취소" onclick="location.href='acount_cancel.do?acount=fund&seq='+${fDto.f_seq }">
 		</td>
 	</tr>
 </table>
-</form>
 </body>
 </html>
