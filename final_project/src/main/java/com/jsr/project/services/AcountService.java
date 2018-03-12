@@ -34,9 +34,9 @@ public class AcountService implements IAcountService {
 	}
 
 	@Override
-	public boolean goalPointInsert(GoalDto dto) {
+	public boolean goalPointInsert(String id) {
 		boolean isc=false;
-		isc=acountDaoImp.goalPointInsert(dto);
+		isc=acountDaoImp.goalPointInsert(id);
 		return isc;
 	}
 

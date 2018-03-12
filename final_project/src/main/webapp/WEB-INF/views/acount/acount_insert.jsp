@@ -22,8 +22,8 @@
 													'<tr><th>저축명</th><td><input type="text" name="s_name">'+
 													'<tr><th>저축금액</th><td><input type="text" name="s_money">'+
 													'<tr><th>세율</th><td><input type="text" name="s_tax">'+
-													'<tr><th>시작날짜</th><td><input type="date" name="s_startdate">'+
-													'<tr><th>만기날짜</th><td><input type="date" name="s_enddate">'+
+													'<tr><th>시작날짜</th><td><input type="date" name="st_date">'+
+													'<tr><th>만기날짜</th><td><input type="date" name="en_date">'+
 													'<tr><th>메모</th><td><input type="text" name="s_memo"></td><tr>'+
 													
 													'<tr><td colspan="2"><input type="submit" value="등록">'+
@@ -107,7 +107,6 @@
 	</div>
 </div>
 <div class="input_body_wrap">
-	
 </div>
 </body>
 </html>

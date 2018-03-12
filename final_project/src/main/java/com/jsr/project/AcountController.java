@@ -18,6 +18,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.jsr.project.dtos.*;
 import com.jsr.project.services.IAcountService;
@@ -43,6 +44,26 @@ public class AcountController {
 		if (acount.equals("save")) {
 			
 			SaveDto svDto=acountService.saveDetailSearch(a_seq);
+			SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd");
+			Date stDate=svDto.getS_startdate();
+			Date enDate=svDto.getS_enddate();
+			String st_date=df.format(stDate);
+			String en_date=df.format(enDate);
+			Date s_startdate=null;
+			Date s_enddate=null;
+			try {
+				s_startdate=df.parse(st_date);
+				s_enddate=df.parse(en_date);
+				svDto.setS_startdate(s_startdate);
+				svDto.setS_enddate(s_enddate);
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+			
+			System.out.println("dto에 담겨져있었던 stDate: "+stDate);
+			System.out.println("format으로 변환한 st_date: "+st_date);
+			System.out.println("parse로 Date타입으로 변환한 s_startdate: "+s_startdate);
+			
 			model.addAttribute("svDto", svDto);
 			System.out.println("svDto: "+svDto);
 			
@@ -209,13 +230,15 @@ public class AcountController {
 		
 		MembersDto mDto=(MembersDto)session.getAttribute("loginDto");
 		
-		dto.setId(mDto.getId());
+		String id=mDto.getId();
+		
+		dto.setId(id);
 		
 		System.out.println("id:"+mDto.getId());
 		
 		System.out.println(dto);
 		
-		acountService.goalPointInsert(dto);
+		acountService.goalPointInsert(id);
 		boolean isc=acountService.goalInsert(dto);
 		System.out.println("goalInsert action end");
 		if (isc) {
@@ -256,17 +279,33 @@ public class AcountController {
 	}
 	
 	
-	@RequestMapping(value = "/save_update_page.do", method = RequestMethod.GET)
-	public String save_update_page(Model model,String seq) {
-		logger.info("save update page");
+	@RequestMapping(value = "/acount_update_page.do", method = RequestMethod.GET)
+	public String save_update_page(Model model,String seq,String acount) {
+		logger.info("acount update page");
 		
-		int s_seq=Integer.parseInt(seq);
+		if (acount.equals("save")) {
+			
+			detail_factory(acount, seq, model);
+			reVal="acount/save/save_update_page";
+		}else if (acount.equals("stock")) {
+			
+			detail_factory(acount, seq, model);
+			reVal="acount/stock/stock_update_page";
+			
+		}else if (acount.equals("fund")) {
+			
+			detail_factory(acount, seq, model);
+			reVal="acount/fund/fund_update_page";
+			
+		}else if (acount.equals("loan")) {
+			
+			detail_factory(acount, seq, model);
+			reVal="acount/loan/loan_update_page";
+			
+		}
+
 		
-		SaveDto svDto=acountService.saveDetailSearch(s_seq);
-		
-		model.addAttribute("svDto", svDto);
-		
-		return "acount/save/save_update_page";
+		return reVal;
 	}
 
 	@RequestMapping(value = "/acount_cancel.do", method = RequestMethod.GET)
@@ -290,26 +329,23 @@ public class AcountController {
 	}
 	
 	@RequestMapping(value = "/save_update.do", method = RequestMethod.POST)
-	public String save_update(Model model,SaveDto dto) {
+	public String save_update(Model model,SaveDto dto,String st_date,String en_date) {
 		logger.info("save update start");
 		
-/*			Date stDate=dto.getS_startdate();
+		Date stDate=null;
+		Date enDate=null;
+		try {
+			SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd");
+			stDate=df.parse(st_date);
 			
-			SimpleDateFormat df=new SimpleDateFormat("YYYY-MM-DD");
-			String st=df.format(stDate);
-			java.sql.Date startDate = java.sql.Date.valueOf(st);
-			System.out.println(startDate);
+			dto.setS_startdate(stDate);
+
+			enDate=df.parse(en_date);
 			
-			dto.setS_startdate(startDate);
-			
-			Date enDate=dto.getS_startdate();
-			SimpleDateFormat df2=new SimpleDateFormat("YYYY-MM-DD");
-			String en=df2.format(enDate);
-			java.sql.Date endDate = java.sql.Date.valueOf(en);
-			
-			System.out.println(endDate);
-			
-			dto.setS_startdate(endDate);*/
+			dto.setS_enddate(enDate);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
 			
 		
 		boolean isc=acountService.saveUpdate(dto);
@@ -329,26 +365,19 @@ public class AcountController {
 	}
 	
 	@RequestMapping(value = "/stock_update.do", method = RequestMethod.POST)
-	public String stock_update(Model model,StockDto dto) {
+	public String stock_update(Model model,StockDto dto,String buy_date) {
 		logger.info("save update start");
 		
-			Date stDate=dto.getSt_buydate();
+		Date buyDate=null;
+		try {
+			SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd");
+			buyDate=df.parse(buy_date);
 			
-			SimpleDateFormat df=new SimpleDateFormat("YYYY-MM-DD");
-			String st=df.format(stDate);
-			java.sql.Date startDate = java.sql.Date.valueOf(st);
-			System.out.println(startDate);
-			
-			dto.setSt_buydate(startDate);
-			
-			Date enDate=dto.getSt_selldate();
-			SimpleDateFormat df2=new SimpleDateFormat("YYYY-MM-DD");
-			String en=df2.format(enDate);
-			java.sql.Date endDate = java.sql.Date.valueOf(en);
-			
-			System.out.println(endDate);
-			
-			dto.setSt_selldate(endDate);
+			dto.setSt_buydate(buyDate);
+
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
 			
 		
 		boolean isc=acountService.stockupdate(dto);
@@ -368,26 +397,23 @@ public class AcountController {
 	
 	
 	@RequestMapping(value = "/fund_update.do", method = RequestMethod.POST)
-	public String fund_update(Model model,FundDto dto) {
+	public String fund_update(Model model,FundDto dto,String buy_date,String en_date) {
 		logger.info("save update start");
 		
-			Date stDate=dto.getF_buydate();
+		Date buyDate=null;
+		Date enDate=null;
+		try {
+			SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd");
+			buyDate=df.parse(buy_date);
 			
-			SimpleDateFormat df=new SimpleDateFormat("YYYY-MM-DD");
-			String st=df.format(stDate);
-			java.sql.Date startDate = java.sql.Date.valueOf(st);
-			System.out.println(startDate);
+			dto.setF_buydate(buyDate);
+
+			enDate=df.parse(en_date);
 			
-			dto.setF_buydate(startDate);
-			
-			Date enDate=dto.getF_enddate();
-			SimpleDateFormat df2=new SimpleDateFormat("YYYY-MM-DD");
-			String en=df2.format(enDate);
-			java.sql.Date endDate = java.sql.Date.valueOf(en);
-			
-			System.out.println(endDate);
-			
-			dto.setF_enddate(endDate);
+			dto.setF_enddate(enDate);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
 			
 		
 		boolean isc=acountService.fundUpdate(dto);
@@ -407,31 +433,23 @@ public class AcountController {
 	}
 	
 	@RequestMapping(value = "/loan_update.do", method = RequestMethod.POST)
-	public String loan_update(Model model,LoanDto dto) {
+	public String loan_update(Model model,LoanDto dto,String st_date,String en_date) {
 		logger.info("save update start");
 		
-			try {
-				Date stDate=dto.getL_startdate();
-				
-				SimpleDateFormat inputDf=new SimpleDateFormat("YYYY-MM-DD HH:mm:ss");
-				SimpleDateFormat df=new SimpleDateFormat("YYYY-MM-DD");
-				String inputDate=inputDf.format(stDate);
-				Date startDate=df.parse(inputDate);
-				
-				dto.setL_startdate(startDate);
-				
-				Date enDate=dto.getL_enddate();
-				SimpleDateFormat df2=new SimpleDateFormat("YYYY-MM-DD");
-				String en=df2.format(enDate);
-				java.sql.Date endDate = java.sql.Date.valueOf(en);
-				
-				System.out.println(endDate);
-				
-				dto.setL_enddate(endDate);
-				
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
+		Date stDate=null;
+		Date enDate=null;
+		try {
+			SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd");
+			stDate=df.parse(st_date);
+			
+			dto.setL_startdate(stDate);
+
+			enDate=df.parse(en_date);
+			
+			dto.setL_enddate(enDate);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
 			
 		
 		boolean isc=acountService.loanUpdate(dto);
@@ -464,39 +482,25 @@ public class AcountController {
 	}
 
 	@RequestMapping(value = "/save_insert.do", method = RequestMethod.POST)
-	public String save_insert(SaveDto dto) {
+	public String save_insert(SaveDto dto,String st_date,String en_date) {
 		logger.info("save insert start");
-		
-		System.out.println("input saveDto: "+dto);
-		
+
+		Date stDate=null;
+		Date enDate=null;
 		try {
-			//시작날짜
-			Date stDate=dto.getS_startdate();
-			SimpleDateFormat inputDf=new SimpleDateFormat("YYYY-MM-DD HH:mm:ss");
-			SimpleDateFormat df=new SimpleDateFormat("YYYY-MM-DD");
-			String inputDate=inputDf.format(stDate);
-			Date startDate=df.parse(inputDate);
-					
-			dto.setS_startdate(startDate);
+			SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd");
+			stDate=df.parse(st_date);
 			
+			dto.setS_startdate(stDate);
+
+			enDate=df.parse(en_date);
 			
-			Date enInputDate=dto.getS_enddate();
-			SimpleDateFormat inputDf2=new SimpleDateFormat("YYYY-MM-DD HH:mm:ss");
-			SimpleDateFormat df2=new SimpleDateFormat("YYYY-MM-DD");
-			String inputDate2=inputDf.format(enInputDate);
-			Date enDate=df.parse(inputDate2);
-			dto.setS_startdate(enDate);
-			
-		//만기날짜
-/*		Date enInputDate=dto.getS_enddate();
-		SimpleDateFormat df2=new SimpleDateFormat("YYYY-MM-DD");
-		String enInput=df2.format(enInputDate);
-		java.sql.Date enDate = java.sql.Date.valueOf(enInput);
-		dto.setS_startdate(enDate);*/
-		
+			dto.setS_enddate(enDate);
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
+		
+		System.out.println("input saveDto: "+dto);
 		
 		boolean isc=acountService.saveInsert(dto);
 		if (isc) {

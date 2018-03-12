@@ -48,13 +48,13 @@
 	<tr>
 		<th>매수날짜</th>
 		<td>
-			<input type="date" name="f_buydate" value="${fDto.f_buydate }" readonly="readonly">
+			<input type="date" name="f_buydate" value='<fmt:formatDate value="${fDto.f_buydate }" pattern="yyyy-MM-dd"/>' readonly="readonly">
 		</td>
 	</tr>
 	<tr>
 		<th>만기날짜</th>
 		<td>
-			<input type="date" name="f_enddate" value="${fDto.f_enddate }" readonly="readonly">
+			<input type="date" name="f_enddate" value='<fmt:formatDate value="${fDto.f_enddate }" pattern="yyyy-MM-dd"/>' readonly="readonly">
 		</td>
 	</tr>
 	<tr>
@@ -66,8 +66,8 @@
 
 	<tr>
 		<td>
-			<input type="button" value="수정" onclick="location.href='fund_update_page.do?seq='+${fDto.f_seq}">
-			<input type="button" value="삭제" onclick="location.href='fund_delete.do?seq='+${fDto.f_seq}">
+			<input type="button" value="수정" onclick="location.href='acount_update_page.do?acount=fund&seq='+${fDto.f_seq}">
+			<input type="button" value="삭제" onclick="location.href='acount_delete.do?acount=fund&seq='+${fDto.f_seq}">
 			<input type="button" value="닫기" onclick="self.close()">
 		</td>
 	</tr>

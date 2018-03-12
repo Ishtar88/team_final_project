@@ -26,7 +26,11 @@
 
 	<select id="login" resultMap="MembersDto" parameterType="MembersDto">
 		SELECT DISTINCT
+<<<<<<< HEAD
 		M.ID,M_NAME,M_EMAIL,M_PASSWORD,M_PHONE,M_GRADE,
+=======
+		M.ID,M_NAME,M_EMAIL,M_PASSWORD,M_PHONE,
+>>>>>>> refs/remotes/origin/master
 		(SELECT
 		(SUBSTR(TO_CHAR(SYSDATE,'YYYY-MM-DD'),1,4)-SUBSTR(TO_CHAR(M_BIRTHDATE,'YYYY-MM-DD'),1,4))+1
 		AS AGE FROM MEMBERS WHERE ID=#{id}) AS AGE,
