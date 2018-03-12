@@ -110,6 +110,11 @@ body>.grid {
 			<div class="ui message">
 				<a href="regist1.do">회원가입</a>
 			</div>
+			
+						<div class="ui message">
+				<a href="manager_home.do">관리자 페이지</a>
+			</div>
+			
 
 		</div>
 	</div>

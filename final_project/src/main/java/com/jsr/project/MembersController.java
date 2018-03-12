@@ -50,6 +50,10 @@ public class MembersController {
 		System.out.println(loginDto);
 		if(loginDto==null){
 			return "redirect:index.jsp";
+		}else if(loginDto.getM_grade().equals("ADMIN")){
+			jsFoward("관리자 페이지 로그인 성공", response);
+			session.setAttribute("loginDto", loginDto);
+		    return "manager/manager_home"; 
 		}else {
 			jsFoward("로그인성공", response);
 			session.setAttribute("loginDto", loginDto);
@@ -70,6 +74,11 @@ public class MembersController {
 			return "home";
 	}
 
+	@RequestMapping(value = "/manager_home.do", method = RequestMethod.GET)
+	public String manager_home(HttpServletRequest request, HttpSession session) {
+		return "manager/manager_home";
+	}
+	
 	@RequestMapping(value = "/regist1.do", method = RequestMethod.GET)
 	public String regist1(HttpServletRequest request, HttpSession session) {
 		return "member/regist1";

@@ -19,20 +19,15 @@
 <body>
 <div id="container">
 <h1>게시글<small>작성하기</small></h1>
-<form action="insertqna.do" method="post">
-	<input type="hidden" name="command" value="insertqna"/>
+<form action="submitqna.do" method="post">
 	<table class="table table-striped">
 		<tr>
-			<th>아이디</th>
-			<td><input class="form-control" type="text" name="id"/></td>
-		</tr>
-		<tr>
 			<th>제목</th>
-			<td><input class="form-control" type="text" name="title"/></td>
+			<td><input class="form-control" type="text" name="	q_title"/></td>
 		</tr>
 		<tr>
 			<th>내용</th>
-			<td><textarea class="form-control" cols="60" rows="10" name="content"></textarea></td>
+			<td><textarea class="form-control" cols="60" rows="10" name="q_content"></textarea></td>
 		</tr>
 		<tr>
 			<td colspan="2">
