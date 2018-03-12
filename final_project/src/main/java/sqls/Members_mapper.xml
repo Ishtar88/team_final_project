@@ -83,6 +83,12 @@
 		'Y',SYSDATE)
 	</insert>
 
+	<insert id="addPoint" parameterType="MembersDto">
+		INSERT INTO POINT
+		(PO_SEQ,ID,PO_REGDATE,PO_NAME,PO_POINT,PO_DETAIL) VALUES
+		(POINT_SEQ.NEXTVAL,#{id},SYSDATE,'일반','200','추가정보 포인트 적립')
+	</insert>
+
 	<select id="getUser" parameterType="Map" resultMap="MembersDto">
 		SELECT
 		M.ID,M_NAME,M_EMAIL,M_PASSWORD,M_PHONE,
@@ -106,7 +112,29 @@
 	</update>
 
 	<insert id="kakaoRegist" parameterType="MembersDto">
-		INSERT INTO MEMBERS(ID,M_NAME,M_EMAIL,M_PASSWORD,M_PHONE,M_GENDER)
+		INSERT INTO
+		MEMBERS(ID,M_NAME,M_EMAIL,M_PASSWORD,M_PHONE,M_GENDER)
 		VALUES(#{id},#{m_name},#{m_email},#{m_password},' ',' ')
 	</insert>
+
+	<select id="chkPassword" parameterType="MembersDto" resultMap="MembersDto">
+		SELECT M_PASSWORD FROM MEMBERS WHERE ID=#{id}
+	</select>
+
+	<update id="leaveUser" parameterType="MembersDto">
+		UPDATE MEMBERS SET M_USEABLE='N' WHERE ID=#{id}
+	</update>
+
+	<select id="findId" parameterType="MembersDto" resultMap="MembersDto">
+		SELECT ID FROM MEMBERS WHERE M_NAME=#{m_name} AND M_EMAIL=#{m_email}
+	</select>
+
+	<select id="findPw" parameterType="MembersDto" resultMap="MembersDto">
+		SELECT ID FROM MEMBERS WHERE ID=#{id} AND M_EMAIL=#{m_email}
+	</select>
+	
+	<update id="changePw" parameterType="Map">
+	UPDATE MEMBERS SET M_PASSWORD=#{m_password} WHERE ID=#{id}
+	</update>
+
 </mapper>

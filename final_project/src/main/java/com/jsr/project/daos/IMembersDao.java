@@ -11,4 +11,10 @@ public interface IMembersDao {
 	public boolean changeProfile(MembersDto mdto);
 	public boolean modifyUser(MembersDto mdto);
 	public boolean kakaoLogin(MembersDto mdto);
+	public boolean addPoint(MembersDto mdto);
+	public MembersDto chkPw(MembersDto mdto);
+	public boolean leaveUser(MembersDto mdto);
+	public MembersDto findId(MembersDto mdto);
+	public MembersDto findPw(MembersDto mdto);
+	public boolean changePW(String id,String m_password);
 }

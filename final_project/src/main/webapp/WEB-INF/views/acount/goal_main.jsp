@@ -14,6 +14,9 @@
 	}
 </script>
 <body>
+<a href="getUser.do">내 정보</a>
+<a href="goal_main.do">예산 설정</a>
+<a>구매 내역</a>
 <div class="ui middle aligned center aligned grid">
 	<div class="ui eight wide column form">
 	<h2>목표설정</h2>

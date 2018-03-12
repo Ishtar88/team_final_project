@@ -14,6 +14,7 @@
 		<typeAlias type="com.jsr.project.dtos.IncomeDto" alias="IncomeDto"/>
 		<typeAlias type="com.jsr.project.dtos.StockDto" alias="StockDto"/>
 		<typeAlias type="com.jsr.project.dtos.SpendingDto" alias="SpendingDto"/>
+		<typeAlias type="com.jsr.project.dtos.RewardDto" alias="RewardDto"/>
 	</typeAliases>
 	
 	<mappers>
@@ -22,5 +23,6 @@
 		<mapper resource="/sqls/Qnaboard_mapper.xml"/>
 		<mapper resource="/sqls/Noticeboard_mapper.xml"/>
 		<mapper resource="/sqls/Income_mapper.xml"/>
+		<mapper resource="/sqls/Reward_mapper.xml"/>
 	</mappers>
 </configuration>

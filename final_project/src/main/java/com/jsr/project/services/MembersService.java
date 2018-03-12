@@ -2,6 +2,7 @@ package com.jsr.project.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.jsr.project.daos.IMembersDao;
 import com.jsr.project.dtos.MembersDto;
@@ -45,6 +46,33 @@ public class MembersService implements IMembersService {
 	@Override
 	public boolean kakaoLogin(MembersDto mdto) {
 		return ImemberDao.kakaoLogin(mdto);
+	}
+
+	@Override
+	public boolean addPoint(MembersDto mdto) {
+		return ImemberDao.addPoint(mdto);
+	}
+
+	@Override
+	public MembersDto chkPw(MembersDto mdto) {
+		return ImemberDao.chkPw(mdto);
+	}
+
+	@Override
+	public boolean leaveUser(MembersDto mdto) {
+		return ImemberDao.leaveUser(mdto);
+	}
+
+	@Override
+	public MembersDto findId(MembersDto mdto) {
+		return ImemberDao.findId(mdto);
+	}
+
+	@Transactional
+	@Override
+	public MembersDto findPw(MembersDto mdto,String id,String m_password) {
+		ImemberDao.changePW(id, m_password);
+		return ImemberDao.findPw(mdto);
 	}
 	
 

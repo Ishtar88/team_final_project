@@ -19,8 +19,8 @@
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script src="resources/assets/semantic.min.js"></script>
 <script type="text/javascript">
-	onload=function(){
-		history.replaceState({},null ,location.pathname);
+	onload = function() {
+		history.replaceState({}, null, location.pathname);
 	}
 	function loginChk() {
 		var id = $("input[name=id]").val();
@@ -92,12 +92,16 @@ body>.grid {
 						Kakao.API.request({
 							url : "/v1/user/me",
 							success : function(result) {
-								alert(result.properties.nickname+"님 안녕하세요.");
-								var id=JSON.stringify(result.id);
-								var email=result["kaccount_email"];
-								var name=JSON.stringify(result.properties.nickname);
-								location.href="kakaoLogin.do?name="+name+"&m_email="+email+"&kakaoId="+id;
-								history.replaceState({},null ,location.pathname);
+								alert(result.properties.nickname + "님 안녕하세요.");
+								var id = JSON.stringify(result.id);
+								var email = result["kaccount_email"];
+								var name = JSON
+										.stringify(result.properties.nickname);
+								location.href = "kakaoLogin.do?name=" + name
+										+ "&m_email=" + email + "&kakaoId="
+										+ id;
+								history.replaceState({}, null,
+										location.pathname);
 							}
 						});
 						alert(JSON.stringify(authObj));
@@ -110,11 +114,10 @@ body>.grid {
 			<div class="ui message">
 				<a href="regist1.do">회원가입</a>
 			</div>
-			
-						<div class="ui message">
-				<a href="manager_home.do">관리자 페이지</a>
+			<div class="ui message">
+				<a href="findIdPw.do">아이디/비밀번호 찾기</a>
 			</div>
-			
+			<div class="ui message">관리자 페이지</div>
 
 		</div>
 	</div>
