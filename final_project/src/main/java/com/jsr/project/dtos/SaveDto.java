@@ -16,7 +16,7 @@ public class SaveDto {
 	
 	private int s_add;
 	
-	private int s_tax;
+	private float s_tax;
 	
 	private int s_count;
 	
@@ -78,11 +78,11 @@ public class SaveDto {
 		this.s_add = s_add;
 	}
 
-	public int getS_tax() {
+	public float getS_tax() {
 		return s_tax;
 	}
 
-	public void setS_tax(int s_tax) {
+	public void setS_tax(float s_tax) {
 		this.s_tax = s_tax;
 	}
 
@@ -139,8 +139,8 @@ public class SaveDto {
 		// TODO Auto-generated constructor stub
 	}
 
-	public SaveDto(String id, int s_seq, String s_name, String s_detail, int s_money, int s_add, int s_tax, int s_count,
-			Date s_regdate, Date s_startdate, Date s_enddate, String s_endable, String s_memo) {
+	public SaveDto(String id, int s_seq, String s_name, String s_detail, int s_money, int s_add, float s_tax,
+			int s_count, Date s_regdate, Date s_startdate, Date s_enddate, String s_endable, String s_memo) {
 		super();
 		this.id = id;
 		this.s_seq = s_seq;
@@ -165,7 +165,7 @@ public class SaveDto {
 				+ ", s_memo=" + s_memo + "]";
 	}
 
-
+	
 	
 
 }

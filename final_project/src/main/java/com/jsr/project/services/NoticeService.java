@@ -30,8 +30,12 @@ public class NoticeService implements INoticeService{
 	}
 
 	@Override
-	public NoticeBoardDto n_detailBoard(int n_seq) {
+	public NoticeBoardDto n_detailBoard(int n_seq, String count) {
+		if (count.equals("count")) {
+			noticeDao.n_readCount(n_seq);
+		}
 		return noticeDao.n_detailBoard(n_seq);
+		
 	}
 
 	@Override

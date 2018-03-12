@@ -2,6 +2,7 @@
 <%request.setCharacterEncoding("UTF-8"); %>
 <%response.setContentType("text/html; charset=UTF-8"); %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -54,7 +55,7 @@
 	<tr>
 		<th>매수날짜</th>
 		<td>
-			<input type="date" name="st_buydate" value="${sDto.st_buydate }" readonly="readonly">
+			<input type="date" name="st_buydate" value='<fmt:formatDate value="${sDto.st_buydate }" pattern="yyyy-MM-dd"/>' readonly="readonly">
 		</td>
 	</tr>
 	<tr>
@@ -66,8 +67,8 @@
 
 	<tr>
 		<td>
-			<input type="button" value="수정" onclick="location.href='stock_update_page.do?seq='+${sDto.st_seq}">
-			<input type="button" value="삭제" onclick="location.href='stock_delete.do?seq='+${sDto.st_seq}">
+			<input type="button" value="수정" onclick="location.href='acount_update_page.do?acount=stock&seq='+${sDto.st_seq}">
+			<input type="button" value="삭제" onclick="location.href='acount_delete.do?acount=stock&seq='+${sDto.st_seq}">
 			<input type="button" value="닫기" onclick="self.close()">
 		</td>
 	</tr>

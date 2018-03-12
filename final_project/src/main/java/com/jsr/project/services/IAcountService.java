@@ -12,7 +12,7 @@ public interface IAcountService {
 	
 	public boolean goalRegInsert(GoalDto dto);
 	
-	public boolean goalPointInsert(GoalDto dto);
+	public boolean goalPointInsert(String id);
 	
 	//----------------------------------
 	

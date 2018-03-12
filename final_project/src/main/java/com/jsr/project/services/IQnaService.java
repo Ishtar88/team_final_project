@@ -11,7 +11,7 @@ public interface IQnaService {
 	public List<QnaBoardDto> q_getAlllist();
 	public boolean q_insertBoard(QnaBoardDto dto); 
 	public boolean q_readcount(int q_seq);
-	public QnaBoardDto q_getBoard(int q_seq);
+	public QnaBoardDto q_getBoard(int q_seq, String count);
 	public boolean q_updateBoard(QnaBoardDto dto);
 	
 	public boolean q_mulDelBoard(String[] seq);

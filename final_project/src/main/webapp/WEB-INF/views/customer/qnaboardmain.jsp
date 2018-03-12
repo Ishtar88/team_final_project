@@ -14,19 +14,18 @@ pageEncoding="UTF-8"%>
 <title>QnA Board Page</title>
 <style type="text/css">
  
- #boardtable {
- 		
+ #insertbutton {
+ 		align-content: right;
  }
 
 </style>
 <script type="text/javascript">
 	function insertForm(){
-		location.href="insertqna.do";
+		location.href="insertform.do";
+
+	
 	}
 	
-	function showoption(){
-		toggle;	
-	}
 
 </script>
 </head>
@@ -36,7 +35,6 @@ pageEncoding="UTF-8"%>
 <div id="boardtable">
 	<table border="1">
 		<tr>
-			<th>체크박스</th>
 			<th>번호</th>
 			<th>작성자</th>
 			<th>제목</th>
@@ -50,7 +48,6 @@ pageEncoding="UTF-8"%>
 		<c:otherwise>
 			<c:forEach items="${lists}" var="dto">
 				<tr>
-					<td><input class="form-control" type="checkbox" name="chk" value="${dto.q_seq}"/></td>
 					<td>${dto.q_seq}</td>
 					<td>${dto.id}</td>
 					<c:choose>
@@ -61,28 +58,21 @@ pageEncoding="UTF-8"%>
 							<td>
 							<jsp:setProperty property="arrowNbsp" name="util" value="${dto.q_depth}" />
 							<jsp:getProperty property="arrowNbsp" name="util" />
-							<a href="qnadetail.do?seq=${dto.q_seq}">	
+							<a href="qnadetail.do?q_seq=${dto.q_seq}&count=count">	
 							    ${dto.q_title}</a>
 							</td>
 						</c:otherwise>
 					</c:choose>
-					<td><f:formatDate value="${dto.q_regDate}" pattern="yy년MM월dd일"/> </td>
+					<td><f:formatDate value="${dto.q_regDate}" pattern="yyyy년MM월dd일"/> </td>
 					<td>${dto.q_readcount}</td>
-					<td>${dto.q_refer}</td>
-					<td>${dto.q_step}</td>
-					<td>${dto.q_depth}</td>
-					<td>${dto.q_delflag}</td>
 				</tr>
 			</c:forEach>
 		</c:otherwise>
 	</c:choose>
-	<tr>
-		<td colspan="10">
-			<input type="button" value="글추가" onclick="insertForm()"/>
-			<input type="submit" value="삭제" />
-		</td>
-	</tr>
 	</table>
+		<div id="insertbutton">
+		<input type="button" value="글추가" onclick="insertForm()"/>
+		</div>
 </div>
 </body>
 </html>

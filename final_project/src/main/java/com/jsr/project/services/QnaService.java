@@ -30,7 +30,10 @@ public class QnaService implements IQnaService{
 	}
 
 	@Override
-	public QnaBoardDto q_getBoard(int q_seq) {
+	public QnaBoardDto q_getBoard(int q_seq, String count) {
+		if (count.equals("count")) {
+			qnaDao.q_readCount(q_seq);
+		}
 		return qnaDao.q_getBoard(q_seq);
 	}
 

@@ -18,14 +18,14 @@ pageEncoding="UTF-8"%>
 		float:left;
 		margin-left:20px;
 		margin-right:20px;
-		background-color: gray;
+		background-color: pink;
 	}
 	
 	#qnaboard{
 		width:400px;
 		height:400px;
 		float:left;
-		background-color: gray;
+		background-color: pink;
 
 	}
 
@@ -62,7 +62,7 @@ pageEncoding="UTF-8"%>
 						</c:when>
 						<c:otherwise>
 							<td>
-								<a href="noticedetail.do?seq=${dto.n_seq}">
+								<a href="notice_detail.do?n_seq=${dto.n_seq}&count=count">
 									${dto.n_title}</a>
 							</td>
 						</c:otherwise>
@@ -101,10 +101,10 @@ pageEncoding="UTF-8"%>
 						</c:when>
 						<c:otherwise>
 							<td>
-								<jsp:setProperty property="arrowNbsp" name="util" value="${dto.q_depth}"/>
-								<jsp:getProperty property="arrowNbsp" name="util"/>
-								<a href="qnadetail.do?seq=${dto.q_seq}">
-									${dto.q_title}</a>
+						<jsp:setProperty property="arrowNbsp" name="util" value="${dto.q_depth}" />
+							<jsp:getProperty property="arrowNbsp" name="util" />
+							<a href="qnadetail.do?q_seq=${dto.q_seq}&count=count">	
+							    ${dto.q_title}</a>
 							</td>
 						</c:otherwise>
 					</c:choose>

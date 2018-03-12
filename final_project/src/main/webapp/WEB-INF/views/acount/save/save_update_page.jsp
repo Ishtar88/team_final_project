@@ -53,13 +53,13 @@
 		<tr>
 			<th>시작날짜</th>
 			<td>
-				<input type="date" name="s_startdate" value="${svDto.s_startdate }">
+				<input type="date" name="st_date" value='<fmt:formatDate value="${svDto.s_startdate }" pattern="yyyy-MM-dd"/>'>
 			</td>
 		</tr>
 		<tr>
 			<th>만기날짜</th>
 			<td>
-				<input type="date" name="s_enddate" value="${svDto.s_enddate }">
+				<input type="date" name="en_date" value='<fmt:formatDate value="${svDto.s_enddate }" pattern="yyyy-MM-dd"/>'>
 			</td>
 		</tr>
 		<tr>
@@ -71,7 +71,7 @@
 		<tr>
 			<td>
 				<input type="submit" value="완료">
-				<input type="button" value="취소" onclick="location.href='acount_cancel.do?acount='save'&seq='+${svDto.s_seq }">
+				<input type="button" value="취소" onclick="location.href='acount_cancel.do?acount=save&seq='+${svDto.s_seq }">
 			</td>
 		</tr>
 	</table>

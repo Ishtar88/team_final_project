@@ -15,17 +15,24 @@
 <title>Insert title here</title>
 </head>
 <body>
-<table class="fund_detail">
+<form action="stock_update.do" method="post">
+<table class="stock_update_body">
 	<tr>
-		<th>펀드명</th>
+		<th>주식명</th>
 		<td>
-			<input type="text" name="f_name" value="${fDto.f_name }">
+			<input type="text" name="s_name" value="${sDto.st_name }">
 		</td>
 	</tr>
 	<tr>
-		<th>투자원금</th>
+		<th>구매수량</th>
 		<td>
-			<input type="text" name="f_money" value="${fDto.f_money }">
+			<input type="text" name="st_count" value="${sDto.st_count }">
+		</td>
+	</tr>
+	<tr>
+		<th>매수금액</th>
+		<td>
+			<input type="text" name="st_money" value="${sDto.st_money }">
 		</td>
 	</tr>
 	<tr>
@@ -37,34 +44,29 @@
 	<tr>
 		<th>총 평가금액</th>
 		<td>
-			<input type="text" name="f_add" value="${fDto.f_add }">
+			<input type="text" name="st_add" value="${sDto.st_add*st_count }">
 		</td>
 	</tr>
 	<tr>
 		<th>매수날짜</th>
 		<td>
-			<input type="date" name="f_buydate" value="${fDto.f_buydate }">
-		</td>
-	</tr>
-	<tr>
-		<th>만기날짜</th>
-		<td>
-			<input type="date" name="f_enddate" value="${fDto.f_enddate }">
+			<input type="date" name="buy_date" value='<fmt:formatDate value="${sDto.st_buydate }" pattern="yyyy-MM-dd"/>'>
 		</td>
 	</tr>
 	<tr>
 		<th>메모</th>
 		<td>
-			<input type="text" name="f_memo" value="${fDto.f_memo }">
+			<input type="text" name="st_memo" value="${sDto.st_memo }">
 		</td>
 	</tr>
 
 	<tr>
 		<td>
 			<input type="submit" value="완료">
-			<input type="button" value="취소" onclick="location.href='acount_cancel.do?acount='fund'&seq='+${fDto.f_seq }">
+			<input type="button" value="취소" onclick="location.href='acount_cancel.do?acount=stock&seq='+${sDto.st_seq }">
 		</td>
 	</tr>
 </table>
+</form>
 </body>
 </html>

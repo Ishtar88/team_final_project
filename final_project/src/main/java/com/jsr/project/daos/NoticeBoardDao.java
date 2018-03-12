@@ -27,7 +27,7 @@ public class NoticeBoardDao implements INoticeDao{
 	
 	@Override
 	public NoticeBoardDto n_detailBoard(int n_seq) {
-		return sqlSession.selectOne(namespace+"n_detailboard");
+		return sqlSession.selectOne(namespace+"n_detailboard",n_seq);
 	}
 	
 	//새 글 입력 

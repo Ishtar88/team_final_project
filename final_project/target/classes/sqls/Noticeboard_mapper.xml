@@ -22,7 +22,7 @@
 <!-- 	글 상세 조회하기 -->
 	<select id="n_detailboard" resultType="NoticeBoardDto" parameterType="int">
 		SELECT N_SEQ, ID, N_TITLE, N_CONTENT, N_REGDATE,
-		N_READCOUNT FROM NOTICE
+		N_READCOUNT FROM NOTICE WHERE N_SEQ=#{n_seq}
 	</select>
 	
 <!-- 	새로운 글 입력하기  -->
@@ -37,14 +37,14 @@
 	
 <!-- 	글 수정하기  -->
 	<update id="n_updateboard" parameterType="NoticeBoardDto">
-	UPCDATE NOTICE SET N_TITLE=#{n_title}, N_CONTENT=#{n_content}, 
+	UPDATE NOTICE SET N_TITLE=#{n_title}, N_CONTENT=#{n_content}, 
 	N_REGDATE=SYSDATE WHERE N_SEQ=#{n_seq}
 	</update>
 
 <!-- 조횟수 증가 -->
 
 	<update id="n_readcount">
-		UPDATE NOTICE SET N_READCOUNT=READCOUNT+1 WHERE N_SEQ=#{n_seq}
+		UPDATE NOTICE SET N_READCOUNT=N_READCOUNT+1 WHERE N_SEQ=#{n_seq}
 	</update>
 
 <!-- 한개의 글 삭제하기 -->
