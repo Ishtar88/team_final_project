@@ -168,5 +168,4 @@ img {
 		</table>
 	</form>
 </body>
->>>>>>> refs/remotes/origin/master
 </html>
