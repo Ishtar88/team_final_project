@@ -15,6 +15,7 @@ public class SpendingDao implements ISpendingDao {
 	private SqlSessionTemplate sqlSession;
 	private String namespace="com.jsr.project.spending.";
 	
+	
 	@Override
 	public boolean spendingInsert(SpendingDto dto) {
 		int count=0;

@@ -30,6 +30,106 @@
 			}
 		});
 	});
+	
+	var satLocked=false;
+	var needLocked=false;
+	
+	
+	function satChk(star){
+		satLock(star);
+		alert(star+"점을 선택하셨습니다.");
+		var point=$("#p_sat").val('star');
+		
+	}
+	
+	function needChk(star){
+		needLock(star);
+		alert(star+"점을 선택하셨습니다.");
+		var point=$("#p_need").val();
+		point=star;
+	}
+	
+	function satLock(star){
+		satShow(star);
+		satLocked=true;
+	}
+	
+	function needLock(star){
+		needShow(star);
+		needLocked=true;
+	}
+	
+	
+	function satShow(star){
+		if (satLocked) {
+			return;
+		}
+		var i;
+		var image;
+		var el;
+		
+		for (var i = 1; i <= star; i++) {
+			image='satImage'+i;
+			el=document.getElementById(image);
+			el.src="resources/icon/star_full.png";
+		}
+		
+	}
+	
+	function satNoShow(star){
+		if (satLocked) {
+			return;
+		}
+		
+		var i;
+		var image;
+		var el;
+		
+		for (var i = 1; i <= star; i++) {
+			image='satImage'+i;
+			el=document.getElementById(image);
+			el.src="resources/icon/star_empty.png";
+		}
+		
+	}
+	
+	function needShow(star){
+		if (needLocked) {
+			return;
+		}
+		var i;
+		var image;
+		var el;
+		
+		for (var i = 1; i <= star; i++) {
+			image='needImage'+i;
+			el=document.getElementById(image);
+			el.src="resources/icon/star_full.png";
+		}
+		
+	}
+	
+	function needNoShow(star){
+		if (needLocked) {
+			return;
+		}
+		
+		var i;
+		var image;
+		var el;
+		
+		for (var i = 1; i <= star; i++) {
+			image='needImage'+i;
+			el=document.getElementById(image);
+			el.src="resources/icon/star_empty.png";
+		}
+		
+	}
+	
+
+	
+	
+	
 </script>
 <style type="text/css">
 .cashable_form, .card_form {
@@ -86,16 +186,18 @@
 				<th>만족도</th>
 					<td>
 						<c:forEach var="i" begin="1" end="5" step="1">
-							<img alt="star" src="resources/icon/star_empty.png" name="satImage${i}" onclick="satChk('${i}')" onmouseover="satShow('${i}')" onmouseout="satNoShow('${i}')">
+							<img alt="star" src="resources/icon/star_empty.png" id="satImage${i}" onclick="satChk('${i}')" onmouseover="satShow('${i}')" onmouseout="satNoShow('${i}')">
 						</c:forEach>
+							<input type="text" name="p_sat" value="">
 					</td>
 			</tr>
 			<tr>
 				<th>필요성</th>
 						<td>
 							<c:forEach var="i" begin="1" end="5" step="1">
-								<img alt="star" src="resources/icon/star_empty.png" name="needImage${i}" onclick="needChk('${i}')" onmouseover="needShow('${i}')" onmouseout="needNoShow('${i}')">
+								<img alt="star" src="resources/icon/star_empty.png" id="needImage${i}" onclick="needChk('${i}')" onmouseover="needShow('${i}')" onmouseout="needNoShow('${i}')">
 							</c:forEach>
+								<input type="text" name="p_need" value="">
 						</td>
 			</tr>
 				<tr>

@@ -1,18 +1,10 @@
 package com.jsr.project;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 
-import static org.hamcrest.CoreMatchers.nullValue;
-
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -103,6 +95,7 @@ public class SpendingController {
 		
 		MembersDto lDto=(MembersDto)session.getAttribute("loginDto");
 		String id=lDto.getId();
+		dto.setId(id);
 		
 		boolean isc=spendingService.spendingInsert(dto);
 		if (isc) {

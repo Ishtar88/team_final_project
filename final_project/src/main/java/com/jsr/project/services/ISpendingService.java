@@ -2,8 +2,11 @@ package com.jsr.project.services;
 
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import com.jsr.project.dtos.SpendingDto;
 
+@Service
 public interface ISpendingService {
 	
 	//지출 등록

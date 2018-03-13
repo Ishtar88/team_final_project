@@ -67,7 +67,7 @@ public String insertnotice(NoticeBoardDto dto) {
 }
 
 @RequestMapping (value="manager_notice_detail.do", method={RequestMethod.POST, RequestMethod.GET})
-public String notice_detail(Model model, String n_seq){
+public String notice_detail(Model model, String n_seq,String count){
 	logger.info("notice board detail page"); 
 	
 	int seq=Integer.parseInt(n_seq);
