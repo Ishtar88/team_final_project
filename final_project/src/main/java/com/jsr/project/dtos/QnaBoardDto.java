@@ -4,9 +4,10 @@ import java.util.Date;
 
 public class QnaBoardDto {
 	
+	MembersDto mdto = new MembersDto(); 
+	
 	private int q_seq;
 	private String id; 
-	private String q_name;
 	private String q_title; 
 	private String q_content; 
 	private Date q_regDate; 
@@ -23,12 +24,11 @@ public class QnaBoardDto {
 	}
 	
 	
-	public QnaBoardDto(int q_seq, String id, String q_name, String q_title, String q_content, Date q_regDate,
+	public QnaBoardDto(int q_seq, String id, String q_title, String q_content, Date q_regDate,
 			int q_refer, int q_step, int q_depth, int q_readcount, String q_delflag, String q_viewable) {
 		super();
 		this.q_seq = q_seq;
 		this.id = id;
-		this.q_name = q_name;
 		this.q_title = q_title;
 		this.q_content = q_content;
 		this.q_regDate = q_regDate;
@@ -41,7 +41,7 @@ public class QnaBoardDto {
 	}
 	@Override
 	public String toString() {
-		return "qnaBoardDto [q_seq=" + q_seq + ", id=" + id + ", q_name=" + q_name + ", q_title=" + q_title
+		return "qnaBoardDto [q_seq=" + q_seq + ", id=" + id + ", q_name=" +  ", q_title=" + q_title
 				+ ", q_content=" + q_content + ", q_regDate=" + q_regDate + ", q_refer=" + q_refer + ", q_step=" + q_step
 				+ ", q_depth=" + q_depth + ", q_readcount=" + q_readcount + ", q_delflag=" + q_delflag + ", q_viewable="
 				+ q_viewable + "]";
@@ -56,13 +56,7 @@ public class QnaBoardDto {
 		return id;
 	}
 	public void setId(String id) {
-		this.id = id;
-	}
-	public String getQ_name() {
-		return q_name;
-	}
-	public void setQ_name(String q_name) {
-		this.q_name = q_name;
+		this.id = mdto.getId();
 	}
 	public String getQ_title() {
 		return q_title;

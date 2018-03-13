@@ -1,4 +1,5 @@
 <%@page import="java.util.List" %>
+<%@ page isELIgnored ="false" %>
 <%@page import="java.nio.charset.Charset"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%>

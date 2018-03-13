@@ -20,20 +20,20 @@ public interface IQnaBoardDao {
 	public boolean q_insertBoard(QnaBoardDto dto); 
 	
 //	새로운 답변 입력
-	public boolean q_replyBoard(QnaBoardDto dto); 
+	public int q_replyBoard(QnaBoardDto dto); 
 	
 //	일반 글 수정
 	public boolean q_updateBoard(QnaBoardDto dto); 
 	
 //	답변 글 수정
-	public boolean q_updateReply(QnaBoardDto dto);
+	public int q_updateReply(int q_seq);
 	
 //	조횟수 증가
 	public boolean q_readCount(int q_seq);
 	
 //	한 개의 글 삭제하기
 //	q_deleteboard
-	public boolean q_deleteOne(int q_seq);
+	public boolean q_deleteOne(QnaBoardDto dto);
 
 //	여러개의 글 삭제하기
 	public boolean q_mulDelBoard(String [] q_seq);
