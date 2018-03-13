@@ -46,16 +46,21 @@ public class QnaService implements IQnaService{
 	public boolean q_mulDelBoard(String[] q_seq) {
 		return qnaDao.q_mulDelBoard(q_seq);
 	}
-
-	@Override
-	public boolean q_deleteBoard(int q_seq) {
-		return qnaDao.q_deleteOne(q_seq);
-	}
-
+	
 	@Override
 	public boolean q_replyBoard(QnaBoardDto dto) {
-		return qnaDao.q_replyBoard(dto);
+		int count=0; 
+		count=qnaDao.q_replyBoard(dto);
+		qnaDao.q_updateReply(dto.getQ_seq());
+		return count>0?true:false;
 	}
+
+	@Override
+	public boolean q_deleteBoard(QnaBoardDto dto) {
+		return qnaDao.q_deleteOne(dto);
+	}
+
+
 
 	@Override
 	public QnaBoardDto q_getBoardAjax(int q_seq) {

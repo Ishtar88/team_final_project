@@ -1,6 +1,4 @@
-
 package com.jsr.project;
-
 
 import java.util.List;
 import java.util.Locale;
@@ -20,24 +18,16 @@ import com.jsr.project.services.INoticeService;
 import com.jsr.project.services.IQnaService;
 import com.jsr.project.services.NoticeService;
 
-
-
 @Controller
 public class CustomerController {
 	
-	
-	
 	private static final Logger logger = LoggerFactory.getLogger(CustomerController.class);
-	
 	
 	//Qnaservice랑 NoticeService를 넣을거예요. 
 	@Autowired
 	private IQnaService qnaService;
-	
 	@Autowired
 	private INoticeService noticeService;
-	
-	
 	
 	
 	//고객센터 메인보기
@@ -62,7 +52,6 @@ public class CustomerController {
 		model.addAttribute("lists", lists);
 		return "customer/noticeboardmain";
 	}
-	
 	@RequestMapping (value="notice_detail.do", method={RequestMethod.POST, RequestMethod.GET})
 	public String notice_detail(Model model, String n_seq, String count){
 		logger.info("notice board detail page"); 
@@ -74,13 +63,9 @@ public class CustomerController {
 		
 		return "customer/noticeboard_detail"; 
 	}
-	
-	
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//QnA게시판 명령 
 	
-	
-
 	//질문게시판 목록페이지 보기 
 	@RequestMapping(value="/qnamain.do", method={RequestMethod.POST,RequestMethod.GET})
 	public String qnalist(Model model) {
@@ -92,16 +77,12 @@ public class CustomerController {
 	
 	//질문게시판 게시글 상세페이지 보기 
 	@RequestMapping(value="/qnadetail.do", method= {RequestMethod.POST,RequestMethod.GET})
-	public String qnadetail(Model model, String q_seq, String count) {
+	public String qnadetail(Model model, int q_seq, String count) {
 		logger.info("customer board detail page");
-		
-		int seq = Integer.parseInt(q_seq); 
-		QnaBoardDto dto = qnaService.q_getBoard(seq, count); 
+		QnaBoardDto dto = qnaService.q_getBoard(q_seq, count); 
 		model.addAttribute("dto", dto); 
-		
 		return "customer/qnaboarddetail";
 	}
-	
 	
 	//질문게시판 게시글 새로 입력하는 페이지 
 	@RequestMapping(value="/insertform.do", method= {RequestMethod.POST,RequestMethod.GET})
@@ -110,7 +91,6 @@ public class CustomerController {
 		
 		return "customer/insertqna";
 	}
-	
 	
 	//질문게시판 게시글 입력 완료 후 처리하는 페이지 
 	@RequestMapping(value="/submitqna.do", method={RequestMethod.POST,RequestMethod.GET})
@@ -127,41 +107,51 @@ public class CustomerController {
 		}
 	}
 	
-	//질문게시판 게시글 수정 
-//	@RequestMapping(value="/updateqna.do", method={RequestMethod.POST,RequestMethod.GET})
-//	public String updateqna(Model model, QnaBoardDto dto, String sseq) {
-//		logger.info("customer board update page");
-//		
-//		int seq= Integer.parseInt(sseq);
-//		
-//		QnaBoardDto dto = qnaService.q_updateBoard(seq); 
-//		model.addAttribute("dto", dto);
-//		return "customer/qnaboardupdate";
-//	}
+	//질문게시판 게시글 수정폼 이동 
+		@RequestMapping(value="/updateform.do", method={RequestMethod.POST,RequestMethod.GET})
+		public String updateform(Model model, int q_seq, String count) {
+			logger.info("customer board update form page");
+			QnaBoardDto dto = qnaService.q_getBoard(q_seq, count); 
+			model.addAttribute("dto", dto);
+			return "qnaUpdateForm"; 
+		}
 	
-
+	//질문게시판 게시글 수정 
+	@RequestMapping(value="/updateqna.do", method={RequestMethod.POST,RequestMethod.GET})
+	public String updateqna(QnaBoardDto dto) {
+		logger.info("customer board update complete");
+		boolean isc=qnaService.q_updateBoard(dto); 
+		if (isc) {
+			return "redirect:qnadetail.do?seq="+dto.getQ_seq(); 
+		}
+		return "redirect:updateform.do?seq="+dto.getQ_seq();
+	}
 	
 	//질문게시판 게시글 삭제 
 	@RequestMapping(value="/deleteBoard.do",  method={RequestMethod.POST,RequestMethod.GET})
-	public String deleteBoard(String sseq) {
+	public String deleteBoard(QnaBoardDto dto) {
 		logger.info("customer board delete");
-		
-		int seq=Integer.parseInt(sseq);
-		boolean isc=qnaService.q_deleteBoard(seq);
+		boolean isc=qnaService.q_deleteBoard(dto);
 		if (isc) {
-			return "redirect:customer/qnaboardmain";
+			return "redirect:qnamain.do";
 		}else {
-			return "redirect:customer/qnaboarddetail";
+			return "redirect:qnadetail.do?seq="+dto.getQ_seq(); 
 		}
 	}
 
 //
 //	//질문게시판 답글달기 
-//	@RequestMapping(value="/replyboard.do", method= {RequestMethod.POST,RequestMethod.GET})
-//	public String replyboard() {
-//		
-//		
-//	}
+	@RequestMapping(value="/replyboard.do", method= {RequestMethod.POST,RequestMethod.GET})
+	public String replyboard(Locale locale, QnaBoardDto dto) {
+		logger.info("reply");;
+		boolean isS=qnaService.q_replyBoard(dto);
+		if (isS) {
+			return "redirect:qnamain.do";
+		} else {
+			logger.info("답글추가 실패", locale);
+			return "qnadetail.do?seq="+dto.getQ_seq(); 
+		}
+	}
 //			
 
 

@@ -22,8 +22,24 @@
 
 <body>
 <div id="purple">
-<h2>헤더 적용됨</h2> 
-<h3><a href="home.do">메인으로 돌아갑세</a></h3>
+		<!-- 상단 메뉴바 -->
+		<div class="pusher">
+		  <div class="ui inverted vertical masthead center aligned segment">
+		    <div class="ui container">
+		      <div class="ui large secondary inverted pointing menu">
+		    <a class="active item" href="home.do">홈</a>
+		    <a class="item" href="acount.do">자산관리</a>
+		    <a class="item">패턴분석</a>
+		    <a class="item">포인트몰</a>
+		    <a class="item">고객센터</a>
+		        <div class="right item">
+		          <a class="ui inverted button" href="getUser.do">${loginDto.m_name}님</a>
+		          <a class="ui inverted button" href="logout.do">로그아웃</a>
+		        </div>
+		      </div>
+		    </div>
+		  </div>
+		</div>
 </div>
 
 </body>
