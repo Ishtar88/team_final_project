@@ -13,6 +13,16 @@
 		<result property="r_file" column="R_FILE" />
 		<result property="r_regDate" column="R_REGDATE" />
 		<result property="r_modiDate" column="R_MODIDATE" />
+		<collection property="b_name" resultMap="CompanyDto"></collection>
+	</resultMap>
+
+	<resultMap type="com.jsr.project.dtos.CompanyDto" id="CompanyDto">
+		<result property="b_seq" column="B_SEQ" />
+		<result property="b_name" column="B_NAME" />
+		<result property="b_num" column="B_NUM" />
+		<result property="b_address" column="B_ADDRESS" />
+		<result property="b_tel" column="B_TEL" />
+		<result property="b_regDate" column="B_REGDATE" />
 	</resultMap>
 
 	<insert id="insertReward" parameterType="RewardDto">
@@ -21,8 +31,32 @@
 		VALUES
 		(REWARD_SEQ.NEXTVAL,#{r_name},#{b_seq},#{r_point},'Y',#{r_file})
 	</insert>
-	
+
 	<select id="rewardList" resultMap="RewardDto">
-	SELECT R_SEQ,R_NAME,B_SEQ,R_POINT,R_FILE,R_REGDATE FROM REWARD WHERE R_SELL='Y'
+		SELECT
+		R_SEQ,R_NAME,R_POINT,R_SELL,R_FILE,R_REGDATE,R_DETAIL,C.B_SEQ,B_NAME
+		FROM
+		REWARD R JOIN COMPANY C ON R.B_SEQ=C.B_SEQ WHERE R_SELL='Y'
+	</select>
+
+	<select id="findByRname" resultMap="RewardDto" parameterType="Map">
+		SELECT
+		R_SEQ,R_NAME,R_POINT,R_SELL,R_FILE,R_REGDATE,C.B_SEQ,B_NAME FROM
+		REWARD R JOIN COMPANY C ON R.B_SEQ=C.B_SEQ WHERE R_SELL='Y' AND
+		R_NAME
+		LIKE '%'|| #{r_name} ||'%'
+	</select>
+
+	<select id="findByBname" resultMap="RewardDto" parameterType="Map">
+		SELECT
+		R_SEQ,R_NAME,R_POINT,R_SELL,R_FILE,R_REGDATE,C.B_SEQ,B_NAME FROM
+		REWARD R JOIN COMPANY C ON R.B_SEQ=C.B_SEQ WHERE R_SELL='Y' AND
+		B_NAME
+		LIKE '%'|| #{b_name} ||'%'
+	</select>
+
+	<select id="rewardOne" resultMap="RewardDto" parameterType="Map">
+		SELECT R_SEQ,R_NAME,R_POINT,R_SELL,R_FILE,R_REGDATE,C.B_SEQ,B_NAME FROM
+		REWARD R JOIN COMPANY C ON R.B_SEQ=C.B_SEQ WHERE R_SEQ=#{r_seq}
 	</select>
 </mapper>
