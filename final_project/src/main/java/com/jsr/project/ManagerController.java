@@ -38,7 +38,7 @@ public String manager_notice(Model model) {
 logger.info("notice board main page");
 List<NoticeBoardDto> lists=noticeService.n_getAllList(); 
 model.addAttribute("lists", lists);
-return "manager/manger_noticeboard";
+return "manager/manager_noticeboard";
 }
 
 @RequestMapping(value="manager_qna.do", method = {RequestMethod.POST, RequestMethod.GET})
@@ -47,6 +47,35 @@ logger.info("qna board main page");
 List<QnaBoardDto> lists=qnaService.q_getAlllist(); 
 model.addAttribute("lists", lists);
 return "manager/manager_qnaboard";
+}
+
+@RequestMapping(value="insertnoticeform.do", method= {RequestMethod.POST,RequestMethod.GET})
+public String insertnoticeform() {
+	logger.info("notice board insert page");
+	return "manager_noticeinsertform"; 
+}
+
+@RequestMapping(value="insertnotice.do", method= {RequestMethod.GET})
+public String insertnotice(NoticeBoardDto dto) {
+	logger.info("notice board insert page");
+	boolean isS=noticeService.n_insertBoard(dto); 
+	if (isS) {
+		return "redirect:manager_notice.do"; 
+	}else {
+		return "redirect:insertnoticeform.do"; 
+	}
+}
+
+@RequestMapping (value="manager_notice_detail.do", method={RequestMethod.POST, RequestMethod.GET})
+public String notice_detail(Model model, String n_seq){
+	logger.info("notice board detail page"); 
+	
+	int seq=Integer.parseInt(n_seq);
+	
+	NoticeBoardDto dto = noticeService.n_detailBoard(seq,count);
+	model.addAttribute("dto", dto);
+	
+	return "manager/noticeboard_detail"; 
 }
 
 

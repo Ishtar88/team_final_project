@@ -45,10 +45,8 @@ public class QnaBoardDao implements IQnaBoardDao{
 	
 //	새로운 답변 입력 - 관리자 
 	@Override
-	public boolean q_replyBoard(QnaBoardDto dto) {
-		int count=0; 
-		count=sqlSession.insert(namespace+"q_ansinsert", dto);
-		return count>0?true:false;
+	public int q_replyBoard(QnaBoardDto dto) {
+		 return sqlSession.insert(namespace+"q_ansinsert", dto);
 	}
 	
 //	일반 글 수정 - 모두 
@@ -61,10 +59,8 @@ public class QnaBoardDao implements IQnaBoardDao{
 	
 //	답변 글 수정 - 관리자
 	@Override
-	public boolean q_updateReply(QnaBoardDto dto) {
-		int count=0; 
-		count=sqlSession.update(namespace+"q_ansupdate", dto);
-		return count>0?true:false;
+	public int q_updateReply(int q_seq) {
+	 return sqlSession.update(namespace+"q_ansupdate", q_seq);
 	}
 	
 	
@@ -79,7 +75,7 @@ public class QnaBoardDao implements IQnaBoardDao{
 //	한 개의 글 삭제하기 - 모두 
 //	q_deleteboard
 	@Override
-	public boolean q_deleteOne(int q_seq) {
+	public boolean q_deleteOne(QnaBoardDto dto) {
 		return false;
 		
 	}
@@ -98,7 +94,6 @@ public class QnaBoardDao implements IQnaBoardDao{
 	public QnaBoardDto q_getBoardAjax(int q_seq) {
 		return sqlSession.selectOne(namespace+"q_detailAjax", q_seq);
 	}
-
 
 
 

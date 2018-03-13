@@ -21,7 +21,7 @@ pageEncoding="UTF-8"%>
 </style>
 <script type="text/javascript">
 	function insertForm(){
-		location.href="insertnotice.do";
+		location.href="insertnoticeform.do";
 	}
 
 </script>
@@ -46,28 +46,22 @@ pageEncoding="UTF-8"%>
 		<c:otherwise>
 			<c:forEach items="${lists}" var="dto">
 				<tr>
-					<td><input class="form-control" type="checkbox" name="chk" value="${dto.q_seq}"/></td>
-					<td>${dto.q_seq}</td>
+					<td><input class="form-control" type="checkbox" name="chk" value="${dto.n_seq}"/></td>
+					<td>${dto.n_seq}</td>
 					<td>${dto.id}</td>
 					<c:choose>
-						<c:when test="${dto.q_delflag=='Y'}">
+						<c:when test="${dto.n_delflag=='Y'}">
 							<td>---삭제된 글입니다.---</td>
 						</c:when>	
 						<c:otherwise>
 							<td>
-							<jsp:setProperty property="arrowNbsp" name="util" value="${dto.q_depth}" />
-							<jsp:getProperty property="arrowNbsp" name="util" />
-							<a href="qnadetail.do?seq=${dto.q_seq}">	
-							    ${dto.q_title}</a>
+							<a href="manager_notice_detail.do?n_seq=${dto.n_seq}">	
+							    ${dto.n_title}</a>
 							</td>
 						</c:otherwise>
 					</c:choose>
-					<td><f:formatDate value="${dto.q_regDate}" pattern="yy년MM월dd일"/> </td>
-					<td>${dto.q_readcount}</td>
-					<td>${dto.q_refer}</td>
-					<td>${dto.q_step}</td>
-					<td>${dto.q_depth}</td>
-					<td>${dto.q_delflag}</td>
+					<td><f:formatDate value="${dto.n_regDate}" pattern="yy년MM월dd일"/> </td>
+					<td>${dto.n_readcount}</td>
 				</tr>
 			</c:forEach>
 		</c:otherwise>
