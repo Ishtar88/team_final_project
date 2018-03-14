@@ -10,7 +10,6 @@
 		<result property="n_content" column="N_CONTENT"/>
 		<result property="n_regDate" column="N_REGDATE"/>
 		<result property="n_readcount" column="N_READCOUNT"/>
-		<result property="n_delflag" column="N_DELFLAG"/>
 	</resultMap>
 
 <!-- 	글 목록 조회하기 -->
@@ -27,12 +26,11 @@
 	
 <!-- 	새로운 글 입력하기  -->
 	<insert id="n_insertboard" parameterType="NoticeBoardDto">
-		INSERT INTO NOTICE 
-		(N_SEQ, N_TITLE, N_CONTENT, N_REGDATE, 
-		N_READCOUNT, N_DELFLAG)
-		VALUES
-		(N_SEQ.NEXTVAL, #{n_title}, #{n_content}, SYSDATE,
-		0, 'N')
+		INSERT INTO PJS.NOTICE
+(N_SEQ, ID, N_TITLE, N_CONTENT, N_REGDATE, N_READCOUNT)
+VALUES (NOTICE_SEQ.NEXTVAL, 'ASD', '안녕', '내용', SYSDATE, 0)
+
+
 	</insert>
 	
 <!-- 	글 수정하기  -->
@@ -49,13 +47,13 @@
 
 <!-- 한개의 글 삭제하기 -->
 
-	<update id="n_deleteboard" parameterType="NoticeBoardDto">
-		UPDATE NOTICE SET N_DELFLAG='Y' WHERE N_SEQ=#{n_seq}
-	</update>
+	<delete id="n_deleteboard" parameterType="NoticeBoardDto">
+		DELETE ROW FROM NOTICE WHERE N_SEQ=#{n_seq}
+	</delete>
 	
 <!-- 	여러개의 글 삭제하기 (동적쿼리)-->
 	<update id="n_muldelboard" parameterType="Map">
-		UPDATE NOTICE SET N_DELFLAGE='Y' WHERE SEQ IN 
+		DELETE ROW FROM NOTICE WHERE SEQ IN 
 		<foreach collection="n_seqs" item="n_seq" open="(" close=")" separator=",">
 			#{n_seq}
 		</foreach>

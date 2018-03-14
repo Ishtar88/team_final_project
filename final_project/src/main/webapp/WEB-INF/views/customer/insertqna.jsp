@@ -10,8 +10,8 @@
 <title>Insert title here</title>
 <script type="text/javascript">
 	//목록으로 돌아가기
-	function qnamain(){
-		location.href="qnamain.do";
+	function manager_notice(){
+		location.href="manager_notice.do";
 	}
 	
 </script>
@@ -19,20 +19,20 @@
 <body>
 <div id="container">
 <h1>게시글<small>작성하기</small></h1>
-<form action="submitqna.do" method="post">
+<form action="insertnotice.do" method="post">
 	<table class="table table-striped">
 		<tr>
 			<th>제목</th>
-			<td><input class="form-control" type="text" name="	q_title"/></td>
+			<td><input class="form-control" type="text" name="n_title"/></td>
 		</tr>
 		<tr>
 			<th>내용</th>
-			<td><textarea class="form-control" cols="60" rows="10" name="q_content"></textarea></td>
+			<td><textarea class="form-control" cols="60" rows="10" name="n_content"></textarea></td>
 		</tr>
 		<tr>
 			<td colspan="2">
 				<input type="submit" class="btn btn-primary"  value="글작성" />
-				<input type="button"  class="btn btn-primary" value="목록" onclick="qnamain()"/>			
+				<input type="button"  class="btn btn-primary" value="목록" onclick="manager_notice()"/>			
 			</td>
 		</tr>
 	</table>

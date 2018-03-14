@@ -116,9 +116,6 @@ body>.grid {
 			</div>
 			<div class="ui message">
 				<a href="findIdPw.do">아이디/비밀번호 찾기</a>
-			</div>
-			<div class="ui message">관리자 페이지</div>
-
 		</div>
 	</div>
 </body>
