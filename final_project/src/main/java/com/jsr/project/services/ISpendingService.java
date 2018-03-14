@@ -36,7 +36,9 @@ public interface ISpendingService {
 	public List<SpendingDto> spendingSomeSearch(SpendingDto dto);
 	
 	
-	
 	//---------------------------------------------------------------
+	
+	//지출 상세조회
+	public SpendingDto spendingDetailSearch(int p_seq);
 
 }

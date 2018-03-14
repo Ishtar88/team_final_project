@@ -125,6 +125,8 @@ public class SpendingController {
 		
 		SpendingDto dto=new SpendingDto();
 		
+		System.out.println(year);
+		
 		String sYear=year.substring(0, year.indexOf("년"));
 		String sMonth=month.substring(0, month.lastIndexOf("월"));
 		
@@ -156,12 +158,22 @@ public class SpendingController {
 			System.out.println("map: "+map);
 		}
 		
-
-		
-		
 		return map;
 	}
 	
+	@RequestMapping(value = "/spending_detail.do")
+	public String spending_detail(Model model,String seq,HttpSession session) {
+		logger.info("spending insert page");
+		
+		int p_seq=Integer.parseInt(seq);
+		
+		SpendingDto sDto=spendingService.spendingDetailSearch(p_seq);
+		model.addAttribute("sDto", sDto);
+		
+		
+		return "spending/spending_detail";
+	}
+
 
 
 }

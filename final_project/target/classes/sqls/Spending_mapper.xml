@@ -67,6 +67,10 @@
 			FROM SPENDING WHERE TO_CHAR(P_REGDATE,'YYYY-MM')=#{p_location} AND ID=#{id} ORDER BY P_SOME DESC
 		</select>
 		
+		<select id="spendingDetailSearch" parameterType="SpendingDto" resultType="SpendingDto">
+			SELECT P_SEQ,ID,P_NAME,P_DETAIL,P_LOCATION,P_REGDATE,P_MONEY,P_SOME,P_CASHABLE,P_CARD,P_SAT,P_NEED
+			FROM SPENDING WHERE P_SEQ=#{p_seq}
+		</select>
 	
 		
 		<select id="incomeAllSearch" parameterType="String" resultType="IncomeDto">

@@ -25,6 +25,5 @@
 		<mapper resource="/sqls/Income_mapper.xml"/>
 		<mapper resource="/sqls/Reward_mapper.xml"/>
 		<mapper resource="/sqls/Spending_mapper.xml"/>
-		<mapper resource="/sqls/Manager_mapper.xml"/>
 	</mappers>
 </configuration>
