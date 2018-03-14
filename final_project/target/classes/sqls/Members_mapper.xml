@@ -138,5 +138,19 @@
 	<update id="changePw" parameterType="Map">
 	UPDATE MEMBERS SET M_PASSWORD=#{m_password} WHERE ID=#{id}
 	</update>
+	
+<!-- 	관리자 -->
+<!-- 	회원정보 뿌려주는 페이지다  -->
+	<select id ="showMember"  resultType="MembersDto">
+SELECT ID, M_NAME, M_EMAIL, M_PASSWORD, M_PHONE, (SELECT (SUBSTR(TO_CHAR(SYSDATE,'YYYY-MM-DD'),1,4)-'1986')+1 AS AGE FROM MEMBERS WHERE ID='ASD') AS M_AGE,
+M_GENDER, M_GRADE, M_ADDRESS, M_JOB, M_REGDATE, 
+M_USEABLE, M_MARIABLE, M_FAVORITE, M_BIRTHDATE, M_GOALDATE, M_PROFILE_IMG FROM MEMBERS		
+		</select>
+		
+		<select id = "searchMember" parameterType="MembersDto" resultMap="MembersDto">
+		SELECT ID, M_NAME, M_EMAIL, M_PASSWORD, M_PHONE, (SELECT (SUBSTR(TO_CHAR(SYSDATE,'YYYY-MM-DD'),1,4)-'1986')+1 AS AGE FROM MEMBERS WHERE ID='ASD') AS M_AGE,
+M_GENDER, M_GRADE, M_ADDRESS, M_JOB, M_REGDATE, 
+M_USEABLE, M_MARIABLE, M_FAVORITE, M_BIRTHDATE, M_GOALDATE, M_PROFILE_IMG FROM MEMBERS	WHERE ID=#{id}	
+		</select>
 
 </mapper>
