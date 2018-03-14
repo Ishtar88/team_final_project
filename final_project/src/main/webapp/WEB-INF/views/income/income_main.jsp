@@ -4,7 +4,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
-<jsp:include page="income_header.jsp"></jsp:include>
+<jsp:include page="../header.jsp"></jsp:include>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -99,6 +99,13 @@ window.onload = function () {
 <body>
 <div class="acount_body_wrap">
 	<header>
+		<div class="ui right aligned">
+		    <a class="item" href="goal_main.do">목표관리</a>
+		    <a class="active item" href="income_main.do?year=2018&month=03">수입관리</a>
+		    <a class="item" href="spending_main.do?year=2018&month=03">지출관리</a>
+		    <a class="item" href="month_main.do?year=2018&month=03">달력</a>
+	    </div>
+	</header>
 		<div class="income_canvas_wrap">
 			<div id="chartContainer" style="height: 400px; width: 50%;"></div>
 			<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
@@ -138,7 +145,6 @@ window.onload = function () {
 				</div>
 			</div>
 		</div>
-	</header>
 	<div class="income_body_wrap">
 		<div class="income_header_wrap">
 			<header>

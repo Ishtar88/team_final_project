@@ -13,7 +13,16 @@ public class RewardDto {
 	private String r_file;
 	private Date r_regDate;
 	private Date r_modiDate;
+	private CompanyDto b_name;
 	
+	public CompanyDto getB_name() {
+		return b_name;
+	}
+
+	public void setB_name(CompanyDto b_name) {
+		this.b_name = b_name;
+	}
+
 	public RewardDto() {
 		super();
 		
