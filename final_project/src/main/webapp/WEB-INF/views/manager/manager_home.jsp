@@ -13,6 +13,7 @@
 <title>관리자 페이지에 오신 것을 환영합니다.</title>
 </head>
 <body>
+<h1> 매니저 메인 페이지 입니다 </h1>
 <a href="#">회원정보 관리</a><br/>
 <a href="manager_notice.do">공지게시판 관리</a><br/>
 <a href="manager_qna.do">QnA게시판 관리</a>
