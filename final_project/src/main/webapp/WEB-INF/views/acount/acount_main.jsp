@@ -1,10 +1,11 @@
+<%@page import="java.util.Calendar"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <%request.setCharacterEncoding("UTF-8"); %>
 <%response.setContentType("text/html; charset=UTF-8"); %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %> 
 <!DOCTYPE html>
-<jsp:include page="acount_header.jsp"></jsp:include>
+<jsp:include page="../header.jsp"></jsp:include>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -130,7 +131,17 @@ function toggleDataSeries(e) {
 		
 		open(url,'',prop);
 	}
+	
 </script>
+<%
+	Calendar cal=Calendar.getInstance();
+	int year=cal.get(Calendar.YEAR);
+	int lMonth=cal.get(Calendar.MONTH)+1;
+	String month=null;
+	if(lMonth<10){
+		month="0"+lMonth;
+	}
+%>
 <style type="text/css">
 	body{position: relative;}
 	.acount_header_wrap{
@@ -153,7 +164,14 @@ function toggleDataSeries(e) {
 </head>
 <body>
 <div class="acount_body_wrap">
-	<header>
+		<header>
+			<div class="ui right aligned">
+			    <a class="active item" href="goal_main.do">목표관리</a>
+			    <a class="item" href="income_main.do?year=<%=year%>&month=<%=month%>">수입관리</a>
+			    <a class="item" href="spending_main.do?year=<%=year%>&month=<%=month%>">지출관리</a>
+			    <a class="item" href="month_main.do?year=<%=year%>&month=<%=month%>">달력</a>
+		    </div>
+		</header>
 		<div class="acount_canvas_wrap">
 			<div id="chartContainer" style="height: 370px; width: 40%;"></div>
 			<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
@@ -164,17 +182,12 @@ function toggleDataSeries(e) {
 				<div class="field">${aDto.ac_money }</div>
 			</div>
 		</div>
-	</header>
 	<div class="acount_body_wrap">
 		<div class="acount_header_wrap">
-			<header>
-				<div class="ui right aligned">
-				    <a class="active item" href="goal_main.do">목표관리</a>
-				    <a class="item" href="income_main.do?year=2018&month=03">수입관리</a>
+			    <div>
 				    <a class="item" href="acount.do">수정</a>
 				    <a class="item">삭제</a>
 			    </div>
-			</header>
 	    </div>
 	</div>
 	<div class="acount_insert_icon">
