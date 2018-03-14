@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mapper namespace="com.jsr.project.manager">
+
+	<resultMap type="com.jsr.project.dtos.MembersDto" id="MembersDto">
+		<result property="id" column="ID" />
+		<result property="m_name" column="M_NAME" />
+		<result property="m_email" column="M_EMAIL" />
+		<result property="m_password" column="M_PASSWORD" />
+		<result property="m_phone" column="M_PHONE" />
+		<result property="m_age" column="M_AGE" />
+		<result property="m_birthDate" column="M_BIRTHDATE" />
+		<result property="m_profile_img" column="M_PROFILE_IMG" />
+		<result property="m_gender" column="M_GENDER" />
+		<result property="m_grade" column="M_GRADE" />
+		<result property="m_address" column="M_ADDRESS" />
+		<result property="m_job" column="M_JOB" />
+		<result property="m_regDate" column="M_REGDATE" />
+		<result property="m_goalDate" column="M_GOALDATE" />
+		<result property="m_useable" column="M_USEAABLE" />
+		<result property="m_mariable" column="M_MARIABLE" />
+		<result property="m_favorite" column="M_FAVORITE" />
+
+	</resultMap>
+	
+		<select id ="showMember"  resultType="MembersDto">
+SELECT ID, M_NAME, M_EMAIL, M_PASSWORD, M_PHONE, M_GENDER, M_GRADE, M_ADDRESS, M_JOB, M_REGDATE, 
+M_USEABLE, M_MARIABLE, M_FAVORITE, M_BIRTHDATE, M_GOALDATE, M_PROFILE_IMG FROM MEMBERS		
+		</select>
+	
+	</mapper>
