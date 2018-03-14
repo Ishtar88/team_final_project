@@ -40,8 +40,18 @@ public class SpendingService implements ISpendingService {
 	}
 
 	@Override
-	public List<SpendingDto> spendingDetailSearch(SpendingDto dto) {
-		return null;
+	public List<SpendingDto> spendingDateSearch(SpendingDto dto) {
+		return spendingDaoImp.spendingDateSearch(dto);
+	}
+
+	@Override
+	public List<SpendingDto> spendingCategorySearch(SpendingDto dto) {
+		return spendingDaoImp.spendingCategorySearch(dto);
+	}
+
+	@Override
+	public List<SpendingDto> spendingSomeSearch(SpendingDto dto) {
+		return spendingDaoImp.spendingSomeSearch(dto);
 	}
 
 

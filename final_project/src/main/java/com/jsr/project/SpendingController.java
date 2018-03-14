@@ -1,6 +1,8 @@
 package com.jsr.project;
 
-
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -89,13 +91,17 @@ public class SpendingController {
 		return "spending/spending_insert_page";
 	}
 	
-	@RequestMapping(value = "/spending_insert.do", method = RequestMethod.GET)
+	@RequestMapping(value = "/spending_insert.do")
 	public String spending_insert(Model model,SpendingDto dto,HttpSession session) {
 		logger.info("spending insert page");
 		
 		MembersDto lDto=(MembersDto)session.getAttribute("loginDto");
 		String id=lDto.getId();
 		dto.setId(id);
+		
+		int p_sat=dto.getP_sat();
+		
+		System.out.println(p_sat);
 		
 		boolean isc=spendingService.spendingInsert(dto);
 		if (isc) {
@@ -109,24 +115,51 @@ public class SpendingController {
 
 	@ResponseBody
 	@RequestMapping(value = "/spendingDetailSearch.do", method = RequestMethod.GET)
-	public String spendingDetailSearch(Model model,String pick,HttpSession session) {
+	public Map<String, List<SpendingDto>> spendingDetailSearch(Model model,String pick,String year,String month,HttpSession session) {
 		logger.info("spending detail search start");
+
+		Map<String, List<SpendingDto>> map=new HashMap<>();
+		
+		MembersDto lDto=(MembersDto)session.getAttribute("loginDto");
+		String id=lDto.getId();
+		
+		SpendingDto dto=new SpendingDto();
+		
+		String sYear=year.substring(0, year.indexOf("년"));
+		String sMonth=month.substring(0, month.lastIndexOf("월"));
+		
+		String regdate=sYear+"-"+sMonth;
+		System.out.println(regdate);
+		
+		dto.setId(id);
+		dto.setP_location(regdate);
+		System.out.println(dto);
 		
 		if (pick.equals("date")) {
 			
+			List<SpendingDto> lists=spendingService.spendingDateSearch(dto);
+			map.put("lists", lists);
 			
+			System.out.println("map: "+map);
 			
 		}else if (pick.equals("category")) {
 			
+			List<SpendingDto> lists=spendingService.spendingCategorySearch(dto);
+			map.put("lists", lists);
+			System.out.println("map: "+map);
+			
 		}else if (pick.equals("some")) {
 			
+			List<SpendingDto> lists=spendingService.spendingCategorySearch(dto);
+			map.put("lists", lists);
+			
+			System.out.println("map: "+map);
 		}
 		
-		Map<String, SpendingDto> map=new HashMap<>();
+
 		
 		
-		
-		return "spending/spending_insert_page";
+		return map;
 	}
 	
 

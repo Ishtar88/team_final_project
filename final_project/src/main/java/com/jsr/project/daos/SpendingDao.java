@@ -46,6 +46,21 @@ public class SpendingDao implements ISpendingDao {
 		return sqlSession.selectList(namespace+"spendingAllSearch", dto);
 	}
 
+	@Override
+	public List<SpendingDto> spendingDateSearch(SpendingDto dto) {
+		return sqlSession.selectList(namespace+"spendingDateSearch", dto);
+	}
+
+	@Override
+	public List<SpendingDto> spendingCategorySearch(SpendingDto dto) {
+		return sqlSession.selectList(namespace+"spendingCategorySearch", dto);
+	}
+
+	@Override
+	public List<SpendingDto> spendingSomeSearch(SpendingDto dto) {
+		return sqlSession.selectList(namespace+"spendingSomeSearch", dto);
+	}
+
 
 	//---------------------------------------------------------------
 	
