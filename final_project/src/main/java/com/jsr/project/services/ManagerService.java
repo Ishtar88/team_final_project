@@ -19,4 +19,9 @@ public class ManagerService implements IManagerService {
 		return managerDao.getAllMember();
 	}
 
+	@Override
+	public MembersDto getSearchedMember(MembersDto dto) {
+		return managerDao.getSearchedMember(dto);
+	}
+
 }

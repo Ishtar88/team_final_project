@@ -61,8 +61,8 @@
 <div id = "menu">
 	<span class="menu"><a href="manager_home.do"><img src="resources/img/manager_header/HOME.JPG" alt="홈"/><br/>HOME</a></span>
 	<span class="menu"><a href="showMember.do"><img src="resources/img/manager_header/member.JPG" alt="회원정보"/><br/>회원정보</a> </span>
-	<span class="menu"><a href="#"><img src="resources/img/manager_header/giftbox.JPG" alt="상품정보"/><br/>상품정보</a></span>
-	<span class="menu"><a href="#"><img src="resources/img/manager_header/board.JPG" alt="고객센터"/><br/>고객센터</a></span>
+	<span class="menu"><a href="manager_product"><img src="resources/img/manager_header/giftbox.JPG" alt="상품정보"/><br/>상품정보</a></span>
+	<span class="menu"><a href="manager_customer.do"><img src="resources/img/manager_header/board.JPG" alt="고객센터"/><br/>고객센터</a></span>
 </div>
 </div>
 

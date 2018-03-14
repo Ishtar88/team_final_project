@@ -1,6 +1,10 @@
 package com.jsr.project;
 
 import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.jsr.project.dtos.MembersDto;
 import com.jsr.project.dtos.NoticeBoardDto;
@@ -16,6 +21,7 @@ import com.jsr.project.dtos.QnaBoardDto;
 import com.jsr.project.services.IManagerService;
 import com.jsr.project.services.INoticeService;
 import com.jsr.project.services.IQnaService;
+import com.jsr.project.services.MembersService;
 
 
 @Controller
@@ -36,13 +42,29 @@ public class ManagerController {
 	private IManagerService managerService; 
 	
 	
+	
+	
+//	회원 열람 페이지로 이동하기 
 	@RequestMapping(value="showMember.do", method= RequestMethod.GET)
-	public String manager_home() {
+	public String showMember(Model model) {
 		logger.info("회원정보 열람으로이동합니다");
 		List<MembersDto> lists=managerService.getAllMember();
+		model.addAttribute("lists", lists);
+		System.out.println(lists.size());
 		return "manager/showMember";
 	}
 	
+//	회원 검색 결과 출력 페이지 
+	@ResponseBody
+	@RequestMapping(value="searchMember.do", method=RequestMethod.GET)
+//	public Map<String, MemberDto>searchMember(HttpServletRequest request, HttpSession session, MembersDto dto) {
+//		logger.info("회원 검색결과 페이지로 이동합니다.");
+//		MembersDto chkId = managerService.searchMember(dto); 
+//		
+//		
+//		return "manager/searchedMember"; 
+//	}
+//	
 	
 //고객센터 관리////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
