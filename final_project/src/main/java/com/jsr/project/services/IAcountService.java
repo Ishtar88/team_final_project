@@ -73,5 +73,17 @@ public interface IAcountService {
 
 	//----------------------------------
 	
+	
+	//달력 당월 지출액조회
+	public List<SpendingDto> calendarSpendingSearch(SpendingDto dto);
+	
+	//달력 당월 수입액조회
+	public List<IncomeDto> calendarIncomeSearch(IncomeDto dto);
+	
+	//달력 선택한 날짜 정보 조회
+	public IncomeDto calendarDetailSearch(IncomeDto dto);
+	
+	
+	//----------------------------------
 
 }

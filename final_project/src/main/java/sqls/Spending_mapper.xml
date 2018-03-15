@@ -72,6 +72,87 @@
 			FROM SPENDING WHERE P_SEQ=#{p_seq}
 		</select>
 	
+		<update id="spendingUpdate" parameterType="int">
+			UPDATE SPENDING SET
+							<choose>
+								<when test="p_name!=null">
+									P_NAME=#{p_name}
+								</when><otherwise>
+									P_NAME=NULL
+								</otherwise>
+							</choose>
+							,
+							<choose>
+								<when test="p_detail!=null">
+									P_DETAIL=#{p_detail}
+								</when><otherwise>
+									P_DETAIL=NULL
+								</otherwise>
+							</choose>
+							,
+							<choose>
+								<when test="p_location!=null">
+									P_LOCATION=#{p_location}
+								</when><otherwise>
+									P_LOCATION=NULL
+								</otherwise>
+							</choose>
+							,
+							<choose>
+								<when test="p_money!=null">
+									P_MONEY=#{p_money}
+								</when><otherwise>
+									P_MOENY=NULL
+								</otherwise>
+							</choose>
+							,
+							<choose>
+								<when test="p_cashable!=null">
+									P_CASHABLE=#{p_cashable}
+								</when><otherwise>
+									P_CASHABLE=NULL
+								</otherwise>
+							</choose>
+							,
+							<choose>
+								<when test="p_card!=null">
+									P_CARD=#{p_card}
+								</when><otherwise>
+									P_CARD=NULL
+								</otherwise>
+							</choose>
+							,
+							<choose>
+								<when test="p_sat!=null">
+									P_SAT=#{p_sat}
+								</when><otherwise>
+									P_SAT=NULL
+								</otherwise>
+							</choose>
+							,
+							<choose>
+								<when test="p_need!=null">
+									P_NEED=#{p_need}
+								</when><otherwise>
+									P_NEED=NULL
+								</otherwise>
+							</choose>
+			
+			WHERE P_SEQ=#{p_seq}
+		</update>
+		
+		<delete id="spendingDelete" parameterType="int">
+			DELETE FROM SPENDING WHERE P_SEQ=#{p_seq}
+		</delete>
+	
+	
+	
+	
+	
+	
+	
+	
+	
 		
 		<select id="incomeAllSearch" parameterType="String" resultType="IncomeDto">
 			SELECT I_SEQ,ID,I_MONEY,I_FIX,I_NAME,I_MEMO,I_REGDATE,I_MODIDATE

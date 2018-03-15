@@ -59,6 +59,16 @@ public class SpendingService implements ISpendingService {
 		return spendingDaoImp.spendingDetailSearch(p_seq);
 	}
 
+	@Override
+	public boolean spendingUpdate(SpendingDto dto) {
+		return spendingDaoImp.spendingUpdate(dto);
+	}
+
+	@Override
+	public boolean spendingDelete(int seq) {
+		return spendingDaoImp.spendingDelete(seq);
+	}
+
 
 	
 	
