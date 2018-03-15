@@ -88,9 +88,16 @@ public class MembersController {
 	@RequestMapping(value = "/regist2.do", method = RequestMethod.POST)
 	public String regist2(HttpServletRequest request,HttpSession session,HttpSession rSession,MembersDto mdto) {
 		String email1=request.getParameter("email1");
-		String email2=request.getParameter("email2");
-		String m_email=email1+"@"+email2;
-		mdto.setM_email(m_email);
+		if(request.getParameter("mailadd").equals("self")) {
+			String email2=request.getParameter("email2");
+			String m_email=email1+"@"+email2;
+			mdto.setM_email(m_email);
+		}else {
+			String email2=request.getParameter("mailadd");
+			String m_email=email1+"@"+email2;
+			mdto.setM_email(m_email);
+		}
+		
 
 		String phone1=request.getParameter("phone1");
 		String phone2=request.getParameter("phone2");
@@ -153,6 +160,8 @@ public class MembersController {
 		final String user="ddudeen@gmail.com";
 		final String password="wmfwmfdl3";
 		String m_email=request.getParameter("m_email");
+		
+		//String m_email=request.getParameter("m_email");
 		System.out.println(m_email);
 
 		Random rnd=new Random();
@@ -199,11 +208,11 @@ public class MembersController {
 			MimeMessage message=new MimeMessage(session);
 			message.setFrom(new InternetAddress(user));
 			message.addRecipient(Message.RecipientType.TO, new InternetAddress(m_email));
-			message.setSubject("占쏙옙占쏙옙 占쏙옙占쏙옙 占쏙옙호占쌉니댐옙.");
+			message.setSubject("본인확인 인증 번호입니다.");
 			message.setText(chkNum);
 
 			Transport.send(message);
-			System.out.println("占쏙옙占싹발신쇽옙占쏙옙");
+			System.out.println("발신 성공");
 
 
 		} catch (AddressException e) {
@@ -223,6 +232,17 @@ public class MembersController {
 
 	@RequestMapping(value = "/getUser.do", method = RequestMethod.GET)
 	public String getUser(Model model,HttpServletRequest request, HttpSession session) {
+
+		MembersDto loginDto=(MembersDto)session.getAttribute("loginDto");
+		MembersDto mdto=memberService.getUser(loginDto.getId());
+		model.addAttribute("mdto",mdto);
+
+		return "member/memberInfo";
+	}
+	
+
+	@RequestMapping(value = "/getModiForm.do", method = RequestMethod.GET)
+	public String getModiForm(Model model,HttpServletRequest request, HttpSession session) {
 
 		MembersDto loginDto=(MembersDto)session.getAttribute("loginDto");
 		MembersDto mdto=memberService.getUser(loginDto.getId());

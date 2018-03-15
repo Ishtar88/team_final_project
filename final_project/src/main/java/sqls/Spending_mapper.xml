@@ -4,8 +4,24 @@
 	<mapper namespace="com.jsr.project.spending">
 	
 		<insert id="spendingInsert" parameterType="SpendingDto">
-			INSERT INTO SPENDING(P_SEQ,ID,P_NAME,P_DETAIL,P_LOCATION,P_REGDATE,P_MONEY,P_SOME,P_CASHABLE,P_CARD)
-			VALUES(SPENDING_SEQ.NEXTVAL,#{id},#{p_name},#{p_detail},#{p_location},#{p_regdate},#{p_money},#{p_some},#{p_cashable},#{p_card})
+			INSERT INTO SPENDING(P_SEQ,ID,P_NAME,P_DETAIL,P_LOCATION,P_REGDATE,P_MONEY,P_SOME,P_CASHABLE,P_CARD,P_SAT,P_NEED)
+			VALUES(SPENDING_SEQ.NEXTVAL,#{id},#{p_name},#{p_detail},#{p_location},SYSDATE,#{p_money},#{p_some},
+							<choose>
+								<when test="p_cashable!=null">
+									#{p_cashable}
+								</when><otherwise>
+									'N'
+								</otherwise>
+							</choose>
+							,
+							<choose>
+								<when test="p_card!=null">
+									#{p_card}
+								</when><otherwise>
+									'0'
+								</otherwise>
+							</choose>
+							,#{p_sat},#{p_need})
 		</insert>	
 		
 		<select id="spendingMoneyTop" parameterType="SpendingDto" resultType="SpendingDto">
@@ -36,9 +52,25 @@
 			FROM SPENDING WHERE TO_CHAR(P_REGDATE,'YYYY-MM')=#{p_location} AND ID=#{id} ORDER BY P_NAME DESC
 		</select>
 		
+		<select id="spendingDateSearch" parameterType="SpendingDto" resultType="SpendingDto">
+			SELECT P_SEQ,ID,P_NAME,P_DETAIL,P_LOCATION,P_REGDATE,P_MONEY,P_SOME,P_CASHABLE,P_CARD
+			FROM SPENDING WHERE TO_CHAR(P_REGDATE,'YYYY-MM')=#{p_location} AND ID=#{id} ORDER BY P_REGDATE DESC
+		</select>
 		
+		<select id="spendingCategorySearch" parameterType="SpendingDto" resultType="SpendingDto">
+			SELECT P_SEQ,ID,P_NAME,P_DETAIL,P_LOCATION,P_REGDATE,P_MONEY,P_SOME,P_CASHABLE,P_CARD 
+			FROM SPENDING WHERE TO_CHAR(P_REGDATE,'YYYY-MM')=#{p_location} AND ID=#{id} ORDER BY P_NAME DESC
+		</select>
+	
+		<select id="spendingSomeSearch" parameterType="SpendingDto" resultType="SpendingDto">
+			SELECT P_SEQ,ID,P_NAME,P_DETAIL,P_LOCATION,P_REGDATE,P_MONEY,P_SOME,P_CASHABLE,P_CARD 
+			FROM SPENDING WHERE TO_CHAR(P_REGDATE,'YYYY-MM')=#{p_location} AND ID=#{id} ORDER BY P_SOME DESC
+		</select>
 		
-		
+		<select id="spendingDetailSearch" parameterType="SpendingDto" resultType="SpendingDto">
+			SELECT P_SEQ,ID,P_NAME,P_DETAIL,P_LOCATION,P_REGDATE,P_MONEY,P_SOME,P_CASHABLE,P_CARD,P_SAT,P_NEED
+			FROM SPENDING WHERE P_SEQ=#{p_seq}
+		</select>
 	
 		
 		<select id="incomeAllSearch" parameterType="String" resultType="IncomeDto">

@@ -21,6 +21,14 @@ public class MembersDto {
 	private String m_useable;
 	private String m_mariable;
 	private String m_favorite;
+	private PointDto po_point;
+	
+	public PointDto getPo_point() {
+		return po_point;
+	}
+	public void setPo_point(PointDto po_point) {
+		this.po_point = po_point;
+	}
 	public MembersDto() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -155,8 +163,10 @@ public class MembersDto {
 				+ ", m_phone=" + m_phone + ", m_birthDate=" + m_birthDate + ", m_profile_img=" + m_profile_img
 				+ ", m_age=" + m_age + ", m_gender=" + m_gender + ", m_grade=" + m_grade + ", m_address=" + m_address
 				+ ", m_job=" + m_job + ", m_regDate=" + m_regDate + ", m_goalDate=" + m_goalDate + ", m_useable="
-				+ m_useable + ", m_mariable=" + m_mariable + ", m_favorite=" + m_favorite + "]";
+				+ m_useable + ", m_mariable=" + m_mariable + ", m_favorite=" + m_favorite + ", po_point=" + po_point
+				+ "]";
 	}
+
 	
 	
 

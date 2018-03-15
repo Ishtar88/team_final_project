@@ -14,15 +14,33 @@
 		<result property="r_regDate" column="R_REGDATE" />
 		<result property="r_modiDate" column="R_MODIDATE" />
 		<collection property="b_name" resultMap="CompanyDto"></collection>
+		<collection property="po_point" resultMap="PointDto"></collection>
 	</resultMap>
 
 	<resultMap type="com.jsr.project.dtos.CompanyDto" id="CompanyDto">
-		<result property="b_seq" column="B_SEQ" />
 		<result property="b_name" column="B_NAME" />
-		<result property="b_num" column="B_NUM" />
-		<result property="b_address" column="B_ADDRESS" />
-		<result property="b_tel" column="B_TEL" />
-		<result property="b_regDate" column="B_REGDATE" />
+	</resultMap>
+
+	<resultMap type="com.jsr.project.dtos.ProductDto" id="ProductDto">
+		<result property="pro_seq" column="PRO_SEQ" />
+		<result property="id" column="ID" />
+		<result property="pro_num" column="PRO_NUM" />
+		<result property="pro_count" column="PRO_COUNT" />
+		<result property="pro_regDate" column="PRO_REGDATE" />
+		<result property="pro_qr" column="PRO_QR" />
+		<result property="pro_qruse" column="PRO_QRUSE" />
+		<collection property="r_name" resultMap="RewardDto"></collection>
+		<collection property="r_point" resultMap="RewardDto"></collection>
+		<collection property="r_file" resultMap="RewardDto"></collection>
+	</resultMap>
+
+	<resultMap type="com.jsr.project.dtos.PointDto" id="PointDto">
+		<result property="po_seq" column="PO_SEQ" />
+		<result property="id" column="ID" />
+		<result property="po_regdate" column="PO_REGDATE" />
+		<result property="po_name" column="PO_NAME" />
+		<result property="po_point" column="PO_POINT" />
+		<result property="po_detail" column="PO_DETAIL" />
 	</resultMap>
 
 	<insert id="insertReward" parameterType="RewardDto">
@@ -56,7 +74,36 @@
 	</select>
 
 	<select id="rewardOne" resultMap="RewardDto" parameterType="Map">
-		SELECT R_SEQ,R_NAME,R_POINT,R_SELL,R_FILE,R_REGDATE,C.B_SEQ,B_NAME FROM
+		SELECT R_SEQ,R_NAME,R_POINT,R_SELL,R_FILE,R_REGDATE,C.B_SEQ,B_NAME
+		FROM
 		REWARD R JOIN COMPANY C ON R.B_SEQ=C.B_SEQ WHERE R_SEQ=#{r_seq}
 	</select>
+
+	<insert id="buyReward" parameterType="ProductDto">
+		INSERT INTO
+		PRODUCT(PRO_SEQ,ID,PRO_NUM,PRO_COUNT)
+		VALUES(PRODUCT_SEQ.NEXTVAL,#{id},#{pro_num},#{pro_count})
+	</insert>
+
+	<insert id="minusPoint" parameterType="PointDto">
+		INSERT INTO POINT
+		(PO_SEQ,ID,PO_NAME,PO_POINT,PO_DETAIL)
+		VALUES(POINT_SEQ.NEXTVAL,#{id},'리워드몰이용',#{po_point},'상품구매 포인트 차감')
+	</insert>
+
+	<select id="getMyOrder" parameterType="Map" resultMap="ProductDto">
+		SELECT
+		PRO_SEQ,ID,PRO_NUM,PRO_COUNT,PRO_REGDATE,PRO_QR,PRO_QRUSE,R_NAME,R_POINT,R_FILE
+		FROM PRODUCT P,REWARD R WHERE P.PRO_NUM=R.R_SEQ AND ID=#{id}
+	</select>
+
+	<select id="qrReceipt" parameterType="Map" resultMap="ProductDto">
+		SELECT
+		PRO_SEQ,ID,PRO_NUM,PRO_COUNT,PRO_REGDATE,PRO_QR,PRO_QRUSE,R_NAME,R_POINT,R_FILE
+		FROM PRODUCT P,REWARD R WHERE P.PRO_NUM=R.R_SEQ AND PRO_SEQ=#{pro_seq}
+	</select>
+	
+	<update id="useQR" parameterType="Map">
+	UPDATE PRODUCT SET PRO_QRUSE='Y' WHERE PRO_SEQ=#{pro_seq}
+	</update>
 </mapper>
