@@ -20,6 +20,8 @@ public class SpendingDto {
 	
 	private String p_some;
 	
+	private String p_cashable;
+	
 	private int p_card;
 
 	private int p_sat;
@@ -94,6 +96,14 @@ public class SpendingDto {
 		this.p_some = p_some;
 	}
 
+	public String getP_cashable() {
+		return p_cashable;
+	}
+
+	public void setP_cashable(String p_cashable) {
+		this.p_cashable = p_cashable;
+	}
+
 	public int getP_card() {
 		return p_card;
 	}
@@ -140,7 +150,7 @@ public class SpendingDto {
 	}
 
 	public SpendingDto(int p_seq, String id, String p_name, String p_detail, String p_location, Date p_regdate,
-			int p_money, String p_some, int p_card, int p_sat, int p_need, int p_count, int p_step) {
+			int p_money, String p_some, String p_cashable, int p_card, int p_sat, int p_need, int p_count, int p_step) {
 		super();
 		this.p_seq = p_seq;
 		this.id = id;
@@ -150,6 +160,7 @@ public class SpendingDto {
 		this.p_regdate = p_regdate;
 		this.p_money = p_money;
 		this.p_some = p_some;
+		this.p_cashable = p_cashable;
 		this.p_card = p_card;
 		this.p_sat = p_sat;
 		this.p_need = p_need;
@@ -161,8 +172,10 @@ public class SpendingDto {
 	public String toString() {
 		return "SpendingDto [p_seq=" + p_seq + ", id=" + id + ", p_name=" + p_name + ", p_detail=" + p_detail
 				+ ", p_location=" + p_location + ", p_regdate=" + p_regdate + ", p_money=" + p_money + ", p_some="
-				+ p_some + ", p_card=" + p_card + ", p_sat=" + p_sat + ", p_need=" + p_need + ", p_count=" + p_count
-				+ ", p_step=" + p_step + "]";
+				+ p_some + ", p_cashable=" + p_cashable + ", p_card=" + p_card + ", p_sat=" + p_sat + ", p_need="
+				+ p_need + ", p_count=" + p_count + ", p_step=" + p_step + "]";
 	}
+
+
 	
 }
