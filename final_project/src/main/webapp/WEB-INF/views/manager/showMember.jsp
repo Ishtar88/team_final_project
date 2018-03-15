@@ -34,6 +34,7 @@
 			}
 		});
 	}
+	
 		function goToSearched(obj){
 			var lists = obj.list; 
 			$(".members_table").remove(); 

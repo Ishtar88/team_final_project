@@ -34,7 +34,7 @@ public class ManagerDao implements IManagerDao {
 	//회원 정보 매니저가 수정하기 
 	@Override
 	public MembersDto modifyMember(String id) {
-		return sqlSession.selectList(namespace+"modifyMember", id); 
+		return sqlSession.selectOne(namespace+"modifyMember", id); 
 	}
 
 }

@@ -31,4 +31,10 @@ public class ManagerService implements IManagerService {
 		return managerDao.modifyMember(id); 
 	}
 
+
+	@Override
+	public MembersDto afterModifyMember(MembersDto dto) {
+		return managerDao.afterModifyMember(dto); 
+	}
+
 }

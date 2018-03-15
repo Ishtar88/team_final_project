@@ -9,4 +9,5 @@ public interface IManagerDao {
 	public List<MembersDto> getAllMember(); 
 	public List<MembersDto> getSearchedMember(String id); 
 	public MembersDto modifyMember(String id); 
+	public MembersDto afterModifyMember(MembersDto dto);
 }

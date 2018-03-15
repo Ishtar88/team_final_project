@@ -79,11 +79,23 @@ public class ManagerController {
 	}
 	
 	@RequestMapping(value="modifyMember.do", method=RequestMethod.GET)
-	public String modifyMember(String id) {
+	public String modifyMember(Model model, String id) {
 		logger.info("하아아아아아.....");
 		MembersDto dto = managerService.modifyMember(id); 
-		
-		
+		model.addAttribute(dto); 
+		return "modifyMember"; 
+	}
+	
+	@RequestMapping(value="afterModifyMember.do", method=RequestMethod.POST)
+	public String modifyMember(MembersDto dto) {
+		logger.info("하아아아아아.....");
+		boolean isc=managerService.afterModifyMember(dto); 
+		if (isc) {
+			
+			return "redirect:showMember.do";
+		}else {
+			return "redirect:modifyMember.do";
+		}
 	}
 	
 

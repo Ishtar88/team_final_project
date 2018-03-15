@@ -28,7 +28,7 @@ pageEncoding="UTF-8"%>
 	<div id="company_table">
 		<table border="1">
 			<tr>	
-				<th>번호유유유유유유유</th>
+				<th>번호</th>
 				<th>회사명</th>
 				<th>사업자등록번호</th>
 				<th>회사주소</th>
