@@ -1,6 +1,8 @@
 package com.jsr.project.daos;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,12 +25,16 @@ public class ManagerDao implements IManagerDao {
 	}
 
 
+	//특정 회원 검색 
 	@Override
-	public boolean getSearchedMember(MembersDto dto) {
-		int count=0;
-		count= sqlSession.selectMap(namespace+"searchMember",dto);
-		return count>0?true:false
-		//으악~! 
+	public List<MembersDto> getSearchedMember(String id) {
+		return sqlSession.selectList(namespace+"searchMember", id);
+	}
+
+	//회원 정보 매니저가 수정하기 
+	@Override
+	public MembersDto modifyMember(String id) {
+		return sqlSession.selectList(namespace+"modifyMember", id); 
 	}
 
 }

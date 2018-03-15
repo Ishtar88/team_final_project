@@ -1,5 +1,6 @@
 package com.jsr.project;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -15,12 +16,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.jsr.project.dtos.CompanyDto;
 import com.jsr.project.dtos.MembersDto;
 import com.jsr.project.dtos.NoticeBoardDto;
 import com.jsr.project.dtos.QnaBoardDto;
+import com.jsr.project.dtos.RewardDto;
+import com.jsr.project.services.CompanyService;
+import com.jsr.project.services.ICompanyService;
 import com.jsr.project.services.IManagerService;
 import com.jsr.project.services.INoticeService;
 import com.jsr.project.services.IQnaService;
+import com.jsr.project.services.IRewardService;
 import com.jsr.project.services.MembersService;
 
 
@@ -41,8 +47,14 @@ public class ManagerController {
 	@Autowired
 	private IManagerService managerService; 
 	
+	@Autowired
+	private IRewardService rewardService; 
+	
+	@Autowired
+	private ICompanyService companyService;
 	
 	
+/////////////////////////////////////////회원메뉴///////////////////////////	
 	
 //	회원 열람 페이지로 이동하기 
 	@RequestMapping(value="showMember.do", method= RequestMethod.GET)
@@ -57,14 +69,48 @@ public class ManagerController {
 //	회원 검색 결과 출력 페이지 
 	@ResponseBody
 	@RequestMapping(value="searchMember.do", method=RequestMethod.GET)
-//	public Map<String, MemberDto>searchMember(HttpServletRequest request, HttpSession session, MembersDto dto) {
-//		logger.info("회원 검색결과 페이지로 이동합니다.");
-//		MembersDto chkId = managerService.searchMember(dto); 
-//		
-//		
-//		return "manager/searchedMember"; 
-//	}
-//	
+	public Map<String, List<MembersDto>> searchMember(HttpServletRequest request,MembersDto dto) {
+		logger.info("회원 검색결과 페이지로 이동합니다.");
+		String id = request.getParameter("id");
+		Map<String, List<MembersDto>>  map=new HashMap<String, List<MembersDto>>();
+		List<MembersDto> list=managerService.getSearchedMember(id);
+		map.put("list", list);
+		return map;  //페이지로 이동해야지!!! 
+	}
+	
+	@RequestMapping(value="modifyMember.do", method=RequestMethod.GET)
+	public String modifyMember(String id) {
+		logger.info("하아아아아아.....");
+		MembersDto dto = managerService.modifyMember(id); 
+		
+		
+	}
+	
+
+////////////////상품 관리 ///////////////////////////////////////////////////////////////////////////////////////
+	
+	@RequestMapping(value="manager_commercial.do", method= {RequestMethod.POST,RequestMethod.GET})
+	public String manager_commercial() {
+		logger.info("상품/회사 관리 페이지"); 
+		return "manager_commercial";
+	}
+	
+	@RequestMapping(value="product.do", method=RequestMethod.GET)
+	public String manager_product() {
+		logger.info("상품 관리 페이지로 이동 "); 
+		return "manager_product";
+	}
+	
+	@RequestMapping(value="company.do", method=RequestMethod.GET)
+	public String manager_company() {
+		logger.info("회사 관리 페이지로 이동"); 
+		return "manager_company";
+	}
+	
+
+	
+	
+	
 	
 //고객센터 관리////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

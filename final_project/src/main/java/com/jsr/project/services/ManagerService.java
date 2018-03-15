@@ -20,10 +20,14 @@ public class ManagerService implements IManagerService {
 	}
 
 	@Override
-	public boolean getSearchedMember(MembersDto dto) {
-		int count=0; 
-		count = managerDao.getSearchedMember(dto);
-		return count>0?true:false; 
+	public List<MembersDto> getSearchedMember(String id) {
+		return  managerDao.getSearchedMember(id);
+		
+	}
+
+	@Override
+	public MembersDto modifyMember(String id) {
+		return managerDao.modifyMember(id); 
 	}
 
 }
