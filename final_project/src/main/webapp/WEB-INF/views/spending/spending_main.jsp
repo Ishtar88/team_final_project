@@ -100,8 +100,9 @@ window.onload = function () {
 				var lists=obj["lists"];
 				
 				$(".spending_detail_body").children().remove();
-				
-				if (pick=='date') {
+				if (lists.length==0) {
+					alert("지출이 없습니다.");
+				}else if (pick=='date') {
 					
 					createDate(lists);
 					
@@ -128,7 +129,7 @@ window.onload = function () {
  			for (var i = 0; i < lists.length; i++) { //tr생성
 				var stTr="<tr>";
 				stTr+="<td name='p_name'>"+lists[i]["p_name"];
-				stTr+="<td name='p_detail'>"+lists[i]["p_detail"];
+				stTr+="<td name='p_detail'><a href=# onclick='spendingDetail('"+lists[i]["p_seq"]+"')>"+lists[i]["p_detail"]+"</a>";
 				stTr+="<td name='p_location'>"+lists[i]["p_location"];
 				stTr+="<td name='p_some'>"+lists[i]["p_some"];
 				stTr+="<td name='p_money'>"+lists[i]["p_money"]+"</tr>";
@@ -147,7 +148,7 @@ window.onload = function () {
 			
 			var tableTop=document.getElementsByClassName("spending_detail_body");
 			var stTable="<table class='spending_table' border='1'>";
-			
+			stTable+="<tr><th>지출명</th><th>지출상세</th><th>지출장소</th><th>지출금액</th></tr>"
  			for (var i = 0; i < lists.length; i++) { //tr생성
 				var stTr="<tr>";
 				stTr+="<td name='p_name'>"+lists[i]["p_name"];
@@ -174,13 +175,9 @@ window.onload = function () {
 		open(url,'',prop);
 	}
 
-	function saveDetail(s_seq){
-		var url='acount_detail.do?acount=save&seq='+s_seq;
-		var prop='width=600px; height=600px;';
+	function spendingDetail(seq){
 		
-		open(url,'',prop);
 	}
-	
 	
 
 </script>
@@ -229,7 +226,7 @@ window.onload = function () {
 		</div>
 		<div class="spending_total_wrap">
 			<div class="spending_total_money">
-				<span class="field">총예산: </span>
+				<span class="field">총지출: </span>
 				<div class="field">
 				<c:choose>
 					<c:when test="${empty sumMoneyDto}">
@@ -322,7 +319,11 @@ window.onload = function () {
 					</div>
 				</header>
 				<div class="spending_detail_body">
-					
+					<table class="spending_detail">
+						<tr>
+							
+						</tr>
+					</table>
 				</div>
 
 			</div>

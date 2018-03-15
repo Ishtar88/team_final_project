@@ -64,4 +64,9 @@ public class SpendingDao implements ISpendingDao {
 
 	//---------------------------------------------------------------
 	
+	@Override
+	public SpendingDto spendingDetailSearch(int p_seq) {
+		return sqlSession.selectOne(namespace+"spendingDetailSearch", p_seq);
+	}
+	
 }

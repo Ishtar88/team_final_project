@@ -54,6 +54,11 @@ public class SpendingService implements ISpendingService {
 		return spendingDaoImp.spendingSomeSearch(dto);
 	}
 
+	@Override
+	public SpendingDto spendingDetailSearch(int p_seq) {
+		return spendingDaoImp.spendingDetailSearch(p_seq);
+	}
+
 
 	
 	
