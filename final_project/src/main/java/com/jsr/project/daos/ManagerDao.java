@@ -19,15 +19,15 @@ public class ManagerDao implements IManagerDao {
 	//모든 회원 조회 
 	@Override
 	public List<MembersDto> getAllMember() {
-		System.out.println("안녕?");
 		return sqlSession.selectList(namespace+"showMember");
 	}
 
 
 	@Override
-	public MembersDto getSearchedMember(MembersDto dto) {
-//		 sqlSession.selectMap(namespace+"searchMember",dto);
-		return dto; 
+	public boolean getSearchedMember(MembersDto dto) {
+		int count=0;
+		count= sqlSession.selectMap(namespace+"searchMember",dto);
+		return count>0?true:false
 		//으악~! 
 	}
 

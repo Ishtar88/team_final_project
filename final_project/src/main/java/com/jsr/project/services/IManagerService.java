@@ -7,6 +7,6 @@ import com.jsr.project.dtos.MembersDto;
 public interface IManagerService {
 	
 	public List<MembersDto> getAllMember();
-	public MembersDto getSearchedMember(MembersDto dto);
+	public boolean getSearchedMember(MembersDto dto);
 
 }
