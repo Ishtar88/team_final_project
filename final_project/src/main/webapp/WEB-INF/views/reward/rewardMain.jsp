@@ -46,7 +46,7 @@
 	}
 
 	function buyReward(r_seq) {
-		window.open("buyForm.do?r_seq="+r_seq, "리워드상품 구매",
+		window.open("rewardForm.do?r_seq="+r_seq, "리워드상품 구매",
 				'location=yes,height=570,width=520,scrollbars=yes,status=yes');
 	}
 </script>

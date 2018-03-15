@@ -5,6 +5,8 @@
 <%
 	response.setContentType("text/html; charset=UTF-8");
 %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="f"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -16,9 +18,23 @@
 	function end() {
 		window.close();
 	}
-	function a(){
-		location.href="makeQR.do";
+	
+	function pointSum(){
+		var point=$("input[name=r_point]").val();
+		var count=$("input[name=pro_count]").val();
+		$("input[name=po_point]").val(point*count);
 	}
+	
+	function buyChk(){
+		var haveP=$("input[name=m_point]").val();
+		var needP=$("input[name=po_point]").val();
+		
+		if(haveP<needP){
+			alert("금액이 부족합니다");
+			return false;
+		}
+	}
+	
 </script>
 <style type="text/css">
 img {
@@ -28,34 +44,39 @@ img {
 </style>
 </head>
 <body>
-	<form>
+	<form action="buyReward.do" method="get" onsubmit="return buyChk()">
 		<table>
 			<tr>
-				<td>
-					<div>
-						<div>
-							<img alt="상품 이미지" src="resources/upload/${rdto.r_file}"
-								onclick="buyReward()">
-						</div>
-						<div>
-							<input type="text" value="${rdto.r_name}" readonly="readonly" />
-						</div>
-						<div>
-							<input type="text" value="${rdto.r_point}" readonly="readonly" />
-						</div>
-						<div>
-							<input type="text" value="${rdto.b_name.b_name}"
-								readonly="readonly" />
-						</div>
-						<div>
-							구매 하시겠습니까?<input type="submit" value="네"/><input type="button"
-								value="아니오" onclick="end()"/>
-						</div>
-					</div>
+				<td><input type="hidden" value="${loginDto.id}" name="id" /></td>
+				<td><input type="hidden" value="${rdto.r_seq}" name="pro_num" /></td>
+			</tr>
+			<tr>
+				<td>상품명<input type="text" name="r_name" value="${rdto.r_name}" /></td>
+			</tr>
+			<tr>
+				<td>상품가격<input type="text" name="r_point"
+					value="${rdto.r_point}" /></td>
+			</tr>
+			<tr>
+				<td>보유 포인트는<input type="text" name="m_point"
+					value="${loginDto.po_point.po_point}" /></td>
+			</tr>
+			<tr>
+				<td>구매수량:<input type="number" name="pro_count"
+					onchange="pointSum()" /> <input type="text" name="po_point"
+					readonly="readonly" />
+
+				</td>
+			</tr>
+			<tr>
+				<td>사용기한은 구매일로부터 1년 입니다.</td>
+			</tr>
+			<tr>
+				<td>구매 하시겠습니까?<input type="submit" value="네" /><input
+					type="button" value="아니오" onclick="end()" />
 				</td>
 			</tr>
 		</table>
 	</form>
-	<input type="button" value="QR" onclick="location.href='makeQR.do'">
 </body>
 </html>

@@ -55,8 +55,8 @@ public class ManagerController {
 	}
 	
 //	회원 검색 결과 출력 페이지 
-	@ResponseBody
-	@RequestMapping(value="searchMember.do", method=RequestMethod.GET)
+//	@ResponseBody
+//	@RequestMapping(value="searchMember.do", method=RequestMethod.GET)
 //	public Map<String, MemberDto>searchMember(HttpServletRequest request, HttpSession session, MembersDto dto) {
 //		logger.info("회원 검색결과 페이지로 이동합니다.");
 //		MembersDto chkId = managerService.searchMember(dto); 
