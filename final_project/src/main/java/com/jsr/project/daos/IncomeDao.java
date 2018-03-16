@@ -16,8 +16,8 @@ public class IncomeDao implements I_IncomeDao {
 	private String namespace="com.jsr.project.income.";
 
 	@Override
-	public List<IncomeDto> incomeAllSearch(String id) {
-		List<IncomeDto> lists=sqlSession.selectList(namespace+"incomeAllSearch", id);
+	public List<IncomeDto> incomeAllSearch(IncomeDto dto) {
+		List<IncomeDto> lists=sqlSession.selectList(namespace+"incomeAllSearch", dto);
 		return lists;
 	}
 
@@ -65,6 +65,11 @@ public class IncomeDao implements I_IncomeDao {
 		count=sqlSession.update(namespace+"incomeDelete", seq);
 		
 		return count>0?true:false;
+	}
+
+	@Override
+	public List<IncomeDto> incomeChartAjax(IncomeDto dto) {
+		return sqlSession.selectList(namespace+"incomeChartAjax", dto);
 	}
 
 

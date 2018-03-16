@@ -33,7 +33,6 @@ public class SpendingController {
 	private ISpendingService spendingService;
 	
 	
-	private String reVal="";
 	
 	@RequestMapping(value = "/spending_main.do", method = RequestMethod.GET)
 	public String spending_main(Model model,String year,String month,HttpSession session) {
@@ -41,6 +40,11 @@ public class SpendingController {
 		
 		MembersDto lDto=(MembersDto)session.getAttribute("loginDto");
 		String id=lDto.getId();
+		
+		int lMonth=Integer.parseInt(month);
+		if (lMonth<10) {
+			month="0"+lMonth;
+		}
 		
 		String regdate=year+"-"+month;
 		
@@ -72,9 +76,6 @@ public class SpendingController {
 		List<SpendingDto> sList=(List<SpendingDto>)spendingService.spendingAllSearch(sDto);
 		model.addAttribute("sList", sList);
 		
-		model.addAttribute("year", year);
-		model.addAttribute("month", month);
-		
 		logger.info("sList: "+sList);
 
 		logger.info("spending main page end.");
@@ -84,20 +85,35 @@ public class SpendingController {
 	}
 	
 	@RequestMapping(value = "/spending_insert_page.do", method = RequestMethod.GET)
-	public String spending_insert_page() {
+	public String spending_insert_page(Model model,String command,HttpSession session) {
 		logger.info("spending insert page");
 
+		String searchDate=(String)session.getAttribute("searchDate");
+		model.addAttribute("command", command);
+		model.addAttribute("searchDate", searchDate);
 		
 		return "spending/spending_insert_page";
 	}
 	
 	@RequestMapping(value = "/spending_insert.do", method = RequestMethod.POST)
-	public String spending_insert(Model model,SpendingDto dto,HttpSession session) {
+	public String spending_insert(Model model,SpendingDto dto,String buydate,HttpSession session) {
 		logger.info("spending insert page");
 		
 		MembersDto lDto=(MembersDto)session.getAttribute("loginDto");
 		String id=lDto.getId();
 		dto.setId(id);
+		
+		SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd");
+		Date p_regdate=null;
+		try {
+			p_regdate=df.parse(buydate);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		
+		dto.setP_regdate(p_regdate);
+		
+		logger.info("p_regdate: "+p_regdate);
 		
 		int p_sat=dto.getP_sat();
 		

@@ -354,7 +354,41 @@
 		
 		<!-- //////////////////////////////////////////// -->
 
+
 		
+		<!--////////////// 달력 상세 조회 기능 //////////////-->
+		
+		<select id="calendarIncomeDetailSearch" parameterType="IncomeDto" resultType="IncomeDto">
+			SELECT I_NAME,I_MONEY,I_REGDATE FROM INCOME WHERE TO_CHAR(I_REGDATE,'YYYY-MM-DD')=#{i_memo} AND ID=#{id}
+		</select>
+		
+		<select id="calendarSpendingDetailSearch" parameterType="SpendingDto" resultType="SpendingDto">
+			SELECT P_NAME,P_MONEY,P_REGDATE FROM SPENDING WHERE TO_CHAR(P_REGDATE,'YYYY-MM-DD')=#{p_location} AND ID=#{id}
+		</select>
+		
+		
+		<!-- //////////////////////////////////////////// -->
+		
+		
+		<!--////////////// 달력 상세 조회 기능 //////////////-->
+		
+		<select id="saveTotalMoney" parameterType="String" resultType="SaveDto">
+			SELECT DISTINCT SUM(S_ADD) OVER(PARTITION BY ID) AS S_MONEY,ID FROM SAVE WHERE ID=#{id} AND S_ENDABLE='N'
+		</select>
+		
+		<select id="stockTotalMoney" parameterType="String" resultType="StockDto">
+			SELECT DISTINCT SUM(ST_ADD) OVER(PARTITION BY ID) AS ST_MONEY,ID FROM STOCK WHERE ID=#{id} AND ST_SELLABLE='N'
+		</select>
+		
+		<select id="fundTotalMoney" parameterType="String" resultType="FundDto">
+			SELECT DISTINCT SUM(F_ADD) OVER(PARTITION BY ID) AS F_MONEY,ID FROM FUND WHERE ID=#{id} AND F_ENDABLE='N'
+		</select>
+		
+		<select id="loanTotalMoney" parameterType="String" resultType="LoanDto">
+			SELECT DISTINCT SUM(L_MONEY) OVER(PARTITION BY ID) AS L_MONEY,ID FROM LOAN WHERE ID=#{id} AND L_ENDABLE='N'
+		</select>
+		
+		<!-- //////////////////////////////////////////// -->
 		
 		
 	</mapper>

@@ -3,9 +3,9 @@
 
 	<mapper namespace="com.jsr.project.income">
 		
-		<select id="incomeAllSearch" parameterType="String" resultType="IncomeDto">
+		<select id="incomeAllSearch" parameterType="IncomeDto" resultType="IncomeDto">
 			SELECT I_SEQ,ID,I_MONEY,I_FIX,I_NAME,I_MEMO,I_REGDATE,I_MODIDATE
-			FROM INCOME WHERE ID=#{id}
+			FROM INCOME WHERE TO_CHAR(I_REGDATE,'YYYY-MM')=#{i_memo} AND ID=#{id}
 		</select>
 		
 		<select id="incomeDetailSearch" parameterType="int" resultType="IncomeDto">
@@ -71,5 +71,9 @@
 		<delete id="incomeDelete" parameterType="int">
 			DELETE FROM INCOME WHERE I_SEQ=#{i_seq}
 		</delete>
+		
+		<select id="incomeChartAjax" parameterType="IncomeDto" resultType="IncomeDto">
+			SELECT I_NAME,I_MONEY,I_REGDATE FROM INCOME WHERE TO_CHAR(I_REGDATE,'YYYY-MM')=#{i_memo} GROUP BY (I_NAME,I_MONEY,I_REGDATE)
+		</select>
 	
 	</mapper>

@@ -16,8 +16,8 @@ public class IncomeService implements I_IncomeService {
 	private I_IncomeDao incomeImp;
 
 	@Override
-	public List<IncomeDto> incomeAllSearch(String id) {
-		return incomeImp.incomeAllSearch(id);
+	public List<IncomeDto> incomeAllSearch(IncomeDto dto) {
+		return incomeImp.incomeAllSearch(dto);
 	}
 
 	@Override
@@ -51,6 +51,11 @@ public class IncomeService implements I_IncomeService {
 	@Override
 	public boolean incomeDelete(int seq) {
 		return incomeImp.incomeDelete(seq);
+	}
+
+	@Override
+	public List<IncomeDto> incomeChartAjax(IncomeDto dto) {
+		return incomeImp.incomeChartAjax(dto);
 	}
 
 	
