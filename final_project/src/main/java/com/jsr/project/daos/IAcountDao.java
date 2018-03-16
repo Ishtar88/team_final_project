@@ -5,9 +5,11 @@ import java.util.List;
 import com.jsr.project.dtos.AcountDto;
 import com.jsr.project.dtos.FundDto;
 import com.jsr.project.dtos.GoalDto;
+import com.jsr.project.dtos.IncomeDto;
 import com.jsr.project.dtos.LoanDto;
 import com.jsr.project.dtos.MembersDto;
 import com.jsr.project.dtos.SaveDto;
+import com.jsr.project.dtos.SpendingDto;
 import com.jsr.project.dtos.StockDto;
 
 public interface IAcountDao {
@@ -78,6 +80,20 @@ public interface IAcountDao {
 	public boolean loanInsert(LoanDto dto);
 
 	//----------------------------------
+	
+	
+	//달력 당월 지출액조회
+	public List<SpendingDto> calendarSpendingSearch(SpendingDto dto);
+	
+	//달력 당월 수입액조회
+	public List<IncomeDto> calendarIncomeSearch(IncomeDto dto);
+	
+	//달력 선택한 날짜 정보 조회
+	public IncomeDto calendarDetailSearch(IncomeDto dto);
+	
+	
+	//----------------------------------
+
 	
 	
 }

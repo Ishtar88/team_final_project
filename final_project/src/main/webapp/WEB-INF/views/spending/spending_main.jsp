@@ -88,6 +88,14 @@ window.onload = function () {
 
 <script type="text/javascript">
 
+
+	function spendingDetail2(seq){
+		var url='spending_detail.do?seq='+seq;
+		var prop='width=600px; height=600px;';
+		
+		open(url,'',prop); 
+	}
+
 	function detailSearch(pick){
 		var year=$(".spending_year").html();
 		var month=$(".spending_month").html();
@@ -108,9 +116,11 @@ window.onload = function () {
 					
 				}else if (pick=='category') {
 					
-					
+					createCategory(lists);
 					
 				}else if (pick=='some') {
+					
+					createSome(lists);
 					
 				}
 
@@ -125,11 +135,12 @@ window.onload = function () {
 			
 			var tableTop=document.getElementsByClassName("spending_detail_body");
 			var stTable="<table class='spending_table' border='1'>";
-			
+				stTable+="<tr><th>지출명</th><th>지출상세</th><th>지출장소</th><th>지출수단</th><th>지출금액</th></tr>";
  			for (var i = 0; i < lists.length; i++) { //tr생성
 				var stTr="<tr>";
+				stTr+="<input type='hidden' name='p_seq' value='"+lists[i]['p_seq']+"'>";
 				stTr+="<td name='p_name'>"+lists[i]["p_name"];
-				stTr+="<td name='p_detail'><a href=# onclick='spendingDetail('"+lists[i]["p_seq"]+"')>"+lists[i]["p_detail"]+"</a>";
+				stTr+="<td name='p_detail'><a href='#' onclick='spendingDetail2("+"\""+lists[i]["p_seq"]+"\""+")'>"+lists[i]["p_detail"]+"</a>";
 				stTr+="<td name='p_location'>"+lists[i]["p_location"];
 				stTr+="<td name='p_some'>"+lists[i]["p_some"];
 				stTr+="<td name='p_money'>"+lists[i]["p_money"]+"</tr>";
@@ -145,15 +156,37 @@ window.onload = function () {
 		function createCategory(lists){
 
 			var tdName=['p_name','p_detail','p_location','p_money'];
-			
 			var tableTop=document.getElementsByClassName("spending_detail_body");
 			var stTable="<table class='spending_table' border='1'>";
-			stTable+="<tr><th>지출명</th><th>지출상세</th><th>지출장소</th><th>지출금액</th></tr>"
+				stTable+="<tr><th>지출명</th><th>지출상세</th><th>지출장소</th><th>지출수단</th><th>지출금액</th></tr>";
  			for (var i = 0; i < lists.length; i++) { //tr생성
 				var stTr="<tr>";
 				stTr+="<td name='p_name'>"+lists[i]["p_name"];
-				stTr+="<td name='p_detail'>"+lists[i]["p_detail"];
+				stTr+="<td name='p_detail'><a href='#' onclick='spendingDetail2("+"\""+lists[i]["p_seq"]+"\""+")'>"+lists[i]["p_detail"]+"</a>";
 				stTr+="<td name='p_location'>"+lists[i]["p_location"];
+				stTr+="<td name='p_some'>"+lists[i]["p_some"];
+				stTr+="<td name='p_money'>"+lists[i]["p_money"]+"</tr>";
+				
+				stTable+=stTr;
+				
+			} 
+			stTable+="</table>";
+			$(".spending_detail_body").append(stTable);
+			
+		}
+		
+		function createSome(lists){
+
+			var tdName=['p_name','p_detail','p_location','p_money'];
+			var tableTop=document.getElementsByClassName("spending_detail_body");
+			var stTable="<table class='spending_table' border='1'>";
+				stTable+="<tr><th>지출명</th><th>지출상세</th><th>지출장소</th><th>지출수단</th><th>지출금액</th></tr>";
+ 			for (var i = 0; i < lists.length; i++) { //tr생성
+				var stTr="<tr>";
+				stTr+="<td name='p_name'>"+lists[i]["p_name"];
+				stTr+="<td name='p_detail'><a href='#' onclick='spendingDetail2("+"\""+lists[i]["p_seq"]+"\""+")'>"+lists[i]["p_detail"]+"</a>";
+				stTr+="<td name='p_location'>"+lists[i]["p_location"];
+				stTr+="<td name='p_some'>"+lists[i]["p_some"];
 				stTr+="<td name='p_money'>"+lists[i]["p_money"]+"</tr>";
 				
 				stTable+=stTr;
@@ -209,7 +242,7 @@ window.onload = function () {
 			    <a class="item" href="goal_main.do">목표관리</a>
 			    <a class="item" href="income_main.do?year=${year }&month=${month}">수입관리</a>
 			    <a class="active item" href="spending_main.do?year=${year }&month=${month}">지출관리</a>
-			    <a class="item" href="month_main.do?year=${year }&month=${month }">달력</a>
+			    <a class="item" href="calendar_main.do?year=${year }&month=${month }">달력</a>
 		    </div>
 		    <br>
 		    <div>

@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import javax.mail.Session;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -553,6 +554,66 @@ public class AcountController {
 		
 		return "redirect:acount.do";
 	}
+	
+	@RequestMapping(value = "/calendar_main.do", method = RequestMethod.GET)
+	public String calendar_main(Model model,String year,String month,HttpSession session) {
+		logger.info("calendar main page");
+		
+		model.addAttribute("year", year);
+		model.addAttribute("month",month);
+		
+		MembersDto lDto=(MembersDto)session.getAttribute("loginDto");
+		String id=lDto.getId();
+		
+		String regdate=year+"-"+month;
+		
+		System.out.println("searchDate: "+regdate);
+				
+		SpendingDto dto1=new SpendingDto();
+		dto1.setId(id);
+		dto1.setP_location(regdate);
+		
+		List<SpendingDto> pList = acountService.calendarSpendingSearch(dto1);
+		logger.info("지출내역: "+pList);
+		
+		
+		IncomeDto dto2=new IncomeDto();
+		dto2.setId(id);
+		dto2.setI_memo(regdate);
+		
+		List<IncomeDto> iList = acountService.calendarIncomeSearch(dto2);
+		logger.info("수입내역: "+iList);
+		
+		model.addAttribute("pList", pList);
+		model.addAttribute("iList", iList);
+		
+		
+		return "calendar/calendar_main";
+	}
+	
+	@RequestMapping(value = "/calendar_detail.do", method = RequestMethod.GET)
+	public String calendar_detail(Model model,String searchDate,HttpSession session) {
+		logger.info("calendar detail start");
+		
+		MembersDto lDto=(MembersDto)session.getAttribute("loginDto");
+		String id=lDto.getId();
+		
+		IncomeDto iDto=new IncomeDto();
+		iDto.setId(id);
+		iDto.setI_memo(searchDate);
+		
+		System.out.println(searchDate);
+		
+		List<IncomeDto> iList=acountService.calendarIncomeSearch(iDto);
+		model.addAttribute("iList", iList);
+		
+		SpendingDto sDto=new SpendingDto();
+		List<SpendingDto> sList= acountService.calendarSpendingSearch(sDto);
+		model.addAttribute("sList", sList);
+		
+		return "calendar/calendar_detail";
+	}
+	
 	
 	public static void jsClose(HttpServletResponse response){
 		String str="<script type='text/javascript'>"

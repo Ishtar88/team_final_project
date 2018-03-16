@@ -169,7 +169,7 @@ function toggleDataSeries(e) {
 			    <a class="active item" href="goal_main.do">목표관리</a>
 			    <a class="item" href="income_main.do?year=<%=year%>&month=<%=month%>">수입관리</a>
 			    <a class="item" href="spending_main.do?year=<%=year%>&month=<%=month%>">지출관리</a>
-			    <a class="item" href="month_main.do?year=<%=year%>&month=<%=month%>">달력</a>
+			    <a class="item" href="calendar_main.do?year=<%=year%>&month=<%=month%>">달력</a>
 		    </div>
 		</header>
 		<div class="acount_canvas_wrap">

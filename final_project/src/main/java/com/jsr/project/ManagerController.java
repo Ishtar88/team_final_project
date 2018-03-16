@@ -87,6 +87,7 @@ public class ManagerController {
 		return "manager/manager_qnaboard";
 	}
 
+
 	//공지게시판 새로운 게시글 입력 폼으로 이동 
 	@RequestMapping(value="insertnoticeform.do", method= {RequestMethod.POST,RequestMethod.GET})
 	public String insertnoticeform() {

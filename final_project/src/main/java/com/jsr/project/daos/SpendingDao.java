@@ -68,5 +68,25 @@ public class SpendingDao implements ISpendingDao {
 	public SpendingDto spendingDetailSearch(int p_seq) {
 		return sqlSession.selectOne(namespace+"spendingDetailSearch", p_seq);
 	}
+
+	@Override
+	public boolean spendingUpdate(SpendingDto dto) {
+		int count=0;
+		
+		count=sqlSession.update(namespace+"spendingUpdate", dto);
+		
+		return count>0?true:false;
+	}
+
+	@Override
+	public boolean spendingDelete(int seq) {
+		int count=0;
+		
+		count=sqlSession.delete(namespace+"spendingDelete", seq);
+		
+		return count>0?true:false;
+	}
+	
+	
 	
 }
