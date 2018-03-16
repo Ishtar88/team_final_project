@@ -14,6 +14,8 @@ import com.google.zxing.WriterException;
 import com.google.zxing.client.j2se.MatrixToImageConfig;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
+import com.jsr.project.dtos.PointDto;
+import com.jsr.project.dtos.ProductDto;
 import com.jsr.project.dtos.RewardDto;
 
 @Repository
@@ -91,6 +93,34 @@ public class RewardDao implements IRewardDao {
 		}
 		
 		return new MatrixToImageConfig(intQrColor, intBackColor);
+	}
+	
+	@Override
+	public boolean buyReward(ProductDto prodto) {
+		int count=0;
+		count=sqlSession.insert(namespace+"buyReward", prodto);
+		return count>0?true:false;
+	}
+
+	@Override
+	public boolean minusPoint(PointDto podto) {
+		int count=0;
+		count=sqlSession.insert(namespace+"minusPoint", podto);
+		return count>0?true:false;
+	}
+
+	@Override
+	public List<ProductDto> getMyOrder(String id) {
+		Map<String, String>map=new HashMap<String,String>();
+		map.put("id", id);
+		return sqlSession.selectList(namespace+"getMyOrder", map);
+	}
+
+	@Override
+	public ProductDto getQrReceipt(int pro_seq) {
+		Map<String, Integer>map=new HashMap<String,Integer>();
+		map.put("pro_seq", pro_seq);
+		return sqlSession.selectOne(namespace+"qrReceipt", map);
 	}
 
 }

@@ -14,7 +14,16 @@ public class RewardDto {
 	private Date r_regDate;
 	private Date r_modiDate;
 	private CompanyDto b_name;
+	private PointDto po_point;
 	
+	public PointDto getPo_point() {
+		return po_point;
+	}
+
+	public void setPo_point(PointDto po_point) {
+		this.po_point = po_point;
+	}
+
 	public CompanyDto getB_name() {
 		return b_name;
 	}

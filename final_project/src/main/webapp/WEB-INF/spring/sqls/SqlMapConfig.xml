@@ -16,6 +16,7 @@
 		<typeAlias type="com.jsr.project.dtos.SpendingDto" alias="SpendingDto"/>
 		<typeAlias type="com.jsr.project.dtos.RewardDto" alias="RewardDto"/>
 		<typeAlias type="com.jsr.project.dtos.CompanyDto" alias="CompanyDto"/>
+		<typeAlias type="com.jsr.project.dtos.ProductDto" alias="ProductDto"/>
 	</typeAliases>
 	
 	<mappers>
@@ -27,5 +28,6 @@
 		<mapper resource="/sqls/Reward_mapper.xml"/>
 		<mapper resource="/sqls/Spending_mapper.xml"/>
 		<mapper resource="/sqls/Company_mapper.xml"/>
+
 	</mappers>
 </configuration>

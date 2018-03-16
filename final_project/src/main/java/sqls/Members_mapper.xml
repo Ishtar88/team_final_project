@@ -193,9 +193,4 @@ M_USEABLE, M_MARIABLE, M_FAVORITE, M_BIRTHDATE, M_GOALDATE, M_PROFILE_IMG FROM M
 <delete id="confirmDelete" parameterType="String">
 	DELETE FROM MEMBERS WHERE ID=#{id}
 </delete>
-
-
-
-
-
 </mapper>

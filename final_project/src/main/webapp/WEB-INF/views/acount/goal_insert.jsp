@@ -50,27 +50,27 @@
 			</div>
 				<select name="g_name" style="width: 100px;">
 					<optgroup label="생활">
-						<option>식사</option>
-						<option>생활/마트</option>
-						<option>육아</option>
-						<option>주거/통신</option>
-						<option>담배/카페</option>
+						<option value="식사">식사</option>
+						<option value="생활/마트">생활/마트</option>
+						<option value="육아">육아</option>
+						<option value="주거/통신">주거/통신</option>
+						<option value="담배/카페">담배/카페</option>
 					</optgroup>
 					<optgroup label="자기개발">
-						<option>자기개발</option>
-						<option>문화/예술</option>
-						<option>의료/건강</option>
-						<option>투자</option>
+						<option value="자기개발">자기개발</option>
+						<option value="문화/예술">문화/예술</option>
+						<option value="의료/건강">의료/건강</option>
+						<option value="투자">투자</option>
 					</optgroup>
 					<optgroup label="여행/레져">
-						<option>스포츠/레져</option>
-						<option>여행/숙박</option>
-						<option>차량/교통</option>
+						<option value="스포츠/레져">스포츠/레져</option>
+						<option value="여행/숙박">여행/숙박</option>
+						<option value="차량/교통">차량/교통</option>
 					</optgroup>
 					<optgroup label="기타">
-						<option>패션/미용</option>
-						<option>쇼핑</option>
-						<option>술/유흥</option>
+						<option value="패션/미용">패션/미용</option>
+						<option value="쇼핑">쇼핑</option>
+						<option value="술/유흥">술/유흥</option>
 					</optgroup>
 				</select>
 			<div> </div>

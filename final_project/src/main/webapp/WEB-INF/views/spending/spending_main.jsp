@@ -89,16 +89,83 @@ window.onload = function () {
 <script type="text/javascript">
 
 	function detailSearch(pick){
+		var year=$(".spending_year").html();
+		var month=$(".spending_month").html();
 		$.ajax({
 			url:"spendingDetailSearch.do",
-			data:"pick="+pick,
+			data:"pick="+pick+"&year="+year+"&month="+month,
 			type:"get",
 			datatype:"json",
 			success:function(obj){
 				var lists=obj["lists"];
+				
+				$(".spending_detail_body").children().remove();
+				if (lists.length==0) {
+					alert("지출이 없습니다.");
+				}else if (pick=='date') {
+					
+					createDate(lists);
+					
+				}else if (pick=='category') {
+					
+					
+					
+				}else if (pick=='some') {
+					
+				}
+
+				
 			}
 			
-		})
+		});
+		
+		function createDate(lists){
+
+			var tdName=['p_name','p_detail','p_location','p_money','p_regdate'];
+			
+			var tableTop=document.getElementsByClassName("spending_detail_body");
+			var stTable="<table class='spending_table' border='1'>";
+			
+ 			for (var i = 0; i < lists.length; i++) { //tr생성
+				var stTr="<tr>";
+				stTr+="<td name='p_name'>"+lists[i]["p_name"];
+				stTr+="<td name='p_detail'><a href=# onclick='spendingDetail('"+lists[i]["p_seq"]+"')>"+lists[i]["p_detail"]+"</a>";
+				stTr+="<td name='p_location'>"+lists[i]["p_location"];
+				stTr+="<td name='p_some'>"+lists[i]["p_some"];
+				stTr+="<td name='p_money'>"+lists[i]["p_money"]+"</tr>";
+				
+				stTable+=stTr;
+				
+			} 
+			stTable+="</table>";
+			$(".spending_detail_body").append(stTable);
+			
+		}
+		
+		function createCategory(lists){
+
+			var tdName=['p_name','p_detail','p_location','p_money'];
+			
+			var tableTop=document.getElementsByClassName("spending_detail_body");
+			var stTable="<table class='spending_table' border='1'>";
+			stTable+="<tr><th>지출명</th><th>지출상세</th><th>지출장소</th><th>지출금액</th></tr>"
+ 			for (var i = 0; i < lists.length; i++) { //tr생성
+				var stTr="<tr>";
+				stTr+="<td name='p_name'>"+lists[i]["p_name"];
+				stTr+="<td name='p_detail'>"+lists[i]["p_detail"];
+				stTr+="<td name='p_location'>"+lists[i]["p_location"];
+				stTr+="<td name='p_money'>"+lists[i]["p_money"]+"</tr>";
+				
+				stTable+=stTr;
+				
+			} 
+			stTable+="</table>";
+			$(".spending_detail_body").append(stTable);
+			
+		}
+		
+		
+		
 	}
 	
 	function spendingInsert(){
@@ -108,13 +175,9 @@ window.onload = function () {
 		open(url,'',prop);
 	}
 
-	function saveDetail(s_seq){
-		var url='acount_detail.do?acount=save&seq='+s_seq;
-		var prop='width=600px; height=600px;';
+	function spendingDetail(seq){
 		
-		open(url,'',prop);
 	}
-	
 	
 
 </script>
@@ -163,7 +226,7 @@ window.onload = function () {
 		</div>
 		<div class="spending_total_wrap">
 			<div class="spending_total_money">
-				<span class="field">총예산: </span>
+				<span class="field">총지출: </span>
 				<div class="field">
 				<c:choose>
 					<c:when test="${empty sumMoneyDto}">
@@ -242,7 +305,7 @@ window.onload = function () {
 		 <a href="#" >◀</a>
 	 	  	<span class="spending_year">${year }년 </span>
 	 	  	<span class="spending_month">${month }월</span>
-	     <a href="" >▶</a>
+	     <a href="#" >▶</a>
   		 <a href="#" >▷▷</a>
 	</div>
 		  <!------  ---------->		
@@ -255,7 +318,13 @@ window.onload = function () {
 						지출상세내역
 					</div>
 				</header>
-				
+				<div class="spending_detail_body">
+					<table class="spending_detail">
+						<tr>
+							
+						</tr>
+					</table>
+				</div>
 
 			</div>
 		</div>

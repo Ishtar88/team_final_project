@@ -26,10 +26,19 @@ public interface ISpendingService {
 	//당월 지출내역 리스트조회
 	public List<SpendingDto> spendingAllSearch(SpendingDto dto);
 	
-	//날짜별 지출내역 조회
-	public List<SpendingDto> spendingDetailSearch(SpendingDto dto);
+	//당월 날짜별 지출내역조회
+	public List<SpendingDto> spendingDateSearch(SpendingDto dto);
+	
+	//당월 카테고리별 지출내역조회
+	public List<SpendingDto> spendingCategorySearch(SpendingDto dto);
+	
+	//당월 결제수단별 지출내역조회
+	public List<SpendingDto> spendingSomeSearch(SpendingDto dto);
 	
 	
 	//---------------------------------------------------------------
+	
+	//지출 상세조회
+	public SpendingDto spendingDetailSearch(int p_seq);
 
 }

@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.google.zxing.client.j2se.MatrixToImageConfig;
 import com.google.zxing.common.BitMatrix;
+import com.jsr.project.dtos.PointDto;
+import com.jsr.project.dtos.ProductDto;
 import com.jsr.project.dtos.RewardDto;
 
 public interface IRewardDao {
@@ -15,4 +17,9 @@ public interface IRewardDao {
 	public RewardDto rewardOne(int r_seq);
 	public BitMatrix makeQRMatix(String url,int width,int height);
 	public MatrixToImageConfig makeColorConfig(String qrColor, String backColor);
+	public boolean buyReward(ProductDto prodto);
+	public boolean minusPoint(PointDto podto);
+	public List<ProductDto> getMyOrder(String id);
+	public ProductDto getQrReceipt(int pro_seq);
+
 }

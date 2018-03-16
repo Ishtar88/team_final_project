@@ -56,9 +56,6 @@ img {
 </style>
 </head>
 <body>
-	<a href="getUser.do">내 정보</a>
-	<a href="goal_main.do">예산 설정</a>
-	<a>구매 내역</a>
 	<form action="modifyUser.do" method="post">
 		<table border="1">
 			<tr>
@@ -85,10 +82,10 @@ img {
 				<th>연락처</th>
 				<c:set var="phone" value="${mdto.m_phone}" />
 				<td><input type="text" maxlength="3"
-					value="${fn:substring(phone,0,3)}" name="phone1">-<input
+					value="${fn:substring(phone,0,3)}" name="phone1" size="4px">-<input
 					type="text" value="${fn:substring(phone,4,8)}" maxlength="4"
-					name="phone2">-<input type="text"
-					value="${fn:substring(phone,9,13)}" maxlength="4" name="phone3"></td>
+					name="phone2" size="4px">-<input type="text"
+					value="${fn:substring(phone,9,13)}" maxlength="4" name="phone3" size="4px"></td>
 			</tr>
 
 			<tr>
@@ -124,13 +121,13 @@ img {
 				<td><input type="hidden" id="confmKey" name="confmKey"
 					value="U01TX0FVVEgyMDE4MDEyNTE2MjU1MjEwNzYzMDc="> <input
 					type="text" name="zipNo" id="zipNo"
-					value="${fn:split(address,'+')[0]}" readonly="readonly"> <input
+					value="${fn:split(address,'+')[0]}" readonly="readonly" size="5px"> <input
 					type="button" value="주소검색" onclick="searchAdd();"></td>
 			</tr>
 			<tr>
 				<th><label>도로명주소</label></th>
 				<td><input type="text" id="addrRoad" name="addrRoad"
-					value="${fn:split(address,'+')[1]}"></td>
+					value="${fn:split(address,'+')[1]}" size="80px"></td>
 			</tr>
 			<tr>
 				<th>상세주소</th>
@@ -170,8 +167,7 @@ img {
 			</tr>
 			<tr>
 				<td colspan="2"><input type="button" value="취소"
-					onclick="goHome()" /> <input type="submit" value="수정/확인" /> <input
-					type="button" value="탈퇴" onclick="leaveUser()" /></td>
+					onclick="location.href='getUser.do'" /> <input type="submit" value="확인" />
 			</tr>
 		</table>
 	</form>

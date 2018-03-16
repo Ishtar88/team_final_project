@@ -1,5 +1,6 @@
 package com.jsr.project;
 
+import java.awt.Point;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -25,6 +26,8 @@ import com.google.zxing.WriterException;
 import com.google.zxing.client.j2se.MatrixToImageConfig;
 import com.google.zxing.qrcode.QRCodeWriter;
 import com.jsr.project.dtos.MembersDto;
+import com.jsr.project.dtos.PointDto;
+import com.jsr.project.dtos.ProductDto;
 import com.jsr.project.dtos.RewardDto;
 import com.jsr.project.services.IRewardService;
 import com.jsr.project.util.QRUtil;
@@ -107,17 +110,7 @@ public class RewardController {
 		return map;
 	}
 	
-	@RequestMapping(value = "/buyForm.do", method = RequestMethod.GET)
-	public String buyForm(HttpServletRequest request,Model model) {
-		int r_seq=Integer.parseInt(request.getParameter("r_seq"));
-		System.out.println(r_seq);
-		RewardDto rdto=rewardService.rewardOne(r_seq);
-		System.out.println(rdto);
-		model.addAttribute("rdto", rdto);
-		return "reward/buyReward";
-		
-	}
-	
+
 	@RequestMapping(value = "/makeQR.do", method = RequestMethod.GET)
 	public void makeQR() throws WriterException, IOException {
 		String url="http://sgroom.tistory.com";
@@ -151,4 +144,65 @@ public class RewardController {
 		QRUtil.makeQR(url, width, height, file_path, file_name);
 		System.out.println("큐알생성");
 	}
+	
+	@RequestMapping(value = "/rewardForm.do", method = RequestMethod.GET)
+	public String rewardForm(HttpServletRequest request,Model model,HttpSession session) {
+		int r_seq=Integer.parseInt(request.getParameter("r_seq"));
+		RewardDto rdto=rewardService.rewardOne(r_seq);
+		
+		MembersDto loginDto=(MembersDto)session.getAttribute("loginDto");
+		if(loginDto.getPo_point()==null) {
+			
+		}
+		System.out.println(rdto);
+
+		model.addAttribute("rdto", rdto);
+		model.addAttribute("loginDto", loginDto);
+		System.out.println(loginDto);
+		return "reward/buyReward";
+		
+	}
+	
+	@RequestMapping(value = "/buyReward.do", method = RequestMethod.GET)
+	public String buyReward(HttpServletRequest request,ProductDto prodto,PointDto podto) {
+		System.out.println(prodto);
+		
+		String point=request.getParameter("po_point");
+		String po_point="-"+point;
+		podto.setPo_point(Integer.parseInt(po_point));
+		System.out.println(podto);
+		boolean isS=rewardService.buyReward(prodto, podto);
+		if(isS) {
+			System.out.println("구매성공");
+		}else {
+			System.out.println("구매실패");
+		}
+		return "reward/rewardMain";
+		
+	}
+	
+	@RequestMapping(value = "/myOrder.do", method = RequestMethod.GET)
+	public String myOrder(HttpServletRequest request,Model model,HttpSession session) {
+		MembersDto loginDto=(MembersDto)session.getAttribute("loginDto");
+		List<ProductDto> list=rewardService.getMyOrder(loginDto.getId());
+		model.addAttribute("list", list);
+		return "reward/myOrder"; 
+		
+	}
+	
+	@RequestMapping(value = "/qrReceipt.do", method = RequestMethod.GET)
+	public String qrReceipt(HttpServletRequest request,Model model,HttpSession session) {
+		int pro_seq=Integer.parseInt(request.getParameter("pro_seq"));
+		ProductDto proDto=rewardService.getQrReceipt(pro_seq);
+		if(proDto.getPro_qruse().equals("Y")) {
+			return "reward/qrReceipt2"; 
+		}else {
+			System.out.println(proDto);
+			model.addAttribute("proDto",proDto);
+			return "reward/qrReceipt"; 
+		}
+		
+		
+	}
+	
 }
