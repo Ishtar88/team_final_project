@@ -9,6 +9,8 @@ public interface IManagerService {
 	public List<MembersDto> getAllMember();
 	public List<MembersDto> getSearchedMember(String id); 
 	public MembersDto modifyMember(String id); 
-	public MembersDto afterModifyMember(MembersDto dto);
+	public boolean afterModifyMember(MembersDto dto);
+	public MembersDto deleteMember(String id);
+	public boolean confirmDelete(String id);
 	
 }

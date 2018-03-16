@@ -83,7 +83,7 @@ public class ManagerController {
 		logger.info("하아아아아아.....");
 		MembersDto dto = managerService.modifyMember(id); 
 		model.addAttribute(dto); 
-		return "modifyMember"; 
+		return "manager/modifyMember"; 
 	}
 	
 	@RequestMapping(value="afterModifyMember.do", method=RequestMethod.POST)
@@ -91,32 +91,51 @@ public class ManagerController {
 		logger.info("하아아아아아.....");
 		boolean isc=managerService.afterModifyMember(dto); 
 		if (isc) {
-			
-			return "redirect:showMember.do";
+			return "redirect:manager/showMember.do";
 		}else {
-			return "redirect:modifyMember.do";
+			return "redirect:manager/modifyMember.do";
 		}
 	}
 	
+	@RequestMapping(value="deleteMember.do", method=RequestMethod.GET)
+	public String deleteMember(Model model, String id) {
+		logger.info("회원삭제 확인페이지로 이동하기.....");
+		MembersDto dto = managerService.deleteMember(id); 
+		model.addAttribute(dto); 
+		return "manager/deleteMember"; 
+	}
+	
+	@RequestMapping(value="confirmDelete.do", method=RequestMethod.GET)
+	public String confirmDelete(String id) {
+		logger.info("회원삭제 확인페이지로 이동하기.....");
+		boolean isS = managerService.confirmDelete(id); 
+		if (isS) {
+			return "redirect:showMember.do"; 
+		} else {
+			return "redirect:deleteMember.do"; 
+		}
+	}
 
-////////////////상품 관리 ///////////////////////////////////////////////////////////////////////////////////////
+////////////////회사/상품 관리 ///////////////////////////////////////////////////////////////////////////////////////
 	
 	@RequestMapping(value="manager_commercial.do", method= {RequestMethod.POST,RequestMethod.GET})
 	public String manager_commercial() {
 		logger.info("상품/회사 관리 페이지"); 
-		return "manager_commercial";
+		return "manager/manager_commercial";
 	}
 	
 	@RequestMapping(value="product.do", method=RequestMethod.GET)
 	public String manager_product() {
 		logger.info("상품 관리 페이지로 이동 "); 
-		return "manager_product";
+		return "manager/manager_product";
 	}
 	
 	@RequestMapping(value="company.do", method=RequestMethod.GET)
-	public String manager_company() {
+	public String manager_company(Model model) {
 		logger.info("회사 관리 페이지로 이동"); 
-		return "manager_company";
+		List<CompanyDto> lists = companyService.getAllCompany(); 
+		model.addAttribute("lists", lists);
+		return "manager/manager_company";
 	}
 	
 

@@ -16,7 +16,7 @@ pageEncoding="UTF-8"%>
 <script type="text/javascript">
 	function modifyCompany(){
 		location.href=""
-// 		여기부터 컴퍼니컨트롤러에 구현해봅시다~! 
+// 		여기부터 매니저컨트롤러에 구현해봅시다~! 
 	}
 	
 	function deleteCompany(){

@@ -37,4 +37,26 @@ public class ManagerDao implements IManagerDao {
 		return sqlSession.selectOne(namespace+"modifyMember", id); 
 	}
 
+	//수정한 뒤 처리 
+	@Override
+	public boolean afterModifyMember(MembersDto dto) {
+		int count=0; 
+		count= sqlSession.update(namespace+"afterModify", dto); 
+		return count>0?true:false; 
+	}
+
+	//탈퇴 전 마지막 확인 페이지 
+	@Override
+	public MembersDto deleteMember(String id) {
+		return sqlSession.selectOne(namespace+"deleteMember", id);
+	}
+
+	//탈퇴시키기 
+	@Override
+	public boolean confirmDelete(String id) {
+		int count=0; 
+		count = sqlSession.delete(namespace+"confirmDelete", id);
+		return count>0?true:false; 
+	}
+
 }

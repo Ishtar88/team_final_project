@@ -33,8 +33,21 @@ public class ManagerService implements IManagerService {
 
 
 	@Override
-	public MembersDto afterModifyMember(MembersDto dto) {
+	public boolean afterModifyMember(MembersDto dto) {
 		return managerDao.afterModifyMember(dto); 
+		
+	}
+
+
+	@Override
+	public MembersDto deleteMember(String id) {
+		return managerDao.deleteMember(id); 
+	}
+
+
+	@Override
+	public boolean confirmDelete(String id) {
+		return managerDao.confirmDelete(id);
 	}
 
 }

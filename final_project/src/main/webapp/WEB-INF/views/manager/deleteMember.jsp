@@ -12,18 +12,22 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<script type="text/javascript">
+	function yes(){
+		alert("해당 회원 정보를 삭제합니다.")
+		location.href="confirmDelete.do?id="+${dto.id};
+	}
+	
+	function no(){
+		location.href="showMember.do";
+	}
+
+</script>
 <title>Insert title here</title>
 </head>
-<script type="text/javascript">
-	function exit(){
-		location.href="showMember.do"; 
-	}
-</script>
 <body>
-	<div>
-	<form action="afterModifyMember.do" method="post">
-	<input type="hidden" name="dto" value="${dto.id}">
-	<table border="1">
+<div class="show_table">
+	<table  border="1">
 		<tr>
 			<th>아이디</th>
 			<th>이름</th>
@@ -68,8 +72,23 @@
 		</td>
 		</tr>
 	</table>
-	</form>
 	</div>
 	
+	<div>
+	<table>
+		<tr>
+			<td>
+		정말 이 회원을 삭제하시겠습니까? 
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<input type="button" value="예" onclick="yes()"/>
+				<input type="button" value="아니오" onclick="no()"/>
+			</td>
+		</tr>
+		</table>
+	</div>
+
 </body>
 </html>
