@@ -18,18 +18,15 @@ function end(){
 	location.href="index.jsp";
 }
 
-function use(){
-	
-}
-
 </script>
 </head>
 <body>
+<form action="useQR.do" method="post">
 	<div>
 		<input type="hidden" value="${proDto.pro_seq}" name="pro_seq" />
 	</div>
 	<div>
-		<img alt="상품 이미지" src="resources/upload/${rdto.r_file.r_file}">
+		<img alt="상품 이미지" src="resources/upload/${proDto.r_name.r_file}">
 	</div>
 	<div>
 		상품명<input type="text" value="${proDto.r_name.r_name}" readonly="readonly" />
@@ -41,8 +38,9 @@ function use(){
 		구매자<input type="text" value="${proDto.id}" name="id" readonly="readonly"/>
 	</div>
 	<div>
-		사용 하시겠습니까?<input type="button" value="네" onclick="use()"/><input type="button"
+		사용 하시겠습니까?<input type="submit" value="네"/><input type="button"
 			value="아니오" onclick="end()" />
 	</div>
+</form>
 </body>
 </html>

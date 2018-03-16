@@ -9,6 +9,7 @@
 		<result property="b_seq" column="B_SEQ" />
 		<result property="r_point" column="R_POINT" />
 		<result property="r_sell" column="R_SELL" />
+		<result property="r_detail" column="R_DETAIL" />
 		<result property="r_location" column="R_LOCATION" />
 		<result property="r_file" column="R_FILE" />
 		<result property="r_regDate" column="R_REGDATE" />
@@ -18,6 +19,7 @@
 	</resultMap>
 
 	<resultMap type="com.jsr.project.dtos.CompanyDto" id="CompanyDto">
+		<result property="b_seq" column="B_SEQ" />
 		<result property="b_name" column="B_NAME" />
 	</resultMap>
 
@@ -43,11 +45,16 @@
 		<result property="po_detail" column="PO_DETAIL" />
 	</resultMap>
 
+	<select id="companyList" resultMap="CompanyDto">
+		SELECT B_SEQ,B_NAME FROM
+		COMPANY
+	</select>
+
 	<insert id="insertReward" parameterType="RewardDto">
 		INSERT INTO REWARD
-		(R_SEQ,R_NAME,B_SEQ,R_POINT,R_SELL,R_FILE)
+		(R_SEQ,R_NAME,B_SEQ,R_POINT,R_SELL,R_FILE,R_DETAIL)
 		VALUES
-		(REWARD_SEQ.NEXTVAL,#{r_name},#{b_seq},#{r_point},'Y',#{r_file})
+		(REWARD_SEQ.NEXTVAL,#{r_name},#{b_seq},#{r_point},'Y',#{r_file},#{r_detail})
 	</insert>
 
 	<select id="rewardList" resultMap="RewardDto">
@@ -59,18 +66,18 @@
 
 	<select id="findByRname" resultMap="RewardDto" parameterType="Map">
 		SELECT
-		R_SEQ,R_NAME,R_POINT,R_SELL,R_FILE,R_REGDATE,C.B_SEQ,B_NAME FROM
+		R_SEQ,R_NAME,R_POINT,R_SELL,R_FILE,R_REGDATE,R_DETAIL,C.B_SEQ,B_NAME FROM
 		REWARD R JOIN COMPANY C ON R.B_SEQ=C.B_SEQ WHERE R_SELL='Y' AND
 		R_NAME
-		LIKE '%'|| #{r_name} ||'%'
+		LIKE '%'|| #{r_name} ||'%' AND R_DETAIL=#{r_detail}
 	</select>
 
 	<select id="findByBname" resultMap="RewardDto" parameterType="Map">
 		SELECT
-		R_SEQ,R_NAME,R_POINT,R_SELL,R_FILE,R_REGDATE,C.B_SEQ,B_NAME FROM
+		R_SEQ,R_NAME,R_POINT,R_SELL,R_FILE,R_REGDATE,R_DETAIL,C.B_SEQ,B_NAME FROM
 		REWARD R JOIN COMPANY C ON R.B_SEQ=C.B_SEQ WHERE R_SELL='Y' AND
 		B_NAME
-		LIKE '%'|| #{b_name} ||'%'
+		LIKE '%'|| #{b_name} ||'%'AND R_DETAIL=#{r_detail}
 	</select>
 
 	<select id="rewardOne" resultMap="RewardDto" parameterType="Map">
@@ -80,9 +87,12 @@
 	</select>
 
 	<insert id="buyReward" parameterType="ProductDto">
-		INSERT INTO
-		PRODUCT(PRO_SEQ,ID,PRO_NUM,PRO_COUNT)
-		VALUES(PRODUCT_SEQ.NEXTVAL,#{id},#{pro_num},#{pro_count})
+	<![CDATA[
+		INSERT INTO PRODUCT
+		(PRO_SEQ,ID,PRO_NUM,PRO_COUNT,PRO_QR,PRO_QRUSE)
+		VALUES
+		(PRODUCT_SEQ.NEXTVAL,#{id},#{pro_num},#{pro_count},'http://chart.googleapis.com/chart?cht=qr&chs=300x300&chl=http://192.168.4.105:8090/project/qrReceipt.do?pro_seq='||TO_CHAR(PRODUCT_SEQ.NEXTVAL),'N')
+	]]>
 	</insert>
 
 	<insert id="minusPoint" parameterType="PointDto">
@@ -102,8 +112,18 @@
 		PRO_SEQ,ID,PRO_NUM,PRO_COUNT,PRO_REGDATE,PRO_QR,PRO_QRUSE,R_NAME,R_POINT,R_FILE
 		FROM PRODUCT P,REWARD R WHERE P.PRO_NUM=R.R_SEQ AND PRO_SEQ=#{pro_seq}
 	</select>
-	
+
 	<update id="useQR" parameterType="Map">
-	UPDATE PRODUCT SET PRO_QRUSE='Y' WHERE PRO_SEQ=#{pro_seq}
+		UPDATE PRODUCT SET
+		PRO_QRUSE='Y' WHERE PRO_SEQ=#{pro_seq}
 	</update>
+
+	<select id="listOfCategory" parameterType="RewardDto" resultMap="RewardDto">
+		SELECT
+		R_SEQ,R_NAME,R_POINT,R_SELL,R_FILE,R_REGDATE,R_DETAIL,C.B_SEQ,B_NAME
+		FROM
+		REWARD R JOIN COMPANY C ON R.B_SEQ=C.B_SEQ WHERE R_SELL='Y' AND
+		R_DETAIL=#{r_detail}
+	</select>
+
 </mapper>

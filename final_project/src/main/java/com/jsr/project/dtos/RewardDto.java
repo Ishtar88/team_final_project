@@ -6,12 +6,21 @@ public class RewardDto {
 	
 	private int r_seq;
 	private String r_name;
-	private String b_seq;
+	private int b_seq;
 	private int r_point;
+	private String r_detail;
 	private String r_sell;
 	private String r_location;
 	private String r_file;
 	private Date r_regDate;
+	public String getR_detail() {
+		return r_detail;
+	}
+
+	public void setR_detail(String r_detail) {
+		this.r_detail = r_detail;
+	}
+
 	private Date r_modiDate;
 	private CompanyDto b_name;
 	private PointDto po_point;
@@ -37,7 +46,7 @@ public class RewardDto {
 		
 	}
 
-	public RewardDto(int r_seq, String r_name, String b_seq, int r_point, String r_sell, String r_location,
+	public RewardDto(int r_seq, String r_name, int b_seq, int r_point, String r_sell, String r_location,
 			String r_file, Date r_regDate, Date r_modiDate) {
 		super();
 		this.r_seq = r_seq;
@@ -67,11 +76,11 @@ public class RewardDto {
 		this.r_name = r_name;
 	}
 
-	public String getB_seq() {
+	public int getB_seq() {
 		return b_seq;
 	}
 
-	public void setB_seq(String b_seq) {
+	public void setB_seq(int b_seq) {
 		this.b_seq = b_seq;
 	}
 
@@ -126,9 +135,11 @@ public class RewardDto {
 	@Override
 	public String toString() {
 		return "RewardDto [r_seq=" + r_seq + ", r_name=" + r_name + ", b_seq=" + b_seq + ", r_point=" + r_point
-				+ ", r_sell=" + r_sell + ", r_location=" + r_location + ", r_file=" + r_file + ", r_regDate="
-				+ r_regDate + ", r_modiDate=" + r_modiDate + "]";
+				+ ", r_detail=" + r_detail + ", r_sell=" + r_sell + ", r_location=" + r_location + ", r_file=" + r_file
+				+ ", r_regDate=" + r_regDate + ", r_modiDate=" + r_modiDate + ", b_name=" + b_name + ", po_point="
+				+ po_point + "]";
 	}
+
 	
 
 	
