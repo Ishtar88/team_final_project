@@ -41,7 +41,7 @@
 						사용여부<input type="text" name="r_name" value="${proDto.pro_qruse}"
 							readonly="readonly" />
 					</div>
-					<a href="qrReceipt.do?pro_seq=48">QR</a>
+					<a href="qrReceipt.do?pro_seq=${proDto.pro_seq}">QR확인</a>
 				</td>
 			</tr>
 		</c:forEach>

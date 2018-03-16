@@ -10,10 +10,12 @@ import org.springframework.stereotype.Repository;
 import com.jsr.project.dtos.AcountDto;
 import com.jsr.project.dtos.FundDto;
 import com.jsr.project.dtos.GoalDto;
+import com.jsr.project.dtos.IncomeDto;
 import com.jsr.project.dtos.LoanDto;
 import com.jsr.project.dtos.MembersDto;
 import com.jsr.project.dtos.PointDto;
 import com.jsr.project.dtos.SaveDto;
+import com.jsr.project.dtos.SpendingDto;
 import com.jsr.project.dtos.StockDto;
 
 @Repository
@@ -243,6 +245,25 @@ public class AcountDao implements IAcountDao {
 		
 		count=sqlSession.insert(namespace+"loanInsert", dto);
 		return count>0?true:false;
+	}
+	
+	
+	//----------------------------------------------------
+	
+
+	@Override
+	public List<SpendingDto> calendarSpendingSearch(SpendingDto dto) {
+		return sqlSession.selectList(namespace+"calendarSpendingSearch", dto);
+	}
+
+	@Override
+	public List<IncomeDto> calendarIncomeSearch(IncomeDto dto) {
+		return sqlSession.selectList(namespace+"calendarIncomeSearch", dto);
+	}
+
+	@Override
+	public IncomeDto calendarDetailSearch(IncomeDto dto) {
+		return sqlSession.selectOne(namespace+"calendarDetailSearch",dto);
 	}
 
 

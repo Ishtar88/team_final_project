@@ -385,7 +385,7 @@
 						</td>
 			</tr>
 				<tr>
-				<td colspan="2">
+			<td colspan="2">
 				<input type="submit" value="등록"> 
 				<input type="button" value="취소" onclick="self.close()"></td>
 			</tr>

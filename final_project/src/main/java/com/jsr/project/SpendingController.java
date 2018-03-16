@@ -91,7 +91,7 @@ public class SpendingController {
 		return "spending/spending_insert_page";
 	}
 	
-	@RequestMapping(value = "/spending_insert.do")
+	@RequestMapping(value = "/spending_insert.do", method = RequestMethod.POST)
 	public String spending_insert(Model model,SpendingDto dto,HttpSession session) {
 		logger.info("spending insert page");
 		
@@ -161,9 +161,57 @@ public class SpendingController {
 		return map;
 	}
 	
-	@RequestMapping(value = "/spending_detail.do")
-	public String spending_detail(Model model,String seq,HttpSession session) {
+	@RequestMapping(value = "/spending_detail.do", method = RequestMethod.GET)
+	public String spending_detail(Model model,String seq) {
 		logger.info("spending insert page");
+		
+		int p_seq=Integer.parseInt(seq);
+		
+		SpendingDto sDto=spendingService.spendingDetailSearch(p_seq);
+		model.addAttribute("sDto", sDto);
+		
+		System.out.println("sDto: "+sDto);
+		
+		
+		return "spending/spending_detail";
+	}
+
+	@RequestMapping(value = "/spending_update_page.do", method = RequestMethod.GET)
+	public String spending_update_page(Model model,String seq) {
+		logger.info("spending update page");
+		
+		int p_seq=Integer.parseInt(seq);
+		
+		SpendingDto sDto=spendingService.spendingDetailSearch(p_seq);
+		model.addAttribute("sDto", sDto);
+		
+		
+		return "spending/spending_update_page";
+	}
+	
+	@RequestMapping(value = "/spending_update.do", method = RequestMethod.POST)
+	public String spending_update(Model model,SpendingDto dto,String seq) {
+		logger.info("spending update page");
+		
+		int p_seq=Integer.parseInt(seq);
+		
+		dto.setP_seq(p_seq);
+		
+		
+		boolean isc=spendingService.spendingUpdate(dto);
+		if (isc) {
+			model.addAttribute("isc", isc);
+		}else {
+			model.addAttribute("isc", isc);
+		}
+		
+		
+		return "spending/spending_update_page";
+	}
+	
+	@RequestMapping(value = "/spending_cancel.do", method = RequestMethod.GET)
+	public String spending_cancel(Model model,String seq) {
+		logger.info("spending cancel");
 		
 		int p_seq=Integer.parseInt(seq);
 		
@@ -173,7 +221,25 @@ public class SpendingController {
 		
 		return "spending/spending_detail";
 	}
-
+	
+	
+	
+	@RequestMapping(value = "/spending_delete.do", method = RequestMethod.GET)
+	public String spending_delete(Model model,String seq) {
+		logger.info("spending update page");
+		
+		int p_seq=Integer.parseInt(seq);
+		
+		boolean isc=spendingService.spendingDelete(p_seq);
+		if (isc) {
+			model.addAttribute("isc", isc);
+		}else {
+			model.addAttribute("isc", isc);
+		}
+		
+		
+		return "spending/spending_update_page";
+	}
 
 
 }

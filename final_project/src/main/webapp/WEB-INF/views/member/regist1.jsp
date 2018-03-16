@@ -72,7 +72,7 @@
 		var phone1 = $("input[name=phone1]").val();
 		var phone2 = $("input[name=phone2]").val();
 		var phone3 = $("input[name=phone3]").val();
-		var gender = $("input[name=m_gender]").val();
+		var gender = $("input[name=m_gender]");
 
 		var idchk = $("#idchk").text();
 		var pwchk = $("#pwchk").text();
@@ -80,7 +80,7 @@
 
 		if (id == "" || pw == "" || pwchk == "" || email1 == "" || email2 == ""
 				|| phone1 == "" || phone2 == "" || phone3 == ""
-				|| gender == null) {
+				|| gender.attr("checked",false)) {
 			alert("모든 칸을 정확히 입력 해 주세요.");
 			return false;
 		} else if (idchk.match("이미") || idchk == "") {
@@ -104,10 +104,9 @@
 		var mailadd = $("select[name=mailadd]").val();
 		if(email1==""){
 			alert("이메일을 올바르게 입력 해 주세요");
-			
-		}else if(mailadd.match("self")&email2==""){
+		}else if(mailadd.match("self") && email2==""){
 			alert("이메일을 올바르게 입력 해 주세요");
-		}else if (mailadd.match("self")) {
+		}else if (mailadd.match("self") && email2!="") {
 			var m_email = email1 + "@" + email2;
 			$.ajax({
 
@@ -123,7 +122,7 @@
 			});
 			
 		} else {
-			var m_email = email1 + "@" + email2;
+			var m_email = email1 + "@" + mailadd;
 			$.ajax({
 
 				url : "mailChkAjax.do",
@@ -164,6 +163,7 @@
 		$('.phoneNum').keyup(function() {
 			this.value = this.value.replace(/[^0-9]/g, '');
 		});
+		
 	});
 </script>
 <style type="text/css">

@@ -176,7 +176,7 @@
     <a class="active item">홈</a>
     <a class="item" href="acount.do">자산관리</a>
     <a class="item">패턴분석</a>
-    <a class="item" href="reward.do">포인트몰</a>
+    <a class="item" href="rewardMain.do">포인트몰</a>
     <a class="item"  href="customer.do">고객센터</a>
         <div class="right item">
           <a class="ui inverted button" href="getUser.do">${loginDto.m_name}님</a>

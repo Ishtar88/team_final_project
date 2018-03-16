@@ -1,3 +1,4 @@
+
 package com.jsr.project;
 
 import java.util.HashMap;
@@ -198,4 +199,3 @@ public String notice_detail(Model model, String n_seq,String count){
 
 
 }
-

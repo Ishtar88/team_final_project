@@ -36,5 +36,10 @@ public interface ISpendingDao {
 	
 	//지출 상세조회
 	public SpendingDto spendingDetailSearch(int p_seq);
-
+	
+	//지출 수정
+	public boolean spendingUpdate(SpendingDto dto);
+	
+	//지출 삭제
+	public boolean spendingDelete(int seq);
 }
