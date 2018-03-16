@@ -35,7 +35,7 @@ pageEncoding="UTF-8"%>
 </head>
 <body>
 
-<h1 onclick="showoption()">QnA 게시판</h1>
+<h1>QnA 게시판</h1>
 <div id="boardtable">
 	<table border="1">
 		<tr>

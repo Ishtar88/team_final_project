@@ -18,10 +18,36 @@ public class ManagerService implements IManagerService {
 	public List<MembersDto> getAllMember() {
 		return managerDao.getAllMember();
 	}
+	
+	
+	@Override
+	public List<MembersDto> getSearchedMember(String id) {
+		return  managerDao.getSearchedMember(id);
+		
+	}
 
 	@Override
-	public MembersDto getSearchedMember(MembersDto dto) {
-		return managerDao.getSearchedMember(dto);
+	public MembersDto modifyMember(String id) {
+		return managerDao.modifyMember(id); 
+	}
+
+
+	@Override
+	public boolean afterModifyMember(MembersDto dto) {
+		return managerDao.afterModifyMember(dto); 
+		
+	}
+
+
+	@Override
+	public MembersDto deleteMember(String id) {
+		return managerDao.deleteMember(id); 
+	}
+
+
+	@Override
+	public boolean confirmDelete(String id) {
+		return managerDao.confirmDelete(id);
 	}
 
 }

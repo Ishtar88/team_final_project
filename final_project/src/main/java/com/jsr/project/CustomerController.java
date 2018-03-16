@@ -123,7 +123,7 @@ public class CustomerController {
 		boolean isc=qnaService.q_updateBoard(dto); 
 		if (isc) {
 			return "redirect:qnadetail.do?seq="+dto.getQ_seq(); 
-		}
+		}else
 		return "redirect:updateform.do?seq="+dto.getQ_seq();
 	}
 	

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.jsr.project.company">
+
+<resultMap type="com.jsr.project.dtos.CompanyDto" id="CompanyDto">
+			<result property="b_seq" column="B_SEQ"/>
+			<result property="b_name" column="B_NAME"/>
+			<result property="b_num" column="B_NUM"/>
+			<result property="b_address" column="B_ADDRESS"/>
+			<result property="b_tel" column="B_TEL"/>
+			<result property="b_regDate" column="B_REGDATE"/>
+</resultMap>
+
+<select id="getAllCompany" resultType="CompanyDto">
+	SELECT B_SEQ, B_NAME, B_NUM, B_ADDRESS, B_TEL, B_REGDATE FROM COMPANY
+</select>
+
+</mapper>
