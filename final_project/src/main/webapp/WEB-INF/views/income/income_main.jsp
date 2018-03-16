@@ -1,3 +1,4 @@
+<%@page import="java.util.Calendar"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <%request.setCharacterEncoding("UTF-8"); %>
 <%response.setContentType("text/html; charset=UTF-8"); %>
@@ -14,46 +15,65 @@
 ----------------------->
 <script>
 window.onload = function () {
+	
+	var year=document.getElementsByClassName("income_year")[0].innerHTML;
+	var month=document.getElementsByClassName("income_month")[0].innerHTML;
+	
+	$.ajax({
+		url:"incomeChartAjax.do",
+		data:"year="+year+"&month="+month,
+		datatype:"json",
+		success:function(obj){
+			var iList=obj["iList"];
+			
+			var finals=[];
+			
+			for (var i = 0; i < iList.length; i++) {
+				finals.push({y:obj.iList[i].i_money , name:obj.iList[i].i_name});
+			}
+			
+			
+			var chart = new CanvasJS.Chart("chartContainer", {
+				theme: "dark2",
+				exportFileName: "Doughnut Chart",
+				exportEnabled: true,
+				animationEnabled: true,
+				title:{
+					text: "수입 내역"
+				},
+				legend:{
+					cursor: "pointer",
+					itemclick: explodePie
+				},
+				data: [{
+					type: "doughnut",
+					innerRadius: 100,
+					showInLegend: true,
+					toolTipContent: "<b>{name}</b>: ${y} (#percent%)",
+					indexLabel: "{name} - #percent%",
+					dataPoints: finals
+				}]
+			});
+			chart.render();
 
-	var chart = new CanvasJS.Chart("chartContainer", {
-		theme: "dark2",
-		exportFileName: "Doughnut Chart",
-		exportEnabled: true,
-		animationEnabled: true,
-		title:{
-			text: "Monthly Expense"
-		},
-		legend:{
-			cursor: "pointer",
-			itemclick: explodePie
-		},
-		data: [{
-			type: "doughnut",
-			innerRadius: 90,
-			showInLegend: true,
-			toolTipContent: "<b>{name}</b>: ${y} (#percent%)",
-			indexLabel: "{name} - #percent%",
-			dataPoints: [
-				{ y: 450, name: "Food" },
-				{ y: 120, name: "Insurance" },
-				{ y: 300, name: "Travelling" },
-				{ y: 800, name: "Housing" },
-				{ y: 150, name: "Education" },
-				{ y: 150, name: "Shopping"},
-				{ y: 250, name: "Others" }
-			]
-		}]
-	});
-	chart.render();
-
-	function explodePie (e) {
-		if(typeof (e.dataSeries.dataPoints[e.dataPointIndex].exploded) === "undefined" || !e.dataSeries.dataPoints[e.dataPointIndex].exploded) {
-			e.dataSeries.dataPoints[e.dataPointIndex].exploded = true;
-		} else {
-			e.dataSeries.dataPoints[e.dataPointIndex].exploded = false;
+			function explodePie (e) {
+				if(typeof (e.dataSeries.dataPoints[e.dataPointIndex].exploded) === "undefined" || !e.dataSeries.dataPoints[e.dataPointIndex].exploded) {
+					e.dataSeries.dataPoints[e.dataPointIndex].exploded = true;
+				} else {
+					e.dataSeries.dataPoints[e.dataPointIndex].exploded = false;
+				}
+				e.chart.render();
+			}
+			
+			
+		},error:function(request,status,error){
+			alert("error! / "+"code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			
 		}
-		e.chart.render();
-	}
+		
+	});
+
+
 
 	}
 </script>
@@ -95,17 +115,43 @@ window.onload = function () {
 		background-color: grey;
 	}	
 </style>
+<%
+	String paramYear = request.getParameter("year");
+	String paramMonth = request.getParameter("month");
+	
+	Calendar cal = Calendar.getInstance();
+	int year = cal.get(Calendar.YEAR);
+	int month = cal.get(Calendar.MONTH) + 1;
+	
+	if (paramYear != null) {
+		year = Integer.parseInt(paramYear);
+	}
+	if (paramMonth != null) {
+		month = Integer.parseInt(paramMonth);
+	}
+	if (month > 12) {
+		month = 1;
+		year++;
+	}
+	if (month == 0) {
+		month = 12;
+		year--;
+	}
+%>
 </head>
 <body>
 <div class="acount_body_wrap">
+	<br>
 	<header>
 		<div class="ui right aligned">
 		    <a class="item" href="goal_main.do">목표관리</a>
-		    <a class="active item" href="income_main.do?year=${year }&month=${month}">수입관리</a>
-		    <a class="item" href="spending_main.do?year=${year }&month=${month}">지출관리</a>
-		    <a class="item" href="calendar_main.do?year=${year }&month=${month}">달력</a>
+		    <a class="item" href="acount.do?year=<%=year %>&month=<%=month%>">자산관리</a>
+		    <a class="active item" href="income_main.do?year=<%=year%>&month=<%=month%>">수입관리</a>
+		    <a class="item" href="spending_main.do?year=<%=year%>&month=<%=month%>">지출관리</a>
+		    <a class="item" href="calendar_main.do?year=<%=year%>&month=<%=month%>">달력</a>
 	    </div>
 	</header>
+	<br>
 		<div class="income_canvas_wrap">
 			<div id="chartContainer" style="height: 400px; width: 50%;"></div>
 			<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
@@ -150,12 +196,12 @@ window.onload = function () {
 			<header>
 				<div class="ui right aligned">
 				    <div class="income_searchDate">
-					    <a href="#" >◁◁</a>
-					    <a href="#" >◀</a>
-					    	<span class="income_year">${year }년 </span>
-					    	<span class="income_month">${month }월</span>
-					    <a href="" >▶</a>
-					    <a href="#" >▷▷</a>
+						 <a href="income_main.do?year=<%=year-1%>&month=<%=month%>" >◁◁</a>
+						 <a href="income_main.do?year=<%=year%>&month=<%=month-1%>" >◀</a>
+					 	  	<span class="income_year"><%=year%>년 </span>
+					 	  	<span class="income_month"><%=month%>월</span>
+					     <a href="income_main.do?year=<%=year%>&month=<%=month+1%>" >▶</a>
+				  		 <a href="income_main.do?year=<%=year+1%>&month=<%=month%>" >▷▷</a>
 				    </div>
 			    </div>
 			    <div class="income_updateForm">

@@ -1,3 +1,4 @@
+<%@page import="java.util.Calendar"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <%request.setCharacterEncoding("UTF-8"); %>
 <%response.setContentType("text/html; charset=UTF-8"); %>
@@ -220,7 +221,7 @@ window.onload = function () {
 		text-align: center;
 		border: 1px;
 	}
-	.spending_canvas_wrap,.spending_total_wrap,.spending_searchDate{
+	.spending_canvas_wrap,.spending_total_wrap,.spending_header_wrap{
 		align-content: center;
 	}
 	.spending_body_wrap{
@@ -228,11 +229,34 @@ window.onload = function () {
 	}
 	.spending_total_wrap{
 		left: 500px;
-		width: 200px; height: 300px;
+		width: 200px; height: 350px;
 		background-color: grey;
 	}
 	
 </style>
+<%
+	String paramYear = request.getParameter("year");
+	String paramMonth = request.getParameter("month");
+	
+	Calendar cal = Calendar.getInstance();
+	int year = cal.get(Calendar.YEAR);
+	int month = cal.get(Calendar.MONTH) + 1;
+	
+	if (paramYear != null) {
+		year = Integer.parseInt(paramYear);
+	}
+	if (paramMonth != null) {
+		month = Integer.parseInt(paramMonth);
+	}
+	if (month > 12) {
+		month = 1;
+		year++;
+	}
+	if (month == 0) {
+		month = 12;
+		year--;
+	}
+%>
 </head>
 <body>
 <div class="spending_body_wrap">
@@ -240,9 +264,10 @@ window.onload = function () {
 		<br>
 			<div class="ui right aligned">
 			    <a class="item" href="goal_main.do">목표관리</a>
-			    <a class="item" href="income_main.do?year=${year }&month=${month}">수입관리</a>
-			    <a class="active item" href="spending_main.do?year=${year }&month=${month}">지출관리</a>
-			    <a class="item" href="calendar_main.do?year=${year }&month=${month }">달력</a>
+			    <a class="item" href="acount.do?year=<%=year %>&month=<%=month%>">자산관리</a>
+			    <a class="item" href="income_main.do?year=<%=year %>&month=<%=month%>">수입관리</a>
+			    <a class="active item" href="spending_main.do?year=<%=year %>&month=<%=month%>">지출관리</a>
+			    <a class="item" href="calendar_main.do?year=<%=year %>&month=<%=month%>">달력</a>
 		    </div>
 		    <br>
 		    <div>
@@ -333,13 +358,17 @@ window.onload = function () {
 	<div class="spending_insert_icon">
 		<a href="#" onclick="spendingInsert()">지출등록</a>	
 	</div>
-	 <div class="spending_searchDate">
-		 <a href="#" >◁◁</a>
-		 <a href="#" >◀</a>
-	 	  	<span class="spending_year">${year }년 </span>
-	 	  	<span class="spending_month">${month }월</span>
-	     <a href="#" >▶</a>
-  		 <a href="#" >▷▷</a>
+	<div class="spending_header_wrap">
+		<header>
+			 <div class="spending_searchDate">
+				 <a href="spending_main.do?year=<%=year-1 %>&month=<%=month%>" >◁◁</a>
+				 <a href="spending_main.do?year=<%=year %>&month=<%=month-1%>" >◀</a>
+			 	  	<span class="spending_year"><%=year %>년 </span>
+			 	  	<span class="spending_month"><%=month%>월</span>
+			     <a href="spending_main.do?year=<%=year %>&month=<%=month+1%>" >▶</a>
+		  		 <a href="spending_main.do?year=<%=year+1 %>&month=<%=month%>" >▷▷</a>
+			</div>
+		</header>
 	</div>
 		  <!------  ---------->		
 		<!---  지출정보 테이블   ---->

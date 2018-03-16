@@ -6,7 +6,7 @@ import com.jsr.project.dtos.IncomeDto;
 
 public interface I_IncomeService {
 	
-	public List<IncomeDto> incomeAllSearch(String id);
+	public List<IncomeDto> incomeAllSearch(IncomeDto dto);
 	
 	public List<IncomeDto> incomeTopSearch(String id);
 	
@@ -21,6 +21,9 @@ public interface I_IncomeService {
 	
 	//수입 삭제
 	public boolean incomeDelete(int seq);
+	
+	//당월 차트 수입내역 조회
+	public List<IncomeDto> incomeChartAjax(IncomeDto dto);
 	
 
 }

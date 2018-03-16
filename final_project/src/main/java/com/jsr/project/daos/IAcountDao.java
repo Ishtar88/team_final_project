@@ -92,6 +92,28 @@ public interface IAcountDao {
 	public IncomeDto calendarDetailSearch(IncomeDto dto);
 	
 	
+	//달력 수입상세조회
+	public List<IncomeDto> calendarIncomeDetailSearch(IncomeDto dto);
+	
+	//달력 지출상세조회
+	public List<SpendingDto> calendarSpendingDetailSearch(SpendingDto dto);
+	
+	
+	//----------------------------------
+
+	//저축총액 조회
+	public SaveDto saveTotalMoney(String id);
+	
+	//펀드총액 조회
+	public StockDto stockTotalMoney(String id);
+	
+	//투자총핵 조회
+	public FundDto fundTotalMoney(String id);
+	
+	//대출총액 조회
+	public LoanDto loanTotalMoney(String id);
+	
+	
 	//----------------------------------
 
 	

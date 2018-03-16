@@ -13,12 +13,7 @@
 		self.close();
 	</script>
 </c:if>
-<script type="text/javascript">
 
-	function income_insert(){
-		
-	}
-</script>
 <body>
 <form action="income_insert.do" method="post" onsubmit="return income_insert()">
 	<table class="income_form_body">
@@ -47,12 +42,23 @@
 				<input type="radio" name="i_fix" value="N">변동수입
 			</td>
 		</tr>
-		<tr>
-			<td colspan="2">
-				<input type="submit" value="등록">
-				<input type="button" value="취소" onclick="self.close()">
-			</td>
-		</tr>
+				<c:choose>
+					<c:when test="${command.equals('calendar') }">
+						<tr>
+							<td colspan="2">
+								<input type="submit" value="등록"> 
+								<input type="button" value="돌아가기" onclick="location.href='calendar_detail.do?searchDate=${searchDate}'">
+							</td>
+						</tr>
+					</c:when><c:otherwise>
+						<tr>
+							<td colspan="2">
+								<input type="submit" value="등록"> 
+								<input type="button" value="취소" onclick="self.close()">
+							</td>
+						</tr>
+					</c:otherwise>
+				</c:choose>
 	</table>
 </form>
 </body>

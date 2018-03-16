@@ -183,7 +183,45 @@ public class AcountService implements IAcountService {
 		return acountDaoImp.calendarDetailSearch(dto);
 	}
 
+	@Override
+	public List<IncomeDto> calendarIncomeDetailSearch(IncomeDto dto) {
+		return acountDaoImp.calendarIncomeDetailSearch(dto);
+	}
+
+	@Override
+	public List<SpendingDto> calendarSpendingDetailSearch(SpendingDto dto) {
+		return acountDaoImp.calendarSpendingDetailSearch(dto);
+	}
+
 	//----------------------------------------------
+
+	@Override
+	public SaveDto saveTotalMoney(String id) {
+		return acountDaoImp.saveTotalMoney(id);
+	}
+
+	@Override
+	public StockDto stockTotalMoney(String id) {
+		return acountDaoImp.stockTotalMoney(id);
+	}
+
+	@Override
+	public FundDto fundTotalMoney(String id) {
+		return acountDaoImp.fundTotalMoney(id);
+	}
+
+	@Override
+	public LoanDto loanTotalMoney(String id) {
+		return acountDaoImp.loanTotalMoney(id);
+	}
+
+	//----------------------------------------------
+
+	
+	
+	
+	
+	
 
 
 
