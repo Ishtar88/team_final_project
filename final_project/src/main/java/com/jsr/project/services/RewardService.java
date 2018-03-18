@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.jsr.project.daos.IRewardDao;
+import com.jsr.project.dtos.CompanyDto;
 import com.jsr.project.dtos.PointDto;
 import com.jsr.project.dtos.ProductDto;
 import com.jsr.project.dtos.RewardDto;
@@ -30,13 +31,13 @@ public class RewardService implements IRewardService {
 	}
 
 	@Override
-	public List<RewardDto> findByRname(String r_name) {
-		return IRewardDao.findByRname(r_name);
+	public List<RewardDto> findByRname(String r_name,String r_detail) {
+		return IRewardDao.findByRname(r_name,r_detail);
 	}
 
 	@Override
-	public List<RewardDto> findByBname(String b_name) {
-		return IRewardDao.findByBname(b_name);
+	public List<RewardDto> findByBname(String b_name,String r_detail) {
+		return IRewardDao.findByBname(b_name,r_detail);
 	}
 
 	@Override
@@ -60,5 +61,21 @@ public class RewardService implements IRewardService {
 	public ProductDto getQrReceipt(int pro_seq) {
 		return IRewardDao.getQrReceipt(pro_seq);
 	}
+
+	@Override
+	public List<CompanyDto> companyList() {
+		return IRewardDao.companyList();
+	}
+
+	@Override
+	public boolean useQR(ProductDto prodto) {
+		return IRewardDao.useQR(prodto);
+	}
+
+	@Override
+	public List<RewardDto> listOfCategory(RewardDto rdto) {
+		return IRewardDao.listOfCategory(rdto);
+	}
+
 
 }
