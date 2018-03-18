@@ -411,6 +411,7 @@
 						<c:forEach var="i" begin="1" end="5" step="1">
 							<img alt="star" src="resources/icon/star_empty.png" id="satImage${i}" onclick="satChk('${i}')" onmouseover="satShow('${i}')" onmouseout="satNoShow('${i}')">
 						</c:forEach>
+						<input type="hidden" name="p_sat" value="">
 					</td>
 			</tr>
 			<tr>
@@ -419,6 +420,7 @@
 							<c:forEach var="i" begin="1" end="5" step="1">
 								<img alt="star" src="resources/icon/star_empty.png" id="needImage${i}" onclick="needChk('${i}')" onmouseover="needShow('${i}')" onmouseout="needNoShow('${i}')">
 							</c:forEach>
+							<input type="hidden" name="p_need">
 						</td>
 			</tr>
 				<c:choose>

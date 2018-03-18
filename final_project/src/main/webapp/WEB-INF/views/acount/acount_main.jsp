@@ -370,11 +370,11 @@ window.onload = function () {
 							</c:forEach>
 								<tr>
 								<td colspan="3"></td>
-									<th>잔액합계</th>
+									<th>대출합계</th>
 									<td>
-										<c:set var="total" value="0" />
+											<c:set var="total" value="0" />
 										<c:forEach items="${lList}" var="lDto">
-											<c:set var="total" value="${total+lDto.l_bal}" />
+											<c:set var="total" value="${lDto.l_money-lDto.l_remane}" />
 										</c:forEach>
 										${total}
 									</td>

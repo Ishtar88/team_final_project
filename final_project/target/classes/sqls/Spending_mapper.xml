@@ -145,82 +145,47 @@
 			DELETE FROM SPENDING WHERE P_SEQ=#{p_seq}
 		</delete>
 	
-	
-	
-	
-	
-	
-	
-	
-	
-		
-		<select id="incomeAllSearch" parameterType="String" resultType="IncomeDto">
-			SELECT I_SEQ,ID,I_MONEY,I_FIX,I_NAME,I_MEMO,I_REGDATE,I_MODIDATE
-			FROM INCOME WHERE ID=#{id}
+		<select id="dateChartSearch" parameterType="SpendingDto" resultType="SpendingDto">
+			SELECT SUM(P_MONEY) AS P_MONEY,P_REGDATE FROM SPENDING WHERE TO_CHAR(P_REGDATE,'YYYY-MM')=#{p_location} AND ID=#{id} GROUP BY (P_REGDATE) ORDER BY P_REGDATE
 		</select>
 		
-		<select id="incomeDetailSearch" parameterType="int" resultType="IncomeDto">
-			SELECT I_SEQ,ID,I_MONEY,I_FIX,I_NAME,I_MEMO,I_REGDATE,I_MODIDATE
-			FROM INCOME WHERE I_SEQ=#{i_seq}
+		<select id="categoryChartSearch" parameterType="SpendingDto" resultType="SpendingDto">
+			SELECT DISTINCT SUM(P_MONEY) OVER(PARTITION BY P_NAME) AS P_MONEY,TO_CHAR(P_REGDATE,'YYYY-MM')AS P_REGDATE,P_NAME FROM SPENDING WHERE TO_CHAR(P_REGDATE,'YYYY-MM')=#{p_location} AND ID=#{id}
+		</select>
+
+		<select id="someChartSearch" parameterType="SpendingDto" resultType="SpendingDto">
+			SELECT DISTINCT SUM(P_MONEY) OVER(PARTITION BY P_SOME) AS P_MONEY,P_SOME FROM SPENDING WHERE TO_CHAR(P_REGDATE,'YYYY-MM')=#{p_location} AND ID=#{id}
 		</select>
 		
-		<select id="incomeTopSearch" parameterType="String" resultType="IncomeDto">
+		<select id="spendingcurrentMoneySearch" parameterType="SpendingDto" resultType="SpendingDto">
+			SELECT SUM(P_MONEY) AS P_MONEY FROM SPENDING WHERE TO_CHAR(P_REGDATE, 'YYYY-MM')=#{p_location} AND ID=#{id}
+		</select>
+	
+		<select id="spendingAvgMoneySearch" parameterType="SpendingDto" resultType="SpendingDto">
+			SELECT DISTINCT ROUND(SUM(P_MONEY)/30) AS P_MONEY
+			FROM SPENDING
+			WHERE SUBSTR(TO_CHAR(P_REGDATE,'YYYY-MM'),1,7)=#{p_location} AND ID=#{id}
+		</select>
+		
+		<select id="spendingTotalCountSearch" parameterType="SpendingDto" resultType="SpendingDto">
+			SELECT COUNT(P_MONEY) AS COUNT FROM SPENDING WHERE TO_CHAR(P_REGDATE,'YYYY-MM')=#{p_location} AND ID=#{id}
+		</select>
+		
+		<select id="spendingSomeTotalSearch" parameterType="SpendingDto" resultType="SpendingDto">
 			<![CDATA[
-				SELECT DISTINCT RN,I_SEQ,ID,I_NAME,I_MONEY,I_FIX,I_REGDATE,I_MONEY,I_MODIDATE 
-				FROM (SELECT I.*,ROW_NUMBER() OVER(ORDER BY I_MONEY DESC) AS RN FROM INCOME I) 
-				WHERE id=#{id} AND RN<4 ORDER BY RN
+				SELECT ROWNUM AS P_SEQ,P_MONEY,P_REGDATE,P_SOME 
+				FROM (SELECT P_MONEY,P_REGDATE,P_SOME FROM SPENDING ORDER BY P_MONEY DESC) 
+				WHERE TO_CHAR(P_REGDATE, 'YYYY-MM')=#{p_location} AND ID=#{id} AND ROWNUM<=3
 			]]>
 		</select>
 		
-		<insert id="incomeInsert" parameterType="IncomeDto">
-			INSERT INTO INCOME(I_SEQ,ID,I_MONEY,I_FIX,I_NAME,I_MEMO,I_REGDATE)
-			VALUES(INCOME_SEQ.NEXTVAL,#{id},#{i_money},#{i_fix},#{i_name},#{i_memo},SYSDATE)
-		</insert>
-		
-		<insert id="incomeInsertPoint" parameterType="String">
-			INSERT INTO POINT(PO_SEQ,ID,PO_REGDATE,PO_NAME,PO_DETAIL,PO_POINT)
-			VALUES(POINT_SEQ.NEXTVAL,#{id},SYSDATE,'일반','수입등록 포인트 적립',100)
-		</insert>
-		
-		<update id="incomeUpdate" parameterType="IncomeDto">
-				UPDATE INCOME SET 
-							<choose>
-								<when test="i_name!=null">
-									I_NAME=#{i_name}
-								</when><otherwise>
-									I_NAME=NULL
-								</otherwise>
-							</choose>
-							,
-							<choose>
-								<when test="i_money!=null">
-									I_MONEY=#{i_money}
-								</when><otherwise>
-									I_MOENY=NULL
-								</otherwise>
-							</choose>
-							,
-							<choose>
-								<when test="i_tax!=null">
-									I_TAX=#{i_tax}
-								</when><otherwise>
-									I_TAX=NULL
-								</otherwise>
-							</choose>
-							,
-							<choose>
-								<when test="i_memo!=null">
-									I_MEMO=#{i_memo}
-								</when><otherwise>
-									I_MEMO=NULL
-								</otherwise>
-							</choose>
-							,I_MODIDATE=#{modidate}
-			WHERE I_SEQ=#{i_seq}
-		</update>
-		
-		<delete id="incomeDelete" parameterType="int">
-			DELETE FROM INCOME WHERE I_SEQ=#{i_seq}
-		</delete>
+		<select id="spendingSomeCountSearch" parameterType="SpendingDto" resultType="SpendingDto">
+			<![CDATA[
+				SELECT ROWNUM AS P_SEQ,P_COUNT ,P_SOME 
+				FROM (SELECT DISTINCT COUNT(P_SOME) OVER(PARTITION BY P_SOME) AS P_COUNT ,P_SOME,ID FROM SPENDING WHERE TO_CHAR(P_REGDATE,'YYYY-MM')=#{p_location} ORDER BY P_COUNT) 
+				WHERE ID=#{id} AND WORNUM<=3
+			]]>
+		</select>
+	
 	
 	</mapper>

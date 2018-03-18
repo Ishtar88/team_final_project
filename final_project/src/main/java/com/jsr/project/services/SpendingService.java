@@ -53,6 +53,33 @@ public class SpendingService implements ISpendingService {
 	public List<SpendingDto> spendingSomeSearch(SpendingDto dto) {
 		return spendingDaoImp.spendingSomeSearch(dto);
 	}
+	
+	@Override
+	public SpendingDto spendingcurrentMoneySearch(SpendingDto dto) {
+		return spendingDaoImp.spendingcurrentMoneySearch(dto);
+	}
+
+	@Override
+	public SpendingDto spendingAvgMoneySearch(SpendingDto dto) {
+		return spendingDaoImp.spendingAvgMoneySearch(dto);
+	}
+
+	@Override
+	public SpendingDto spendingTotalCountSearch(SpendingDto dto) {
+		return spendingDaoImp.spendingTotalCountSearch(dto);
+	}
+	
+	@Override
+	public List<SpendingDto> spendingSomeTotalSearch(SpendingDto dto) {
+		return spendingDaoImp.spendingSomeTotalSearch(dto);
+	}
+
+	@Override
+	public List<SpendingDto> spendingSomeCountSearch(SpendingDto dto) {
+		return spendingDaoImp.spendingSomeCountSearch(dto);
+	}
+	
+	
 
 	@Override
 	public SpendingDto spendingDetailSearch(int p_seq) {
@@ -68,6 +95,24 @@ public class SpendingService implements ISpendingService {
 	public boolean spendingDelete(int seq) {
 		return spendingDaoImp.spendingDelete(seq);
 	}
+
+	@Override
+	public List<SpendingDto> dateChartSearch(SpendingDto dto) {
+		return spendingDaoImp.dateChartSearch(dto);
+	}
+
+	@Override
+	public List<SpendingDto> categoryChartSearch(SpendingDto dto) {
+		return spendingDaoImp.categoryChartSearch(dto);
+	}
+
+	@Override
+	public List<SpendingDto> someChartSearch(SpendingDto dto) {
+		return spendingDaoImp.someChartSearch(dto);
+	}
+
+
+
 
 
 	

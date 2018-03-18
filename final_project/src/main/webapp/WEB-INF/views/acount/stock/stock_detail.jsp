@@ -67,8 +67,8 @@
 
 	<tr>
 		<td>
-			<input type="button" value="수정" onclick="location.href='acount_update_page.do?acount=stock&seq='+${sDto.st_seq}">
-			<input type="button" value="삭제" onclick="location.href='acount_delete.do?acount=stock&seq='+${sDto.st_seq}">
+			<input type="button" value="수정" onclick="location.href='acount_update_page.do?acount=stock&seq=${sDto.st_seq}'">
+			<input type="button" value="삭제" onclick="location.href='acount_delete.do?acount=stock&seq=${sDto.st_seq}'">
 			<input type="button" value="닫기" onclick="self.close()">
 		</td>
 	</tr>

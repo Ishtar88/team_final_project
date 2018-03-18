@@ -2,6 +2,7 @@
 <%request.setCharacterEncoding("UTF-8"); %>
 <%response.setContentType("text/html; charset=UTF-8"); %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -24,7 +25,7 @@
 	<tr>
 		<th>대출명</th>
 		<td>
-			<input type="text" name="l_name" value="${sDto.st_name }" readonly="readonly">
+			<input type="text" name="l_name" value="${lDto.l_name }" readonly="readonly">
 		</td>
 	</tr>
 	<tr>
