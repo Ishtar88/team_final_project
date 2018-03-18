@@ -15,74 +15,46 @@
 ----------------------->
 <script>
 window.onload = function () {
+	
+	$.ajax({
+		url:"acountChartAjax.do",
+		datatype:"json",
+		success:function(obj){
+			var svMoney=obj["svMoney"];
+			var sMoney=obj["sMoney"];
+			var fMoney=obj["fMoney"];
+			var lMoney=obj["lMoney"];
+			
+			
+			var chart = new CanvasJS.Chart("chartContainer", {
+				animationEnabled: true,
+				theme: "light1", // "light1", "light2", "dark1", "dark2"
+				title:{
+					text: "분류별 총 금액"
+				},
+				axisY: {
+					title: ""
+				},
+				data: [{        
+					type: "column",  
+					showInLegend: true, 
+					legendMarkerColor: "orange",
+					legendText: "분류별 총액",
+					dataPoints: [      
+						{ y: svMoney.s_money, label: "저축" },
+						{ y: sMoney.st_money,  label: "주식" },
+						{ y: fMoney.f_money,  label: "펀드" },
+						{ y: lMoney.l_money,  label: "대출" }
+					]
+				}]
+			});
+			chart.render();
 
-var chart = new CanvasJS.Chart("chartContainer", {
-	animationEnabled: true,
-	title:{
-		text: "Crude Oil Reserves vs Production, 2016"
-	},	
-	axisY: {
-		title: "Billions of Barrels",
-		titleFontColor: "#4F81BC",
-		lineColor: "#4F81BC",
-		labelFontColor: "#4F81BC",
-		tickColor: "#4F81BC"
-	},
-	axisY2: {
-		title: "Millions of Barrels/day",
-		titleFontColor: "#C0504E",
-		lineColor: "#C0504E",
-		labelFontColor: "#C0504E",
-		tickColor: "#C0504E"
-	},	
-	toolTip: {
-		shared: true
-	},
-	legend: {
-		cursor:"pointer",
-		itemclick: toggleDataSeries
-	},
-	data: [{
-		type: "column",
-		name: "Proven Oil Reserves (bn)",
-		legendText: "Proven Oil Reserves",
-		showInLegend: true, 
-		dataPoints:[
-			{ label: "Saudi", y: 266.21 },
-			{ label: "Venezuela", y: 302.25 },
-			{ label: "Iran", y: 157.20 },
-			{ label: "Iraq", y: 148.77 },
-			{ label: "Kuwait", y: 101.50 },
-			{ label: "UAE", y: 97.8 }
-		]
-	},
-	{
-		type: "column",	
-		name: "Oil Production (million/day)",
-		legendText: "Oil Production",
-		axisYType: "secondary",
-		showInLegend: true,
-		dataPoints:[
-			{ label: "Saudi", y: 10.46 },
-			{ label: "Venezuela", y: 2.27 },
-			{ label: "Iran", y: 3.99 },
-			{ label: "Iraq", y: 4.45 },
-			{ label: "Kuwait", y: 2.92 },
-			{ label: "UAE", y: 3.1 }
-		]
-	}]
-});
-chart.render();
-
-function toggleDataSeries(e) {
-	if (typeof(e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
-		e.dataSeries.visible = false;
-	}
-	else {
-		e.dataSeries.visible = true;
-	}
-	chart.render();
-}
+			},error:function(request,status,error){
+				alert("error! / "+"code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+				
+			}
+		});
 
 }
 </script>
@@ -164,16 +136,19 @@ function toggleDataSeries(e) {
 </head>
 <body>
 <div class="acount_body_wrap">
+	<br>
 		<header>
 			<div class="ui right aligned">
 			    <a class="active item" href="goal_main.do">목표관리</a>
+			    <a class="item" href="acount.do?year=<%=year %>&month=<%=month%>">자산관리</a>
 			    <a class="item" href="income_main.do?year=<%=year%>&month=<%=month%>">수입관리</a>
 			    <a class="item" href="spending_main.do?year=<%=year%>&month=<%=month%>">지출관리</a>
 			    <a class="item" href="calendar_main.do?year=<%=year%>&month=<%=month%>">달력</a>
 		    </div>
 		</header>
+	<br>
 		<div class="acount_canvas_wrap">
-			<div id="chartContainer" style="height: 370px; width: 40%;"></div>
+			<div id="chartContainer" style="height: 300px; width: 60%;"></div>
 			<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 		</div>
 		<div class="acount_total_wrap">

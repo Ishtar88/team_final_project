@@ -39,28 +39,48 @@
 		
 		$("select[name=p_name]").click(function(){
 			var val=$(this).val();
-			var food=['고정식사','한식','일식','중식','고기집','뷔페','패스트푸드','일반식당','배달','기타'];
-			var life=['마트','편의점','생필품','가전제품','가구','육아','기타'];
+			
+			
 			if (val=='식사') {
+				var food=['고정식사','한식','일식','중식','고기집','뷔페','패스트푸드','일반식당','배달','기타'];
 				$("optgroup[label='소분류']").children().remove();
-				for (var i = 1; i <= food.length; i++) {
+				for (var i = 0; i <= food.length; i++) {
 					var option=$("<option>");
 					option.val(food[i]);
 					option.html(food[i]);
 					$("optgroup[label='소분류']").append(option);
 				}
 			}else if (val=='생활/마트') {
+				var life=['마트','편의점','생필품','가전제품','가구','육아','기타'];
 				$("optgroup[label='소분류']").children().remove();
-				for (var i = 1; i <= life.length; i++) {
+				for (var i = 0; i <= life.length; i++) {
 					var option=$("<option>");
 					option.val(life[i]);
 					option.html(life[i]);
 					$("optgroup[label='소분류']").append(option);
 				}
+			}else if (val=='육아') {
+				var child=['학원비','학교','교재','보육비','기타'];
+				$("optgroup[label='소분류']").children().remove();
+				for (var i = 0; i <= child.length; i++) {
+					var option=$("<option>");
+					option.val(child[i]);
+					option.html(child[i]);
+					$("optgroup[label='소분류']").append(option);
+				}
+			}else if (val=='주거/통신') {
+				var house=['집세','관리비','통신','기타'];
+				$("optgroup[label='소분류']").children().remove();
+				for (var i = 0; i <= house.length; i++) {
+					var option=$("<option>");
+					option.val(house[i]);
+					option.html(house[i]);
+					$("optgroup[label='소분류']").append(option);
+				}
 			}else if (val=='의료/건강') {
 				var medical=['병원','약국','보조식품','의료기기','운동','기타'];
 				$("optgroup[label='소분류']").children().remove();
-				for (var i = 1; i <= medical.length; i++) {
+				for (var i = 0; i <= medical.length; i++) {
 					var option=$("<option>");
 					option.val(medical[i]);
 					option.html(medical[i]);
@@ -69,16 +89,16 @@
 			}else if (val=='패션/미용') {
 				var fashion=['헤어샵','화장품','피부/체형관리','네일','기타'];
 				$("optgroup[label='소분류']").children().remove();
-				for (var i = 1; i <= medical.length; i++) {
+				for (var i = 0; i <= fashion.length; i++) {
 					var option=$("<option>");
-					option.val(medical[i]);
-					option.html(medical[i]);
+					option.val(fashion[i]);
+					option.html(fashion[i]);
 					$("optgroup[label='소분류']").append(option);
 				}
 			}else if (val=='술/유흥') {
 				var alchol=['술','유흥','기타'];
 				$("optgroup[label='소분류']").children().remove();
-				for (var i = 1; i <= alchol.length; i++) {
+				for (var i = 0; i <= alchol.length; i++) {
 					var option=$("<option>");
 					option.val(alchol[i]);
 					option.html(alchol[i]);
@@ -87,7 +107,7 @@
 			}else if (val=='차량/교통') {
 				var car=['차량유지비','차량보험비','유류비','주차/요금소','대리비','택시비','대중교통','기타'];
 				$("optgroup[label='소분류']").children().remove();
-				for (var i = 1; i <= car.length; i++) {
+				for (var i = 0; i <= car.length; i++) {
 					var option=$("<option>");
 					option.val(car[i]);
 					option.html(car[i]);
@@ -96,7 +116,7 @@
 			}else if (val=='경조사/회비') {
 				var pay=['경조사','기부','헌금','회비','기타'];
 				$("optgroup[label='소분류']").children().remove();
-				for (var i = 1; i <= pay.length; i++) {
+				for (var i = 0; i <= pay.length; i++) {
 					var option=$("<option>");
 					option.val(pay[i]);
 					option.html(pay[i]);
@@ -105,7 +125,7 @@
 			}else if (val=='담배/카페') {
 				var smoke=['담배','커피','음료','베이커리','디저트','기타'];
 				$("optgroup[label='소분류']").children().remove();
-				for (var i = 1; i <= smoke.length; i++) {
+				for (var i = 0; i <= smoke.length; i++) {
 					var option=$("<option>");
 					option.val(smoke[i]);
 					option.html(smoke[i]);
@@ -114,7 +134,7 @@
 			}else if (val=='쇼핑') {
 				var shopping=['백화점','아울렛','잡화','패션','홈쇼핑','기타'];
 				$("optgroup[label='소분류']").children().remove();
-				for (var i = 1; i <= shopping.length; i++) {
+				for (var i = 0; i <= shopping.length; i++) {
 					var option=$("<option>");
 					option.val(shopping[i]);
 					option.html(shopping[i]);
@@ -123,7 +143,7 @@
 			}else if (val=='자기개발') {
 				var self=['학습교재','학습시설','기타'];
 				$("optgroup[label='소분류']").children().remove();
-				for (var i = 1; i <= self.length; i++) {
+				for (var i = 0; i <= self.length; i++) {
 					var option=$("<option>");
 					option.val(self[i]);
 					option.html(self[i]);
@@ -132,16 +152,16 @@
 			}else if (val='문화/예술') {
 				var culture=['공연','도서','영화','전시/관람','기타'];
 				$("optgroup[label='소분류']").children().remove();
-				for (var i = 1; i <= culture.length; i++) {
+				for (var i = 0; i <= culture.length; i++) {
 					var option=$("<option>");
 					option.val(culture[i]);
 					option.html(culture[i]);
 					$("optgroup[label='소분류']").append(option);
 				}
-			}else if (val=='스포츠/레져') {
+			}else if (val=='sport') {
 				var sport=['스포츠용품구매','스포츠용품렌트비','이용권구매','기타'];
 				$("optgroup[label='소분류']").children().remove();
-				for (var i = 1; i <= sport.length; i++) {
+				for (var i = 0; i <= sport.length; i++) {
 					var option=$("<option>");
 					option.val(sport[i]);
 					option.html(sport[i]);
@@ -150,7 +170,7 @@
 			}else if (val=='여행/숙박') {
 				var tour=['숙박비','관광','여행용품','항공','해외결제','기타'];
 				$("optgroup[label='소분류']").children().remove();
-				for (var i = 1; i <= tour.length; i++) {
+				for (var i = 0; i <= tour.length; i++) {
 					var option=$("<option>");
 					option.val(tour[i]);
 					option.html(tour[i]);
@@ -159,7 +179,7 @@
 			}else if (val=='투자') {
 				var acount=['적금','주식','펀드','보험'];
 				$("optgroup[label='소분류']").children().remove();
-				for (var i = 1; i <= acount.length; i++) {
+				for (var i = 0; i <= acount.length; i++) {
 					var option=$("<option>");
 					option.val(acount[i]);
 					option.html(acount[i]);
@@ -187,16 +207,28 @@
 	
 	
 	function satChk(star){
-		satLock(star);
-		alert(star+"점을 선택하셨습니다.");
-		var point=$("input[name=p_sat]").val(star);
+		if (satLocked) {
+			satLocked=false;		
+			var point=$("input[name=p_sat]").val(0);
+			alert("선택을 취소하셨습니다.");
+		}else {
+			satLock(star);
+			alert(star+"점을 선택하셨습니다.");
+			var point=$("input[name=p_sat]").val(star);
+		}
 		
 	}
 	
 	function needChk(star){
-		needLock(star);
-		alert(star+"점을 선택하셨습니다.");
-		var point=$("input[name=p_need]").val(star);
+		if (needLocked) {
+			needLocked=false;
+			var point=$("input[name=p_sat]").val(0);
+			alert("선택을 취소하셨습니다.");
+		}else {
+			needLock(star);
+			alert(star+"점을 선택하셨습니다.");
+			var point=$("input[name=p_need]").val(star);
+		}
 	}
 	
 	function satLock(star){
@@ -301,15 +333,16 @@
 							<option value="육아">육아</option>
 							<option value="주거/통신">주거/통신</option>
 							<option value="담배/카페">담배/카페</option>
+							<option value="패션/미용">패션/미용</option>
+							<option value="쇼핑">쇼핑</option>
 						</optgroup>
 						<optgroup label="자기개발">
 							<option value="자기개발">자기개발</option>
 							<option value="문화/예술">문화/예술</option>
 							<option value="의료/건강">의료/건강</option>
-							<option value="투자">투자</option>
 						</optgroup>
 						<optgroup label="여행/레져">
-							<option value="스포츠/레져">스포츠/레져</option>
+							<option value="sport">스포츠/레져</option>
 							<option value="여행/숙박">여행/숙박</option>
 							<option value="차량/교통">차량/교통</option>
 						</optgroup>
@@ -317,11 +350,9 @@
 							<option value="투자">투자</option>
 						</optgroup>
 						<optgroup label="기타">
-							<option value="패션/미용">패션/미용</option>
-							<option value="쇼핑">쇼핑</option>
 							<option value="술/유흥">술/유흥</option>
-							<option value="술/유흥">기타지출</option>
-							<option value="술/유흥">출금</option>
+							<option value="기타지출">기타지출</option>
+							<option value="출금">출금</option>
 						</optgroup>
 					</select>
 				</td>
@@ -369,6 +400,12 @@
 				</td>
 			</tr>
 			<tr>
+				<th>지출날짜</th>
+				<td>
+					<input type="date" name="buydate" required="required">
+				</td>
+			</tr>
+			<tr>
 				<th>만족도</th>
 					<td>
 						<c:forEach var="i" begin="1" end="5" step="1">
@@ -384,11 +421,23 @@
 							</c:forEach>
 						</td>
 			</tr>
-				<tr>
-			<td colspan="2">
-				<input type="submit" value="등록"> 
-				<input type="button" value="취소" onclick="self.close()"></td>
-			</tr>
+				<c:choose>
+					<c:when test="${command.equals('calendar') }">
+						<tr>
+							<td colspan="2">
+								<input type="submit" value="등록"> 
+								<input type="button" value="돌아가기" onclick="location.href='calendar_detail.do?searchDate=${searchDate}'">
+							</td>
+						</tr>
+					</c:when><c:otherwise>
+						<tr>
+							<td colspan="2">
+								<input type="submit" value="등록"> 
+								<input type="button" value="취소" onclick="self.close()">
+							</td>
+						</tr>
+					</c:otherwise>
+				</c:choose>
 		</table>
 	</form>
 </body>

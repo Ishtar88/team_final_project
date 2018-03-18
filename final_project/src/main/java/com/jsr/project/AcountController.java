@@ -5,8 +5,10 @@ import java.text.SimpleDateFormat;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import javax.mail.Session;
 import javax.servlet.http.HttpServletResponse;
@@ -20,6 +22,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.jsr.project.dtos.*;
 import com.jsr.project.services.IAcountService;
@@ -559,8 +562,10 @@ public class AcountController {
 	public String calendar_main(Model model,String year,String month,HttpSession session) {
 		logger.info("calendar main page");
 		
-		model.addAttribute("year", year);
-		model.addAttribute("month",month);
+		int lMonth=Integer.parseInt(month);
+		if (lMonth<10) {
+			month="0"+lMonth;
+		}
 		
 		MembersDto lDto=(MembersDto)session.getAttribute("loginDto");
 		String id=lDto.getId();
@@ -595,6 +600,8 @@ public class AcountController {
 	public String calendar_detail(Model model,String searchDate,HttpSession session) {
 		logger.info("calendar detail start");
 		
+		session.setAttribute("searchDate", searchDate);
+		
 		MembersDto lDto=(MembersDto)session.getAttribute("loginDto");
 		String id=lDto.getId();
 		
@@ -604,14 +611,51 @@ public class AcountController {
 		
 		System.out.println(searchDate);
 		
-		List<IncomeDto> iList=acountService.calendarIncomeSearch(iDto);
+		List<IncomeDto> iList=acountService.calendarIncomeDetailSearch(iDto);
 		model.addAttribute("iList", iList);
+		logger.info("수입목록(iList): "+iList);
 		
-		SpendingDto sDto=new SpendingDto();
-		List<SpendingDto> sList= acountService.calendarSpendingSearch(sDto);
-		model.addAttribute("sList", sList);
+		SpendingDto pDto=new SpendingDto();
+		pDto.setId(id);
+		pDto.setP_location(searchDate);
+		List<SpendingDto> pList= acountService.calendarSpendingDetailSearch(pDto);
+		model.addAttribute("pList", pList);
+		
+		logger.info("지출목록(pList): "+pList);
+		
+		logger.info("calendar detail end.");
 		
 		return "calendar/calendar_detail";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/acountChartAjax.do", method = RequestMethod.GET)
+	public Map<String, Object> acountChartAjax(String command,HttpSession session) {
+		logger.info("calendar detail start");
+		
+		MembersDto lDto=(MembersDto)session.getAttribute("loginDto");
+		String id=lDto.getId();
+		
+		SaveDto svMoney=acountService.saveTotalMoney(id);
+		StockDto sMoney=acountService.stockTotalMoney(id);
+		FundDto fMoney=acountService.fundTotalMoney(id);
+		LoanDto lMoney=acountService.loanTotalMoney(id);
+		
+		Map<String, Object> map=new HashMap<>();
+		map.put("svMoney", svMoney);
+		map.put("sMoney", sMoney);
+		map.put("fMoney", fMoney);
+		map.put("lMoney", lMoney);
+		
+		logger.info("svMoney: =>"+svMoney);
+		logger.info("sMoney: =>"+sMoney);
+		logger.info("fMoney: =>"+fMoney);
+		logger.info("lMoney: =>"+lMoney);
+		
+		
+		logger.info("calendar detail end.");
+		
+		return map;
 	}
 	
 	

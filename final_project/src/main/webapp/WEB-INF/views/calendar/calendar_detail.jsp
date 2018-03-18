@@ -13,7 +13,8 @@
 			<div class="calendar_income">
 				<table border="1">
 					<tr>
-						<td colspan="5"><span>지출</span></td>
+						<td><a href="spending_insert_page.do?command=calendar"><img alt="plus" src="resources/icon/plus.png" style="width: 15px; height: 15px;"></a></td>
+						<td colspan="4"><span>지출</span></td>
 					</tr>
 					<tr>
 						<th>지출명</th>
@@ -23,7 +24,7 @@
 						<th>지출금액</th>
 					</tr>
 					<c:choose>
-						<c:when test="${empty pList }">
+						<c:when test="${empty pList}">
 							<tr>
 								<td colspan="5">지출 내역이 없습니다.</td>
 							</tr>
@@ -41,7 +42,8 @@
 					</c:choose>
 					<tr><td colspan="5">----------------------</td></tr>
 					<tr>
-						<td colspan="4"><span>수입</span></td>
+						<td><a href="income_insert_page.do?command=calendar"><img alt="plus" src="resources/icon/plus.png" style="width: 15px; height: 15px;"></a></td>
+						<td colspan="3"><span>수입</span></td>
 					</tr>
 					<tr>
 						<th>수입명</th>
@@ -50,7 +52,7 @@
 						<th>수입금액</th>
 					</tr>
 					<c:choose>
-						<c:when test="${empty iList }">
+						<c:when test="${empty iList}">
 							<tr>
 								<td colspan="4">수입내역이 없습니다.</td>
 							</tr>
@@ -65,6 +67,11 @@
 							</c:forEach>
 						</c:otherwise>
 					</c:choose>
+					<tr>
+						<td colspan="4">
+							<input type="button" value="닫기" onclick="self.close()">
+						</td>				
+					</tr>
 				</table>
 			</div>
 		</div>

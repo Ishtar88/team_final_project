@@ -266,6 +266,36 @@ public class AcountDao implements IAcountDao {
 		return sqlSession.selectOne(namespace+"calendarDetailSearch",dto);
 	}
 
+	@Override
+	public List<IncomeDto> calendarIncomeDetailSearch(IncomeDto dto) {
+		return sqlSession.selectList(namespace+"calendarIncomeDetailSearch", dto);
+	}
+
+	@Override
+	public List<SpendingDto> calendarSpendingDetailSearch(SpendingDto dto) {
+		return sqlSession.selectList(namespace+"calendarSpendingDetailSearch", dto);
+	}
+
+	@Override
+	public SaveDto saveTotalMoney(String id) {
+		return sqlSession.selectOne(namespace+"saveTotalMoney", id);
+	}
+
+	@Override
+	public StockDto stockTotalMoney(String id) {
+		return sqlSession.selectOne(namespace+"stockTotalMoney", id);
+	}
+
+	@Override
+	public FundDto fundTotalMoney(String id) {
+		return sqlSession.selectOne(namespace+"fundTotalMoney", id);
+	}
+
+	@Override
+	public LoanDto loanTotalMoney(String id) {
+		return sqlSession.selectOne(namespace+"loanTotalMoney", id);
+	}
+
 
 
 

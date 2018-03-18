@@ -22,11 +22,14 @@
 <script type="text/javascript">
 	
 	function calendar_detail(day){
-		var year=document.getElementsByClassName("paramYear")[0].value;
-		var month=document.getElementsByClassName("paramMonth")[0].value;
+		var year=document.getElementsByClassName("paramYear")[0].innerHTML;
+		var month=document.getElementsByClassName("paramMonth")[0].innerHTML;
 		
 		if (day<10) {
-			'0'+day;
+			day='0'+day;
+		}
+		if (month<10) {
+			month='0'+month;
 		}
 		
 		var search=year+"-"+month+"-"+day;
@@ -64,6 +67,8 @@
 		month = 12;
 		year--;
 	}
+	
+	
 
 	cal.set(year, month - 1, 1);
 	int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
@@ -85,27 +90,30 @@
 	height: 120px;
 	vertical-align: top;
 }
+
 </style>
 </head>
 <body>
 	<div class="acount_body_wrap">
+	<br>
 		<header>
 			<div class="ui right aligned">
-				<a class="item" href="goal_main.do">목표관리</a> <a class="item"
-					href="income_main.do?year=${year }&month=${month}">수입관리</a> <a
-					class="active item"
-					href="spending_main.do?year=${year }&month=${month}">지출관리</a> <a
-					class="item" href="calendar_main.do?year=${year }&month=${month }">달력</a>
+				<a class="item" href="goal_main.do">목표관리</a> 
+				<a class="item" href="acount.do?year=<%=year %>&month=<%=month%>">자산관리</a>
+				<a class="item" href="income_main.do?year=<%=year%>&month=<%=month%>">수입관리</a> 
+				<a class="active item" href="spending_main.do?year=<%=year%>&month=<%=month%>">지출관리</a> 
+				<a class="item" href="calendar_main.do?year=<%=year%>&month=<%=month%>">달력</a>
 			</div>
 		</header>
+	<br>
 		<div class="calendar_body">
 			<table class="calender" border="1">
 				<caption>
-					<a href="calendar.jsp?year=<%=year - 1%>&month=<%=month%>">◁◁</a> 
-					<a href="calendar.jsp?year=<%=year%>&month=<%=month - 1%>">◀</a> 
+					<a href="calendar_main.do?year=<%=year - 1%>&month=<%=month%>">◁◁</a> 
+					<a href="calendar_main.do?year=<%=year%>&month=<%=month - 1%>">◀</a> 
 						<span class="paramYear"><%=year%></span>년<span class="paramMonth"><%=month%></span>월</a>
-					<a href="calendar.jsp?year=<%=year%>&month=<%=month + 1%>">▶</a> 
-					<a href="calendar.jsp?year=<%=year + 1%>&month=<%=month%>">▷▷</a>
+					<a href="calendar_main.do?year=<%=year%>&month=<%=month + 1%>">▶</a> 
+					<a href="calendar_main.do?year=<%=year + 1%>&month=<%=month%>">▷▷</a>
 				</caption>
 				<c:set var="dayOfWeek" value="<%=dayOfWeek%>" />
 				<c:set var="lastDay" value="<%=lastDay%>" />
@@ -173,9 +181,9 @@
 							<%
 						}
 					}
-						for(int i=0;i<7-((dayOfWeek-1+lastDay)%7)%7-1;i++){
-							%>
+						for(int i=0;i<7-((dayOfWeek-1+lastDay)%7)%7;i++){
 							out.print("<td>&nbsp;</td>");
+							%>
 							<%
 						}
 						

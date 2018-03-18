@@ -5,7 +5,9 @@ import java.text.SimpleDateFormat;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -17,6 +19,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.jsr.project.dtos.*;
 import com.jsr.project.services.I_IncomeService;
@@ -38,14 +41,21 @@ public class IncomeController {
 	@RequestMapping(value = "/income_main.do", method = RequestMethod.GET)
 	public String income_main(Model model,String year,String month,HttpSession session) {
 		logger.info("income main page");
-
-		model.addAttribute("year", year);
-		model.addAttribute("month", month);
+		
+		int lMonth=Integer.parseInt(month);
+		if (lMonth<10) {
+			month="0"+lMonth;
+		}
 		
 		MembersDto lDto=(MembersDto)session.getAttribute("loginDto");
 		String id=lDto.getId();
+		String regdate=year+"-"+month;
 		
-		List<IncomeDto> iList=incomeService.incomeAllSearch(id);
+		IncomeDto iDto=new IncomeDto();
+		iDto.setId(id);
+		iDto.setI_memo(regdate);
+		
+		List<IncomeDto> iList=incomeService.incomeAllSearch(iDto);
 		model.addAttribute("iList", iList);
 
 		List<IncomeDto> dtos=incomeService.incomeTopSearch(id);
@@ -55,9 +65,12 @@ public class IncomeController {
 	}
 
 	@RequestMapping(value = "/income_insert_page.do", method = RequestMethod.GET)
-	public String income_insert_page() {
+	public String income_insert_page(Model model,String command,HttpSession session) {
 		logger.info("income insert page");
 		
+		String searchDate=(String)session.getAttribute("searchDate");
+		model.addAttribute("command", command);
+		model.addAttribute("searchDate", searchDate);
 		
 		return "income/income_insert_page";
 	}
@@ -179,7 +192,39 @@ public class IncomeController {
 		return "income/income_detail";
 	}
 	
-
+	@ResponseBody
+	@RequestMapping(value = "/incomeChartAjax.do", method = RequestMethod.GET)
+	public Map<String, List<IncomeDto>> incomeChartAjax(String year,String month,HttpSession session) {
+		logger.info("income cancel page");
+		
+		logger.info("year: "+year+" / month: "+month);
+		
+		year=year.substring(0, year.lastIndexOf("년"));
+		month=month.substring(0, month.lastIndexOf("월"));
+		int lMonth=Integer.parseInt(month);
+		if (lMonth<10) {
+			month="0"+lMonth;
+		}
+		String searchDate=year+"-"+month;
+		
+		logger.info("searchDate: "+searchDate);
+		
+		Map<String, List<IncomeDto>> map =new HashMap<>();
+		
+		MembersDto lDto=(MembersDto)session.getAttribute("loginDto");
+		String id=lDto.getId();
+		
+		IncomeDto dto=new IncomeDto();
+		dto.setId(id);
+		dto.setI_memo(searchDate);
+		
+		List<IncomeDto> iList=incomeService.incomeChartAjax(dto);
+		map.put("iList", iList);
+		
+		logger.info("iList => "+iList);
+		
+		return map;
+	}
 
 	
 	
