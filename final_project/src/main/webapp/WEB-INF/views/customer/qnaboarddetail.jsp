@@ -61,6 +61,7 @@ function backToList(){
 </head>
 <body>
 <h1>게시글 상세보기</h1>
+<form action="" >
 <div id="container">
 	<table class="table table-striped" border="1">
 		<tr>
@@ -92,6 +93,7 @@ function backToList(){
 			</td>
 		</tr>
 	</table>
+	</form>
 	<div id="replyForm">
 		<hr>
 		<h2>답글달기</h2>

@@ -46,9 +46,8 @@
 		<insert id="q_insertboard" parameterType="QnaBoardDto">
 		
 		INSERT INTO QNA
-			( Q_SEQ, ID, Q_TITLE, Q_CONTENT, Q_REGDATE, Q_REFER, Q_STEP, 
-			Q_DEPTH, 
-			Q_READCOUNT, Q_DELFLAG, Q_VIEWABLE)
+			(Q_SEQ, ID, Q_TITLE, Q_CONTENT, Q_REGDATE, Q_REFER, Q_STEP, 
+			Q_DEPTH, Q_READCOUNT, Q_DELFLAG, Q_VIEWABLE)
 			VALUES 
 			( QNA_SEQ.NEXTVAL, #{id},#{q_title}, #{q_content}, SYSDATE, 
 			(SELECT NVL(MAX(Q_REFER)+1, 0) FROM QNA),0,0,0,'N','Y')
