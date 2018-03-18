@@ -56,7 +56,7 @@ public class QnaBoardDto {
 		return id;
 	}
 	public void setId(String id) {
-		this.id = mdto.getId();
+		this.id = id; 
 	}
 	public String getQ_title() {
 		return q_title;

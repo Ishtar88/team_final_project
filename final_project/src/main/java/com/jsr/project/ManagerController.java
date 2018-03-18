@@ -145,6 +145,14 @@ public class ManagerController {
 	
 //고객센터 관리////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+	//게시판 메뉴 선택 페이지     
+	@RequestMapping(value="manager_customer.do", method = {RequestMethod.POST, RequestMethod.GET})
+	public String manager_customer() {
+	logger.info("게시판 메뉴 선택");
+	return "manager/manager_customer";
+	}
+	
+	
 	
 //매니저 게시판 보기    
 @RequestMapping(value="manager_notice.do", method = {RequestMethod.POST, RequestMethod.GET})
