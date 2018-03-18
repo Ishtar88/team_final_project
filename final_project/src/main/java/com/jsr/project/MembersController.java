@@ -58,7 +58,7 @@ public class MembersController {
 		}else {
 			 jsFoward("로그인성공", response);
 			session.setAttribute("loginDto", loginDto);
-			session.setMaxInactiveInterval(60*60);
+			session.setMaxInactiveInterval(100*100);
 			return "home";
 		}
 	}

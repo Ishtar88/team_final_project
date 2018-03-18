@@ -31,7 +31,7 @@ pageEncoding="UTF-8"%>
 </head>
 <body>
 
-<h1 onclick="showoption()">QnA 게시판</h1>
+<h1>QnA 게시판</h1>
 <div id="boardtable">
 	<table border="1">
 		<tr>
@@ -70,8 +70,8 @@ pageEncoding="UTF-8"%>
 		</c:otherwise>
 	</c:choose>
 	</table>
-		<div id="insertbutton">
-		<input type="button" value="글추가" onclick="insertForm()"/>
+	<div id="insertbutton">
+			<input type="button" value="글추가" onclick="insertForm()"/>
 		</div>
 </div>
 </body>
