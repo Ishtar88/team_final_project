@@ -44,11 +44,11 @@ public class AcountController {
 		logger.info("aocunt_detail factory start");
 		
 		int a_seq=Integer.parseInt(seq);
+		SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd");
 		
 		if (acount.equals("save")) {
 			
 			SaveDto svDto=acountService.saveDetailSearch(a_seq);
-			SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd");
 			Date stDate=svDto.getS_startdate();
 			Date enDate=svDto.getS_enddate();
 			String st_date=df.format(stDate);
@@ -76,6 +76,16 @@ public class AcountController {
 		}else if (acount.equals("stock")) {
 
 			StockDto sDto=acountService.stockDetailSearch(a_seq);
+			Date stDate=sDto.getSt_buydate();
+			String st_date=df.format(stDate);
+			Date st_buydate=null;
+			try {
+				st_buydate=df.parse(st_date);
+				sDto.setSt_buydate(st_buydate);
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+			
 			model.addAttribute("sDto", sDto);
 			System.out.println("sDto: "+sDto);
 			
@@ -84,6 +94,21 @@ public class AcountController {
 		}else if (acount.equals("fund")) {
 
 			FundDto fDto=acountService.fundDetailSearch(a_seq);
+			Date stDate=fDto.getF_buydate();
+			Date enDate=fDto.getF_enddate();
+			String st_date=df.format(stDate);
+			String en_date=df.format(enDate);
+			Date s_startdate=null;
+			Date f_enddate=null;
+			try {
+				s_startdate=df.parse(st_date);
+				f_enddate=df.parse(en_date);
+				fDto.setF_buydate(s_startdate);
+				fDto.setF_enddate(f_enddate);
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+			
 			model.addAttribute("fDto", fDto);
 			System.out.println("fDto: "+fDto);
 			
@@ -92,6 +117,21 @@ public class AcountController {
 		}else if (acount.equals("loan")) {
 
 			LoanDto lDto=acountService.loanDetailSearch(a_seq);
+			Date stDate=lDto.getL_startdate();
+			Date enDate=lDto.getL_enddate();
+			String st_date=df.format(stDate);
+			String en_date=df.format(enDate);
+			Date l_startdate=null;
+			Date l_enddate=null;
+			try {
+				l_startdate=df.parse(st_date);
+				l_enddate=df.parse(en_date);
+				lDto.setL_startdate(l_startdate);
+				lDto.setL_enddate(l_enddate);
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+			
 			model.addAttribute("lDto", lDto);
 			System.out.println("lDto: "+lDto);
 			
@@ -108,6 +148,8 @@ public class AcountController {
 		logger.info("acount delete factory start");
 		
 		int a_seq=Integer.parseInt(seq);
+		
+		logger.info("매개변수로 입력받은 seq: "+a_seq);
 		
 		if (acount.equals("save")) {
 			
@@ -517,8 +559,21 @@ public class AcountController {
 	}
 	
 	@RequestMapping(value = "/stock_insert.do", method = RequestMethod.POST)
-	public String stock_insert(StockDto dto) {
+	public String stock_insert(StockDto dto,String buydate) {
 		logger.info("stock insert start");
+		
+		Date st_buydate=null;
+		try {
+			SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd");
+			st_buydate=df.parse(buydate);
+			
+			dto.setSt_buydate(st_buydate);
+
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		
+		logger.info("stockDto: "+dto);
 		
 		boolean isc=acountService.stockInsert(dto);
 		if (isc) {
@@ -531,8 +586,25 @@ public class AcountController {
 	}
 	
 	@RequestMapping(value = "/fund_insert.do", method = RequestMethod.POST)
-	public String fund_insert(FundDto dto) {
+	public String fund_insert(FundDto dto,String buydate,String enddate) {
 		logger.info("fund insert start");
+		
+		Date f_buydate=null;
+		Date f_enddate=null;
+		try {
+			SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd");
+			f_buydate=df.parse(buydate);
+			
+			dto.setF_buydate(f_buydate);
+
+			f_enddate=df.parse(enddate);
+			
+			dto.setF_enddate(f_enddate);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		
+		System.out.println("input fundDto: "+dto);
 		
 		boolean isc=acountService.fundInsert(dto);
 		if (isc) {
@@ -545,8 +617,26 @@ public class AcountController {
 	}
 	
 	@RequestMapping(value = "/loan_insert.do", method = RequestMethod.POST)
-	public String loan_insert(LoanDto dto) {
+	public String loan_insert(LoanDto dto,String st_date,String en_date) {
 		logger.info("stock insert start");
+		
+		Date stDate=null;
+		Date enDate=null;
+		try {
+			SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd");
+			stDate=df.parse(st_date);
+			
+			dto.setL_startdate(stDate);
+
+			enDate=df.parse(en_date);
+			
+			dto.setL_enddate(enDate);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		
+		System.out.println("input loanDto: "+dto);
+		
 		
 		boolean isc=acountService.loanInsert(dto);
 		if (isc) {

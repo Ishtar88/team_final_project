@@ -43,7 +43,7 @@
 													'<tr><th>구매수량</th><td><input type="text" name="st_count">'+
 													'<tr><th>매수금액</th><td><input type="text" name="st_money">'+
 													'<tr><th>평가금액</th><td><input type="text" name="st_add">'+
-													'<tr><th>매수날짜</th><td><input type="date" name="st_buydate">'+
+													'<tr><th>매수날짜</th><td><input type="date" name="buydate">'+
 													'<tr><th>메모</th><td><input type="text" name="st_memo"></td><tr>'+
 													
 													'<tr><td colspan="2"><input type="submit" value="등록">'+
@@ -62,8 +62,8 @@
 													'<tr><th>펀드명</th><td><input type="text" name="f_name">'+
 													'<tr><th>투자원금</th><td><input type="text" name="f_money">'+
 													'<tr><th>평가금액</th><td><input type="text" name="f_add">'+
-													'<tr><th>매수날짜</th><td><input type="date" name="f_buydate">'+
-													'<tr><th>만기날짜</th><td><input type="date" name="f_enddate">'+
+													'<tr><th>매수날짜</th><td><input type="date" name="buydate">'+
+													'<tr><th>만기날짜</th><td><input type="date" name="enddate">'+
 													'<tr><th>메모</th><td><input type="text" name="f_memo"></td><tr>'+
 													
 													'<tr><td colspan="2"><input type="submit" value="등록">'+
@@ -82,8 +82,8 @@
 													'<tr><th>대출명</th><td><input type="text" name="l_name">'+
 													'<tr><th>대출원금</th><td><input type="text" name="l_money">'+
 													'<tr><th>대출상환금</th><td><input type="text" name="l_remane">'+
-													'<tr><th>시작날짜</th><td><input type="date" name="l_startdate">'+
-													'<tr><th>만기날짜</th><td><input type="date" name="l_enddate">'+
+													'<tr><th>시작날짜</th><td><input type="date" name="st_date">'+
+													'<tr><th>만기날짜</th><td><input type="date" name="en_date">'+
 													'<tr><th>메모</th><td><input type="text" name="l_memo"></td><tr>'+
 													
 													'<tr><td colspan="2"><input type="submit" value="등록">'+

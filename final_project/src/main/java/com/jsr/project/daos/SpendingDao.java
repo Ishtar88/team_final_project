@@ -60,6 +60,31 @@ public class SpendingDao implements ISpendingDao {
 	public List<SpendingDto> spendingSomeSearch(SpendingDto dto) {
 		return sqlSession.selectList(namespace+"spendingSomeSearch", dto);
 	}
+	
+	@Override
+	public SpendingDto spendingcurrentMoneySearch(SpendingDto dto) {
+		return sqlSession.selectOne(namespace+"spendingcurrentMoneySearch", dto);
+	}
+	
+	@Override
+	public SpendingDto spendingAvgMoneySearch(SpendingDto dto) {
+		return sqlSession.selectOne(namespace+"spendingAvgMoneySearch", dto);
+	}
+
+	@Override
+	public SpendingDto spendingTotalCountSearch(SpendingDto dto) {
+		return sqlSession.selectOne(namespace+"spendingTotalCountSearch", dto);
+	}
+	
+	@Override
+	public List<SpendingDto> spendingSomeTotalSearch(SpendingDto dto) {
+		return sqlSession.selectList(namespace+"spendingSomeTotalSearch", dto);
+	}
+
+	@Override
+	public List<SpendingDto> spendingSomeCountSearch(SpendingDto dto) {
+		return sqlSession.selectList(namespace+"spendingSomeCountSearch", dto);
+	}
 
 
 	//---------------------------------------------------------------
@@ -86,6 +111,27 @@ public class SpendingDao implements ISpendingDao {
 		
 		return count>0?true:false;
 	}
+
+	@Override
+	public List<SpendingDto> dateChartSearch(SpendingDto dto) {
+		return sqlSession.selectList(namespace+"dateChartSearch", dto);
+	}
+
+	@Override
+	public List<SpendingDto> categoryChartSearch(SpendingDto dto) {
+		return sqlSession.selectList(namespace+"categoryChartSearch", dto);
+	}
+
+	@Override
+	public List<SpendingDto> someChartSearch(SpendingDto dto) {
+		return sqlSession.selectList(namespace+"someChartSearch", dto);
+	}
+
+
+
+
+
+
 	
 	
 	

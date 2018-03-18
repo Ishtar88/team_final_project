@@ -146,15 +146,24 @@ public class SpendingController {
 		String sYear=year.substring(0, year.indexOf("년"));
 		String sMonth=month.substring(0, month.lastIndexOf("월"));
 		
+		int lMonth=Integer.parseInt(sMonth);
+		if (lMonth<10) {
+			sMonth="0"+lMonth;
+		}
 		String regdate=sYear+"-"+sMonth;
+		
 		System.out.println(regdate);
 		
 		dto.setId(id);
 		dto.setP_location(regdate);
 		System.out.println(dto);
 		
+		model.addAttribute("pick", pick);
+		
+		//지출상세내역 조회
 		if (pick.equals("date")) {
 			
+			//지출상세내역
 			List<SpendingDto> lists=spendingService.spendingDateSearch(dto);
 			map.put("lists", lists);
 			
@@ -168,13 +177,94 @@ public class SpendingController {
 			
 		}else if (pick.equals("some")) {
 			
-			List<SpendingDto> lists=spendingService.spendingCategorySearch(dto);
+			List<SpendingDto> lists=spendingService.spendingSomeSearch(dto);
 			map.put("lists", lists);
 			
 			System.out.println("map: "+map);
 		}
 		
+		
 		return map;
+	}
+	
+	
+	@ResponseBody
+	@RequestMapping(value = "/spendingSideSearch.do", method = RequestMethod.GET)
+	public String spendingSideSearch(Model model,String pick,String year,String month,HttpSession session) {
+		logger.info("spending insert page");
+		
+		MembersDto lDto=(MembersDto)session.getAttribute("loginDto");
+		String id=lDto.getId();
+		
+		SpendingDto dto=new SpendingDto();
+		
+		System.out.println(year);
+		
+		String sYear=year.substring(0, year.indexOf("년"));
+		String sMonth=month.substring(0, month.lastIndexOf("월"));
+		
+		int lMonth=Integer.parseInt(sMonth);
+		if (lMonth<10) {
+			sMonth="0"+lMonth;
+		}
+		String regdate=sYear+"-"+sMonth;
+		
+		System.out.println(regdate);
+		
+		dto.setId(id);
+		dto.setP_location(regdate);
+		System.out.println(dto);
+		
+		model.addAttribute("pick", pick);
+		
+		//지출상세내역 조회
+		if (pick.equals("date")) {
+			
+			//현재까지 사용금액 조회
+			SpendingDto currentMoney=spendingService.spendingcurrentMoneySearch(dto);
+			model.addAttribute("currentMoney", currentMoney);
+			
+			//일평균 지출액 조회
+			SpendingDto avgMoney=spendingService.spendingAvgMoneySearch(dto);
+			model.addAttribute("avgMoney", avgMoney);
+			
+			//총 지출건수
+			SpendingDto totalCount=spendingService.spendingTotalCountSearch(dto);
+			model.addAttribute("totalCount", totalCount);
+			
+		}else if(pick.equals("category")) {
+			
+			//지출 총액 조회
+			SpendingDto sumMoneyDto=spendingService.spendingSumMoney(dto);
+			model.addAttribute("sumMoneyDto", sumMoneyDto);
+			
+			logger.info("sumMoneyDto: "+sumMoneyDto);
+			
+			//지출건수top3
+			List<SpendingDto> countDto=spendingService.spendingCountTop(dto);
+			model.addAttribute("countDto", countDto);
+			
+			logger.info("countDto: "+countDto);
+			
+			//지출top3
+			List<SpendingDto> moneyDto=spendingService.spendingMoneyTop(dto);
+			model.addAttribute("moneyDto", moneyDto);
+			
+			
+		}else if(pick.equals("some")) {
+			
+			List<SpendingDto> someTotal=spendingService.spendingSomeTotalSearch(dto);
+			model.addAttribute("someTotal", someTotal);
+			
+			logger.info("someTotal: "+someTotal);
+			
+			List<SpendingDto> someCount=spendingService.spendingSomeCountSearch(dto);
+			model.addAttribute("someCount", someCount);
+			
+			logger.info("someCount: "+someCount);
+		}
+		
+		return "spending/spending_detail";
 	}
 	
 	@RequestMapping(value = "/spending_detail.do", method = RequestMethod.GET)
@@ -255,6 +345,61 @@ public class SpendingController {
 		
 		
 		return "spending/spending_update_page";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/spendingChartSearch.do", method = RequestMethod.GET)
+	public Map<String, Object>spendingChartSearch(Model model,String pick,String year,String month,HttpSession session) {
+		logger.info("spending chart search strat");
+		
+		Map<String, Object> map=new HashMap<>();
+		
+		MembersDto lDto=(MembersDto)session.getAttribute("loginDto");
+		String id=lDto.getId();
+		
+		SpendingDto dto=new SpendingDto();
+		
+		System.out.println(year);
+		
+		String sYear=year.substring(0, year.indexOf("년"));
+		String sMonth=month.substring(0, month.lastIndexOf("월"));
+		int lMonth=Integer.parseInt(sMonth);
+		if (lMonth<10) {
+			sMonth="0"+lMonth;
+		}
+		
+		String regdate=sYear+"-"+sMonth;
+		System.out.println("p_regdate: "+regdate);
+		
+		dto.setId(id);
+		dto.setP_location(regdate);
+		System.out.println("spendingDto: "+dto);
+		
+		//지출상세내역 조회
+		if (pick.equals("date")) {
+			
+			List<SpendingDto> lists=spendingService.spendingDateSearch(dto);
+			map.put("lists", lists);
+			
+			System.out.println("map: "+map);
+			
+		}else if (pick.equals("category")) {
+			
+			List<SpendingDto> lists=spendingService.spendingCategorySearch(dto);
+			map.put("lists", lists);
+			System.out.println("map: "+map);
+			
+		}else if (pick.equals("some")) {
+			
+			List<SpendingDto> lists=spendingService.spendingSomeSearch(dto);
+			map.put("lists", lists);
+			
+			System.out.println("map: "+map);
+		}
+
+		logger.info("spending chart search end.");
+		
+		return map;
 	}
 
 

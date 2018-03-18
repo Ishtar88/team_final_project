@@ -319,8 +319,8 @@
 		</update>
 		
 		<insert id="stockInsert" parameterType="StockDto">
-			INSERT INTO STOCK(ID,ST_SEQ,ST_NAME,ST_COUNT,ST_MONEY,ST_BUYDATE,ST_MEMO)
-			VALUES(#{id},STOCK_SEQ.NEXTVAL,#{st_name},#{st_count},#{st_money},#{st_buydate},#{st_memo})
+			INSERT INTO STOCK(ID,ST_SEQ,ST_NAME,ST_COUNT,ST_MONEY,ST_ADD,ST_BUYDATE,ST_MEMO)
+			VALUES(#{id},STOCK_SEQ.NEXTVAL,#{st_name},#{st_count},#{st_money},#{st_add},#{st_buydate},#{st_memo})
 		</insert>
 		
 		<insert id="fundInsert" parameterType="FundDto">

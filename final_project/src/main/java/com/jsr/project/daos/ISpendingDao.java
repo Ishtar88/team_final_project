@@ -32,6 +32,21 @@ public interface ISpendingDao {
 	//당월 결제수단별 지출내역조회
 	public List<SpendingDto> spendingSomeSearch(SpendingDto dto);
 	
+	//당월 현재까지 사용금액 조회
+	public SpendingDto spendingcurrentMoneySearch(SpendingDto dto);
+	
+	//일 평균 지출액 조회
+	public SpendingDto spendingAvgMoneySearch(SpendingDto dto);
+	
+	//총 건수
+	public SpendingDto spendingTotalCountSearch(SpendingDto dto);
+	
+	//지불수단별 총액 조회
+	public List<SpendingDto> spendingSomeTotalSearch(SpendingDto dto);
+	
+	//지불수단별 결제건수 조회
+	public List<SpendingDto> spendingSomeCountSearch(SpendingDto dto);
+	
 	//---------------------------------------------------------------
 	
 	//지출 상세조회
@@ -42,4 +57,18 @@ public interface ISpendingDao {
 	
 	//지출 삭제
 	public boolean spendingDelete(int seq);
+	
+	
+	//---------------------------------------------------------------
+	
+	//날짜별 차트 내역 조회
+	public List<SpendingDto> dateChartSearch(SpendingDto dto);
+	
+	//카테고리별 차트 내역 조회
+	public List<SpendingDto> categoryChartSearch(SpendingDto dto);
+	
+	//결제수단별 차트 내역 조회
+	public List<SpendingDto> someChartSearch(SpendingDto dto);
+	
+	
 }
