@@ -18,10 +18,13 @@
 </script>
 </head>
 <body>
-
-
 	<form action="regist3.do" method="post">
 		<table border="1">
+		<tr>
+		<td colspan="2">
+		*추가 정보 입력 시 100point 추가 지급 됩니다.
+		</td>
+		</tr>
 			<tr>
 				<th>우편번호</th>
 				<td><input type="hidden" id="confmKey" name="confmKey"

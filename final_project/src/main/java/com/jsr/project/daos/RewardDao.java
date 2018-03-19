@@ -39,18 +39,22 @@ public class RewardDao implements IRewardDao {
 	}
 
 	@Override
-	public List<RewardDto> findByRname(String r_name,String r_detail) {
+	public List<RewardDto> findByRname(String r_detail,String r_name,String sNum,String eNum) {
 		Map<String, String>map=new HashMap<String,String>();
-		map.put("r_name", r_name);
 		map.put("r_detail", r_detail);
+		map.put("r_name", r_name);
+		map.put("sNum", sNum);
+		map.put("eNum", eNum);
 		return sqlSession.selectList(namespace+"findByRname", map);
 	}
 
 	@Override
-	public List<RewardDto> findByBname(String b_name,String r_detail) {
+	public List<RewardDto> findByBname(String r_detail,String b_name,String sNum,String eNum) {
 		Map<String, String>map=new HashMap<String,String>();
-		map.put("b_name", b_name);
 		map.put("r_detail", r_detail);
+		map.put("b_name", b_name);
+		map.put("sNum", sNum);
+		map.put("eNum", eNum);
 		return sqlSession.selectList(namespace+"findByBname", map);
 	}
 
@@ -139,8 +143,20 @@ public class RewardDao implements IRewardDao {
 	}
 
 	@Override
-	public List<RewardDto> listOfCategory(RewardDto rdto) {
-		return sqlSession.selectList(namespace+"listOfCategory", rdto);
+	public List<RewardDto> listOfCategory(String r_detail,String sNum,String eNum) {
+		Map<String, String>map=new HashMap<String,String>();
+		map.put("r_detail", r_detail);
+		map.put("sNum", sNum);
+		map.put("eNum", eNum);
+		
+		return sqlSession.selectList(namespace+"listOfCategory", map);
+	}
+
+	@Override
+	public int pageCount(String r_detail) {
+		Map<String, String>map=new HashMap<String,String>();
+		map.put("r_detail", r_detail);
+		return sqlSession.selectOne(namespace+"pageCount", map);
 	}
 
 }

@@ -66,18 +66,28 @@
 
 	<select id="findByRname" resultMap="RewardDto" parameterType="Map">
 		SELECT
-		R_SEQ,R_NAME,R_POINT,R_SELL,R_FILE,R_REGDATE,R_DETAIL,C.B_SEQ,B_NAME FROM
-		REWARD R JOIN COMPANY C ON R.B_SEQ=C.B_SEQ WHERE R_SELL='Y' AND
-		R_NAME
-		LIKE '%'|| #{r_name} ||'%' AND R_DETAIL=#{r_detail}
+		R_SEQ,R_NAME,R_POINT,R_SELL,R_FILE,R_REGDATE,R_DETAIL,B_SEQ,B_NAME
+		FROM (SELECT
+		R_SEQ,R_NAME,R_POINT,R_SELL,R_FILE,R_REGDATE,R_DETAIL,C.B_SEQ,B_NAME,
+		ROW_NUMBER()OVER (ORDER BY R_REGDATE DESC) AS RN
+		FROM
+		REWARD R JOIN
+		COMPANY C ON R.B_SEQ=C.B_SEQ WHERE R_SELL='Y' AND
+		R_DETAIL=#{r_detail}
+		AND R_NAME LIKE '%'|| #{r_name} ||'%') WHERE RN BETWEEN #{sNum} AND #{eNum}
 	</select>
 
 	<select id="findByBname" resultMap="RewardDto" parameterType="Map">
 		SELECT
-		R_SEQ,R_NAME,R_POINT,R_SELL,R_FILE,R_REGDATE,R_DETAIL,C.B_SEQ,B_NAME FROM
-		REWARD R JOIN COMPANY C ON R.B_SEQ=C.B_SEQ WHERE R_SELL='Y' AND
-		B_NAME
-		LIKE '%'|| #{b_name} ||'%'AND R_DETAIL=#{r_detail}
+		R_SEQ,R_NAME,R_POINT,R_SELL,R_FILE,R_REGDATE,R_DETAIL,B_SEQ,B_NAME
+		FROM (SELECT
+		R_SEQ,R_NAME,R_POINT,R_SELL,R_FILE,R_REGDATE,R_DETAIL,C.B_SEQ,B_NAME,
+		ROW_NUMBER()OVER (ORDER BY R_REGDATE DESC) AS RN
+		FROM
+		REWARD R JOIN
+		COMPANY C ON R.B_SEQ=C.B_SEQ WHERE R_SELL='Y' AND
+		R_DETAIL=#{r_detail}
+		AND R_NAME LIKE '%'|| #{b_name} ||'%') WHERE RN BETWEEN #{sNum} AND #{eNum}
 	</select>
 
 	<select id="rewardOne" resultMap="RewardDto" parameterType="Map">
@@ -118,12 +128,22 @@
 		PRO_QRUSE='Y' WHERE PRO_SEQ=#{pro_seq}
 	</update>
 
-	<select id="listOfCategory" parameterType="RewardDto" resultMap="RewardDto">
+	<select id="listOfCategory" parameterType="Map" resultMap="RewardDto">
 		SELECT
-		R_SEQ,R_NAME,R_POINT,R_SELL,R_FILE,R_REGDATE,R_DETAIL,C.B_SEQ,B_NAME
+		R_SEQ,R_NAME,R_POINT,R_SELL,R_FILE,R_REGDATE,R_DETAIL,B_SEQ,B_NAME
+		FROM (SELECT
+		R_SEQ,R_NAME,R_POINT,R_SELL,R_FILE,R_REGDATE,R_DETAIL,C.B_SEQ,B_NAME,
+		ROW_NUMBER()OVER (ORDER BY R_REGDATE DESC) AS RN
 		FROM
-		REWARD R JOIN COMPANY C ON R.B_SEQ=C.B_SEQ WHERE R_SELL='Y' AND
-		R_DETAIL=#{r_detail}
+		REWARD R JOIN
+		COMPANY C ON R.B_SEQ=C.B_SEQ WHERE R_SELL='Y' AND
+		R_DETAIL=#{r_detail})
+		WHERE
+		RN BETWEEN #{sNum} AND #{eNum}
+	</select>
+
+	<select id="pageCount" resultType="Integer" parameterType="Map">
+		SELECT CEIL(COUNT(*)/8) COUNT FROM REWARD WHERE R_DETAIL=#{r_detail}
 	</select>
 
 </mapper>

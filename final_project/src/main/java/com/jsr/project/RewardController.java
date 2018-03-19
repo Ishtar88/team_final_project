@@ -101,9 +101,18 @@ public class RewardController {
 //	}
 	
 	@RequestMapping(value = "/listOfCategory.do", method = RequestMethod.GET)
-	public String listOfCategory(Model model,RewardDto rdto) {
-		List<RewardDto> rewardList=rewardService.listOfCategory(rdto);
-		String r_detail=rdto.getR_detail();
+	public String listOfCategory(Model model,String r_detail,String sNum,String eNum,HttpSession session) {
+		int pcount=rewardService.pageCount(r_detail);
+		
+		if(sNum==null) {
+			sNum=(String)session.getAttribute("sNum");
+			eNum=(String)session.getAttribute("eNum");
+		}else {
+			session.setAttribute("sNum", sNum);
+			session.setAttribute("eNum", eNum);
+		}
+		List<RewardDto> rewardList=rewardService.listOfCategory(r_detail, sNum, eNum);
+		model.addAttribute("pcount", pcount);
 		model.addAttribute("list", rewardList);
 		model.addAttribute("r_detail", r_detail);
 		return "reward/categoryList";
@@ -112,19 +121,17 @@ public class RewardController {
 
 	@ResponseBody
 	@RequestMapping(value = "/findReward.do", method = RequestMethod.POST)
-	public Map<String, List<RewardDto>> findReward(HttpServletRequest request,RewardDto rdto) {
-		String category=request.getParameter("category");
-		String search=request.getParameter("search");
-		String r_detail=request.getParameter("r_detail");
+	public Map<String, List<RewardDto>> findReward(HttpServletRequest request,String category,String search,String r_detail,String sNum,String eNum) {
+
 		Map<String, List<RewardDto>> map=new HashMap<String, List<RewardDto>>();
 
 		if(category.equals("r_name")){
-			List<RewardDto> list1=rewardService.findByRname(search,r_detail);
+			List<RewardDto> list1=rewardService.findByRname(r_detail, search, sNum, eNum);
 			map.put("list", list1);
-			System.out.println(list1.size());
-			System.out.println(map.get("list"));
+			//System.out.println(list1.size());
+			//System.out.println(map.get("list"));
 		}else if(category.equals("b_name")) {
-			List<RewardDto> list2=rewardService.findByBname(search,r_detail);
+			List<RewardDto> list2=rewardService.findByBname(r_detail, search, sNum, eNum);
 			map.put("list", list2);
 		}
 		return map;
@@ -229,16 +236,9 @@ public class RewardController {
 		}
 	}
 	
-	@RequestMapping(value = "/useQR.do", method = RequestMethod.POST)
-	public String useQR(HttpServletRequest request,ProductDto prodto) {
-		boolean isS=rewardService.useQR(prodto);
-		if(isS) {
-			System.out.println("사용성공");
-		}else {
-			System.out.println("사용실패");
-		}
-		return "redirect:index.jsp"; 
-
+	@RequestMapping(value = "/changePw.do", method = RequestMethod.GET)
+	public String changePw(HttpServletRequest request,ProductDto prodto) {
+		return "reward/changePw";
 	}
 
 }

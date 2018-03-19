@@ -51,7 +51,7 @@
 					alert("존재하지 않는 정보입니다.");
 				} else {
 					alert("입력하신 이메일로 임시 비밀번호를 발송하였습니다.");
-					alert(obj["chkNum"]);
+					alert(obj["m_password"]);
 
 				}
 			}

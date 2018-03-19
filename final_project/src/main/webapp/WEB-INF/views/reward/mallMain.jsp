@@ -14,7 +14,7 @@
 	src="http://code.jquery.com/jquery-latest.js"></script>
 <script type="text/javascript">
 	function byCategory(r_detail) {
-		location.href = "listOfCategory.do?r_detail=" + r_detail;
+		location.href = "listOfCategory.do?r_detail="+r_detail+"&sNum=1&eNum=8";
 	}
 </script>
 <style type="text/css">
@@ -25,7 +25,6 @@ img {
 </style>
 </head>
 <body>
-	<a href="rewardList.do">상품목록</a>
 	<a href="insertReward.do">상품등록</a>
 	<table>
 		<tr>
