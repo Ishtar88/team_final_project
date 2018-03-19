@@ -2,15 +2,19 @@ package com.jsr.project;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 
 import javax.mail.Session;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -23,9 +27,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.jsr.project.dtos.*;
 import com.jsr.project.services.IAcountService;
+import com.jsr.project.services.IRewardService;
 
 /**
  * Handles requests for the application home page.
@@ -218,7 +225,7 @@ public class AcountController {
 	 */
 	//자산관리 메인페이지 이동
 	@RequestMapping(value = "/acount.do", method = RequestMethod.GET)
-	public String goal_main(Model model ,HttpSession session) {
+	public String acount_main(Model model ,HttpSession session) {
 		logger.info("acount main page");
 		
 		MembersDto lDto=(MembersDto)session.getAttribute("loginDto");
@@ -255,8 +262,19 @@ public class AcountController {
 	
 	//목표관리 페이지 이동
 	@RequestMapping(value = "/goal_main.do", method = RequestMethod.GET)
-	public String goal_main() {
+	public String goal_main(HttpSession session,Model model) {
 		logger.info("goal main page");
+		
+		MembersDto lDto=(MembersDto)session.getAttribute("loginDto");
+		String id=lDto.getId();
+		
+		GoalDto totalmoneyDto=acountService.goalTotalMoney(id);
+		List<GoalDto> goalAllSearchList=acountService.goalAllSearch(id);
+		model.addAttribute("totalMoneyDto", totalmoneyDto);
+		model.addAttribute("goalAllSearchList", goalAllSearchList);
+		
+		logger.info("totalMoneyDto: "+totalmoneyDto);
+		logger.info("goalAllSearchList: "+goalAllSearchList);
 		
 		return "acount/goal_main";
 	}
@@ -353,9 +371,17 @@ public class AcountController {
 		
 		return reVal;
 	}
+	
+	@RequestMapping(value = "/goal_cancel.do", method = RequestMethod.GET)
+	public String goal_cancel(Model model,String seq,String acount) {
+		logger.info("goal cancel start");
+		
+		
+		return "redirect:goal_main.do";
+	}
 
 	@RequestMapping(value = "/acount_cancel.do", method = RequestMethod.GET)
-	public String save_cancel(Model model,String seq,String acount) {
+	public String acount_cancel(Model model,String seq,String acount) {
 		logger.info("acount cancel start");
 		
 		reVal=detail_factory(acount, seq, model);
@@ -747,6 +773,101 @@ public class AcountController {
 		
 		return map;
 	}
+	
+	private IRewardService rewardService;
+	
+	//뽑기상품등록
+	@RequestMapping(value = "/dobak_insert.do", method = RequestMethod.POST)
+	public String dobak_insert(Model model,RewardDto rdto,String command,HttpServletRequest request) {
+		logger.info("product insert start");
+		
+		if (command.equals("dobak")) {
+			
+			int r_number=(int)(Math.random()*3+1);
+			rdto.setR_number(r_number);
+			
+			logger.info("뽑기 숫자생성 pNum: "+r_number);
+			
+			
+			MultipartHttpServletRequest multi=(MultipartHttpServletRequest)request;
+			MultipartFile multiFile=multi.getFile("uploadFile");
+			String r_file=multiFile.getOriginalFilename();
+			//String r_file=originName.substring(originName.indexOf("."));
+			rdto.setR_file(r_file);
+	
+			File f=new File("C:/Users/Owner/git/team_final_project/final_project/src/main/webapp/resources/upload/"+r_file);
+			try {
+				multiFile.transferTo(f);
+				boolean isS=rewardService.insertReward(rdto);
+				if(isS) {
+					System.out.println("등록성공");
+					return "redirect:insertReward.do";
+				}else {
+					System.out.println("등록실패");
+					return "redirect:insertReward.do";
+				}
+			} catch (IllegalStateException e) {
+				e.printStackTrace();
+				return "redirect:insertReward.do";
+			} catch (IOException e) {
+				e.printStackTrace();
+				return "redirect:insertReward.do";
+			}
+		
+		}
+			
+		logger.info("product insert end.");
+		return command;
+		
+	}
+	
+	//뽑기를 뽑았을때 번호조회 기능
+	@ResponseBody
+	@RequestMapping(value = "/dobak_check.do", method = RequestMethod.POST)
+	public String dobak_check(Model model,PointDto poDto,ProductDto proDto,HttpSession session) {
+		logger.info("product check start");
+		
+		String reVal="";
+		
+		int point=poDto.getPo_point();
+		
+		String beforePoint="-"+point;
+		int po_point=Integer.parseInt(beforePoint);
+		poDto.setPo_point(po_point);
+		
+		int r_number=(int)(Math.random()*3+1);
+		
+		RewardDto rdto=new RewardDto();
+		rdto.setR_number(r_number);
+		
+		RewardDto dto=acountService.dobakCheck(rdto);
+		if (dto!=null) {
+			logger.info("상품 뽑기 성공");
+			
+			boolean isc=acountService.buyDobakSuccess(poDto, proDto);
+			if (isc) {
+				reVal="";
+			}else {
+				reVal="";
+			}
+			
+		}else {
+			logger.info("상품 뽑기 실패");
+			
+			boolean isc=acountService.buyDobakFail(poDto);
+			if (isc) {
+				reVal="";
+			}else {
+				reVal="";
+			}
+			
+		}
+			
+		logger.info("product check end.");
+		
+		return reVal;
+	}
+	
 	
 	
 	public static void jsClose(HttpServletResponse response){

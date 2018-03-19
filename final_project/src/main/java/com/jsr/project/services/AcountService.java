@@ -14,6 +14,9 @@ import com.jsr.project.dtos.GoalDto;
 import com.jsr.project.dtos.IncomeDto;
 import com.jsr.project.dtos.LoanDto;
 import com.jsr.project.dtos.MembersDto;
+import com.jsr.project.dtos.PointDto;
+import com.jsr.project.dtos.ProductDto;
+import com.jsr.project.dtos.RewardDto;
 import com.jsr.project.dtos.SaveDto;
 import com.jsr.project.dtos.SpendingDto;
 import com.jsr.project.dtos.StockDto;
@@ -45,6 +48,17 @@ public class AcountService implements IAcountService {
 	public AcountDto acountTotalSearch(MembersDto dto) {
 		
 		return acountDaoImp.acountTotalSearch(dto);
+	}
+	
+	
+	@Override
+	public GoalDto goalTotalMoney(String id) {
+		return acountDaoImp.goalTotalMoney(id);
+	}
+
+	@Override
+	public List<GoalDto> goalAllSearch(String id) {
+		return acountDaoImp.goalAllSearch(id);
 	}
 	
 	//----------------------------------------------
@@ -215,9 +229,30 @@ public class AcountService implements IAcountService {
 		return acountDaoImp.loanTotalMoney(id);
 	}
 
+
 	//----------------------------------------------
 
 	
+	
+	@Override
+	public RewardDto dobakCheck(RewardDto rdto) {
+		return acountDaoImp.dobakCheck(rdto);
+	}
+
+	//뽑기 성공했을 때의 로직
+	@Override
+	public boolean buyDobakSuccess(PointDto poDto, ProductDto proDto) {
+		acountDaoImp.buyDobak(proDto);
+		return acountDaoImp.minusPointDobak(poDto);
+	}
+
+	//뽑기 실패했을 때의 로직
+	@Override
+	public boolean buyDobakFail(PointDto poDto) {
+		return acountDaoImp.minusPointDobak(poDto);
+	}
+
+
 	
 	
 	

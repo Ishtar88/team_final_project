@@ -171,9 +171,9 @@ public class RewardController {
 		RewardDto rdto=rewardService.rewardOne(r_seq);
 
 		MembersDto loginDto=(MembersDto)session.getAttribute("loginDto");
-		if(loginDto.getPo_point().getPo_point()==0) {
-			
-		}
+//		if(loginDto.getPo_point().getPo_point()==0) {
+//			
+//		}
 		System.out.println(rdto);
 
 		model.addAttribute("rdto", rdto);
