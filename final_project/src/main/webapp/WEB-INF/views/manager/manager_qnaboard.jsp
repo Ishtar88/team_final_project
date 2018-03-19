@@ -21,7 +21,7 @@ pageEncoding="UTF-8"%>
 </style>
 <script type="text/javascript">
 	function insertForm(){
-		location.href="insertqna.do";
+		location.href="manager_insertqna.do";
 	}
 	
 
@@ -64,7 +64,7 @@ pageEncoding="UTF-8"%>
 							<td>
 							<jsp:setProperty property="arrowNbsp" name="util" value="${dto.q_depth}" />
 							<jsp:getProperty property="arrowNbsp" name="util" />
-							<a href="qnadetail.do?seq=${dto.q_seq}">	
+							<a href="manager_qnadetail.do?q_seq=${dto.q_seq}">	
 							    ${dto.q_title}</a>
 							</td>
 						</c:otherwise>
