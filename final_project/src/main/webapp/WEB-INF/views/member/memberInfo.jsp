@@ -9,6 +9,7 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="f"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<jsp:include page="../header.jsp"></jsp:include>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -21,7 +22,10 @@ function leaveUser() {
 	window.open("leaveUser.do", "비밀번호 재확인",
 			'location=yes,height=570,width=520,scrollbars=yes,status=yes');
 }
-
+function changePw(){
+	window.open("changePw.do", "비밀번호 변경",
+	'location=yes,height=570,width=520,scrollbars=yes,status=yes');
+}
 </script>
 <style type="text/css">
 img {
@@ -52,6 +56,11 @@ img {
 				<th>이메일</th>
 				<td><input type="text" value="${mdto.m_email}"
 					readonly="readonly"/></td>
+			</tr>
+			<tr>
+				<th>비밀번호</th>
+				<td><input type="password" value="${mdto.m_password}"
+					readonly="readonly"/><input type="button" value="비밀번호변경" onclick="changePw()"/></td>
 			</tr>
 			<tr>
 				<th>연락처</th>
