@@ -34,6 +34,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.jsr.project.dtos.MembersDto;
+import com.jsr.project.dtos.ProductDto;
 import com.jsr.project.services.IMembersService;
 
 @Controller
@@ -118,7 +119,7 @@ public class MembersController {
 	}
 
 	@RequestMapping(value = "/regist3.do", method = RequestMethod.POST)
-	public String regist3(HttpServletRequest request,MembersDto mdto ,HttpSession rsession) {
+	public String regist3(HttpServletRequest request,MembersDto mdto ,HttpSession rsession,Model model) {
 
 		MembersDto reg1=(MembersDto)rsession.getAttribute("mdto");
 
@@ -136,12 +137,33 @@ public class MembersController {
 		String m_address=zipNo+"+"+roadAdd+"+"+addrDetail;
 		mdto.setM_address(m_address);
 
-		boolean isS=memberService.regist(mdto);
-		if(isS==true){
-			return "home";
+		String po_point="";
+		if(mdto.getM_address().equals("++")&&mdto.getM_job().equals("")&&mdto.getM_mariable()==null&&mdto.getM_favorite()==null) {
+			po_point="100";
+			boolean isS=memberService.regist(mdto,mdto.getId(),po_point);
+			if(isS) {
+				System.out.println("추가정보X:가입성공");
+				model.addAttribute("isS",isS);
+				return "member/regist2";
+			}else {
+				model.addAttribute("isS",isS);
+				System.out.println("추가정보X:가입실패");
+				return "member/regist2";
+			}
 		}else {
-			return "member/regist1";
+			po_point="200";
+			boolean isS=memberService.regist(mdto,mdto.getId(),po_point);
+			if(isS) {
+				model.addAttribute("isS",isS);
+				System.out.println("추가정보O:가입성공");
+				return "member/regist2";
+			}else {
+				model.addAttribute("isS",isS);
+				System.out.println("추가정보O:가입실패");
+				return "member/regist2";
+			}
 		}
+		
 	}
 
 	@ResponseBody
@@ -263,18 +285,25 @@ public class MembersController {
 		mdto.setId(loginDto.getId());
 		boolean isS=memberService.changeProfile(mdto);
 		if(isS) {
-			System.out.println("�닔�젙�꽦怨�");
+			model.addAttribute("isS",isS);
+			System.out.println("변경완료");
+			return "member/imgForm";
 		}else {
-			System.out.println("�닔�젙�떎�뙣");
+			model.addAttribute("isS",isS);
+			System.out.println("변경실패");
+			return "member/imgForm";
 		}
-		MembersDto memDto=memberService.getUser(loginDto.getId());
-		System.out.println(memDto);
-		model.addAttribute("mdto",memDto);
-		return "member/memberModify";
+//		MembersDto memDto=memberService.getUser(loginDto.getId());
+//		System.out.println(memDto);
+//		model.addAttribute("mdto",memDto);
 	}
 
 	@RequestMapping(value = "/modifyUser.do", method = RequestMethod.POST)
 	public String modifyUser(Model model,HttpServletRequest request, HttpSession session,MembersDto mdto) {
+		
+		MembersDto loginDto=(MembersDto)session.getAttribute("loginDto");
+		
+		
 		String phone1=request.getParameter("phone1");
 		String phone2=request.getParameter("phone2");
 		String phone3=request.getParameter("phone3");
@@ -299,7 +328,6 @@ public class MembersController {
 			System.out.println("�닔�젙�떎�뙣");
 		}
 
-		MembersDto loginDto=(MembersDto)session.getAttribute("loginDto");
 		MembersDto memDto=memberService.getUser(loginDto.getId());
 		System.out.println(memDto);
 		model.addAttribute("mdto",memDto);
@@ -476,6 +504,28 @@ public class MembersController {
 		}
 
 		return map;
+	}
+	
+	@RequestMapping(value = "/changePw.do", method = RequestMethod.GET)
+	public String changePw(HttpServletRequest request,ProductDto prodto) {
+		return "member/changePw";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/changePassword.do", method = RequestMethod.POST)
+	public Map<String, String> changePassword(HttpServletRequest request,ProductDto prodto,HttpSession session) {
+		String m_password=request.getParameter("m_password");
+		MembersDto loginDto=(MembersDto)session.getAttribute("loginDto");
+		boolean isS=memberService.changePW(loginDto.getId(), m_password);
+		Map<String, String> map=new HashMap<String, String>();
+		if(isS) {
+			map.put("change", "y");
+			return map;
+		}else {
+			map.put("change", "n");
+			return map;
+		}
+		
 	}
 	
 	public void jsFoward(String msg,HttpServletResponse response) throws IOException{

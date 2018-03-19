@@ -74,7 +74,8 @@
 		REWARD R JOIN
 		COMPANY C ON R.B_SEQ=C.B_SEQ WHERE R_SELL='Y' AND
 		R_DETAIL=#{r_detail}
-		AND R_NAME LIKE '%'|| #{r_name} ||'%') WHERE RN BETWEEN #{sNum} AND #{eNum}
+		AND R_NAME LIKE '%'|| #{r_name} ||'%') WHERE RN BETWEEN #{sNum} AND
+		#{eNum}
 	</select>
 
 	<select id="findByBname" resultMap="RewardDto" parameterType="Map">
@@ -87,7 +88,8 @@
 		REWARD R JOIN
 		COMPANY C ON R.B_SEQ=C.B_SEQ WHERE R_SELL='Y' AND
 		R_DETAIL=#{r_detail}
-		AND R_NAME LIKE '%'|| #{b_name} ||'%') WHERE RN BETWEEN #{sNum} AND #{eNum}
+		AND R_NAME LIKE '%'|| #{b_name} ||'%') WHERE RN BETWEEN #{sNum} AND
+		#{eNum}
 	</select>
 
 	<select id="rewardOne" resultMap="RewardDto" parameterType="Map">
@@ -145,5 +147,12 @@
 	<select id="pageCount" resultType="Integer" parameterType="Map">
 		SELECT CEIL(COUNT(*)/8) COUNT FROM REWARD WHERE R_DETAIL=#{r_detail}
 	</select>
+
+	<update id="updateReward" parameterType="RewardDto">
+		UPDATE REWARD SET
+		R_FILE=#{r_file},
+		R_NAME=#{r_name},R_POINT=#{r_point},R_SELL=#{r_sell},B_SEQ=#{b_seq},R_DETAIL=#{r_detail}
+		WHERE R_SEQ=#{r_seq}
+	</update>
 
 </mapper>

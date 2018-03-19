@@ -159,4 +159,11 @@ public class RewardDao implements IRewardDao {
 		return sqlSession.selectOne(namespace+"pageCount", map);
 	}
 
+	@Override
+	public boolean updateReward(RewardDto rdto) {
+		int count=0;
+		count=sqlSession.update(namespace+"updateReward", rdto);
+		return count>0?true:false;
+	}
+
 }

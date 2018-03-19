@@ -7,6 +7,7 @@
 %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="f"%>
+<jsp:include page="../header.jsp"></jsp:include>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -45,6 +46,7 @@
 		} else {
 			$("#pwchk").text("");
 			$("#pwchk").text("올바른 비밀번호입니다.");
+			$("input[name=change]").attr("disabled",false);
 		}
 	}
 
@@ -80,7 +82,7 @@
 	<table>
 		<tr>
 			<td>현재 비밀번호</td>
-			<td><input type="text" name="m_password" /> <input
+			<td><input type="password" name="m_password" /> <input
 				type="button" value="확인" onclick="pwChk()" /> <input type="button"
 				value="취소" onclick="end()" /></td>
 		</tr>
@@ -89,15 +91,15 @@
 	<table id="chk">
 		<tr>
 			<td>새로운 비밀번호</td>
-			<td><input type="text" name="newPw" /></td>
+			<td><input type="password" name="newPw" /></td>
 		</tr>
 		<tr>
 			<td>새로운 비밀번호 확인</td>
-			<td><input type="text" onchange="newPwChk()" name="newPwChk" />
+			<td><input type="password" onchange="newPwChk()" name="newPwChk" />
 				<p id="pwchk"></td>
 		</tr>
 		<tr>
-		<td colspan="2"><input type="button" value="변경" onclick="pwChange()" /> <input
+		<td colspan="2"><input type="button" value="변경" onclick="pwChange()" disabled="disabled" name="change"/> <input
 			type="button" value="취소" onclick="end()" /></td>
 		</tr>
 	</table>

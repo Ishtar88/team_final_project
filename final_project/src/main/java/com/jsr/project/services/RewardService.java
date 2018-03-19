@@ -82,5 +82,10 @@ public class RewardService implements IRewardService {
 		return IRewardDao.pageCount(r_detail);
 	}
 
+	@Override
+	public boolean updateReward(RewardDto rdto) {
+		return IRewardDao.updateReward(rdto);
+	}
+
 
 }

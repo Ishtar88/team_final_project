@@ -92,13 +92,16 @@ public class RewardController {
 
 	}
 
-//	@RequestMapping(value = "/rewardList.do", method = RequestMethod.GET)
-//	public String rewardList(Model model) {
-//		List<RewardDto> rewardList=rewardService.rewardList();
-//		model.addAttribute("list", rewardList);
-//		return "reward/rewardMain";
-//
-//	}
+	@RequestMapping(value = "/rewardList.do", method = RequestMethod.GET)
+	public String rewardList(Model model) {
+		List<RewardDto> rewardList=rewardService.rewardList();
+		List<CompanyDto> companyList=rewardService.companyList();
+		
+		model.addAttribute("list", rewardList);
+		model.addAttribute("cList", companyList);
+		return "reward/allList";
+
+	}
 	
 	@RequestMapping(value = "/listOfCategory.do", method = RequestMethod.GET)
 	public String listOfCategory(Model model,String r_detail,String sNum,String eNum,HttpSession session) {
@@ -176,12 +179,13 @@ public class RewardController {
 	public String rewardForm(HttpServletRequest request,Model model,HttpSession session) {
 		int r_seq=Integer.parseInt(request.getParameter("r_seq"));
 		RewardDto rdto=rewardService.rewardOne(r_seq);
+		System.out.println(rdto);
 
 		MembersDto loginDto=(MembersDto)session.getAttribute("loginDto");
-		if(loginDto.getPo_point().getPo_point()==0) {
-			
-		}
-		System.out.println(rdto);
+		System.out.println(loginDto);
+//		if(loginDto.getPo_point().getPo_point()==0) {
+//			
+//		}
 
 		model.addAttribute("rdto", rdto);
 		model.addAttribute("loginDto", loginDto);
@@ -236,9 +240,56 @@ public class RewardController {
 		}
 	}
 	
-	@RequestMapping(value = "/changePw.do", method = RequestMethod.GET)
-	public String changePw(HttpServletRequest request,ProductDto prodto) {
-		return "reward/changePw";
+	@RequestMapping(value = "/updateReward.do", method = RequestMethod.POST)
+	public String updateReward(HttpServletRequest request) {
+		RewardDto rdto=new RewardDto();
+		int r_seq=Integer.parseInt(request.getParameter("r_seq"));
+		rdto.setR_seq(r_seq);
+		String r_detail=request.getParameter("r_detail");
+		rdto.setR_detail(r_detail);
+		String r_name=request.getParameter("r_name");
+		rdto.setR_name(r_name);
+		int r_point=Integer.parseInt(request.getParameter("r_point"));
+		rdto.setR_point(r_point);
+		int b_seq=Integer.parseInt(request.getParameter("b_seq"));
+		rdto.setB_seq(b_seq);
+		String r_sell=request.getParameter("r_sell");
+		rdto.setR_sell(r_sell);
+
+		MultipartHttpServletRequest multi=(MultipartHttpServletRequest)request;
+		MultipartFile multiFile=multi.getFile("r_file");
+		String r_file="";
+		if(multiFile==null){
+			r_file=rdto.getR_file();
+		}else {
+			r_file=multiFile.getOriginalFilename();
+			rdto.setR_file(r_file);			
+		}
+
+		File f=new File("C:/Users/Owner/git/team_final_project/final_project/src/main/webapp/resources/upload/"+r_file);
+		try {
+			multiFile.transferTo(f);
+			boolean isS=rewardService.updateReward(rdto);
+			if(isS) {
+				System.out.println("수정성공");
+				return "redirect:rewardList.do";
+			}else {
+				System.out.println("수정실패");
+				return "redirect:rewardList.do";
+			}
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+			return "redirect:rewardList.do";
+		} catch (IOException e) {
+			e.printStackTrace();
+			return "redirect:rewardList.do";
+		}
+
+	}
+	@RequestMapping(value = "/patternMain.do", method = RequestMethod.GET)
+	public String patternMain() {
+		return "reward/total_pattern";
+
 	}
 
 }
