@@ -190,7 +190,7 @@ public class SpendingController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/spendingSideSearch.do", method = RequestMethod.GET)
-	public String spendingSideSearch(Model model,String pick,String year,String month,HttpSession session) {
+	public Map<String, Object> spendingSideSearch(Model model,String pick,String year,String month,HttpSession session) {
 		logger.info("spending insert page");
 		
 		MembersDto lDto=(MembersDto)session.getAttribute("loginDto");
@@ -215,56 +215,57 @@ public class SpendingController {
 		dto.setP_location(regdate);
 		System.out.println(dto);
 		
-		model.addAttribute("pick", pick);
+		Map<String, Object> map=new HashMap<>();
+		
 		
 		//지출상세내역 조회
 		if (pick.equals("date")) {
 			
 			//현재까지 사용금액 조회
 			SpendingDto currentMoney=spendingService.spendingcurrentMoneySearch(dto);
-			model.addAttribute("currentMoney", currentMoney);
+			map.put("currentMoney", currentMoney);
 			
 			//일평균 지출액 조회
 			SpendingDto avgMoney=spendingService.spendingAvgMoneySearch(dto);
-			model.addAttribute("avgMoney", avgMoney);
+			map.put("avgMoney", avgMoney);
 			
 			//총 지출건수
 			SpendingDto totalCount=spendingService.spendingTotalCountSearch(dto);
-			model.addAttribute("totalCount", totalCount);
+			map.put("totalCount", totalCount);
 			
 		}else if(pick.equals("category")) {
 			
 			//지출 총액 조회
 			SpendingDto sumMoneyDto=spendingService.spendingSumMoney(dto);
-			model.addAttribute("sumMoneyDto", sumMoneyDto);
+			map.put("sumMoneyDto", sumMoneyDto);
 			
 			logger.info("sumMoneyDto: "+sumMoneyDto);
 			
 			//지출건수top3
 			List<SpendingDto> countDto=spendingService.spendingCountTop(dto);
-			model.addAttribute("countDto", countDto);
+			map.put("countDto", countDto);
 			
 			logger.info("countDto: "+countDto);
 			
 			//지출top3
 			List<SpendingDto> moneyDto=spendingService.spendingMoneyTop(dto);
-			model.addAttribute("moneyDto", moneyDto);
+			map.put("moneyDto", moneyDto);
 			
 			
 		}else if(pick.equals("some")) {
 			
 			List<SpendingDto> someTotal=spendingService.spendingSomeTotalSearch(dto);
-			model.addAttribute("someTotal", someTotal);
+			map.put("someTotal", someTotal);
 			
 			logger.info("someTotal: "+someTotal);
 			
 			List<SpendingDto> someCount=spendingService.spendingSomeCountSearch(dto);
-			model.addAttribute("someCount", someCount);
+			map.put("someCount", someCount);
 			
 			logger.info("someCount: "+someCount);
 		}
 		
-		return "spending/spending_detail";
+		return map;
 	}
 	
 	@RequestMapping(value = "/spending_detail.do", method = RequestMethod.GET)
@@ -378,20 +379,20 @@ public class SpendingController {
 		//지출상세내역 조회
 		if (pick.equals("date")) {
 			
-			List<SpendingDto> lists=spendingService.spendingDateSearch(dto);
+			List<SpendingDto> lists=spendingService.dateChartSearch(dto);
 			map.put("lists", lists);
 			
 			System.out.println("map: "+map);
 			
 		}else if (pick.equals("category")) {
 			
-			List<SpendingDto> lists=spendingService.spendingCategorySearch(dto);
+			List<SpendingDto> lists=spendingService.categoryChartSearch(dto);
 			map.put("lists", lists);
 			System.out.println("map: "+map);
 			
 		}else if (pick.equals("some")) {
 			
-			List<SpendingDto> lists=spendingService.spendingSomeSearch(dto);
+			List<SpendingDto> lists=spendingService.someChartSearch(dto);
 			map.put("lists", lists);
 			
 			System.out.println("map: "+map);

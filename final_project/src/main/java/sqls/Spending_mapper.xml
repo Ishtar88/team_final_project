@@ -150,7 +150,7 @@
 		</select>
 		
 		<select id="categoryChartSearch" parameterType="SpendingDto" resultType="SpendingDto">
-			SELECT DISTINCT SUM(P_MONEY) OVER(PARTITION BY P_NAME) AS P_MONEY,TO_CHAR(P_REGDATE,'YYYY-MM')AS P_REGDATE,P_NAME FROM SPENDING WHERE TO_CHAR(P_REGDATE,'YYYY-MM')=#{p_location} AND ID=#{id}
+			SELECT DISTINCT SUM(P_MONEY) OVER(PARTITION BY P_NAME) AS P_MONEY,P_REGDATE,P_NAME FROM SPENDING WHERE TO_CHAR(P_REGDATE,'YYYY-MM')=#{p_location} AND ID=#{id}
 		</select>
 
 		<select id="someChartSearch" parameterType="SpendingDto" resultType="SpendingDto">
@@ -174,7 +174,7 @@
 		<select id="spendingSomeTotalSearch" parameterType="SpendingDto" resultType="SpendingDto">
 			<![CDATA[
 				SELECT ROWNUM AS P_SEQ,P_MONEY,P_REGDATE,P_SOME 
-				FROM (SELECT P_MONEY,P_REGDATE,P_SOME FROM SPENDING ORDER BY P_MONEY DESC) 
+				FROM (SELECT P_MONEY,P_REGDATE,P_SOME,ID FROM SPENDING ORDER BY P_MONEY DESC) 
 				WHERE TO_CHAR(P_REGDATE, 'YYYY-MM')=#{p_location} AND ID=#{id} AND ROWNUM<=3
 			]]>
 		</select>
@@ -183,7 +183,7 @@
 			<![CDATA[
 				SELECT ROWNUM AS P_SEQ,P_COUNT ,P_SOME 
 				FROM (SELECT DISTINCT COUNT(P_SOME) OVER(PARTITION BY P_SOME) AS P_COUNT ,P_SOME,ID FROM SPENDING WHERE TO_CHAR(P_REGDATE,'YYYY-MM')=#{p_location} ORDER BY P_COUNT) 
-				WHERE ID=#{id} AND WORNUM<=3
+				WHERE ID=#{id} AND ROWNUM<=3
 			]]>
 		</select>
 	

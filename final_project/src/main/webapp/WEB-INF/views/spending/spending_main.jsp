@@ -225,11 +225,11 @@
 				}
 					
 			},error:function(request,status,error){
-				alert("error! / "+"code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+				alert("chartSearch error! / "+"code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
 			}
 			}); //ajax 끝
 		
-			
+		//sidebar 상세내역
 		$.ajax({
 			url:"spendingSideSearch.do",
 			data:"year="+year+"&month="+month+"&pick="+pick,
@@ -237,8 +237,26 @@
 			success:function(obj){
 				
 				
+				if (pick=='date') {
+					
+					
+					
+				}else if(pick=='category'){
+				
+				
+				
+				
+				
+				}else if(pick=='some'){
+					
+					
+					
+				}
+				
+				
+				
 			},error:function(request,status,error){
-				alert("error! / "+"code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+				alert("sidebarSearch error! / "+"code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
 			}
 		});//ajax 끝
 		
@@ -329,6 +347,7 @@ window.onload = function () {
 		width: 200px; height: 350px;
 		background-color: grey;
 	}
+	.pickIsDate,.pickIsSome{display: none;}
 	
 </style>
 <%
@@ -379,75 +398,12 @@ window.onload = function () {
 			<div id="chartContainer" style="height: 300px; width: 50%;"></div>
 			<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 		</div>
-		<c:choose>
-			<c:when test="${pick==null }">
-				<div class="spending_total_wrap">
-						<div class="spending_total_money">
-							<span class="field">총지출: </span>
-							<div class="field">
-							<c:choose>
-								<c:when test="${empty sumMoneyDto}">
-									0원
-								</c:when><c:otherwise>
-									${sumMoneyDto.p_money }원
-								</c:otherwise>
-							</c:choose>
-							</div>
-						</div>
-						<div class="spending_money_top3">
-							<table border="1">
-								<tr>
-									<td colspan="3"><span>지출액 TOP3</span></td>
-								</tr>
-								<tr>
-									<th>순위</th>
-									<th>지출명</th>
-									<th>금액</th>
-								</tr>
-								<c:choose>
-									<c:when test="${empty moneyDto }">
-										<tr>
-											<td colspan="3">이번달 지출이 없습니다.</td>
-										</tr>
-									</c:when><c:otherwise>
-									<c:forEach items="${moneyDto }" var="dto">
-										<tr>
-											<td>${dto.p_card }</td>
-											<td>${dto.p_name }</td>
-											<td>${dto.p_money }</td>
-										</tr>
-									</c:forEach>
-								</c:otherwise>
-								</c:choose>
-								<tr><td colspan="3">----------------------</td></tr>
-								<tr>
-									<td colspan="3"><span>지출건수 TOP3</span></td>
-								</tr>
-								<tr>
-									<th>순위</th>
-									<th>지출명</th>
-									<th>지출건수</th>
-								</tr>
-								<c:choose>
-									<c:when test="${empty countDto }">
-										<tr>
-											<td colspan="3">이번달 지출이 없습니다.</td>
-										</tr>
-									</c:when><c:otherwise>
-										<c:forEach items="${countDto }" var="dto">
-											<tr>
-												<td>${dto.p_card }</td>
-												<td>${dto.p_name }</td>
-												<td>${dto.p_count }</td>
-											</tr>
-										</c:forEach>
-									</c:otherwise>
-								</c:choose>
-							</table>
-						</div>
-					</div>
-			
-			</c:when><c:when test="${pick=='date' }">
+			<div class="spending_total_wrap">
+				<!-- 				 -->
+				<!--  	pick:date  	-->
+				<!--   사이드메뉴 상세내용   -->
+				<!-- 				 -->
+				<div class="pickIsDate">
 					<div class="spending_total_wrap">
 						<div class="spending_total_money">
 							<span class="field">당월 현재까지 사용 금액: </span>
@@ -486,8 +442,12 @@ window.onload = function () {
 							</div>
 						</div>
 					</div>
-			
-			</c:when><c:when test="${pick=='category' }">
+				</div>
+				<!-- 				 -->
+				<!--  	pick:category  	-->
+				<!--   사이드메뉴 상세내용   -->
+				<!-- 				 -->
+				<div class="pickIsCategory">
 					<div class="spending_total_wrap">
 						<div class="spending_total_money">
 							<span class="field">총지출: </span>
@@ -553,8 +513,13 @@ window.onload = function () {
 							</table>
 						</div>
 					</div>
-			</c:when><c:when test="${pick=='some' }">
-				<div class="spending_money_top3">
+				</div>
+				<!-- 				 -->
+				<!--  	pick:some  	-->
+				<!--   사이드메뉴 상세내용   -->
+				<!-- 				 -->
+				<div class="pickIsSome">
+					<div class="spending_money_top3">
 							<table border="1">
 								<tr>
 									<td colspan="3"><span>지출액 TOP3</span></td>
@@ -605,9 +570,8 @@ window.onload = function () {
 								</c:choose>
 							</table>
 						</div>
-			
-			</c:when>
-		</c:choose>
+					</div>
+			</div>
 		
 	<div class="spending_body_wrap">
 		<div class="spending_header_wrap">

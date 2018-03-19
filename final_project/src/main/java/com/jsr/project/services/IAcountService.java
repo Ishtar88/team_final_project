@@ -14,6 +14,10 @@ public interface IAcountService {
 	
 	public boolean goalPointInsert(String id);
 	
+	public GoalDto goalTotalMoney(String id);
+	
+	public List<GoalDto> goalAllSearch(String id);
+	
 	//----------------------------------
 	
 	//자산정보 전체 조회 기능
@@ -106,12 +110,25 @@ public interface IAcountService {
 	public LoanDto loanTotalMoney(String id);
 	
 	
-	
-	
-	
-	
-	
 	//----------------------------------
+	
+	
+	
+	//-------------리워드몰 뽑기 기능---------------------
+
+	//뽑기 체크여부 확인
+	public RewardDto dobakCheck(RewardDto rdto);
+	
+	//뽑기 기능
+	//성공
+	public boolean buyDobakSuccess(PointDto poDto,ProductDto proDto);
+	//실패
+	public boolean buyDobakFail(PointDto poDto);
+	
+	
+	
+	
+	//-----------------------------------------------
 
 	
 	

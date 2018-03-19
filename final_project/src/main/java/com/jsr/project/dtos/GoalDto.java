@@ -1,5 +1,7 @@
 package com.jsr.project.dtos;
 
+import java.util.List;
+
 public class GoalDto {
 	
 	private int g_seq;
@@ -7,10 +9,6 @@ public class GoalDto {
 	private String g_name;
 	private int g_money;
 	private String g_memo;
-	
-	public GoalDto() {
-		// TODO Auto-generated constructor stub
-	}
 	public int getG_seq() {
 		return g_seq;
 	}
@@ -41,10 +39,9 @@ public class GoalDto {
 	public void setG_memo(String g_memo) {
 		this.g_memo = g_memo;
 	}
-	@Override
-	public String toString() {
-		return "AcountDto [g_seq=" + g_seq + ", id=" + id + ", g_name=" + g_name + ", g_money=" + g_money + ", g_memo="
-				+ g_memo + "]";
+	public GoalDto() {
+		super();
+		// TODO Auto-generated constructor stub
 	}
 	public GoalDto(int g_seq, String id, String g_name, int g_money, String g_memo) {
 		super();
@@ -54,6 +51,15 @@ public class GoalDto {
 		this.g_money = g_money;
 		this.g_memo = g_memo;
 	}
+	@Override
+	public String toString() {
+		return "GoalDto [g_seq=" + g_seq + ", id=" + id + ", g_name=" + g_name + ", g_money=" + g_money + ", g_memo="
+				+ g_memo + "]";
+	}
+	
+	
+	
+	
 	
 	
 

@@ -29,9 +29,9 @@
 		      <div class="ui large secondary inverted pointing menu">
 		    <a class="active item" href="home.do">홈</a>
 		    <a class="item" href="acount.do">자산관리</a>
-		    <a class="item">패턴분석</a>
-		    <a class="item">포인트몰</a>
-		    <a class="item">고객센터</a>
+		    <a class="item" href="analysis_main.do">패턴분석</a>
+		    <a class="item" href="rewardMain.do">포인트몰</a>
+		    <a class="item" href="customer.do">고객센터</a>
 		        <div class="right item">
 		          <a class="ui inverted button" href="getUser.do">${loginDto.m_name}님</a>
 		          <a class="ui inverted button" href="logout.do">로그아웃</a>

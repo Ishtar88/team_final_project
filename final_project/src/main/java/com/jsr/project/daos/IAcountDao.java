@@ -8,6 +8,9 @@ import com.jsr.project.dtos.GoalDto;
 import com.jsr.project.dtos.IncomeDto;
 import com.jsr.project.dtos.LoanDto;
 import com.jsr.project.dtos.MembersDto;
+import com.jsr.project.dtos.PointDto;
+import com.jsr.project.dtos.ProductDto;
+import com.jsr.project.dtos.RewardDto;
 import com.jsr.project.dtos.SaveDto;
 import com.jsr.project.dtos.SpendingDto;
 import com.jsr.project.dtos.StockDto;
@@ -20,6 +23,10 @@ public interface IAcountDao {
 	public boolean goalRegInsert(GoalDto dto);
 	
 	public boolean goalPointInsert(String id);
+	
+	public GoalDto goalTotalMoney(String id);
+	
+	public List<GoalDto> goalAllSearch(String id);
 	
 	//----------------------------------
 	
@@ -116,6 +123,20 @@ public interface IAcountDao {
 	
 	//----------------------------------
 
+	
+	//-------------리워드몰 뽑기 기능---------------------
+
+	//뽑기 체크여부 확인
+	public RewardDto dobakCheck(RewardDto rdto);
+	
+	//뽑기 기능
+	public boolean buyDobak(ProductDto proDto);
+	
+	public boolean minusPointDobak(PointDto poDto);
+	
+	
+	
+	//-----------------------------------------------
 	
 	
 }

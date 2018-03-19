@@ -182,6 +182,7 @@ public class RewardController {
 		System.out.println(rdto);
 
 		MembersDto loginDto=(MembersDto)session.getAttribute("loginDto");
+
 		System.out.println(loginDto);
 //		if(loginDto.getPo_point().getPo_point()==0) {
 //			

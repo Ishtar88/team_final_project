@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <%request.setCharacterEncoding("UTF-8"); %>
 <%response.setContentType("text/html; charset=UTF-8"); %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <jsp:include page="../header.jsp"></jsp:include>
 <html>
@@ -29,24 +30,32 @@
 				</div>
 				<div class="field">
 					<div class="ui middle aligned input">
-						<input type="text" value="100000000" readonly="readonly">
+						<input type="text" value="${totalMoneyDto.g_money }" readonly="readonly">
 						<div class="ui middle aligned">원</div>
 					</div>
 				</div>
 			</div>
 		</div>
 		<div class="ui dividing header"></div>
-		<div class="ui center aligned inline fields">
+		<div class="ui center aligned fields">
 			<div class="plus icon field">
 			</div>
-			<div class="ui">
+			<div>
 				<div id="acountName" style="width: 100px;"></div>
 			</div>
-			<div class="ui input" id="insertAcount">
-				<input type="text" name="g_money" value="${gDto.g_money }" style="width: 200px;">
-				<div>&nbsp;</div>
-				<input type="text" name="g_memo" value="${gDto.g_memo }">
-			</div>
+			<c:choose>
+				<c:when test="${empty goalAllSearchList }">
+					
+				</c:when><c:otherwise>
+					<c:forEach items="${goalAllSearchList }" var="dto">
+							<div id="insertAcount">
+								<input type="text" name="g_money" value="${dto.g_money }" style="width: 200px;">
+								<span>&nbsp;&nbsp;</span>
+								<input type="text" name="g_name" value="${dto.g_name }">
+							</div>
+					</c:forEach>
+				</c:otherwise>
+			</c:choose>
 		</div>
 			<div class="ui dividing header"></div>
 			<button class="ui right aligned olive button" onclick="location.href='goal_insert_page.do'">목표설정</button>
