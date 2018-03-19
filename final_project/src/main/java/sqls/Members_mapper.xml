@@ -30,8 +30,10 @@
 		(SELECT
 		(SUBSTR(TO_CHAR(SYSDATE,'YYYY-MM-DD'),1,4)-SUBSTR(TO_CHAR(M_BIRTHDATE,'YYYY-MM-DD'),1,4))+1
 		AS AGE FROM MEMBERS WHERE ID=#{id}) AS AGE,
-		M_GENDER,M_ADDRESS,M_JOB,M_REGDATE,M_USEABLE,M_MARIABLE,M_BIRTHDATE,M_FAVORITE,M_PROFILE_IMG,PO_POINT
-		FROM MEMBERS M LEFT JOIN POINT P ON M.ID=P.ID WHERE M.ID=#{id} AND
+		M_GENDER,M_ADDRESS,M_JOB,M_REGDATE,M_USEABLE,M_MARIABLE,M_BIRTHDATE,M_FAVORITE,M_PROFILE_IMG,(SELECT
+		SUM(PO_POINT) FROM POINT WHERE ID=#{id})AS PO_POINT
+		FROM MEMBERS M LEFT
+		JOIN POINT P ON M.ID=P.ID WHERE M.ID=#{id} AND
 		M_PASSWORD=#{m_password}
 	</select>
 
@@ -83,20 +85,22 @@
 		'Y',SYSDATE)
 	</insert>
 
-	<insert id="addPoint" parameterType="MembersDto">
+	<insert id="addPoint" parameterType="Map">
 		INSERT INTO POINT
 		(PO_SEQ,ID,PO_REGDATE,PO_NAME,PO_POINT,PO_DETAIL) VALUES
-		(POINT_SEQ.NEXTVAL,#{id},SYSDATE,'일반','200','추가정보 포인트 적립')
+		(POINT_SEQ.NEXTVAL,#{id},SYSDATE,'일반',#{po_point},'회원가입 포인트')
 	</insert>
 
 	<select id="getUser" parameterType="Map" resultMap="MembersDto">
-		SELECT
-		M.ID,M_NAME,M_EMAIL,M_PASSWORD,M_PHONE,
+		SELECT DISTINCT
+		M.ID,M_NAME,M_EMAIL,M_PASSWORD,M_PHONE,M_GRADE,
 		(SELECT
 		(SUBSTR(TO_CHAR(SYSDATE,'YYYY-MM-DD'),1,4)-SUBSTR(TO_CHAR(M_BIRTHDATE,'YYYY-MM-DD'),1,4))+1
-		AS M_AGE FROM MEMBERS WHERE ID=#{id}) AS M_AGE,
-		M_GENDER,M_ADDRESS,M_JOB,M_REGDATE,M_USEABLE,M_MARIABLE,M_BIRTHDATE,M_FAVORITE,M_PROFILE_IMG,PO_POINT
-		FROM MEMBERS M LEFT JOIN POINT P ON M.ID=P.ID WHERE M.ID=#{id}
+		AS AGE FROM MEMBERS WHERE ID=#{id}) AS AGE,
+		M_GENDER,M_ADDRESS,M_JOB,M_REGDATE,M_USEABLE,M_MARIABLE,M_BIRTHDATE,M_FAVORITE,M_PROFILE_IMG,(SELECT
+		SUM(PO_POINT) FROM POINT WHERE ID=#{id})AS PO_POINT
+		FROM MEMBERS M LEFT
+		JOIN POINT P ON M.ID=P.ID WHERE M.ID=#{id}
 	</select>
 
 	<update id="changeProfile" parameterType="MembersDto">
@@ -122,19 +126,23 @@
 	</select>
 
 	<update id="leaveUser" parameterType="MembersDto">
-		UPDATE MEMBERS SET M_USEABLE='N' WHERE ID=#{id}
+		UPDATE MEMBERS SET
+		M_USEABLE='N' WHERE ID=#{id}
 	</update>
 
 	<select id="findId" parameterType="MembersDto" resultMap="MembersDto">
-		SELECT ID FROM MEMBERS WHERE M_NAME=#{m_name} AND M_EMAIL=#{m_email}
+		SELECT
+		ID FROM MEMBERS WHERE M_NAME=#{m_name} AND M_EMAIL=#{m_email}
 	</select>
 
 	<select id="findPw" parameterType="MembersDto" resultMap="MembersDto">
-		SELECT ID FROM MEMBERS WHERE ID=#{id} AND M_EMAIL=#{m_email}
+		SELECT
+		ID FROM MEMBERS WHERE ID=#{id} AND M_EMAIL=#{m_email}
 	</select>
-	
+
 	<update id="changePw" parameterType="Map">
-	UPDATE MEMBERS SET M_PASSWORD=#{m_password} WHERE ID=#{id}
+		UPDATE MEMBERS SET
+		M_PASSWORD=#{m_password} WHERE ID=#{id}
 	</update>
 
 </mapper>
