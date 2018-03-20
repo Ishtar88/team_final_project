@@ -6,7 +6,7 @@ pageEncoding="UTF-8"%>
 <%response.setContentType("text/html; charset=UTF-8"); %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="f" %>
-<jsp:include page="..\header.jsp"></jsp:include>
+<jsp:include page="..\manager/manager_header.jsp"></jsp:include>
 <jsp:useBean id="util"  class="com.jsr.project.util.Util"  />
 <!DOCTYPE html>
 <html>
@@ -21,7 +21,7 @@ pageEncoding="UTF-8"%>
 </script>
 <body>
 <h1>게시글 수정하기 </h1>
-<form action="updateboard.do" method="post">
+<form action="manager_updateboard.do" method="post">
 <input type="hidden" name="q_seq" value="${dto.q_seq}">
 <table border="1">
 	<tr>

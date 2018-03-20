@@ -23,6 +23,8 @@ import com.jsr.project.services.INoticeService;
 import com.jsr.project.services.IQnaService;
 import com.jsr.project.services.NoticeService;
 
+import com.jsr.project.util.Paging; 
+
 @Controller
 @SessionAttributes("id")
 public class CustomerController {
@@ -77,8 +79,20 @@ public class CustomerController {
 	
 	//질문게시판 목록페이지 보기 
 	@RequestMapping(value="/qnamain.do", method={RequestMethod.POST,RequestMethod.GET})
-	public String qnalist(Model model, HttpSession session) {
+	public String qnalist(Model model, HttpSession session, HttpServletRequest request) {
 		logger.info("qna board main page"); 
+//		
+//		int currentPageNo = 1; 
+//		int maxPost = 10;
+//		
+//		if(request.getParameter("pages")!=null) {
+//			currentPageNo=Integer.parseInt(request.getParameter("pages"));
+//		}
+//		
+//		Paging paging = new Paging(currentPageNo, maxPost); 
+//		
+//		int offset=(paging.getCurrentPageNo()-1)*paging.getMaxPost(); 
+//		
 		MembersDto IDto =(MembersDto)session.getAttribute("loginDto");
 		String id =IDto.getId(); 
 		System.out.println(id);
@@ -132,26 +146,32 @@ public class CustomerController {
 	}
 	
 	//질문게시판 게시글 수정폼 이동 
-		@RequestMapping(value="/updateqna.do", method={RequestMethod.POST,RequestMethod.GET})
-		public String updateform(Model model, QnaBoardDto dto, String count, HttpSession session) {
+		@RequestMapping(value="/updateForm.do", method={RequestMethod.POST,RequestMethod.GET})
+		public String updateForm(Model model, QnaBoardDto dto, String count, HttpSession session) {
 			logger.info("customer board update form page");
 			MembersDto IDto =(MembersDto)session.getAttribute("loginDto");
 			String id =IDto.getId();
 			dto.setId(id);
+			System.out.println(dto);
 			dto=qnaService.q_getBoard(dto.getQ_seq(), count); 
 			model.addAttribute("dto", dto);
-			return "qnaboardupdate"; 
+			return "customer/qnaboardupdate"; 
 		}
 	
 	//질문게시판 게시글 수정 
-	@RequestMapping(value="/afterqna.do", method={RequestMethod.POST,RequestMethod.GET})
-	public String updateqna(QnaBoardDto dto) {
+	@RequestMapping(value="/updateboard.do", method={RequestMethod.POST,RequestMethod.GET})
+	public String updateboard(Model model, QnaBoardDto dto, HttpSession session) {
 		logger.info("customer board update complete");
+		MembersDto IDto =(MembersDto)session.getAttribute("loginDto");
+		String id =IDto.getId();
+		dto.setId(id);
+		System.out.println(id);
+		System.out.println(dto);
 		boolean isc=qnaService.q_updateBoard(dto); 
 		if (isc) {
-			return "redirect:qnadetail.do?seq="+dto.getQ_seq(); 
+			return "redirect:qnamain.do"; 
 		}else
-		return "redirect:updateform.do?seq="+dto.getQ_seq();
+		return "redirect:qnamain.do";
 	}
 	
 	//질문게시판 게시글 삭제 
@@ -162,7 +182,7 @@ public class CustomerController {
 		if (isc) {
 			return "redirect:qnamain.do";
 		}else {
-			return "redirect:qnadetail.do?seq="+dto.getQ_seq(); 
+			return "redirect:qnadetail.do?seq="+dto.getQ_seq()+"&count=count"; 
 		}
 	}
 
