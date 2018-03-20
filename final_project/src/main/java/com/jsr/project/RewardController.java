@@ -287,10 +287,5 @@ public class RewardController {
 		}
 
 	}
-	@RequestMapping(value = "/patternMain.do", method = RequestMethod.GET)
-	public String patternMain() {
-		return "reward/total_pattern";
-
-	}
 
 }

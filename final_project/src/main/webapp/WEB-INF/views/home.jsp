@@ -15,11 +15,11 @@
 </head>
   <style type="text/css">
   
-
+	#purple {background-color:#343DEA;}
+	
     .hidden.menu {
       display: none;
     }
-
     .masthead.segment {
       min-height: 700px;
       padding: 1em 0em;
@@ -136,10 +136,10 @@
 <!-- Following Menu -->
 <div class="ui large top fixed hidden menu">
   <div class="ui container">
-    <a class="active item">홈</a>
+    <a class="active item" href="home.do">홈</a>
     <a class="item" href="acount.do">자산관리</a>
-    <a class="item">패턴분석</a>
-    <a class="item">포인트몰</a>
+    <a class="item" href="analysis_main.do">패턴분석</a>
+    <a class="item" href="rewardMain.do">포인트몰</a>
     <a class="item" href="customer.do">고객센터</a>
     <div class="right menu">
       <div class="item">
@@ -154,10 +154,10 @@
 
 <!-- Sidebar Menu -->
 <div class="ui vertical inverted sidebar menu">
-    <a class="active item">홈</a>
+      <a class="active item" href="home.do">홈</a>
     <a class="item" href="acount.do">자산관리</a>
-    <a class="item">패턴분석</a>
-    <a class="item">포인트몰</a>
+    <a class="item" href="analysis_main.do">패턴분석</a>
+    <a class="item" href="rewardMain.do">포인트몰</a>
     <a class="item" href="customer.do">고객센터</a>
   <a class="item">로그인</a>
   <a class="item">회원가입</a>
@@ -166,16 +166,16 @@
 
 <!-- Page Contents -->
 <div class="pusher">
-  <div class="ui inverted vertical masthead center aligned segment">
+  <div class="ui inverted vertical masthead center aligned segment" id="purple">
 
     <div class="ui container">
       <div class="ui large secondary inverted pointing menu">
         <a class="toc item">
           <i class="sidebar icon"></i>
         </a>
-    <a class="active item">홈</a>
+    <a class="active item" href="home.do">홈</a>
     <a class="item" href="acount.do">자산관리</a>
-    <a class="item">패턴분석</a>
+     <a class="item" href="analysis_main.do">패턴분석</a>
     <a class="item" href="rewardMain.do">포인트몰</a>
     <a class="item"  href="customer.do">고객센터</a>
         <div class="right item">
@@ -200,10 +200,10 @@
     <div class="ui middle aligned stackable grid container">
       <div class="row">
         <div class="eight wide column">
-          <h3 class="ui header">We Help Companies and Companions</h3>
-          <p>We can give your company superpowers to do things that they never thought possible. Let us delight your customers and empower your needs...through pure data analytics.</p>
-          <h3 class="ui header">We Make Bananas That Can Dance</h3>
-          <p>Yes that's right, you thought it was the stuff of dreams, but even bananas can be bioengineered.</p>
+          <h3 class="ui header">나는 한달에 얼마나 쓰고 있을까?</h3>
+          <p>매일 하루 소비내역을 입력해서 자산을 체계적으로 관리하세요.</p>
+          <h3 class="ui header">월급을 될대로 되라 방치하는 당신은 스튜핏!</h3>
+          <p>심플캐시가 여러분의 예산설정과 목표관리를 도와드려요.</p>
         </div>
         <div class="six wide right floated column">
           <img src="assets/images/wireframe/white-image.png" class="ui large bordered rounded image">
@@ -211,7 +211,7 @@
       </div>
       <div class="row">
         <div class="center aligned column">
-          <a class="ui huge button">Check Them Out</a>
+          <a class="ui huge button">확인해보기</a>
         </div>
       </div>
     </div>
@@ -222,13 +222,13 @@
     <div class="ui equal width stackable internally celled grid">
       <div class="center aligned row">
         <div class="column">
-          <h3>"What a Company"</h3>
-          <p>That is what they all say about us</p>
+          <h3>"최고의 팀워크"</h3>
+          <p>공동개발구역 JSR의 기념비적인 첫 프로젝트</p>
         </div>
         <div class="column">
-          <h3>"I shouldn't have gone with their competitor."</h3>
+          <h3>"따라올 자가 없다"</h3>
           <p>
-            <img src="assets/images/avatar/nan.jpg" class="ui avatar image"> <b>Nan</b> Chief Fun Officer Acme Toys
+            강사님도 인정한 팀장님의 꿀피부
           </p>
         </div>
       </div>
@@ -237,15 +237,15 @@
 
   <div class="ui vertical stripe segment">
     <div class="ui text container">
-      <h3 class="ui header">Breaking The Grid, Grabs Your Attention</h3>
-      <p>Instead of focusing on content creation and hard work, we have learned how to master the art of doing nothing by providing massive amounts of whitespace and generic content that can seem massive, monolithic and worth your attention.</p>
-      <a class="ui large button">Read More</a>
+      <h3 class="ui header">소비패턴을 분석해 당신에 대해 알아보아요</h3>
+      <p>당신의 예산설정, 목표달성률, 소비 패턴을 분석해서 어떤 유형인지 알려주는 스마트한 가계부</p>
+      <a class="ui large button">더 알아보기</a>
       <h4 class="ui horizontal header divider">
-        <a href="#">Case Studies</a>
+        <a href="#">숨겨왔던 멋진 사실</a>
       </h4>
-      <h3 class="ui header">Did We Tell You About Our Bananas?</h3>
-      <p>Yes I know you probably disregarded the earlier boasts as non-sequitur filler content, but its really true. It took years of gene splicing and combinatory DNA research, but our bananas can really dance.</p>
-      <a class="ui large button">I'm Still Quite Interested</a>
+      <h3 class="ui header">회식 일주일에 세번 하는 팀</h3>
+      <p>우리 팀이 지금까지 어떤 메뉴를 먹었는지 알아볼까요?</p>
+      <a class="ui large button">관심있어요!</a>
     </div>
   </div>
 

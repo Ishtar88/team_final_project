@@ -28,7 +28,6 @@ img {
 <body>
 	<a href="insertReward.do">상품등록</a>
 	<a href="rewardList.do">상품조회/수정/삭제</a>
-	<a href="patternMain.do">패턴분석</a>
 	<table>
 		<tr>
 			<td><img alt="restauraunt"
