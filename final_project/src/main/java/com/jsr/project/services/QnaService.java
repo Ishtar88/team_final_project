@@ -67,12 +67,6 @@ public class QnaService implements IQnaService{
 		
 		return qnaDao.q_getBoardAjax(q_seq);
 	}
-
-	@Override
-	public QnaBoardDto q_getAllBoard(int q_seq) {
-		
-		return qnaDao.q_getAllBoard(q_seq);
-	}
 	
 	
 	

@@ -7,7 +7,6 @@
 %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="f"%>
-<jsp:include page="../header.jsp"></jsp:include>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -16,73 +15,59 @@
 <script type="text/javascript"
 	src="http://code.jquery.com/jquery-latest.js"></script>
 <script type="text/javascript">
-	function searchItem() {
-		var search = $("input[name=search]").val();
-		var category = $("select[name=category]").val();
-		var r_detail = $("input[name=r_detail]").val();
+function searchItem() {
+	var search = $("input[name=search]").val();
+	var category = $("select[name=category]").val();
+	var r_detail = $("input[name=r_detail]").val();
 
-		$.ajax({
-			url : "findReward.do",
-			data : "category=" + category + "&search=" + search + "&r_detail="
-					+ r_detail+ "&sNum=1&eNum=8",
-			type : "post",
-			datetype : "json",
-			success : function(obj) {
-				if (obj["list"][0] == null) {
-					alert("검색 내역이 없습니다.");
-				} else {
-					//alert(obj["pcount"]);
-					makeTable(obj);
-				}
+	$.ajax({
+		url : "findReward.do",
+		data : "category=" + category + "&search=" + search+ "&r_detail=" + r_detail,
+		type : "post",
+		datetype : "json",
+		success : function(obj) {
+			if(obj["list"][0]==null){
+				alert("검색 내역이 없습니다.");
+			}else{
+				makeTable(obj);
 			}
-		});
-	}
-
-	function makeTable(obj) {
-		var lists = obj.list;
-		$("#all").remove();
-		$("#searchResult").children().remove();
-
-		var str = "";
-		for (var i = 0; i < lists.length; i++) {
-			var rdto = lists[i];
-			if (i % 4 == 0) {
-				str += "<tr class='tr'>";
-			}
-			str += "<td><div onclick='buyReward("
-					+ rdto.r_seq
-					+ ")'><img alt='상품 이미지' src='resources/upload/" + rdto.r_file + "'></div>"
-					+ "<div>" + rdto.r_name + "</div>" + "<div>" + rdto.r_point
-					+ "</div>" + "<div>" + rdto.b_name.b_name + "</div></td>";
-			if (i % 4 == 3) {
-				str += "</tr>";
-			}
-
 		}
-		$("#searchResult").append(str);
-	}
-	
-// 	var str2="";
-// 	function makePaging(pcount){
-// 		var search = $("input[name=search]").val();
-// 		var category = $("select[name=category]").val();
-// 		var r_detail = $("input[name=r_detail]").val();
+	});
+}
+
+function makeTable(obj) {
+	var lists = obj.list;
+	$("#all").remove();
+	$("#searchResult").children().remove();
+
+	var str="";
+	for (var i = 0; i < lists.length; i++) {
+		var rdto = lists[i];
+		if(i%4==0){
+		str+="<tr class='tr'>";
+		}
+		str+="<td><div onclick='buyReward("+rdto.r_seq+")'><img alt='상품 이미지' src='resources/upload/" + rdto.r_file + "'></div>"
+		+ "<div>" + rdto.r_name + "</div>" + "<div>"
+		+ rdto.r_point + "</div>" + "<div>"
+		+ rdto.b_name.b_name + "</div></td>";
+		if(i%4==3){
+			str+="</tr>";
+		}
 		
-// 		for (var i = 0; i < pcount; i++) {
-// 			str+="<tr><a href='findReward.do?category="+category+"&search="+search+"&r_detail="+r_detail+"&sNum="+i<1?1:1+(i*8)+"&eNum="+i<1?8:(i+1)*8+"</a>"+i+1+"</tr>'";
-// 		}
-// 		$(".tr").next(str2);
-// 	}
-
-	function buyReward(r_seq) {
-		window.open("rewardForm.do?r_seq=" + r_seq, "리워드상품 구매",
-				'location=yes,height=570,width=520,scrollbars=yes,status=yes');
 	}
+		$("#searchResult").append(str);
+}
 
-	function searchAll() {
-		var r_detail = $("input[name=r_detail]").val();
-		location.href = "listOfCategory.do?r_detail=" + r_detail+"&sNum=1&eNum=10";
-	}
+
+function buyReward(r_seq) {
+	window.open("rewardForm.do?r_seq="+r_seq, "리워드상품 구매",
+			'location=yes,height=570,width=520,scrollbars=yes,status=yes');
+}
+
+function searchAll(){
+	var r_detail = $("input[name=r_detail]").val();
+	location.href="listOfCategory.do?r_detail="+r_detail;
+}
 </script>
 <style type="text/css">
 img {
@@ -128,13 +113,6 @@ img {
 			</c:if>
 			<c:set var="i" value="${i+1}" />
 		</c:forEach>
-
-		<tr>
-			<td><c:forEach var="i" begin="0" end="${pcount-1}" step="1">
-					<a class="pageNum"
-						href="listOfCategory.do?r_detail=${r_detail}&sNum=${i<1?'1':1+(i*8)}&eNum=${i<1?'8':(i+1)*8}">${i+1}</a>
-				</c:forEach></td>
-		</tr>
 	</table>
 
 

@@ -155,7 +155,7 @@ public class ManagerController {
 	
 	
 	
-//공지 게시판 목록 보기    
+//매니저 게시판 보기    
 @RequestMapping(value="manager_notice.do", method = {RequestMethod.POST, RequestMethod.GET})
 public String manager_notice(Model model) {
 logger.info("notice board main page");
@@ -164,14 +164,13 @@ model.addAttribute("lists", lists);
 return "manager/manager_noticeboard";
 }
 
-//공지게시판 글 상세내역 읽기 
-@RequestMapping (value="manager_notice_detail.do", method={RequestMethod.POST, RequestMethod.GET})
-public String manager_notice_detail(Model model, int n_seq,String count){
-	logger.info("notice board detail page"); 
-	NoticeBoardDto dto = noticeService.n_detailBoard(n_seq,count);
-	model.addAttribute("dto", dto);
-	
-	return "manager/manager_noticeboard_detail"; 
+//qna 게시판 보기 
+@RequestMapping(value="manager_qna.do", method = {RequestMethod.POST, RequestMethod.GET})
+public String manager_qna(Model model) {
+logger.info("qna board main page");
+List<QnaBoardDto> lists=qnaService.q_getAlllist(); 
+model.addAttribute("lists", lists);
+return "manager/manager_qnaboard";
 }
 
 //공지게시판 새로운 게시글 입력 폼으로 이동 
@@ -193,70 +192,18 @@ public String insertnotice(NoticeBoardDto dto) {
 	}
 }
 
-
-
-
-
-//qna 게시판 보기 
-@RequestMapping(value="manager_qna.do", method = {RequestMethod.POST, RequestMethod.GET})
-public String manager_qna(Model model) {
-logger.info("qna board main page");
-List<QnaBoardDto> lists=qnaService.q_getAlllist(); 
-model.addAttribute("lists", lists);
-return "manager/manager_qnaboard";
-}
-
-
-//qna 게시판 상세보기 
-@RequestMapping(value="manager_qnadetail.do")
-public String manager_qnadetail(Model model, int q_seq) {
-	logger.info("manager qnaboard detail page"); 
-	QnaBoardDto dto = qnaService.q_getAllBoard(q_seq);
+//공지게시판 글 상세내역 읽기 
+@RequestMapping (value="manager_notice_detail.do", method={RequestMethod.POST, RequestMethod.GET})
+public String notice_detail(Model model, String n_seq,String count){
+	logger.info("notice board detail page"); 
+	
+	int seq=Integer.parseInt(n_seq);
+	
+	NoticeBoardDto dto = noticeService.n_detailBoard(seq,count);
 	model.addAttribute("dto", dto);
-	return "manager/manager_qna_detail"; 
-}
-
-//qna 게시판 새 글 추가폼 
-@RequestMapping(value="manager_insertqna.do")
-public String manager_insertqna() {
-	logger.info("manager qnaboard insert page");
-	return "manager/manager_insertqna"; 
-}
-
-//qna 게시판 글 추가 처리
-@RequestMapping(value="notice_submitqna.do")
-public String notice_submitqna(QnaBoardDto dto) {
-	String id = "ASD";
-	dto.setId(id);
-	boolean isc=qnaService.q_insertBoard(dto); 
-	if(isc) {
-		return "redirect:manager_qna.do"; 
-	}else {
-		return "redirect:manager_insertqna.do"; 
-	}
 	
-	
+	return "manager/noticeboard_detail"; 
 }
-	
-	//질문게시판 게시글 수정폼 이동 
-	@RequestMapping(value="/notice_updateForm.do", method={RequestMethod.POST,RequestMethod.GET})
-	public String notice_updateForm(Model model, QnaBoardDto dto, String count, HttpSession session) {
-		dto=qnaService.q_getBoard(dto.getQ_seq(), count); 
-		model.addAttribute("dto", dto);
-		return "manager/notice_qnaboardupdate"; 
-	}
-
-	//질문게시판 게시글 수정 
-	@RequestMapping(value="/manager_updateboard.do", method={RequestMethod.POST,RequestMethod.GET})
-	public String updateboard(Model model, QnaBoardDto dto) {
-		logger.info("customer board update complete");
-		boolean isc=qnaService.q_updateBoard(dto); 
-		if (isc) {
-			return "redirect:manager_qna.do"; 
-		}else
-		return "redirect:manager_qna.do";
-	}
-
 
 
 }

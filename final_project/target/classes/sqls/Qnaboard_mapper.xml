@@ -25,8 +25,6 @@
 			SELECT Q_SEQ, ID, Q_TITLE, Q_REGDATE, Q_READCOUNT, Q_REFER, 
 			Q_STEP, Q_DEPTH, Q_DELFLAG
 			FROM QNA ORDER BY Q_REFER DESC, Q_STEP
-			
-		
 		</select>
 		
 <!-- 		공개글 상세 조회 - 유저 -->
@@ -70,7 +68,7 @@
 <!-- 	일반 글 수정  -모두 -->
 	<update id="q_updateboard" parameterType="QnaBoardDto">
 		UPDATE QNA SET Q_TITLE=#{q_title}, Q_CONTENT=#{q_content}, Q_REGDATE=SYSDATE 
-		WHERE Q_SEQ=#{q_seq}
+		WHERE SEQ=#{seq}
 	</update>
 	
 <!-- 	답변 글 수정  -관리자 -->
@@ -108,16 +106,6 @@
 		WHERE Q_SEQ=#{q_seq}
 	</select>
 
-		
-<!-- 페이징 및 전체 레코드 갯수 조회 쿼리 --> 
-<!-- 		<select id="writeGetCount" resultType="int"> -->
-<!-- 			SELECT COUNT(*) FROM QNA -->
-<!-- 		</select> -->
-		
-<!-- 		<select id="writeList" resultMap="WriteInfoResult" parameterType="hashmap"> -->
-<!-- 			SELECT * FROM QNA ORDER BY  -->
-<!-- 		</select> -->
-		
 		
 		
 	</mapper>

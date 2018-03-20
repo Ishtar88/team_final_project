@@ -23,11 +23,9 @@ public class MembersService implements IMembersService {
 		return ImemberDao.idChk(id);
 	}
 
-	@Transactional
 	@Override
-	public boolean regist(MembersDto mdto,String id,String po_point) {
-		ImemberDao.regist(mdto);
-		return ImemberDao.addPoint(id, po_point);
+	public boolean regist(MembersDto mdto) {
+		return ImemberDao.regist(mdto);
 	}
 
 	@Override
@@ -51,6 +49,11 @@ public class MembersService implements IMembersService {
 	}
 
 	@Override
+	public boolean addPoint(MembersDto mdto) {
+		return ImemberDao.addPoint(mdto);
+	}
+
+	@Override
 	public MembersDto chkPw(MembersDto mdto) {
 		return ImemberDao.chkPw(mdto);
 	}
@@ -70,11 +73,6 @@ public class MembersService implements IMembersService {
 	public MembersDto findPw(MembersDto mdto,String id,String m_password) {
 		ImemberDao.changePW(id, m_password);
 		return ImemberDao.findPw(mdto);
-	}
-
-	@Override
-	public boolean changePW(String id, String m_password) {
-		return ImemberDao.changePW(id, m_password);
 	}
 	
 

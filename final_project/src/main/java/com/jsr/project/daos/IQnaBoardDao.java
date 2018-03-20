@@ -9,10 +9,10 @@ public interface IQnaBoardDao {
 //	글 목록 조회 
 	public List<QnaBoardDto> q_getAllList();
 	
-//	공개글 상세 조회 - 유저용 
+//	공개글 상세 조회
 	public QnaBoardDto q_getBoard(int q_seq);
 	
-//	모든글 상세 조회 - 관리자용 
+//	모든글 상세 조회
 //	q_detailboard_all
 	public QnaBoardDto q_getAllBoard(int q_seq);
 	

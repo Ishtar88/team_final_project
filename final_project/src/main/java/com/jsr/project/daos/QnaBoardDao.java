@@ -76,9 +76,7 @@ public class QnaBoardDao implements IQnaBoardDao{
 //	q_deleteboard
 	@Override
 	public boolean q_deleteOne(QnaBoardDto dto) {
-		int count=0; 
-		count=sqlSession.update(namespace+"q_deleteboard", dto);
-		return count>0?true:false; 
+		return false;
 		
 	}
 

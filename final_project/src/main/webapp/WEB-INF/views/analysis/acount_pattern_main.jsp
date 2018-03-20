@@ -82,7 +82,7 @@ window.onload = function () {
 				{ y: 480 },
 				{ y: 510 }
 			]
-		}]
+		}] 
 	});
 	chart.render();
 	

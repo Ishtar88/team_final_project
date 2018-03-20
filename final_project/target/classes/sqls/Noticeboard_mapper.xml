@@ -13,13 +13,9 @@
 	</resultMap>
 
 <!-- 	글 목록 조회하기 -->
-	<select id="noticeboard" resultType="NoticeBoardDto">		
-	
-	SELECT N_SEQ, ID, N_TITLE, N_REGDATE, N_READCOUNT
+	<select id="noticeboard" resultType="NoticeBoardDto">
+		SELECT N_SEQ, ID, N_TITLE, N_REGDATE, N_READCOUNT
 		FROM NOTICE
-		
-<!-- 			SELECT N_SEQ,ID,N_TITLE, N_REGDATE, N_READCOUNT, RN FROM (SELECT N_SEQ,ID,N_TITLE,ROW_NUMBER() OVER(ORDER BY N_SEQ) AS RN -->
-<!-- FROM NOTICE) WHERE RN BETWEEN 1. AND 10  -->
 	</select>
 
 <!-- 	글 상세 조회하기 -->

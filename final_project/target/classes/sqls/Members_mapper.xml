@@ -23,7 +23,8 @@
 		<result property="m_favorite" column="M_FAVORITE" />
 
 	</resultMap>
-<select id="login" resultMap="MembersDto" parameterType="MembersDto">
+
+	<select id="login" resultMap="MembersDto" parameterType="MembersDto">
 		SELECT DISTINCT
 		M.ID,M_NAME,M_EMAIL,M_PASSWORD,M_PHONE,M_GRADE,
 		(SELECT
@@ -84,10 +85,10 @@
 		'Y',SYSDATE)
 	</insert>
 
-	<insert id="addPoint" parameterType="Map">
+	<insert id="addPoint" parameterType="MembersDto">
 		INSERT INTO POINT
 		(PO_SEQ,ID,PO_REGDATE,PO_NAME,PO_POINT,PO_DETAIL) VALUES
-		(POINT_SEQ.NEXTVAL,#{id},SYSDATE,'일반',#{po_point},'회원가입 포인트')
+		(POINT_SEQ.NEXTVAL,#{id},SYSDATE,'일반','200','추가정보 포인트 적립')
 	</insert>
 
 	<select id="getUser" parameterType="Map" resultMap="MembersDto">
@@ -125,22 +126,75 @@
 	</select>
 
 	<update id="leaveUser" parameterType="MembersDto">
-		UPDATE MEMBERS SET
-		M_USEABLE='N' WHERE ID=#{id}
+		UPDATE MEMBERS SET M_USEABLE='N' WHERE ID=#{id}
 	</update>
 
 	<select id="findId" parameterType="MembersDto" resultMap="MembersDto">
-		SELECT
-		ID FROM MEMBERS WHERE M_NAME=#{m_name} AND M_EMAIL=#{m_email}
+		SELECT ID FROM MEMBERS WHERE M_NAME=#{m_name} AND M_EMAIL=#{m_email}
 	</select>
 
 	<select id="findPw" parameterType="MembersDto" resultMap="MembersDto">
-		SELECT
-		ID FROM MEMBERS WHERE ID=#{id} AND M_EMAIL=#{m_email}
+		SELECT ID FROM MEMBERS WHERE ID=#{id} AND M_EMAIL=#{m_email}
 	</select>
-
+	
 	<update id="changePw" parameterType="Map">
-		UPDATE MEMBERS SET
-		M_PASSWORD=#{m_password} WHERE ID=#{id}
+	UPDATE MEMBERS SET M_PASSWORD=#{m_password} WHERE ID=#{id}
 	</update>
+	
+<!-- 	관리자 -->
+
+<!-- 근데 중복되는 매퍼가 너무 많은 것 같아...  -->
+
+<!-- 동적쿼리 써야함니당  -->
+<!-- 	회원정보 뿌려주는 페이지다  -->
+	<select id ="showMember"  resultType="MembersDto">
+SELECT M2.ID,M_NAME, M_EMAIL, M_PASSWORD, M_PHONE,M_AGE,M_GENDER, M_GRADE, M_ADDRESS, M_JOB, M_REGDATE, 
+M_USEABLE, M_MARIABLE, M_FAVORITE, M_BIRTHDATE, M_GOALDATE, M_PROFILE_IMG  FROM MEMBERS 
+M1 JOIN (SELECT M2.ID, (SUBSTR(TO_CHAR(SYSDATE,'YYYY-MM-DD'),1,4)-SUBSTR(TO_CHAR(M_BIRTHDATE,'YYYY-MM-DD'),1,4)) AS M_AGE FROM MEMBERS M2) M2 ON M1.ID=M2.ID
+		</select>
+		
+<!-- 		특정 회원 검색하는 매퍼다  -->
+		<select id = "searchMember" parameterType="String" resultType="Map">
+		SELECT ID, M_NAME, M_EMAIL, M_PASSWORD, M_PHONE,(SELECT
+		(SUBSTR(TO_CHAR(SYSDATE,'YYYY-MM-DD'),1,4)-SUBSTR(TO_CHAR(M_BIRTHDATE,'YYYY-MM-DD'),1,4))+1
+		AS M_AGE FROM MEMBERS WHERE ID=#{id}) AS M_AGE,
+M_GENDER, M_GRADE, M_ADDRESS, M_JOB, M_REGDATE, 
+M_USEABLE, M_MARIABLE, M_FAVORITE, M_BIRTHDATE, M_GOALDATE, M_PROFILE_IMG FROM MEMBERS	WHERE ID=#{id}	
+		</select>
+		
+<!-- 		멤버 수정하게 회원 정보 불러오는 매퍼다  -->
+		<select id="modifyMember"  parameterType="String" resultType="MembersDto">
+		SELECT ID, M_NAME, M_EMAIL, M_PASSWORD, M_PHONE, (SELECT
+		(SUBSTR(TO_CHAR(SYSDATE,'YYYY-MM-DD'),1,4)-SUBSTR(TO_CHAR(M_BIRTHDATE,'YYYY-MM-DD'),1,4))+1
+		AS M_AGE FROM MEMBERS WHERE ID=#{id}) AS M_AGE,
+M_GENDER, M_GRADE, M_ADDRESS, M_JOB, M_REGDATE, 
+M_USEABLE, M_MARIABLE, M_FAVORITE, M_BIRTHDATE, M_GOALDATE, M_PROFILE_IMG FROM MEMBERS	WHERE ID=#{id}	
+		</select>
+		
+<!-- 		수정한 정보 올려주는 매퍼다 -->
+		<update id="afterModify" parameterType="MembersDto">
+		UPDATE MEMBERS SET  M_NAME=#{m_name}, M_EMAIL=#{M_EMAIL}, M_PASSWORD=#{M_PASSWORD}, M_PHONE=#{M_PHONE}, 
+		 (SELECT
+		(SUBSTR(TO_CHAR(SYSDATE,'YYYY-MM-DD'),1,4)-SUBSTR(TO_CHAR(M_BIRTHDATE,'YYYY-MM-DD'),1,4))+1
+		AS M_AGE FROM MEMBERS WHERE ID=#{id}) AS M_AGE,
+M_GENDER=#{M_GENDER}, M_GRADE=#{M_GRADE}, M_ADDRESS=#{M_ADDRESS}, M_JOB=#{M_JOB}, M_REGDATE=#{M_REGDATE}, 
+M_USEABLE=#{M_USEABLE}, M_MARIABLE=#{M_MARIABLE}, M_FAVORITE=#{M_FAVORITE}, M_BIRTHDATE=#{M_BIRTHDATE}, M_GOALDATE=#{M_GOALDATE}, M_PROFILE_IMG=#{M_PROFILE_IMG} 
+		WHERE ID=#{id}
+		</update>
+
+<!-- 탈퇴하기 전 확인하게 회원정보 띄워주는 매퍼다  -->
+<select id = "deleteMember" parameterType="String" resultType="MembersDto">
+		SELECT ID, M_NAME, M_EMAIL, M_PASSWORD, M_PHONE,(SELECT
+		(SUBSTR(TO_CHAR(SYSDATE,'YYYY-MM-DD'),1,4)-SUBSTR(TO_CHAR(M_BIRTHDATE,'YYYY-MM-DD'),1,4))+1
+		AS M_AGE FROM MEMBERS WHERE ID=#{id}) AS M_AGE,
+M_GENDER, M_GRADE, M_ADDRESS, M_JOB, M_REGDATE, 
+M_USEABLE, M_MARIABLE, M_FAVORITE, M_BIRTHDATE, M_GOALDATE, M_PROFILE_IMG FROM MEMBERS	WHERE ID=#{id}	
+		</select>
+		
+		
+<!-- 	탈퇴시키는 매퍼다  -->
+
+<delete id="confirmDelete" parameterType="String">
+	DELETE FROM MEMBERS WHERE ID=#{id}
+</delete>
 </mapper>

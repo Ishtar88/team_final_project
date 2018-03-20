@@ -23,10 +23,8 @@ public interface IQnaService {
 	public boolean q_deleteBoard(QnaBoardDto dto);
 	//답글 달기 
 	public boolean q_replyBoard(QnaBoardDto dto); 
-	//아작스 처리 
+	
 	public QnaBoardDto q_getBoardAjax(int q_seq);
-	//모든 글 불러오기(관리자용) 
-	public QnaBoardDto q_getAllBoard(int q_seq);
 	
 	
 
