@@ -68,7 +68,6 @@
 		var pw = $("input[name=m_password]").val();
 		var pwchk = $("input[name=m_password_chk]").val();
 		var email1 = $("input[name=eamil1]").val();
-		var email2 = $("input[name=email2]").val();
 		var phone1 = $("input[name=phone1]").val();
 		var phone2 = $("input[name=phone2]").val();
 		var phone3 = $("input[name=phone3]").val();
@@ -78,12 +77,15 @@
 		var pwchk = $("#pwchk").text();
 		var mailchk = $("#mailChk").text();
 
-		if (id == "" || pw == "" || pwchk == "" || email1 == "" || email2 == ""
-				|| phone1 == "" || phone2 == "" || phone3 == ""
-				|| gender.attr("checked",false)) {
+		if (id == "" || pw == "" || pwchk == "" || email1 == ""
+				|| phone1 == "" || phone2 == "" || phone3 == "") {
 			alert("모든 칸을 정확히 입력 해 주세요.");
 			return false;
-		} else if (idchk.match("이미") || idchk == "") {
+		}else if($("#man").prop("checked")==false&&$("#woman").prop("checked")==false){
+			alert("모든 칸을 정확히 입력 해 주세요.");
+			return false;
+		}
+		else if (idchk.match("이미") || idchk == "") {
 			alert("아이디를 확인 해 주세요.");
 			return false;
 		} else if (pwchk.match("확인")) {
@@ -164,7 +166,14 @@
 			this.value = this.value.replace(/[^0-9]/g, '');
 		});
 		
+// 		if($("#man").prop("checked")==false&&$("#woman").prop("checked")==false){
+// 			alert("A");
+// 		}
+		
 	});
+	
+	function a(){
+	}
 </script>
 <style type="text/css">
 </style>
@@ -235,8 +244,10 @@
 			</tr>
 			<tr>
 				<td>성별</td>
-				<td colspan="2"><input type="radio" name="m_gender"
-					value="MALE" />남자 <input type="radio" name="m_gender" value="FEMALE"/>여자</td>
+				<td colspan="2">
+					<input type="radio" name="m_gender" id="man" value="MALE" onclick="a('1')"/>남자
+					<input type="radio" name="m_gender" id="woman" value="FEMALE" onclick="a('2')"/>여자
+				</td>
 			</tr>
 			<tr>
 				<td><input type="submit" value="다음" /></td>

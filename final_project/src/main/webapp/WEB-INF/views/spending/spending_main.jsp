@@ -10,82 +10,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
-<!----------------------
-	지출정보 캔버스 처리
------------------------>
-<script type="text/javascript">
-window.onload = function () {
 
-	var chart = new CanvasJS.Chart("chartContainer", {
-		animationEnabled: true,
-		title:{
-			text: "Crude Oil Reserves vs Production, 2016"
-		},	
-		axisY: {
-			title: "Billions of Barrels",
-			titleFontColor: "#4F81BC",
-			lineColor: "#4F81BC",
-			labelFontColor: "#4F81BC",
-			tickColor: "#4F81BC"
-		},
-		axisY2: {
-			title: "Millions of Barrels/day",
-			titleFontColor: "#C0504E",
-			lineColor: "#C0504E",
-			labelFontColor: "#C0504E",
-			tickColor: "#C0504E"
-		},	
-		toolTip: {
-			shared: true
-		},
-		legend: {
-			cursor:"pointer",
-			itemclick: toggleDataSeries
-		},
-		data: [{
-			type: "column",
-			name: "Proven Oil Reserves (bn)",
-			legendText: "Proven Oil Reserves",
-			showInLegend: true, 
-			dataPoints:[
-				{ label: "Saudi", y: 266.21 },
-				{ label: "Venezuela", y: 302.25 },
-				{ label: "Iran", y: 157.20 },
-				{ label: "Iraq", y: 148.77 },
-				{ label: "Kuwait", y: 101.50 },
-				{ label: "UAE", y: 97.8 }
-			]
-		},
-		{
-			type: "column",	
-			name: "Oil Production (million/day)",
-			legendText: "Oil Production",
-			axisYType: "secondary",
-			showInLegend: true,
-			dataPoints:[
-				{ label: "Saudi", y: 10.46 },
-				{ label: "Venezuela", y: 2.27 },
-				{ label: "Iran", y: 3.99 },
-				{ label: "Iraq", y: 4.45 },
-				{ label: "Kuwait", y: 2.92 },
-				{ label: "UAE", y: 3.1 }
-			]
-		}]
-	});
-	chart.render();
-
-	function toggleDataSeries(e) {
-		if (typeof(e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
-			e.dataSeries.visible = false;
-		}
-		else {
-			e.dataSeries.visible = true;
-		}
-		chart.render();
-	}
-
-	}
-</script>
 
 <script type="text/javascript">
 
@@ -100,6 +25,8 @@ window.onload = function () {
 	function detailSearch(pick){
 		var year=$(".spending_year").html();
 		var month=$(".spending_month").html();
+		
+		//지출상세내역 조회
 		$.ajax({
 			url:"spendingDetailSearch.do",
 			data:"pick="+pick+"&year="+year+"&month="+month,
@@ -199,6 +126,139 @@ window.onload = function () {
 		}
 		
 		
+		//메뉴별 차트 조회내역
+			$.ajax({
+				url:"spendingChartSearch.do",
+				data:"year="+year+"&month="+month+"&pick="+pick,
+				datatype:"json",
+				success:function(obj){
+					var lists=obj["lists"];
+					
+					if (pick=='date') {
+						
+						var finals=[];
+						var date='';
+						
+						for (var i = 0; i < lists.length; i++) {
+							date=obj.lists[i].p_regdate;
+							
+							finals.push({y:obj.lists[i].p_money, x:date});
+						}
+		
+		
+						var chart = new CanvasJS.Chart("chartContainer", {
+							animationEnabled: true,
+							theme: "light1", // "light1", "light2", "dark1", "dark2"
+							title:{
+								text: "날짜별 총 금액"
+							},
+							axisY: {
+								title: ""
+							},
+							data: [{        
+								type: "column",  
+								showInLegend: true, 
+								legendMarkerColor: "blue",
+								legendText: "날짜별 총액",
+								xValueType: "dateTime",
+								xValueFormatString: "YYYY MM DD",
+								dataPoints: finals
+							}]
+						});
+						chart.render();
+		
+						
+						
+					}else if (pick=='category') {
+						
+						var finals=[];
+						
+						for (var i = 0; i < lists.length; i++) {
+							finals.push({y:obj.lists[i].p_money, label:obj.lists[i].p_name})
+						}
+						
+						var chart = new CanvasJS.Chart("chartContainer", {
+							animationEnabled: true,
+							theme: "light2", // "light1", "light2", "dark1", "dark2"
+							title:{
+								text: "카테고리별 총 금액"
+							},
+							axisY: {
+								title: ""
+							},
+							data: [{        
+								type: "column",  
+								showInLegend: true, 
+								legendMarkerColor: "orange",
+								legendText: "카테고리별 총액",
+								dataPoints: finals
+							}]
+						});
+						chart.render();
+				
+				}else if (pick='some') {
+					
+					var finals=[];
+					
+					for (var i = 0; i < lists.length; i++) {
+						finals.push({y:obj.lists[i].p_money, label:obj.lists[i].p_some})
+					}
+					
+					var chart = new CanvasJS.Chart("chartContainer", {
+						animationEnabled: true,
+						title:{
+							text: "Email Categories",
+							horizontalAlign: "left"
+						},
+						data: [{
+							type: "doughnut",
+							startAngle: 60,
+							//innerRadius: 60,
+							indexLabelFontSize: 17,
+							indexLabel: "{label} - #percent%",
+							toolTipContent: "<b>{label}:</b> {y} (#percent%)",
+							dataPoints: finals
+						}]
+					});
+					chart.render();
+					
+				}
+					
+			},error:function(request,status,error){
+				alert("chartSearch error! / "+"code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			}
+			}); //ajax 끝
+		
+		//sidebar 상세내역
+		$.ajax({
+			url:"spendingSideSearch.do",
+			data:"year="+year+"&month="+month+"&pick="+pick,
+			datatype:"json",
+			success:function(obj){
+				
+				
+				if (pick=='date') {
+					
+					
+					
+				}else if(pick=='category'){
+				
+				
+				
+				
+				
+				}else if(pick=='some'){
+					
+					
+					
+				}
+				
+				
+				
+			},error:function(request,status,error){
+				alert("sidebarSearch error! / "+"code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			}
+		});//ajax 끝
 		
 	}
 	
@@ -214,6 +274,61 @@ window.onload = function () {
 	}
 	
 
+</script>
+<!----------------------
+	지출정보 캔버스 처리
+----------------------->
+<script type="text/javascript">
+window.onload = function () {
+	
+	var year=$(".spending_year").html();
+	var month=$(".spending_month").html();
+	
+	$.ajax({
+		url:"spendingChartSearch.do",
+		data:"pick=date&year="+year+"&month="+month,
+		datatype:"json",
+		success:function(obj){
+			var lists=obj["lists"];
+				
+				var finals=[];
+				var date='';
+				
+				for (var i = 0; i < lists.length; i++) {
+					date=obj.lists[i].p_regdate;
+					finals.push({x:date,y:obj.lists[i].p_money });
+				}
+
+
+				var chart = new CanvasJS.Chart("chartContainer", {
+					animationEnabled: true,
+					title: {
+						text: "날짜별 지출금액"
+					},
+					axisX: {
+						title: "날짜별"
+					},
+					axisY: {
+						title: "금액",
+						suffix: "원"
+					},
+					data: [{
+						type: "line",
+						name: "CPU Utilization",
+						connectNullData: true,
+						//nullDataLineDashType: "solid",
+						xValueType: "dateTime",
+						dataPoints: finals
+					}]
+				});
+				chart.render();
+
+		},error:function(request,status,error){
+			alert("error! / "+"code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+		}
+	}); //ajax 끝
+
+}
 </script>
 <style type="text/css">
 	body{position: relative;}
@@ -232,6 +347,7 @@ window.onload = function () {
 		width: 200px; height: 350px;
 		background-color: grey;
 	}
+	.pickIsDate,.pickIsSome{display: none;}
 	
 </style>
 <%
@@ -282,71 +398,181 @@ window.onload = function () {
 			<div id="chartContainer" style="height: 300px; width: 50%;"></div>
 			<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 		</div>
-		<div class="spending_total_wrap">
-			<div class="spending_total_money">
-				<span class="field">총지출: </span>
-				<div class="field">
-				<c:choose>
-					<c:when test="${empty sumMoneyDto}">
-						0원
-					</c:when><c:otherwise>
-						${sumMoneyDto.p_money }원
-					</c:otherwise>
-				</c:choose>
+			<div class="spending_total_wrap">
+				<!-- 				 -->
+				<!--  	pick:date  	-->
+				<!--   사이드메뉴 상세내용   -->
+				<!-- 				 -->
+				<div class="pickIsDate">
+					<div class="spending_total_wrap">
+						<div class="spending_total_money">
+							<span class="field">당월 현재까지 사용 금액: </span>
+							<div class="field">
+							<c:choose>
+								<c:when test="${empty currentMoney}">
+									0원
+								</c:when><c:otherwise>
+									${currentMoney.p_money}원
+								</c:otherwise>
+							</c:choose>
+							</div>
+						</div>
+						<div class="spending_avg_money">
+							<p>일 평균 지출액</p>
+							<div class="field">
+								<c:choose>
+									<c:when test="${empty avgMoney}">
+										0원
+									</c:when><c:otherwise>
+										${avgMoney.p_money }원
+									</c:otherwise>
+								</c:choose>
+							</div>
+						</div>
+						<div class="spending_total_count">
+							<p>당월 총 결제 건수</p>
+							<div class="field">
+								<c:choose>
+									<c:when test="${empty totalCount}">
+										0원
+									</c:when><c:otherwise>
+										${totalCount.p_count }회
+									</c:otherwise>
+								</c:choose>
+							</div>
+						</div>
+					</div>
 				</div>
-			</div>
-			<div class="spending_money_top3">
-				<table border="1">
-					<tr>
-						<td colspan="3"><span>지출액 TOP3</span></td>
-					</tr>
-					<tr>
-						<th>순위</th>
-						<th>지출명</th>
-						<th>금액</th>
-					</tr>
-					<c:choose>
-						<c:when test="${empty moneyDto }">
-							<tr>
-								<td colspan="3">이번달 지출이 없습니다.</td>
-							</tr>
-						</c:when><c:otherwise>
-						<c:forEach items="${moneyDto }" var="dto">
-							<tr>
-								<td>${dto.p_card }</td>
-								<td>${dto.p_name }</td>
-								<td>${dto.p_money }</td>
-							</tr>
-						</c:forEach>
-					</c:otherwise>
-					</c:choose>
-					<tr><td colspan="3">----------------------</td></tr>
-					<tr>
-						<td colspan="3"><span>지출건수 TOP3</span></td>
-					</tr>
-					<tr>
-						<th>순위</th>
-						<th>지출명</th>
-						<th>지출건수</th>
-					</tr>
-					<c:choose>
-						<c:when test="${empty countDto }">
-							<tr>
-								<td colspan="3">이번달 지출이 없습니다.</td>
-							</tr>
-						</c:when><c:otherwise>
-							<c:forEach items="${countDto }" var="dto">
+				<!-- 				 -->
+				<!--  	pick:category  	-->
+				<!--   사이드메뉴 상세내용   -->
+				<!-- 				 -->
+				<div class="pickIsCategory">
+					<div class="spending_total_wrap">
+						<div class="spending_total_money">
+							<span class="field">총지출: </span>
+							<div class="field">
+							<c:choose>
+								<c:when test="${empty sumMoneyDto}">
+									0원
+								</c:when><c:otherwise>
+									${sumMoneyDto.p_money }원
+								</c:otherwise>
+							</c:choose>
+							</div>
+						</div>
+						<div class="spending_money_top3">
+							<table border="1">
 								<tr>
-									<td>${dto.p_card }</td>
-									<td>${dto.p_name }</td>
-									<td>${dto.p_count }</td>
+									<td colspan="3"><span>지출액 TOP3</span></td>
 								</tr>
-							</c:forEach>
-						</c:otherwise>
-					</c:choose>
-				</table>
+								<tr>
+									<th>순위</th>
+									<th>지출명</th>
+									<th>금액</th>
+								</tr>
+								<c:choose>
+									<c:when test="${empty moneyDto }">
+										<tr>
+											<td colspan="3">이번달 지출이 없습니다.</td>
+										</tr>
+									</c:when><c:otherwise>
+									<c:forEach items="${moneyDto }" var="dto">
+										<tr>
+											<td>${dto.p_card }</td>
+											<td>${dto.p_name }</td>
+											<td>${dto.p_money }</td>
+										</tr>
+									</c:forEach>
+								</c:otherwise>
+								</c:choose>
+								<tr><td colspan="3">----------------------</td></tr>
+								<tr>
+									<td colspan="3"><span>지출건수 TOP3</span></td>
+								</tr>
+								<tr>
+									<th>순위</th>
+									<th>지출명</th>
+									<th>지출건수</th>
+								</tr>
+								<c:choose>
+									<c:when test="${empty countDto }">
+										<tr>
+											<td colspan="3">이번달 지출이 없습니다.</td>
+										</tr>
+									</c:when><c:otherwise>
+										<c:forEach items="${countDto }" var="dto">
+											<tr>
+												<td>${dto.p_card }</td>
+												<td>${dto.p_name }</td>
+												<td>${dto.p_count }</td>
+											</tr>
+										</c:forEach>
+									</c:otherwise>
+								</c:choose>
+							</table>
+						</div>
+					</div>
+				</div>
+				<!-- 				 -->
+				<!--  	pick:some  	-->
+				<!--   사이드메뉴 상세내용   -->
+				<!-- 				 -->
+				<div class="pickIsSome">
+					<div class="spending_money_top3">
+							<table border="1">
+								<tr>
+									<td colspan="3"><span>지출액 TOP3</span></td>
+								</tr>
+								<tr>
+									<th>순위</th>
+									<th>지출수단</th>
+									<th>금액</th>
+								</tr>
+								<c:choose>
+									<c:when test="${empty someTotal }">
+										<tr>
+											<td colspan="3">이번달 지출이 없습니다.</td>
+										</tr>
+									</c:when><c:otherwise>
+									<c:forEach items="${someTotal }" var="dto">
+										<tr>
+											<td>${dto.p_seq }</td>
+											<td>${dto.p_some }</td>
+											<td>${dto.p_money }</td>
+										</tr>
+									</c:forEach>
+								</c:otherwise>
+								</c:choose>
+								<tr><td colspan="3">----------------------</td></tr>
+								<tr>
+									<td colspan="3"><span>지출건수 TOP3</span></td>
+								</tr>
+								<tr>
+									<th>순위</th>
+									<th>지출수단</th>
+									<th>지출건수</th>
+								</tr>
+								<c:choose>
+									<c:when test="${empty someCount }">
+										<tr>
+											<td colspan="3">이번달 지출이 없습니다.</td>
+										</tr>
+									</c:when><c:otherwise>
+										<c:forEach items="${someCount }" var="dto">
+											<tr>
+												<td>${dto.p_seq }</td>
+												<td>${dto.p_some }</td>
+												<td>${dto.p_count }</td>
+											</tr>
+										</c:forEach>
+									</c:otherwise>
+								</c:choose>
+							</table>
+						</div>
+					</div>
 			</div>
-		</div>
+		
 	<div class="spending_body_wrap">
 		<div class="spending_header_wrap">
 			    <div>

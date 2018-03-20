@@ -2,15 +2,19 @@ package com.jsr.project;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 
 import javax.mail.Session;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -23,9 +27,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.jsr.project.dtos.*;
 import com.jsr.project.services.IAcountService;
+import com.jsr.project.services.IRewardService;
 
 /**
  * Handles requests for the application home page.
@@ -44,11 +51,11 @@ public class AcountController {
 		logger.info("aocunt_detail factory start");
 		
 		int a_seq=Integer.parseInt(seq);
+		SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd");
 		
 		if (acount.equals("save")) {
 			
 			SaveDto svDto=acountService.saveDetailSearch(a_seq);
-			SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd");
 			Date stDate=svDto.getS_startdate();
 			Date enDate=svDto.getS_enddate();
 			String st_date=df.format(stDate);
@@ -76,6 +83,16 @@ public class AcountController {
 		}else if (acount.equals("stock")) {
 
 			StockDto sDto=acountService.stockDetailSearch(a_seq);
+			Date stDate=sDto.getSt_buydate();
+			String st_date=df.format(stDate);
+			Date st_buydate=null;
+			try {
+				st_buydate=df.parse(st_date);
+				sDto.setSt_buydate(st_buydate);
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+			
 			model.addAttribute("sDto", sDto);
 			System.out.println("sDto: "+sDto);
 			
@@ -84,6 +101,21 @@ public class AcountController {
 		}else if (acount.equals("fund")) {
 
 			FundDto fDto=acountService.fundDetailSearch(a_seq);
+			Date stDate=fDto.getF_buydate();
+			Date enDate=fDto.getF_enddate();
+			String st_date=df.format(stDate);
+			String en_date=df.format(enDate);
+			Date s_startdate=null;
+			Date f_enddate=null;
+			try {
+				s_startdate=df.parse(st_date);
+				f_enddate=df.parse(en_date);
+				fDto.setF_buydate(s_startdate);
+				fDto.setF_enddate(f_enddate);
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+			
 			model.addAttribute("fDto", fDto);
 			System.out.println("fDto: "+fDto);
 			
@@ -92,6 +124,21 @@ public class AcountController {
 		}else if (acount.equals("loan")) {
 
 			LoanDto lDto=acountService.loanDetailSearch(a_seq);
+			Date stDate=lDto.getL_startdate();
+			Date enDate=lDto.getL_enddate();
+			String st_date=df.format(stDate);
+			String en_date=df.format(enDate);
+			Date l_startdate=null;
+			Date l_enddate=null;
+			try {
+				l_startdate=df.parse(st_date);
+				l_enddate=df.parse(en_date);
+				lDto.setL_startdate(l_startdate);
+				lDto.setL_enddate(l_enddate);
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+			
 			model.addAttribute("lDto", lDto);
 			System.out.println("lDto: "+lDto);
 			
@@ -108,6 +155,8 @@ public class AcountController {
 		logger.info("acount delete factory start");
 		
 		int a_seq=Integer.parseInt(seq);
+		
+		logger.info("매개변수로 입력받은 seq: "+a_seq);
 		
 		if (acount.equals("save")) {
 			
@@ -176,7 +225,7 @@ public class AcountController {
 	 */
 	//자산관리 메인페이지 이동
 	@RequestMapping(value = "/acount.do", method = RequestMethod.GET)
-	public String goal_main(Model model ,HttpSession session) {
+	public String acount_main(Model model ,HttpSession session) {
 		logger.info("acount main page");
 		
 		MembersDto lDto=(MembersDto)session.getAttribute("loginDto");
@@ -213,8 +262,19 @@ public class AcountController {
 	
 	//목표관리 페이지 이동
 	@RequestMapping(value = "/goal_main.do", method = RequestMethod.GET)
-	public String goal_main() {
+	public String goal_main(HttpSession session,Model model) {
 		logger.info("goal main page");
+		
+		MembersDto lDto=(MembersDto)session.getAttribute("loginDto");
+		String id=lDto.getId();
+		
+		GoalDto totalmoneyDto=acountService.goalTotalMoney(id);
+		List<GoalDto> goalAllSearchList=acountService.goalAllSearch(id);
+		model.addAttribute("totalMoneyDto", totalmoneyDto);
+		model.addAttribute("goalAllSearchList", goalAllSearchList);
+		
+		logger.info("totalMoneyDto: "+totalmoneyDto);
+		logger.info("goalAllSearchList: "+goalAllSearchList);
 		
 		return "acount/goal_main";
 	}
@@ -311,9 +371,17 @@ public class AcountController {
 		
 		return reVal;
 	}
+	
+	@RequestMapping(value = "/goal_cancel.do", method = RequestMethod.GET)
+	public String goal_cancel(Model model,String seq,String acount) {
+		logger.info("goal cancel start");
+		
+		
+		return "redirect:goal_main.do";
+	}
 
 	@RequestMapping(value = "/acount_cancel.do", method = RequestMethod.GET)
-	public String save_cancel(Model model,String seq,String acount) {
+	public String acount_cancel(Model model,String seq,String acount) {
 		logger.info("acount cancel start");
 		
 		reVal=detail_factory(acount, seq, model);
@@ -517,8 +585,21 @@ public class AcountController {
 	}
 	
 	@RequestMapping(value = "/stock_insert.do", method = RequestMethod.POST)
-	public String stock_insert(StockDto dto) {
+	public String stock_insert(StockDto dto,String buydate) {
 		logger.info("stock insert start");
+		
+		Date st_buydate=null;
+		try {
+			SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd");
+			st_buydate=df.parse(buydate);
+			
+			dto.setSt_buydate(st_buydate);
+
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		
+		logger.info("stockDto: "+dto);
 		
 		boolean isc=acountService.stockInsert(dto);
 		if (isc) {
@@ -531,8 +612,25 @@ public class AcountController {
 	}
 	
 	@RequestMapping(value = "/fund_insert.do", method = RequestMethod.POST)
-	public String fund_insert(FundDto dto) {
+	public String fund_insert(FundDto dto,String buydate,String enddate) {
 		logger.info("fund insert start");
+		
+		Date f_buydate=null;
+		Date f_enddate=null;
+		try {
+			SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd");
+			f_buydate=df.parse(buydate);
+			
+			dto.setF_buydate(f_buydate);
+
+			f_enddate=df.parse(enddate);
+			
+			dto.setF_enddate(f_enddate);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		
+		System.out.println("input fundDto: "+dto);
 		
 		boolean isc=acountService.fundInsert(dto);
 		if (isc) {
@@ -545,8 +643,26 @@ public class AcountController {
 	}
 	
 	@RequestMapping(value = "/loan_insert.do", method = RequestMethod.POST)
-	public String loan_insert(LoanDto dto) {
+	public String loan_insert(LoanDto dto,String st_date,String en_date) {
 		logger.info("stock insert start");
+		
+		Date stDate=null;
+		Date enDate=null;
+		try {
+			SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd");
+			stDate=df.parse(st_date);
+			
+			dto.setL_startdate(stDate);
+
+			enDate=df.parse(en_date);
+			
+			dto.setL_enddate(enDate);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		
+		System.out.println("input loanDto: "+dto);
+		
 		
 		boolean isc=acountService.loanInsert(dto);
 		if (isc) {
@@ -657,6 +773,101 @@ public class AcountController {
 		
 		return map;
 	}
+	
+	private IRewardService rewardService;
+	
+	//뽑기상품등록
+	@RequestMapping(value = "/dobak_insert.do", method = RequestMethod.POST)
+	public String dobak_insert(Model model,RewardDto rdto,String command,HttpServletRequest request) {
+		logger.info("product insert start");
+		
+		if (command.equals("dobak")) {
+			
+			int r_number=(int)(Math.random()*3+1);
+			rdto.setR_number(r_number);
+			
+			logger.info("뽑기 숫자생성 pNum: "+r_number);
+			
+			
+			MultipartHttpServletRequest multi=(MultipartHttpServletRequest)request;
+			MultipartFile multiFile=multi.getFile("uploadFile");
+			String r_file=multiFile.getOriginalFilename();
+			//String r_file=originName.substring(originName.indexOf("."));
+			rdto.setR_file(r_file);
+	
+			File f=new File("C:/Users/Owner/git/team_final_project/final_project/src/main/webapp/resources/upload/"+r_file);
+			try {
+				multiFile.transferTo(f);
+				boolean isS=rewardService.insertReward(rdto);
+				if(isS) {
+					System.out.println("등록성공");
+					return "redirect:insertReward.do";
+				}else {
+					System.out.println("등록실패");
+					return "redirect:insertReward.do";
+				}
+			} catch (IllegalStateException e) {
+				e.printStackTrace();
+				return "redirect:insertReward.do";
+			} catch (IOException e) {
+				e.printStackTrace();
+				return "redirect:insertReward.do";
+			}
+		
+		}
+			
+		logger.info("product insert end.");
+		return command;
+		
+	}
+	
+	//뽑기를 뽑았을때 번호조회 기능
+	@ResponseBody
+	@RequestMapping(value = "/dobak_check.do", method = RequestMethod.POST)
+	public String dobak_check(Model model,PointDto poDto,ProductDto proDto,HttpSession session) {
+		logger.info("product check start");
+		
+		String reVal="";
+		
+		int point=poDto.getPo_point();
+		
+		String beforePoint="-"+point;
+		int po_point=Integer.parseInt(beforePoint);
+		poDto.setPo_point(po_point);
+		
+		int r_number=(int)(Math.random()*3+1);
+		
+		RewardDto rdto=new RewardDto();
+		rdto.setR_number(r_number);
+		
+		RewardDto dto=acountService.dobakCheck(rdto);
+		if (dto!=null) {
+			logger.info("상품 뽑기 성공");
+			
+			boolean isc=acountService.buyDobakSuccess(poDto, proDto);
+			if (isc) {
+				reVal="";
+			}else {
+				reVal="";
+			}
+			
+		}else {
+			logger.info("상품 뽑기 실패");
+			
+			boolean isc=acountService.buyDobakFail(poDto);
+			if (isc) {
+				reVal="";
+			}else {
+				reVal="";
+			}
+			
+		}
+			
+		logger.info("product check end.");
+		
+		return reVal;
+	}
+	
 	
 	
 	public static void jsClose(HttpServletResponse response){

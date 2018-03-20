@@ -5,6 +5,7 @@
 <%
 	response.setContentType("text/html; charset=UTF-8");
 %>
+<jsp:include page="../header.jsp"></jsp:include>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -51,7 +52,7 @@
 					alert("존재하지 않는 정보입니다.");
 				} else {
 					alert("입력하신 이메일로 임시 비밀번호를 발송하였습니다.");
-					alert(obj["chkNum"]);
+					alert(obj["m_password"]);
 
 				}
 			}

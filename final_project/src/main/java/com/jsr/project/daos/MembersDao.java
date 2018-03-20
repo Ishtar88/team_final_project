@@ -65,9 +65,12 @@ public class MembersDao implements IMembersDao {
 	}
 
 	@Override
-	public boolean addPoint(MembersDto mdto) {
+	public boolean addPoint(String id,String po_point) {
+		Map<String, String> map=new HashMap<String,String>();
+		map.put("id", id);
+		map.put("po_point", po_point);
 		int count=0;
-		count=sqlSession.insert(namespace+"addPoint", mdto);
+		count=sqlSession.insert(namespace+"addPoint", map);
 		return count>0?true:false;
 	}
 

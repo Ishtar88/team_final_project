@@ -31,13 +31,13 @@ public class RewardService implements IRewardService {
 	}
 
 	@Override
-	public List<RewardDto> findByRname(String r_name,String r_detail) {
-		return IRewardDao.findByRname(r_name,r_detail);
+	public List<RewardDto> findByRname(String r_detail,String r_name,String sNum,String eNum) {
+		return IRewardDao.findByRname(r_detail, r_name, sNum, eNum);
 	}
 
 	@Override
-	public List<RewardDto> findByBname(String b_name,String r_detail) {
-		return IRewardDao.findByBname(b_name,r_detail);
+	public List<RewardDto> findByBname(String r_detail,String b_name,String sNum,String eNum) {
+		return IRewardDao.findByBname(r_detail, b_name, sNum, eNum);
 	}
 
 	@Override
@@ -73,8 +73,18 @@ public class RewardService implements IRewardService {
 	}
 
 	@Override
-	public List<RewardDto> listOfCategory(RewardDto rdto) {
-		return IRewardDao.listOfCategory(rdto);
+	public List<RewardDto> listOfCategory(String r_detail,String sNum,String eNum) {
+		return IRewardDao.listOfCategory(r_detail, sNum, eNum);
+	}
+
+	@Override
+	public int pageCount(String r_detail) {
+		return IRewardDao.pageCount(r_detail);
+	}
+
+	@Override
+	public boolean updateReward(RewardDto rdto) {
+		return IRewardDao.updateReward(rdto);
 	}
 
 

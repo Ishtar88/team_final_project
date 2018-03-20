@@ -14,6 +14,8 @@ import com.jsr.project.dtos.IncomeDto;
 import com.jsr.project.dtos.LoanDto;
 import com.jsr.project.dtos.MembersDto;
 import com.jsr.project.dtos.PointDto;
+import com.jsr.project.dtos.ProductDto;
+import com.jsr.project.dtos.RewardDto;
 import com.jsr.project.dtos.SaveDto;
 import com.jsr.project.dtos.SpendingDto;
 import com.jsr.project.dtos.StockDto;
@@ -294,6 +296,39 @@ public class AcountDao implements IAcountDao {
 	@Override
 	public LoanDto loanTotalMoney(String id) {
 		return sqlSession.selectOne(namespace+"loanTotalMoney", id);
+	}
+
+	
+	//리워드몰 뽑기기능
+	@Override
+	public RewardDto dobakCheck(RewardDto rdto) {
+		return sqlSession.selectOne(namespace+"dobakCheck", rdto);
+	}
+
+	@Override
+	public boolean buyDobak(ProductDto proDto) {
+		int count=0;
+		
+		count=sqlSession.insert(namespace+"buyDobak", proDto);
+		return count>0?true:false;
+	}
+
+	@Override
+	public boolean minusPointDobak(PointDto poDto) {
+		int count=0;
+		
+		count=sqlSession.insert(namespace+"minusPointDobak", poDto);
+		return count>0?true:false;
+	}
+
+	@Override
+	public GoalDto goalTotalMoney(String id) {
+		return sqlSession.selectOne(namespace+"goalTotalMoney", id);
+	}
+
+	@Override
+	public List<GoalDto> goalAllSearch(String id) {
+		return sqlSession.selectList(namespace+"goalAllSearch", id);
 	}
 
 
