@@ -8,7 +8,9 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.jsr.project.dtos.AcountPatternDto;
 import com.jsr.project.dtos.GoalDto;
+import com.jsr.project.dtos.SaveDto;
 import com.jsr.project.dtos.SpendingDto;
 
 @Repository
@@ -83,6 +85,37 @@ public class AnalysisDao implements IAnalysisDao{
 	}
 
 	//지출패턴-병훈
+	
+	@Override
+	public List<AcountPatternDto> acountTotalRate(AcountPatternDto dto) {
+		return sqlSession.selectList(namespace+"acountTotalRate", dto);
+	}
+	
+	@Override
+	public List<AcountPatternDto> acountTotalDetailAjax(AcountPatternDto dto) {
+		return sqlSession.selectList(namespace+"acountTotalDetailAjax", dto);
+	}
+	
+	@Override
+	public List<AcountPatternDto> acountMoneyTop(AcountPatternDto dto) {
+		return sqlSession.selectList(namespace+"acountMoneyTop", dto);
+	}
+	@Override
+	public List<AcountPatternDto> saveDateChartAjax(AcountPatternDto dto) {
+		return sqlSession.selectList(namespace+"saveDateChartAjax", dto);
+	}
+	@Override
+	public List<AcountPatternDto> stockDateChartAjax(AcountPatternDto dto) {
+		return sqlSession.selectList(namespace+"stockDateChartAjax", dto);
+	}
+	@Override
+	public List<AcountPatternDto> fundDateChartAjax(AcountPatternDto dto) {
+		return sqlSession.selectList(namespace+"fundDateChartAjax", dto);
+	}
+
+	
+	
+	
 	//투자패턴-유라
 
 }

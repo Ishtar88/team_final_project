@@ -2,7 +2,7 @@
 <%request.setCharacterEncoding("UTF-8"); %>
 <%response.setContentType("text/html; charset=UTF-8"); %>
 <!DOCTYPE html>
-<jsp:include page="acount_header.jsp"></jsp:include>
+<jsp:include page="../header.jsp"></jsp:include>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
