@@ -33,7 +33,7 @@ public interface IQnaBoardDao {
 	
 //	한 개의 글 삭제하기
 //	q_deleteboard
-	public boolean q_deleteOne(QnaBoardDto dto);
+	public boolean q_deleteOne(int q_seq);
 
 //	여러개의 글 삭제하기
 	public boolean q_mulDelBoard(String [] q_seq);

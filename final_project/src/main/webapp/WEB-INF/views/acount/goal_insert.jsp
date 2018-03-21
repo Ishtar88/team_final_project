@@ -77,7 +77,7 @@
 			</div>
 		</div>
 		<div class="ui dividing header"></div>
-		<form id="goal_form" action="goal_insert.do" method="post">
+	<form id="goal_form" action="goal_insert.do" method="post">
 		<div class="ui center aligned" id="inputWrap">
 		<div class="inputField">
 			<div class="plus icon field">
@@ -120,7 +120,6 @@
 		</div>
 		</div>
 			<div class="ui dividing header"></div>
-			<button class="ui right aligned olive button">설정완료</button>
 			<input type="submit" id="goal_submit" class="ui right aligned olive button" value="설정완료">
 			<input type="button" class="ui right aligned button" onclick="location.href='goal_cancel.do'">
 		</form>

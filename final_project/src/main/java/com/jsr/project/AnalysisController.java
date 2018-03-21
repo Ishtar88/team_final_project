@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.jsr.project.dtos.AcountDto;
+import com.jsr.project.dtos.AcountPatternDto;
 import com.jsr.project.dtos.GoalDto;
 import com.jsr.project.dtos.MembersDto;
 import com.jsr.project.dtos.RewardDto;
@@ -229,8 +230,105 @@ public class AnalysisController {
 		MembersDto lDto=(MembersDto)session.getAttribute("loginDto");
 		AcountDto aDto=acountService.acountTotalSearch(lDto);
 		model.addAttribute("aDto", aDto);
+		model.addAttribute("year", year);
+		model.addAttribute("month", month);
+		
 		return "analysis/acount_pattern_main";
 	}
+
+	//투자비율 차트 기능
+	@ResponseBody
+	@RequestMapping(value = "/acountTotalRate.do", method = RequestMethod.GET)
+	public Map<String, List<AcountPatternDto>> acountTotalRate(Model model,HttpSession session) {
+		logger.info("analysis acountTotalRate start");
+
+		Map<String, List<AcountPatternDto>> map=new HashMap<>();
+		
+		MembersDto lDto=(MembersDto)session.getAttribute("loginDto");
+		String id=lDto.getId();
+		
+		AcountPatternDto dto=new AcountPatternDto();
+		dto.setId(id);
+		
+		logger.info("acountPatternDto: "+dto);
+		
+		List<AcountPatternDto> totalRate=analysisService.acountTotalRate(dto);
+		map.put("totalRate", totalRate);
+		
+		logger.info("totalRate: "+totalRate);
+		logger.info("analysis acountTotalRate end.");
+		
+		return map;
+	}
+	
+	
+	//기간별 수익 차트 기능
+	@ResponseBody
+	@RequestMapping(value = "/acountDateChartAjax.do", method = RequestMethod.GET)
+	public Map<String, List<AcountPatternDto>> acountDateChartAjax(Model model,HttpSession session) {
+		logger.info("analysis acountDateChartAjax start");
+		
+		MembersDto lDto=(MembersDto)session.getAttribute("loginDto");
+		String id=lDto.getId();
+		
+		AcountPatternDto dto=new AcountPatternDto();
+		dto.setId(id);
+		
+		logger.info("acountPatternDto: "+dto);
+		
+		Map<String, List<AcountPatternDto>> map=analysisService.acountDateChartAjax(dto);
+		
+		logger.info("acountDateChart: "+map);
+		logger.info("analysis acountDateChartAjax end.");
+		
+		return map;
+	}
+	
+	//투자 분류 내역 조회
+	public boolean acountTotalDetail(Model model,HttpSession session) {
+		logger.info("analysis acountTotalDetailAjax start");
+		
+		int count=0;
+		
+		
+		MembersDto lDto=(MembersDto)session.getAttribute("loginDto");
+		String id=lDto.getId();
+		
+		AcountPatternDto dto=new AcountPatternDto();
+		dto.setId(id);
+		
+		List<AcountPatternDto> totalDetailAjax=analysisService.acountTotalDetailAjax(dto);
+		
+		model.addAttribute("totalDetailAjax", totalDetailAjax);
+		
+		logger.info("totalDetailAjax: "+totalDetailAjax);
+		logger.info("analysis acountTotalDetailAjax end.");
+		
+		return count>0?true:false;
+	}
+	
+	//투자 금액 TOP5
+	public boolean acountMoneyTop5(Model model,HttpSession session) {
+		logger.info("analysis acountMoneyTop start");
+		
+		int count=0;
+		
+		
+		MembersDto lDto=(MembersDto)session.getAttribute("loginDto");
+		String id=lDto.getId();
+		
+		AcountPatternDto dto=new AcountPatternDto();
+		dto.setId(id);
+		
+		List<AcountPatternDto> acountMoneyTop=analysisService.acountMoneyTop(dto);
+		model.addAttribute("acountMoneyTop", acountMoneyTop);
+		
+		logger.info("acountMoneyTop: "+acountMoneyTop);
+		logger.info("analysis acountMoneyTop end.");
+		
+		return count>0?true:false;
+	}
+
 
 	//투자패턴-유라
 	@RequestMapping(value="/an_consumption_main.do")

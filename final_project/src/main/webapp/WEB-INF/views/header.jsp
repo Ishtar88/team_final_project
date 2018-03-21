@@ -21,17 +21,6 @@
 	crossorigin="anonymous"></script>
 <script src="resources/assets/semantic.min.js"></script>
 
-<script type="text/javascript">
-$.ajax({
-	url:"acountChartAjax.do",
-	datatype:"json",
-	success:function(obj){
-		var svMoney=obj["svMoney"];
-		var sMoney=obj["sMoney"];
-		var fMoney=obj["fMoney"];
-		var lMoney=obj["lMoney"];
-		
-</script>
 <%
 	Calendar cal=Calendar.getInstance();
 	int year=cal.get(Calendar.YEAR);
