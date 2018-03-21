@@ -251,6 +251,42 @@ public class AcountDao implements IAcountDao {
 	
 	
 	//----------------------------------------------------
+
+	@Override
+	public boolean saveEnd(SaveDto dto) {
+		int count=0;
+		
+		count=sqlSession.update(namespace+"saveEnd", dto);
+		return count>0?true:false;
+	}
+
+	@Override
+	public boolean stockEnd(StockDto dto) {
+		int count=0;
+		
+		count=sqlSession.update(namespace+"stockEnd", dto);
+		return count>0?true:false;
+	}
+
+	@Override
+	public boolean fundEnd(FundDto dto) {
+		int count=0;
+		
+		count=sqlSession.update(namespace+"fundEnd", dto);
+		return count>0?true:false;
+	}
+
+	@Override
+	public boolean loanEnd(LoanDto dto) {
+		int count=0;
+		
+		count=sqlSession.update(namespace+"loanEnd", dto);
+		return count>0?true:false;
+	}
+	
+	
+	
+	//----------------------------------------------------
 	
 
 	@Override
@@ -330,6 +366,8 @@ public class AcountDao implements IAcountDao {
 	public List<GoalDto> goalAllSearch(String id) {
 		return sqlSession.selectList(namespace+"goalAllSearch", id);
 	}
+
+
 
 
 

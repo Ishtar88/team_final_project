@@ -64,6 +64,19 @@ public interface IAcountService {
 	public boolean loanUpdate(LoanDto dto);
 	
 	//----------------------------------
+
+
+	//자산 만기 등록 기능
+	public boolean saveEnd(SaveDto dto);
+	
+	public boolean stockEnd(StockDto dto);
+	
+	public boolean fundEnd(FundDto dto);
+	
+	public boolean loanEnd(LoanDto dto);
+	
+	
+	//----------------------------------
 	
 	//자산등록 기능
 	public boolean saveInsert(SaveDto dto);

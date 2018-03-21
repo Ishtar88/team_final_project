@@ -10,11 +10,12 @@
 <script type="text/javascript">
 window.onload = function () {
 
-	
+
+
 	/* --------- */
 	/* 투자 비율 차트 */
 	/* --------- */
-	var chart = new CanvasJS.Chart("acountTotalChart", {
+ 	var acountTotalChart = new CanvasJS.Chart("chartContainer1", {
 		exportEnabled: true,
 		animationEnabled: true,
 		title:{
@@ -40,8 +41,7 @@ window.onload = function () {
 			]
 		}]
 	});
-	chart.render();
-	}
+	acountTotalChart.render();
 
 	function explodePie (e) {
 		if(typeof (e.dataSeries.dataPoints[e.dataPointIndex].exploded) === "undefined" || !e.dataSeries.dataPoints[e.dataPointIndex].exploded) {
@@ -49,15 +49,15 @@ window.onload = function () {
 		} else {
 			e.dataSeries.dataPoints[e.dataPointIndex].exploded = false;
 		}
-		e.chart.render();
+		e.acountTotalChart.render();
 
-	}
+	}  
 	
 	
 	/* --------- */
 	/* 기간별 수익 차트 */
 	/* --------- */
-		var chart = new CanvasJS.Chart("acountDateChart", {
+ 		var acountDateChart = new CanvasJS.Chart("chartContainer2", {
 		animationEnabled: true,
 		theme: "light2",
 		title:{
@@ -82,14 +82,15 @@ window.onload = function () {
 				{ y: 480 },
 				{ y: 510 }
 			]
-		}]
+		}] 
 	});
-	chart.render();
+	acountDateChart.render();  
 	
-	/* --------- */
-	/* 기간별 수익 차트 */
-	/* --------- */
-	var chart = new CanvasJS.Chart("acountDetailChart", {
+	
+	/*  */
+	/* 투자별 수익 현황 차트 */
+	/*  */
+	var acountDetailChart = new CanvasJS.Chart("chartContainer3", {
 		animationEnabled: true,
 		title:{
 			text: "Email Categories",
@@ -112,7 +113,72 @@ window.onload = function () {
 			]
 		}]
 	});
-	chart.render();
+	acountDetailChart.render();
+	
+	
+	
+	/*  */
+	/* 가장 많이 투자하고 있는 수익 차트 */
+	/*  */
+	var acountMaxValueChart = new CanvasJS.Chart("chartContainer4", {
+		animationEnabled: true,
+		title:{
+			text: "Email Categories",
+			horizontalAlign: "left"
+		},
+		data: [{
+			type: "doughnut",
+			startAngle: 60,
+			//innerRadius: 60,
+			indexLabelFontSize: 17,
+			indexLabel: "{label} - #percent%",
+			toolTipContent: "<b>{label}:</b> {y} (#percent%)",
+			dataPoints: [
+				{ y: 67, label: "Inbox" },
+				{ y: 28, label: "Archives" },
+				{ y: 10, label: "Labels" },
+				{ y: 7, label: "Drafts"},
+				{ y: 15, label: "Trash"},
+				{ y: 6, label: "Spam"}
+			]
+		}]
+	});
+	acountMaxValueChart.render();
+	
+	
+	
+	/*  */
+	/* 당월 투자 비율 차트 */
+	/*  */
+	var CurrentAcountTotalChart = new CanvasJS.Chart("chartContainer5", {
+		animationEnabled: true,
+		title:{
+			text: "Email Categories",
+			horizontalAlign: "left"
+		},
+		data: [{
+			type: "doughnut",
+			startAngle: 60,
+			//innerRadius: 60,
+			indexLabelFontSize: 17,
+			indexLabel: "{label} - #percent%",
+			toolTipContent: "<b>{label}:</b> {y} (#percent%)",
+			dataPoints: [
+				{ y: 67, label: "Inbox" },
+				{ y: 28, label: "Archives" },
+				{ y: 10, label: "Labels" },
+				{ y: 7, label: "Drafts"},
+				{ y: 15, label: "Trash"},
+				{ y: 6, label: "Spam"}
+			]
+		}]
+	});
+	CurrentAcountTotalChart.render(); 
+	
+	
+
+}
+
 
 </script>
 </head>
@@ -137,8 +203,11 @@ window.onload = function () {
 <!-- 투자 비율 차트 -->
 <!--              -->
 <div class="acountTotalChart">
-	<div id="acountTotalChart" style="height: 370px; width: 50%;"></div>
+	<div id="chartContainer1" style="height: 370px; width: 50%;"></div>
 	<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+	<div class="acountTotalList">
+	
+	</div>
 	<div class="aocuntDetail">
 		<h3>OOO형 투자유형</h3>
 		<div>
@@ -156,6 +225,9 @@ window.onload = function () {
 	</div>
 </div>
 
+<!--              -->
+<!-- 투자 분류별 내역 -->
+<!--              -->
 <table class="acountDetailTable" border="1">
 	<caption>투자분류내역</caption>
 	<tr>
@@ -163,6 +235,7 @@ window.onload = function () {
 		<th>금액</th>
 		<th>비율</th>
 		<th>수익률</th>
+		<th>만기여부</th>
 		
 	</tr>
 	<tr>
@@ -176,7 +249,7 @@ window.onload = function () {
 <!-- 기간별 수익 차트 -->
 <!--              -->
 <div class="acountDateChart">
-	<div id="acountDateChart" style="height: 370px; width: 70%;"></div>
+	<div id="chartContainer2" style="height: 370px; width: 70%;"></div>
 	<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 	<div class="aocuntMaxMoney">
 		<h3>1년 중에 가장 수익을 많이 낸 기간은 OO년 OO월입니다.</h3>
@@ -196,8 +269,11 @@ window.onload = function () {
 <!-- 투자별 수익 현황 차트 -->
 <!--              -->
 <div class="acountDetailChart">
-	<div id="acountDetailChart" style="height: 370px; width: 50%;"></div>
+	<div id="chartContainer3" style="height: 370px; width: 50%;"></div>
 	<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+	<div class="acountDetailList">
+		
+	</div>
 	<div class="aocuntMaxMoney">
 		<h3>현재 가장 수익을 많이 낸 상품은 OO이며 OO%의 수입을 냈습니다.</h3>
 	</div>
@@ -211,5 +287,66 @@ window.onload = function () {
 		</div>
 	</div>
 </div>
+
+<!--              -->
+<!--           -->
+<!-- 가장 많이 투자하고 있는 수익 차트 -->
+<!--              -->
+<div class="acountMaxValueChart">
+	<div id="chartContainer4" style="height: 200px; width: 30%;"></div>
+	<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+	<div class="aocuntMaxValueList">
+
+	</div>
+	
+	<div class="acountMaxValueDetail">
+		<h3>현재 가장 수익을 많이 낸 상품은 OO이며 OO%의 수입을 냈습니다.</h3>
+	</div>
+</div>
+
+
+<!--              -->
+<!-- 당월 투자 비율 차트 -->
+<!--              -->
+<div class="currentAcountTotalChart">
+<div><h2>2018 년 3 월(당월)</h2></div>
+	<div id="chartContainer5" style="height: 370px; width: 50%;"></div>
+	<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+	<div class="acountTotalList">
+	
+	<div class="currentAcountTotalMoney">
+		<h1>총자산 </h1>
+		<h1>000 </h1>
+		<h1>원 </h1>
+	</div>
+	
+	</div>
+	<div class="currentAcountDetail">
+		<h3>OOO형 투자유형</h3>
+		<div>
+			유형설명
+		</div>
+	</div>
+</div>
+
+<!--              -->
+<!-- 당월 투자 분류별 내역 -->
+<!--              -->
+<table class="currentAcountDetailTable" border="1">
+	<caption>투자분류내역</caption>
+	<tr>
+		<th>분류</th>
+		<th>금액</th>
+		<th>비율</th>
+		<th>수익률</th>
+		<th>만기여부</th>
+		
+	</tr>
+	<tr>
+		<td>
+			<input type="text" name="p_name" value="주식">
+		</td>
+	</tr>
+</table>
 </body>
 </html>
