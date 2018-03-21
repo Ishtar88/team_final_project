@@ -98,7 +98,7 @@
 					<td>
 						<input type="hidden" name="seq" value="${svDto.s_seq}">
 						<input type="hidden" name="acount" value="save">
-						<input type="date" name="enddate" required="required">
+						<input type="date" pattern="yyyy-MM" name="enddate">
 						<span>만기날짜를 입력해주세요</span>
 					</td>
 				</tr>

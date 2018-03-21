@@ -51,7 +51,7 @@ public class AcountDao implements IAcountDao {
 	public boolean goalPointInsert(String id) {
 		int count=0;
 		System.out.println("goalPointInsert action");
-		count=sqlSession.insert("com.jsr.project.point.goalPointInsert",id);
+		count=sqlSession.insert(namespace+"goalPointInsert",id);
 		System.out.println("goalPointInsert end");
 		return count>0?true:false;
 	}

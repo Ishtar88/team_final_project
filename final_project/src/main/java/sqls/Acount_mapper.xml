@@ -316,25 +316,21 @@
 		<!--/////////////// 자산 만기 등록 기능 /////////////////////-->
 		
 		<update id="saveEnd" parameterType="SaveDto">
-			UPDATE SAVE SET S_ENDABLE='Y' WNERE S_SEQ=#{s_seq} AND S_ENDDATE=#{s_memo}
+			UPDATE SAVE SET S_ENDABLE='Y' WHERE S_SEQ=#{s_seq} AND S_ENDDATE=#{s_enddate}
 		</update>
 		
 		<update id="stockEnd" parameterType="StockDto">
-			UPDATE STOCK SET ST_SELLABLE='Y' WNERE ST_SEQ=#{st_seq} AND ST_SELLDATE=#{st_memo}
+			UPDATE STOCK SET ST_SELLABLE='Y' WHERE ST_SEQ=#{st_seq} AND ST_SELLDATE=#{st_memo}
 		</update>
 		
 		<update id="fundEnd" parameterType="FundDto">
-			UPDATE FUND SET F_ENDABLE='Y' WNERE F_SEQ=#{f_seq} AND F_ENDDATE=#{f_memo}
+			UPDATE FUND SET F_ENDABLE='Y' WHERE F_SEQ=#{f_seq} AND F_ENDDATE=#{f_memo}
 		</update>
 		
 		<update id="loanEnd" parameterType="LoanDto">
-			UPDATE LOAN SET L_ENDABLE='Y' WNERE L_SEQ=#{l_seq} AND S_ENDDATE=#{l_memo}
+			UPDATE LOAN SET L_ENDABLE='Y' WHERE L_SEQ=#{l_seq} AND S_ENDDATE=#{l_memo}
 		</update>
 
-		
-		
-		
-		
 		
 		<!-- //////////////////////////////////////////// -->
 		

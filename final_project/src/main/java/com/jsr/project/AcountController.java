@@ -22,6 +22,7 @@ import org.apache.catalina.authenticator.SavedRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -223,10 +224,13 @@ public class AcountController {
 	
 	
 	//자산 만기등록 기능 factory
-	public String endable_factory(Model model,String seq,Date enddate,String acount) {
+	public String endable_factory(Model model,String seq,@RequestParam(name = "enddate")@DateTimeFormat(pattern = "yyyy-MM") Date enddate,String acount) {
 		logger.info("acount endable factory start");
 		
 		int a_seq=Integer.parseInt(seq);
+		
+		SimpleDateFormat df=new SimpleDateFormat("yyyy-MM");
+		String date=df.format(enddate);
 		
 		logger.info("매개변수로 입력받은 seq: "+a_seq);
 		
@@ -236,6 +240,8 @@ public class AcountController {
 			SaveDto dto=new SaveDto();
 			dto.setS_seq(a_seq);
 			dto.setS_enddate(enddate);
+			
+			logger.info("saveDto: "+dto);
 				
 			boolean isc=acountService.saveEnd(dto);
 			if(isc) {
@@ -488,8 +494,10 @@ public class AcountController {
 	
 	
 	@RequestMapping(value = "/acount_end.do", method = RequestMethod.POST)
-	public String acount_endable(Model model,String seq,Date enddate,String acount) {
+	public String acount_endable(Model model,String seq,@RequestParam(name = "enddate")@DateTimeFormat(pattern = "yyyy-MM") Date enddate,String acount) {
 		logger.info("acount endable start");
+		
+
 		
 		reVal=endable_factory(model, seq, enddate, acount);
 		
