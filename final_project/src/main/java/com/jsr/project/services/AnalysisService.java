@@ -18,8 +18,8 @@ public class AnalysisService implements IAnalysisService{
 	//소비패턴-수진
 	
 	@Override
-	public int total_spending(String p_regdate,String id) {
-		return IAnalysisDao.total_spending(p_regdate, id);
+	public int total_spending(String sMonth,String eMonth,String id) {
+		return IAnalysisDao.total_spending(sMonth, eMonth, id);
 	}
 
 	@Override
@@ -59,6 +59,11 @@ public class AnalysisService implements IAnalysisService{
 	@Override
 	public List<SpendingDto> category_expense(String id, String p_regdate) {
 		return IAnalysisDao.category_expense(id, p_regdate);
+	}
+
+	@Override
+	public List<SpendingDto> goalVerseExpense(String id, String p_regdate) {
+		return IAnalysisDao.goalVerseExpense(id, p_regdate);
 	}
 
 

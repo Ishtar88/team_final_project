@@ -21,9 +21,10 @@ public class AnalysisDao implements IAnalysisDao{
 	//소비패턴-수진
 	
 	@Override
-	public int total_spending(String p_regdate,String id) {
+	public int total_spending(String sMonth,String eMonth,String id) {
 		Map<String , String>map=new HashMap<String,String>();
-		map.put("p_regdate", p_regdate);
+		map.put("sMonth", sMonth);
+		map.put("eMonth", eMonth);
 		map.put("id", id);
 		return sqlSession.selectOne(namespace+"total_spending", map);
 	}
@@ -81,6 +82,18 @@ public class AnalysisDao implements IAnalysisDao{
 		map.put("p_regdate", p_regdate);
 		return sqlSession.selectList(namespace+"category_expense", map);
 	}
+	@Override
+	public List<SpendingDto> goalVerseExpense(String id, String p_regdate) {
+		Map<String , String>map=new HashMap<String,String>();
+		map.put("id", id);
+		map.put("p_regdate", p_regdate);
+		return sqlSession.selectList(namespace+"goalVerseExpense", map);
+	}
+//	@Override
+//	public List<SpendingDto> goalMinusExpense(String id, String p_regdate) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
 
 	//지출패턴-병훈
 	//투자패턴-유라
