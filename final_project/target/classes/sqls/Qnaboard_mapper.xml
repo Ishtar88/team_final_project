@@ -88,7 +88,7 @@
 	</update>
 	
 <!-- 	한 개의 글 삭제하기 -모두 -->
-	<update id="q_deleteboard" parameterType="QnaBoardDto">
+	<update id="q_deleteboard" parameterType="int">
 		UPDATE QNA SET Q_DELFLAG='Y' WHERE Q_SEQ=#{q_seq}
 	</update>
 	
