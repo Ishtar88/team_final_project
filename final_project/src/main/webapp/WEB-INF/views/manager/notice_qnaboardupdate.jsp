@@ -16,7 +16,7 @@ pageEncoding="UTF-8"%>
 </head>
 <script type="text/javascript">
 	function exit(){
-		location.href="qnadetail.do?q_seq=${dto.q_seq}&count=count";
+		location.href="manager_qnadetail.do?q_seq=${dto.q_seq}";
 	}
 </script>
 <body>

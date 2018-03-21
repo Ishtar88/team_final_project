@@ -20,7 +20,7 @@ public interface IQnaService {
 	//글 여러 개 삭제하기 
 	public boolean q_mulDelBoard(String[] seq);
 	//글 한 개 삭제하기 
-	public boolean q_deleteBoard(QnaBoardDto dto);
+	public boolean q_deleteBoard(int q_seq);
 	//답글 달기 
 	public boolean q_replyBoard(QnaBoardDto dto); 
 	//아작스 처리 

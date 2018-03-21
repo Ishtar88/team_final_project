@@ -56,8 +56,8 @@ public class QnaService implements IQnaService{
 	}
 
 	@Override
-	public boolean q_deleteBoard(QnaBoardDto dto) {
-		return qnaDao.q_deleteOne(dto);
+	public boolean q_deleteBoard(int q_seq) {
+		return qnaDao.q_deleteOne(q_seq);
 	}
 
 

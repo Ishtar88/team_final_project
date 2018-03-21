@@ -3,6 +3,7 @@ package com.jsr.project;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -249,7 +250,7 @@ public String notice_submitqna(QnaBoardDto dto) {
 	//질문게시판 게시글 수정 
 	@RequestMapping(value="/manager_updateboard.do", method={RequestMethod.POST,RequestMethod.GET})
 	public String updateboard(Model model, QnaBoardDto dto) {
-		logger.info("customer board update complete");
+		logger.info("manager qna board update complete");
 		boolean isc=qnaService.q_updateBoard(dto); 
 		if (isc) {
 			return "redirect:manager_qna.do"; 
@@ -257,6 +258,34 @@ public String notice_submitqna(QnaBoardDto dto) {
 		return "redirect:manager_qna.do";
 	}
 
+	
+	//질문게시판 게시글 삭제 으아~~~~~~~~~~~~~
+	@RequestMapping(value="/notice_deleteBoard.do")
+	public String notice_deleteBoard(int q_seq) {
+		logger.info("manager qna board delete");
+		boolean isc= qnaService.q_deleteBoard(q_seq);
+		if (isc) {
+			return "redirect:manager_qna.do"; 
+		} else {
+			return "redirect:manager_qnadetail.do?q_seq="+q_seq; 
+		}
+	}
 
+
+	
+	//
+//	//질문게시판 답글달기 
+	@RequestMapping(value="/replyboard.do", method= {RequestMethod.POST,RequestMethod.GET})
+	public String replyboard(Locale locale, QnaBoardDto dto) {
+		logger.info("reply");;
+		boolean isS=qnaService.q_replyBoard(dto);
+		if (isS) {
+			return "redirect:qnamain.do";
+		} else {
+			logger.info("답글추가 실패", locale);
+			return "qnadetail.do?seq="+dto.getQ_seq(); 
+		}
+	}
+//			
 
 }

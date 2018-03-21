@@ -176,30 +176,16 @@ public class CustomerController {
 	
 	//질문게시판 게시글 삭제 
 	@RequestMapping(value="/deleteBoard.do",  method={RequestMethod.POST,RequestMethod.GET})
-	public String deleteBoard(QnaBoardDto dto) {
+	public String deleteBoard(int q_seq) {
 		logger.info("customer board delete");
-		boolean isc=qnaService.q_deleteBoard(dto);
+		boolean isc=qnaService.q_deleteBoard(q_seq);
 		if (isc) {
 			return "redirect:qnamain.do";
 		}else {
-			return "redirect:qnadetail.do?seq="+dto.getQ_seq()+"&count=count"; 
+			return "redirect:qnadetail.do?seq="+q_seq+"&count=count"; 
 		}
 	}
 
-//
-//	//질문게시판 답글달기 
-	@RequestMapping(value="/replyboard.do", method= {RequestMethod.POST,RequestMethod.GET})
-	public String replyboard(Locale locale, QnaBoardDto dto) {
-		logger.info("reply");;
-		boolean isS=qnaService.q_replyBoard(dto);
-		if (isS) {
-			return "redirect:qnamain.do";
-		} else {
-			logger.info("답글추가 실패", locale);
-			return "qnadetail.do?seq="+dto.getQ_seq(); 
-		}
-	}
-//			
 
 
 
