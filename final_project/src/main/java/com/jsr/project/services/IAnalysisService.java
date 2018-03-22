@@ -31,9 +31,26 @@ public interface IAnalysisService {
 	//투자 금액 top5
 	public List<AcountPatternDto> acountMoneyTop(AcountPatternDto dto);
 	
-	//기간별 수익 차트 조회
-	public Map<String, List<AcountPatternDto>> acountDateChartAjax(AcountPatternDto dto);
+	//1년중 가장 높은 수익 조회
+	public SaveDto yearMoneyTop(AcountPatternDto dto);
 	
+	//가장 수익이 높은 상품 조회
+	public AcountPatternDto yearProductTop(AcountPatternDto dto);
+	
+	//연간 투자 금액 top5
+	public List<AcountPatternDto> yearAcountMoneyTop(AcountPatternDto dto);
+	
+	//기간별 수익 차트 조회
+	public Map<String, List<Object>> acountDateChartAjax(AcountPatternDto dto);
+	
+	//투자별 수익 현황 조회
+	public List<AcountPatternDto> acountDetailChart(AcountPatternDto dto);
+	
+	//투자 수익 차트 조회
+	public List<AcountPatternDto> acountMaxValueChart(AcountPatternDto dto);
+	
+	//당월 투자 비율 차트
+	public List<AcountPatternDto> CurrentAcountTotalChart(AcountPatternDto dto);
 	
 
 }

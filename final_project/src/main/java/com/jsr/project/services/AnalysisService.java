@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.jsr.project.daos.IAnalysisDao;
 import com.jsr.project.dtos.AcountPatternDto;
@@ -81,10 +82,21 @@ public class AnalysisService implements IAnalysisService{
 	public List<AcountPatternDto> acountMoneyTop(AcountPatternDto dto) {
 		return IAnalysisDao.acountMoneyTop(dto);
 	}
-
+	
 	@Override
-	public Map<String, List<AcountPatternDto>> acountDateChartAjax(AcountPatternDto dto) {
-		Map<String, List<AcountPatternDto>> map=new HashMap<>();
+	public SaveDto yearMoneyTop(AcountPatternDto dto) {
+		return IAnalysisDao.yearMoneyTop(dto);
+	}
+	
+	@Override
+	public List<AcountPatternDto> yearAcountMoneyTop(AcountPatternDto dto) {
+		return IAnalysisDao.yearAcountMoneyTop(dto);
+	}
+
+	@Transactional
+	@Override
+	public Map<String, List<Object>> acountDateChartAjax(AcountPatternDto dto) {
+		Map<String, List<Object>> map=new HashMap<>();
 		
 		map.put("sChart", IAnalysisDao.saveDateChartAjax(dto));
 		map.put("stChart", IAnalysisDao.stockDateChartAjax(dto));
@@ -93,6 +105,30 @@ public class AnalysisService implements IAnalysisService{
 		
 		return map;
 	}
+
+	@Override
+	public AcountPatternDto yearProductTop(AcountPatternDto dto) {
+		return IAnalysisDao.yearProductTop(dto);
+	}
+
+	@Override
+	public List<AcountPatternDto> acountDetailChart(AcountPatternDto dto) {
+		return IAnalysisDao.acountDetailChart(dto);
+	}
+
+	@Override
+	public List<AcountPatternDto> acountMaxValueChart(AcountPatternDto dto) {
+		return IAnalysisDao.acountMaxValueChart(dto);
+	}
+
+	@Override
+	public List<AcountPatternDto> CurrentAcountTotalChart(AcountPatternDto dto) {
+		return IAnalysisDao.CurrentAcountTotalChart(dto);
+	}
+
+
+
+
 	
 
 }

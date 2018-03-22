@@ -2,6 +2,8 @@ package com.jsr.project.dtos;
 
 public class AcountPatternDto {
 	
+	private int rn;
+	
 	private String id;
 	
 	private String name;
@@ -13,6 +15,14 @@ public class AcountPatternDto {
 	private float rate;
 	
 	private float re;
+
+	public int getRn() {
+		return rn;
+	}
+
+	public void setRn(int rn) {
+		this.rn = rn;
+	}
 
 	public String getId() {
 		return id;
@@ -67,8 +77,9 @@ public class AcountPatternDto {
 		// TODO Auto-generated constructor stub
 	}
 
-	public AcountPatternDto(String id, String name, String detail, int money, float rate, float re) {
+	public AcountPatternDto(int rn, String id, String name, String detail, int money, float rate, float re) {
 		super();
+		this.rn = rn;
 		this.id = id;
 		this.name = name;
 		this.detail = detail;
@@ -79,9 +90,11 @@ public class AcountPatternDto {
 
 	@Override
 	public String toString() {
-		return "AcountPatternDto [id=" + id + ", name=" + name + ", detail=" + detail + ", money=" + money + ", rate="
-				+ rate + ", re=" + re + "]";
+		return "AcountPatternDto [rn=" + rn + ", id=" + id + ", name=" + name + ", detail=" + detail + ", money="
+				+ money + ", rate=" + rate + ", re=" + re + "]";
 	}
+
+	
 	
 	
 
