@@ -57,6 +57,8 @@ window.onload = function () {
 			var finals=[];
 			var div="";
 			
+		//	alert("acountTotalRate 성공 / "+totalRate);
+			
 			for (var i = 0; i < totalRate.length; i++) {
 				finals.push({y:obj.totalRate[i].money , name:obj.totalRate[i].name });
 				div+="<div class='totalRateChart'><div>"+obj.totalRate[i].name+" : "+obj.totalRate[i].money+"</div></div>";
@@ -113,6 +115,8 @@ window.onload = function () {
 					var sChart=obj["sChart"];
 					var stChart=obj["stChart"];
 					var fChart=obj["fChart"];
+					
+				//	alert("acountDateChartAjax 성공 / "+stChart);
 					
 					var sFinals=[];
 					for (var i = 0; i < sChart.length; i++) {
@@ -227,7 +231,7 @@ window.onload = function () {
 		datatype:"json",
 		success:function(obj){
 			var list=obj["list"];
-			alert("acountDetailChart 성공 / "+list);
+		//	alert("acountDetailChart 성공 / "+list);
 			
 			var finals=[];
 			
@@ -272,7 +276,7 @@ window.onload = function () {
 		datatype:"json",
 		success:function(obj){
 			var list=obj["acountMaxValue"];
-			alert("acountMaxValueChart 성공 / "+list);
+		//	alert("acountMaxValueChart 성공 / "+list);
 			
 			var finals=[];
 			for (var i = 0; i < list.length; i++) {
@@ -317,8 +321,13 @@ window.onload = function () {
 		data:"year="+year+"&month="+month,
 		datatype:"json",
 		success:function(obj){
+			var list=obj["CurrentAcountTotal"];
+		//	alert("CurrentAcountTotalChart 성공 / "+list);
 			
-			alert("CurrentAcountTotalChart 성공 / ");
+			var finals=[];
+			for (var i = 0; i < list.length; i++) {
+				finals.push({y:obj.list[i].money , label:obj.list[i].detail})
+			}
 			
 			var CurrentAcountTotalChart = new CanvasJS.Chart("chartContainer5", {
 				animationEnabled: true,
@@ -333,14 +342,7 @@ window.onload = function () {
 					indexLabelFontSize: 17,
 					indexLabel: "{label} - #percent%",
 					toolTipContent: "<b>{label}:</b> {y} (#percent%)",
-					dataPoints: [
-						{ y: 67, label: "Inbox" },
-						{ y: 28, label: "Archives" },
-						{ y: 10, label: "Labels" },
-						{ y: 7, label: "Drafts"},
-						{ y: 15, label: "Trash"},
-						{ y: 6, label: "Spam"}
-					]
+					dataPoints: finals
 				}]
 			});
 			CurrentAcountTotalChart.render(); 
@@ -481,7 +483,7 @@ window.onload = function () {
 		
 	</div>
 	<div class="aocuntMaxMoney">
-		<h3>현재 가장 수익을 많이 낸 상품은 OO이며 OO%의 수입을 냈습니다.</h3>
+		<h3>현재 가장 수익을 많이 낸 상품은 ${yearProductTop.detail }이며 ${yearProductTop.rate }%의 수입을 냈습니다.</h3>
 	</div>
 	
 	<div class="acountYearMoney">
@@ -521,8 +523,8 @@ window.onload = function () {
 	<div class="acountTotalList">
 	
 	<div class="currentAcountTotalMoney">
-		<h1>이번달 총자산 </h1>
-		<h1>000 </h1>
+		<h1>이번달 총 투자금액 </h1>
+		<h1><fmt:formatNumber value="${acountMonthMoney.ac_money}" type="number"/> </h1>
 		<h1>원 </h1>
 	</div>
 	

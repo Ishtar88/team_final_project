@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+	<mapper namespace="com.jsr.project.income">
+		
+		<select id="incomeAllSearch" parameterType="IncomeDto" resultType="IncomeDto">
+			SELECT I_SEQ,ID,I_MONEY,I_FIX,I_NAME,I_MEMO,I_REGDATE,I_MODIDATE
+			FROM INCOME WHERE TO_CHAR(I_REGDATE,'YYYY-MM')=#{i_memo} AND ID=#{id}
+		</select>
+		
+		<select id="incomeDetailSearch" parameterType="int" resultType="IncomeDto">
+			SELECT I_SEQ,ID,I_MONEY,I_FIX,I_NAME,I_MEMO,I_REGDATE,I_MODIDATE
+			FROM INCOME WHERE I_SEQ=#{i_seq}
+		</select>
+		
+		<select id="incomeTopSearch" parameterType="String" resultType="IncomeDto">
+			<![CDATA[
+				SELECT DISTINCT RN,I_SEQ,ID,I_NAME,I_MONEY,I_FIX,I_REGDATE,I_MONEY,I_MODIDATE 
+				FROM (SELECT I.*,ROW_NUMBER() OVER(ORDER BY I_MONEY DESC) AS RN FROM INCOME I) 
+				WHERE id=#{id} AND RN<4 ORDER BY RN
+			]]>
+		</select>
+		
+		<insert id="incomeInsert" parameterType="IncomeDto">
+			INSERT INTO INCOME(I_SEQ,ID,I_MONEY,I_FIX,I_NAME,I_MEMO,I_REGDATE)
+			VALUES(INCOME_SEQ.NEXTVAL,#{id},#{i_money},#{i_fix},#{i_name},#{i_memo},SYSDATE)
+		</insert>
+		
+		<insert id="incomeInsertPoint" parameterType="String">
+			INSERT INTO POINT(PO_SEQ,ID,PO_REGDATE,PO_NAME,PO_DETAIL,PO_POINT)
+			VALUES(POINT_SEQ.NEXTVAL,#{id},SYSDATE,'일반','수입등록 포인트 적립',100)
+		</insert>
+		
+		<update id="incomeUpdate" parameterType="IncomeDto">
+				UPDATE INCOME SET 
+							<choose>
+								<when test="i_name!=null">
+									I_NAME=#{i_name}
+								</when><otherwise>
+									I_NAME=NULL
+								</otherwise>
+							</choose>
+							,
+							<choose>
+								<when test="i_money!=null">
+									I_MONEY=#{i_money}
+								</when><otherwise>
+									I_MOENY=NULL
+								</otherwise>
+							</choose>
+							,
+							<choose>
+								<when test="i_tax!=null">
+									I_TAX=#{i_tax}
+								</when><otherwise>
+									I_TAX=NULL
+								</otherwise>
+							</choose>
+							,
+							<choose>
+								<when test="i_memo!=null">
+									I_MEMO=#{i_memo}
+								</when><otherwise>
+									I_MEMO=NULL
+								</otherwise>
+							</choose>
+							,I_MODIDATE=#{modidate}
+			WHERE I_SEQ=#{i_seq}
+		</update>
+		
+		<delete id="incomeDelete" parameterType="int">
+			DELETE FROM INCOME WHERE I_SEQ=#{i_seq}
+		</delete>
+		
+		<select id="incomeChartAjax" parameterType="IncomeDto" resultType="IncomeDto">
+			SELECT I_NAME,I_MONEY,I_REGDATE FROM INCOME WHERE TO_CHAR(I_REGDATE,'YYYY-MM')=#{i_memo} GROUP BY (I_NAME,I_MONEY,I_REGDATE)
+		</select>
+	
+	</mapper>

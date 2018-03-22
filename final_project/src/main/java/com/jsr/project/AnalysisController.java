@@ -134,6 +134,8 @@ public class AnalysisController {
 		isc=acountTotalDetail(model, session);
 		//가장높은 수익 상품 조회
 		isc=yearProductTop(model, regdate, session);
+		//당월 투자금액 조회
+		isc=acountMonthMoney(model, regdate, session);
 		
 		
 		
@@ -239,7 +241,9 @@ public class AnalysisController {
 		
 		Map<String, List<AcountPatternDto>> map=new HashMap<>();
 		
-		AcountPatternDto dto=inputPatternDto(session);
+		String regdate=year+"-"+month;
+		
+		AcountPatternDto dto=inputPatternDto(regdate,session);
 		
 		List<AcountPatternDto> CurrentAcountTotal=analysisService.CurrentAcountTotalChart(dto);
 		map.put("CurrentAcountTotal", CurrentAcountTotal);
@@ -248,6 +252,25 @@ public class AnalysisController {
 		logger.info("analysis CurrentAcountTotal end.");
 		
 		return map;
+	}
+	
+	//당월 투자금액 조회
+	public boolean acountMonthMoney(Model model,String regdate,HttpSession session) {
+		logger.info("analysis acountMonthMoney start");
+		
+		int count=0;
+		
+		
+		AcountPatternDto dto=inputPatternDto(regdate,session);
+		
+		List<AcountPatternDto> acountMonthMoney=analysisService.acountTotalDetailAjax(dto);
+		
+		model.addAttribute("acountMonthMoney", acountMonthMoney);
+		
+		logger.info("acountMonthMoney: "+acountMonthMoney);
+		logger.info("analysis acountMonthMoney end.");
+		
+		return count>0?true:false;
 	}
 	
 	//투자 분류 내역 조회

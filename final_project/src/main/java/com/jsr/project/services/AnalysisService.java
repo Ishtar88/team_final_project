@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.jsr.project.daos.IAnalysisDao;
+import com.jsr.project.dtos.AcountDto;
 import com.jsr.project.dtos.AcountPatternDto;
 import com.jsr.project.dtos.GoalDto;
 import com.jsr.project.dtos.SaveDto;
@@ -124,6 +125,11 @@ public class AnalysisService implements IAnalysisService{
 	@Override
 	public List<AcountPatternDto> CurrentAcountTotalChart(AcountPatternDto dto) {
 		return IAnalysisDao.CurrentAcountTotalChart(dto);
+	}
+
+	@Override
+	public AcountDto acountMonthMoney(AcountPatternDto dto) {
+		return IAnalysisDao.acountMonthMoney(dto);
 	}
 
 

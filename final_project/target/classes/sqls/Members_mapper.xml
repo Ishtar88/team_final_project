@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jsr.project.members">
+
+	<resultMap type="com.jsr.project.dtos.MembersDto" id="MembersDto">
+		<result property="id" column="ID" />
+		<result property="m_name" column="M_NAME" />
+		<result property="m_email" column="M_EMAIL" />
+		<result property="m_password" column="M_PASSWORD" />
+		<result property="m_phone" column="M_PHONE" />
+		<result property="m_age" column="M_AGE" />
+		<result property="m_birthDate" column="M_BIRTHDATE" />
+		<result property="m_profile_img" column="M_PROFILE_IMG" />
+		<result property="m_gender" column="M_GENDER" />
+		<result property="m_grade" column="M_GRADE" />
+		<result property="m_address" column="M_ADDRESS" />
+		<result property="m_job" column="M_JOB" />
+		<result property="m_regDate" column="M_REGDATE" />
+		<result property="m_goalDate" column="M_GOALDATE" />
+		<result property="m_useable" column="M_USEAABLE" />
+		<result property="m_mariable" column="M_MARIABLE" />
+		<result property="m_favorite" column="M_FAVORITE" />
+
+	</resultMap>
+<select id="login" resultMap="MembersDto" parameterType="MembersDto">
+		SELECT DISTINCT
+		M.ID,M_NAME,M_EMAIL,M_PASSWORD,M_PHONE,M_GRADE,
+		(SELECT
+		(SUBSTR(TO_CHAR(SYSDATE,'YYYY-MM-DD'),1,4)-SUBSTR(TO_CHAR(M_BIRTHDATE,'YYYY-MM-DD'),1,4))+1
+		AS AGE FROM MEMBERS WHERE ID=#{id}) AS AGE,
+		M_GENDER,M_ADDRESS,M_JOB,M_REGDATE,M_USEABLE,M_MARIABLE,M_BIRTHDATE,M_FAVORITE,M_PROFILE_IMG,(SELECT
+		SUM(PO_POINT) FROM POINT WHERE ID=#{id})AS PO_POINT
+		FROM MEMBERS M LEFT
+		JOIN POINT P ON M.ID=P.ID WHERE M.ID=#{id} AND
+		M_PASSWORD=#{m_password}
+	</select>
+
+	<select id="idChk" resultMap="MembersDto" parameterType="Map">
+		SELECT
+		ID FROM MEMBERS WHERE ID=#{id}
+	</select>
+
+	<insert id="regist" parameterType="MembersDto">
+		INSERT INTO
+		MEMBERS(ID,M_NAME,M_EMAIL,M_PASSWORD,M_PHONE,M_GENDER,M_GRADE,M_BIRTHDATE,M_ADDRESS,M_JOB,M_MARIABLE,M_FAVORITE,M_USEABLE,M_REGDATE)
+		VALUES(#{id},#{m_name},#{m_email},#{m_password},#{m_phone},#{m_gender},'USER',TO_DATE(#{m_birthDate}),
+		<choose>
+			<when test="m_address!=null">
+				#{m_address}
+			</when>
+			<otherwise>
+				null
+			</otherwise>
+		</choose>
+		,
+		<choose>
+			<when test="m_job!=null">
+				#{m_job}
+			</when>
+			<otherwise>
+				null
+			</otherwise>
+		</choose>
+		,
+		<choose>
+			<when test="m_mariable!=null">
+				#{m_mariable}
+			</when>
+			<otherwise>
+				null
+			</otherwise>
+		</choose>
+		,
+		<choose>
+			<when test="m_favorite!=null">
+				#{m_favorite}
+			</when>
+			<otherwise>
+				null
+			</otherwise>
+		</choose>
+		,
+		'Y',SYSDATE)
+	</insert>
+
+	<insert id="addPoint" parameterType="Map">
+		INSERT INTO POINT
+		(PO_SEQ,ID,PO_REGDATE,PO_NAME,PO_POINT,PO_DETAIL) VALUES
+		(POINT_SEQ.NEXTVAL,#{id},SYSDATE,'일반',#{po_point},'회원가입 포인트')
+	</insert>
+
+	<select id="getUser" parameterType="Map" resultMap="MembersDto">
+		SELECT DISTINCT
+		M.ID,M_NAME,M_EMAIL,M_PASSWORD,M_PHONE,M_GRADE,
+		(SELECT
+		(SUBSTR(TO_CHAR(SYSDATE,'YYYY-MM-DD'),1,4)-SUBSTR(TO_CHAR(M_BIRTHDATE,'YYYY-MM-DD'),1,4))+1
+		AS AGE FROM MEMBERS WHERE ID=#{id}) AS AGE,
+		M_GENDER,M_ADDRESS,M_JOB,M_REGDATE,M_USEABLE,M_MARIABLE,M_BIRTHDATE,M_FAVORITE,M_PROFILE_IMG,(SELECT
+		SUM(PO_POINT) FROM POINT WHERE ID=#{id})AS PO_POINT
+		FROM MEMBERS M LEFT
+		JOIN POINT P ON M.ID=P.ID WHERE M.ID=#{id}
+	</select>
+
+	<update id="changeProfile" parameterType="MembersDto">
+		UPDATE MEMBERS SET
+		M_PROFILE_IMG=#{m_profile_img} WHERE ID=#{id}
+	</update>
+
+	<update id="modifyUser" parameterType="MembersDto">
+		UPDATE MEMBERS SET
+		M_PHONE=#{m_phone},M_BIRTHDATE=#{m_birthDate},M_GENDER=#{m_gender}
+		,M_ADDRESS=#{m_address},M_JOB=#{m_job},M_MARIABLE=#{m_mariable},M_FAVORITE=#{m_favorite}
+		WHERE ID=#{id}
+	</update>
+
+	<insert id="kakaoRegist" parameterType="MembersDto">
+		INSERT INTO
+		MEMBERS(ID,M_NAME,M_EMAIL,M_PASSWORD,M_PHONE,M_GENDER)
+		VALUES(#{id},#{m_name},#{m_email},#{m_password},' ',' ')
+	</insert>
+
+	<select id="chkPassword" parameterType="MembersDto" resultMap="MembersDto">
+		SELECT M_PASSWORD FROM MEMBERS WHERE ID=#{id}
+	</select>
+
+	<update id="leaveUser" parameterType="MembersDto">
+		UPDATE MEMBERS SET
+		M_USEABLE='N' WHERE ID=#{id}
+	</update>
+
+	<select id="findId" parameterType="MembersDto" resultMap="MembersDto">
+		SELECT
+		ID FROM MEMBERS WHERE M_NAME=#{m_name} AND M_EMAIL=#{m_email}
+	</select>
+
+	<select id="findPw" parameterType="MembersDto" resultMap="MembersDto">
+		SELECT
+		ID FROM MEMBERS WHERE ID=#{id} AND M_EMAIL=#{m_email}
+	</select>
+
+	<update id="changePw" parameterType="Map">
+		UPDATE MEMBERS SET
+		M_PASSWORD=#{m_password} WHERE ID=#{id}
+	</update>
+</mapper>

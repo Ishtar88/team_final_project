@@ -8,6 +8,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.jsr.project.dtos.AcountDto;
 import com.jsr.project.dtos.AcountPatternDto;
 import com.jsr.project.dtos.FundDto;
 import com.jsr.project.dtos.GoalDto;
@@ -141,6 +142,10 @@ public class AnalysisDao implements IAnalysisDao{
 	@Override
 	public List<AcountPatternDto> CurrentAcountTotalChart(AcountPatternDto dto) {
 		return sqlSession.selectList(namespace+"CurrentAcountTotalChart", dto);
+	}
+	@Override
+	public AcountDto acountMonthMoney(AcountPatternDto dto) {
+		return sqlSession.selectOne(namespace+"acountMonthMoney", dto);
 	}
 
 

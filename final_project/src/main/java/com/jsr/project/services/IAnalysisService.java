@@ -3,6 +3,7 @@ package com.jsr.project.services;
 import java.util.List;
 import java.util.Map;
 
+import com.jsr.project.dtos.AcountDto;
 import com.jsr.project.dtos.AcountPatternDto;
 import com.jsr.project.dtos.GoalDto;
 import com.jsr.project.dtos.SaveDto;
@@ -51,6 +52,9 @@ public interface IAnalysisService {
 	
 	//당월 투자 비율 차트
 	public List<AcountPatternDto> CurrentAcountTotalChart(AcountPatternDto dto);
+	
+	//당월 투자금액 조회
+	public AcountDto acountMonthMoney(AcountPatternDto dto);
 	
 
 }

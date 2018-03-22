@@ -2,6 +2,7 @@ package com.jsr.project.daos;
 
 import java.util.List;
 
+import com.jsr.project.dtos.AcountDto;
 import com.jsr.project.dtos.AcountPatternDto;
 import com.jsr.project.dtos.FundDto;
 import com.jsr.project.dtos.GoalDto;
@@ -60,6 +61,8 @@ public interface IAnalysisDao {
 	//당월 투자 비율 차트
 	public List<AcountPatternDto> CurrentAcountTotalChart(AcountPatternDto dto);
 	
+	//당월 투자금액 조회
+	public AcountDto acountMonthMoney(AcountPatternDto dto);
 	
 	
 	//투자패턴-유라
