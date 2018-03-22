@@ -19,6 +19,10 @@
 Calendar cal = Calendar.getInstance();
 int year = cal.get(Calendar.YEAR);
 int month = cal.get(Calendar.MONTH) + 1;
+
+cal.set(year, month - 1, 1);
+int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
+int lastDay = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
 %>
 <script type="text/javascript"
 	src="http://code.jquery.com/jquery-latest.js"></script>
@@ -32,8 +36,8 @@ var chart1 = new CanvasJS.Chart("chartContainer1", {
 	
 	animationEnabled: true,
 	title:{
-		text: "Email Categories",
-		horizontalAlign: "left"
+		text: "총 소비액 중 투자/지출",
+		horizontalAlign: "center"
 	},
 	data: [{
 		type: "doughnut",
@@ -71,8 +75,8 @@ var month=$("input[name=month]").val();
 				var list3=obj["goalMinusSpend"];
 				var arrayList1=[];
 				var arrayList2=[];
-				arrayList1.push({ label:"total", y:obj["total_goal"] });
-				arrayList2.push({ label:"total", y:obj["total_spending"] });
+				arrayList1.push({ label:"Total", y:obj["total_goal"] });
+				arrayList2.push({ label:"Total", y:obj["total_spending"] });
 				for (var i = 0; i < list.length; i++) {
 					arrayList1.push({ label:list[i].p_name, y:list[i].g_name.g_money });
 					arrayList2.push({ label:list[i].p_name, y:list[i].p_money });
@@ -90,23 +94,23 @@ var month=$("input[name=month]").val();
 						exportEnabled: true,
 						animationEnabled: true,
 						title:{
-							text: "Car Parts Sold in Different States"
+							text: "예산 대비 실제 지출"
 						},
 						subtitles: [{
-							text: "Click Legend to Hide or Unhide Data Series"
+							text: "계획한 예산과 실제 지출에 어떤 차이가 있는지 비교 해 보세요."
 						}], 
 						axisX: {
-							title: "States"
+							//title: "States"
 						},
 						axisY: {
-							title: "예산 - Units",
+							//title: "예산 - Units",
 							titleFontColor: "#4F81BC",
 							lineColor: "#4F81BC",
 							labelFontColor: "#4F81BC",
 							tickColor: "#4F81BC"
 						},
 						axisY2: {
-							title: "지출 - Units",
+							//title: "지출 - Units",
 							titleFontColor: "#C0504E",
 							lineColor: "#C0504E",
 							labelFontColor: "#C0504E",
@@ -152,25 +156,38 @@ var month=$("input[name=month]").val();
 
 }
 </script>
+<style type="text/css">
+img{
+width: 150px;
+height: 200px;
+}
+</style>
 </head>
 <body>
-	<div id="chartContainer1" style="height: 370px; width: 100%;"></div>
+	<div id="chartContainer1" style="height: 370px; width: 300px;"></div>
 	<script src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
 	<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 
-	<div id="chartContainer2" style="height: 370px; width: 100%;"></div>
+	<div id="chartContainer2" style="height: 370px; width: 60%;"></div>
 	<script src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
 	<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
-</head>
-<body>
-</head>
-<body>
-	<a href="#">1개월</a>
-	<a href="#">3개월</a>
-	<a href="#">6개월</a>
-	<input type="hidden" name="year" value="<%=year%>"/>
-	<input type="hidden" name="month" value="<%=month%>"/>
-	<table border="1">
+
+	<a href="total_pattern_main.do?sMonth=-2&eMonth=-1&year=<%=year%>&month=<%=month%>&lastDay=<%=lastDay%>">지난달</a>
+	<a href="total_pattern_main.do?sMonth=-4&eMonth=-1&year=<%=year%>&month=<%=month%>&lastDay=<%=lastDay%>">최근 3개월</a>
+	<a href="total_pattern_main.do?sMonth=-7&eMonth=-1&year=<%=year%>&month=<%=month%>&lastDay=<%=lastDay%>">최근 6개월</a>
+<input type="hidden" name="year" value="<%=year%>"/>
+<input type="hidden" name="month" value="<%=month%>"/>
+	<table id="type1">
+	<tr><td><img alt="유형 이미지" src="${aDto1.a_img}"/></td></tr>
+	<tr><td>${aDto1.a_name}</td></tr>
+	<tr><td>${aDto1.a_detail}</td></tr>
+	</table>
+	<table id="type2">
+	<tr><td><img alt="유형 이미지" src="${aDto2.a_img}"/></td></tr>
+	<tr><td>${aDto2.a_name}</td></tr>
+	<tr><td>${aDto2.a_detail}</td></tr>
+	</table>
+	<table border="1" id="chart1">
 		<tr>
 			<td>총 지출액</td>
 			<td colspan="2"><f:formatNumber value="${total_spending}"
@@ -189,10 +206,10 @@ var month=$("input[name=month]").val();
 			<td><f:formatNumber value="${invest_spending}" type="number" /></td>
 		</tr>
 	</table>
-	<table border="1">
+	<table border="1" id="chart2-1">
 		<tr>
 			<td>목표달성률</td>
-			<td colspan="2">${goal_ratio}%</td>
+			<td colspan="2"></td>
 		</tr>
 		<tr>
 			<td>총 예산</td>
@@ -206,7 +223,7 @@ var month=$("input[name=month]").val();
 		</tr>
 		
 	</table>
-	<table border="1">
+	<table border="1" id="chart2-2">
 	<tr>
 			<td colspan="3">카테고리별 상세내역</td>
 		</tr>

@@ -11,8 +11,14 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="f"%>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
-<title>Insert title here</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" type="text/css"
+	href="resources/assets/semantic.min.css">
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"
+	integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+	crossorigin="anonymous"></script>
+<script src="resources/assets/semantic.min.js"></script>
+<title>회원가입</title>
 <script type="text/javascript"
 	src="http://code.jquery.com/jquery-latest.js"></script>
 <%
@@ -179,52 +185,188 @@
 </style>
 </head>
 <body>
-	<form action="regist2.do" onsubmit="return formChk()" method="post">
-		<table border="1">
+<form class="ui form" action="regist2.do" onsubmit="return formChk()" method="post">
+  <h4 class="ui dividing header">회원가입</h4>
+  <div class="field">
+    <label>아이디</label>
+    <div class="two fields">
+      <div class="field">
+        <input type="text" name="shipping[first-name]">
+      </div>
+    </div>
+  </div>
+  
+    <div class="field">
+    <label>이름</label>
+    <div class="two fields">
+      <div class="field">
+        <input type="text" name="shipping[first-name]">
+      </div>
+    </div>
+  </div>
+  
+    <div class="field">
+    <label>비밀번호</label>
+    <div class="two fields">
+      <div class="field">
+        <input type="text" name="shipping[first-name]">
+      </div>
+    </div>
+  </div>
+  
+    <div class="field">
+    <label>비밀번호 확인</label>
+    <div class="two fields">
+      <div class="field">
+        <input type="text" name="shipping[first-name]">
+      </div>
+    </div>
+  </div>
+  
+    <div class="field">
+    <label>이메일</label>
+    <div class="two fields">
+      <div class="field">
+        <input type="text" name="shipping[first-name]">
+      </div>
+       <div class="field">
+        <input type="text" name="shipping[first-name]">
+      </div>
+    </div>
+  </div>
+  
+    <div class="field">
+    <label>인증번호 입력</label>
+    <div class="two fields">
+      <div class="field">
+        <input type="text" name="shipping[first-name]">
+      </div>
+    </div>
+  </div>
+  
+    <div class="three wide field">
+      <label>연락처</label>
+      <div class="two fields">
+      <div class="field">
+        <input type="text" name="card[cvc]" maxlength="3" placeholder="CVC">
+      </div>
+      <div class="field">
+        <input type="text" name="card[cvc]" maxlength="3" placeholder="CVC">
+      </div>
+      <div class="field">
+        <input type="text" name="card[cvc]" maxlength="3" placeholder="CVC">
+      </div>
+    </div>
+    </div>
+    
+        <div class="six wide field">
+      <label>생년월일</label>
+      <div class="two fields">
+        <div class="field">
+          <select class="ui fluid search dropdown" name="card[expire-month]">
+            <option value="">Month</option>
+            <option value="1">January</option>
+            <option value="2">February</option>
+            <option value="3">March</option>
+            <option value="4">April</option>
+            <option value="5">May</option>
+            <option value="6">June</option>
+            <option value="7">July</option>
+            <option value="8">August</option>
+            <option value="9">September</option>
+            <option value="10">October</option>
+            <option value="11">November</option>
+            <option value="12">December</option>
+          </select>
+        </div>
+          <div class="field">
+          <select class="ui fluid search dropdown" name="card[expire-month]">
+            <option value="">Month</option>
+            <option value="1">January</option>
+            <option value="2">February</option>
+            <option value="3">March</option>
+            <option value="4">April</option>
+            <option value="5">May</option>
+            <option value="6">June</option>
+            <option value="7">July</option>
+            <option value="8">August</option>
+            <option value="9">September</option>
+            <option value="10">October</option>
+            <option value="11">November</option>
+            <option value="12">December</option>
+          </select>
+        </div>
+          <div class="field">
+          <select class="ui fluid search dropdown" name="card[expire-month]">
+            <option value="">Month</option>
+            <option value="1">January</option>
+            <option value="2">February</option>
+            <option value="3">March</option>
+            <option value="4">April</option>
+            <option value="5">May</option>
+            <option value="6">June</option>
+            <option value="7">July</option>
+            <option value="8">August</option>
+            <option value="9">September</option>
+            <option value="10">October</option>
+            <option value="11">November</option>
+            <option value="12">December</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+  <div class="ui button" tabindex="0">다음</div>
+</form>
+
+
+
+	<form action="regist2.do" onsubmit="return formChk()" method="post" class="ui form">
+		<table>
 			<tr>
 				<td>아이디</td>
-				<td><input type="text" name="id" />
+				<td class="ui input"><input type="text" name="id"/>
 					<p id="idchk"></p></td>
 				<td><input type="button" value="중복확인" onclick="idChk()"></td>
 			</tr>
 			<tr>
 				<td>이름</td>
-				<td colspan="2"><input type="text" name="m_name" /></td>
+				<td class="ui input" colspan="2"><input type="text" name="m_name"/></td>
 			</tr>
 			<tr>
 				<td>비밀번호</td>
-				<td colspan="2"><input type="password" name="m_password" /></td>
+				<td class="ui input" colspan="2"><input type="password" name="m_password"/></td>
 			</tr>
 			<tr>
 				<td>비밀번호 확인</td>
-				<td colspan="2"><input type="password" name="m_password_chk"
-					onchange="pwChk()" />
+				<td class="ui input" colspan="2"><input type="password" name="m_password_chk"
+					onchange="pwChk()"/>
 					<p id="pwchk"></p></td>
 			</tr>
 			<tr>
 				<td>이메일</td>
-				<td><input type="text" name="email1" />@ <input type="text"
-					name="email2" /> <select name="mailadd" onchange="mailaddd(this.selected)">
+				<td class="ui input"><input type="text" name="email1" class="ui input"/>@ <input type="text"
+					name="email2"/> <select name="mailadd" onchange="mailaddd(this.selected)">
 						<option value="self">직접 입력</option>
 						<option value="gmail.com">gmail.com</option>
 						<option value="naver.com">naver.com</option>
 						<option value="daum.net">daum.net</option>
 				</select></td>
-				<td><input type="button" value="인증" onclick="sendMail()"></td>
+				<td><input type="button" value="인증" onclick="sendMail()" class="ui input"></td>
 			</tr>
 			<tr>
 				<td>인증번호 입력</td>
-				<td colspan="2"><input type="text" name="chkEmail"
-					onchange="chkMail()" />
+				<td class="ui input" colspan="2"><input type="text" name="chkEmail"
+					onchange="chkMail()"/>
 					<p id="mailChk"></p></td>
 
 			</tr>
 			<tr>
 				<td>연락처</td>
-				<td colspan="2"><input type="text" name="phone1" maxlength="3"
-					class="phoneNum" size="4px" />-<input type="text" name="phone2"
-					maxlength="4" class="phoneNum" size="4px" />-<input type="text"
-					name="phone3" maxlength="4" class="phoneNum" size="4px" /></td>
+				<td class="ui input" colspan="2"><input type="text" name="phone1" maxlength="3"
+					class="phoneNum" size="4px"/>-<input type="text" name="phone2"
+					maxlength="4" class="phoneNum" size="4px"/>-<input type="text"
+					name="phone3" maxlength="4" class="phoneNum" size="4px"/></td>
 			</tr>
 			<tr>
 				<td>생년월일</td>
@@ -250,7 +392,7 @@
 				</td>
 			</tr>
 			<tr>
-				<td><input type="submit" value="다음" /></td>
+				<td colspan="3"><input type="submit" value="다음" /></td>
 			</tr>
 		</table>
 	</form>

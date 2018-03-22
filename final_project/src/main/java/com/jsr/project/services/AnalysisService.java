@@ -1,16 +1,13 @@
 package com.jsr.project.services;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.jsr.project.daos.IAnalysisDao;
-import com.jsr.project.dtos.AcountPatternDto;
+import com.jsr.project.dtos.AnalysisDto;
 import com.jsr.project.dtos.GoalDto;
-import com.jsr.project.dtos.SaveDto;
 import com.jsr.project.dtos.SpendingDto;
 
 @Service
@@ -22,37 +19,27 @@ public class AnalysisService implements IAnalysisService{
 	//소비패턴-수진
 	
 	@Override
-	public int total_spending(String sMonth,String eMonth,String id) {
-		return IAnalysisDao.total_spending(sMonth, eMonth, id);
+	public int total_spending(String sMonth,String eMonth,String eDate,String id) {
+		return IAnalysisDao.total_spending(sMonth, eMonth, eDate, id);
 	}
 
 	@Override
-	public int invest_spending(String p_regdate,String id) {
-		return IAnalysisDao.invest_spending(p_regdate, id);
+	public int invest_spending(String sMonth,String eMonth,String eDate,String id) {
+		return IAnalysisDao.invest_spending(sMonth, eMonth, eDate, id);
 	}
 
 	@Override
-	public int expense_spending(String p_regdate,String id) {
-		return IAnalysisDao.expense_spending(p_regdate, id);
+	public int expense_spending(String sMonth,String eMonth,String eDate,String id) {
+		return IAnalysisDao.expense_spending(sMonth, eMonth, eDate, id);
 	}
-
-	@Override
-	public int invest_ratio(String p_regdate,String id) {
-		return IAnalysisDao.invest_ratio(p_regdate, id);
-	}
-
-	@Override
-	public int expense_ratio(String p_regdate,String id) {
-		return IAnalysisDao.expense_ratio(p_regdate, id);
-	}
-
+	
 	@Override
 	public int total_goal(String id) {
 		return IAnalysisDao.total_goal(id);
 	}
 	@Override
-	public int total_expense(String id, String p_regdate) {
-		return IAnalysisDao.total_expense(id, p_regdate);
+	public int total_expense(String sMonth,String eMonth,String eDate,String id) {
+		return IAnalysisDao.total_expense(sMonth, eMonth, eDate, id);
 	}
 
 	@Override
@@ -61,44 +48,19 @@ public class AnalysisService implements IAnalysisService{
 	}
 
 	@Override
-	public List<SpendingDto> category_expense(String id, String p_regdate) {
-		return IAnalysisDao.category_expense(id, p_regdate);
-	}
-
-
-	@Override
-	public List<SpendingDto> goalVerseExpense(String id, String p_regdate) {
-		return IAnalysisDao.goalVerseExpense(id, p_regdate);
-	}
-
-	//소비패턴 - 병훈
-
-	@Override
-	public List<AcountPatternDto> acountTotalRate(AcountPatternDto dto) {
-		return IAnalysisDao.acountTotalRate(dto);
+	public List<SpendingDto> category_expense(String sMonth,String eMonth,String eDate,String id) {
+		return IAnalysisDao.category_expense(sMonth, eMonth, eDate, id);
 	}
 
 	@Override
-	public List<AcountPatternDto> acountTotalDetailAjax(AcountPatternDto dto) {
-		return IAnalysisDao.acountTotalDetailAjax(dto);
+	public List<SpendingDto> goalVerseExpense(String sMonth,String eMonth,String eDate,String id) {
+		return IAnalysisDao.goalVerseExpense(sMonth, eMonth, eDate, id);
 	}
 
 	@Override
-	public List<AcountPatternDto> acountMoneyTop(AcountPatternDto dto) {
-		return IAnalysisDao.acountMoneyTop(dto);
+	public AnalysisDto selectAnalysis(int a_seq) {
+		return IAnalysisDao.selectAnalysis(a_seq);
 	}
 
-	@Override
-	public Map<String, List<AcountPatternDto>> acountDateChartAjax(AcountPatternDto dto) {
-		Map<String, List<AcountPatternDto>> map=new HashMap<>();
-		
-		map.put("sChart", IAnalysisDao.saveDateChartAjax(dto));
-		map.put("stChart", IAnalysisDao.stockDateChartAjax(dto));
-		map.put("fChart", IAnalysisDao.fundDateChartAjax(dto));
-		
-		
-		return map;
-	}
-	
 
 }

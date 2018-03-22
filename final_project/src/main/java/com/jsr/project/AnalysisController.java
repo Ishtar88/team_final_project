@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.jsr.project.dtos.AcountDto;
-import com.jsr.project.dtos.AcountPatternDto;
+import com.jsr.project.dtos.AnalysisDto;
 import com.jsr.project.dtos.GoalDto;
 import com.jsr.project.dtos.MembersDto;
 import com.jsr.project.dtos.RewardDto;
@@ -44,35 +44,65 @@ public class AnalysisController {
 
 	//소비패턴-수진
 	@RequestMapping(value = "/total_pattern_main.do", method = RequestMethod.GET)
-	public String patternMain(HttpServletRequest request,HttpSession session,Model model,String year,String month) {
+	public String patternMain(HttpServletRequest request,HttpSession session,Model model,String year,String month,String lastDay,String sMonth,String eMonth) {
 		int iMonth=Integer.parseInt(month);
 		if (iMonth<10) {
 			month="0"+iMonth;
 		}
-		String p_regdate=year+"-"+month;
-		
+		String eDate=year+"-"+month+"-"+lastDay;
+	
 		MembersDto loginDto=(MembersDto)session.getAttribute("loginDto");
 		String id=loginDto.getId();
 		
-		String a="-2";
-		String b="-1";
-		int total_spending=analysisService.total_spending(a,b,id);
-		int invest_spending=analysisService.invest_spending(p_regdate, id);
-		int expense_spending=analysisService.expense_spending(p_regdate, id);
-		int invest_ratio=analysisService.invest_ratio(p_regdate, id);
-		int expense_ratio=analysisService.expense_ratio(p_regdate, id);
+		int total_spending=analysisService.total_spending(sMonth, eMonth, eDate, id);
+		int invest_spending=analysisService.invest_spending(sMonth, eMonth, eDate, id);
+		int expense_spending=analysisService.expense_spending(sMonth, eMonth, eDate, id);
 		int total_goal=analysisService.total_goal(id);
-		int total_expense=analysisService.total_expense(id, p_regdate);
+		int total_expense=analysisService.total_expense(sMonth, eMonth, eDate, id);
 		List<GoalDto> goalList=analysisService.category_goal(id);
-		List<SpendingDto> spendList=analysisService.category_expense(id, p_regdate);
-		List<SpendingDto> GSList=analysisService.goalVerseExpense(id, p_regdate);
+		List<SpendingDto> spendList=analysisService.category_expense(sMonth, eMonth, eDate, id);
+		List<SpendingDto> GSList=analysisService.goalVerseExpense(sMonth, eMonth, eDate, id);
 
-		int goal_ratio=0;
-		if(total_goal-total_expense>=0) {
-			goal_ratio=100;
+		//토탈유형 구분
+		float expenseRatio=(float)expense_spending/total_spending;
+		
+		AnalysisDto aDto1=null;
+		if(expenseRatio<=0.2) {
+			aDto1=analysisService.selectAnalysis(6);
+		}else if(expenseRatio<=0.4) {
+			aDto1=analysisService.selectAnalysis(7);
+		}else if(expenseRatio<=0.6) {
+			aDto1=analysisService.selectAnalysis(8);
+		}else if(expenseRatio<=0.8) {
+			aDto1=analysisService.selectAnalysis(9);
 		}else {
-			goal_ratio=(1-((total_goal-total_expense)/total_goal))*100;
+			aDto1=analysisService.selectAnalysis(10);
 		}
+		System.out.println(aDto1);
+		
+		//목표유형
+		float goalRatio=0;
+		if(total_goal-total_expense>=0) {
+			goalRatio=100;
+		}else {
+			goalRatio=(float)total_goal/total_expense;
+		}
+		
+		AnalysisDto aDto2=null;
+		if(goalRatio<=0.2) {
+			aDto2=analysisService.selectAnalysis(1);
+		}else if(goalRatio<=0.4) {
+			aDto2=analysisService.selectAnalysis(2);
+		}else if(goalRatio<=0.6) {
+			aDto2=analysisService.selectAnalysis(3);
+		}else if(goalRatio<=0.8) {
+			aDto2=analysisService.selectAnalysis(4);
+		}else {
+			aDto2=analysisService.selectAnalysis(5);
+		}
+		System.out.println(aDto2);
+		
+		
 		
 
 		List<SpendingDto> spendMinusGoal=new ArrayList<SpendingDto>();
@@ -116,16 +146,15 @@ public class AnalysisController {
 		model.addAttribute("total_spending", total_spending);
 		model.addAttribute("invest_spending", invest_spending);
 		model.addAttribute("expense_spending", expense_spending);
-		model.addAttribute("invest_ratio", invest_ratio);
-		model.addAttribute("expense_ratio", expense_ratio);
 		model.addAttribute("total_goal", total_goal);
 		model.addAttribute("total_expense", total_expense);
 		model.addAttribute("goalList", goalList);
 		model.addAttribute("spendList", spendList);
-		model.addAttribute("goal_ratio", goal_ratio);
 		model.addAttribute("GSList", GSList);
 		model.addAttribute("spendMinusGoal", spendMinusGoal);
 		model.addAttribute("goalMinusSpend", goalMinusSpend);
+		model.addAttribute("aDto1", aDto1);
+		model.addAttribute("aDto2", aDto2);
 		return "analysis/total_pattern_main";
 	}
 
@@ -138,18 +167,21 @@ public class AnalysisController {
 			month="0"+iMonth;
 		}
 		String p_regdate=year+"-"+month;
+		String sMonth="-2";
+		String eMonth="-1";
+		String eDate="2018-03-31";
 
 		MembersDto loginDto=(MembersDto)session.getAttribute("loginDto");
 		String id=loginDto.getId();
 
-		List<SpendingDto> GSList=analysisService.goalVerseExpense(id, p_regdate);
+		List<SpendingDto> GSList=analysisService.goalVerseExpense(sMonth, eMonth, eDate, id);
 
 		String a="-2";
 		String b="-1";
-		int total_spending=analysisService.total_spending(a,b, id);
+		int total_spending=analysisService.total_spending(sMonth, eMonth, eDate, id);
 		int total_goal=analysisService.total_goal(id);
 		List<GoalDto> goalList=analysisService.category_goal(id);
-		List<SpendingDto> spendList=analysisService.category_expense(id, p_regdate);
+		List<SpendingDto> spendList=analysisService.category_expense(sMonth, eMonth, eDate, id);
 		
 		List<SpendingDto> spendMinusGoal=new ArrayList<SpendingDto>();
 
@@ -230,105 +262,8 @@ public class AnalysisController {
 		MembersDto lDto=(MembersDto)session.getAttribute("loginDto");
 		AcountDto aDto=acountService.acountTotalSearch(lDto);
 		model.addAttribute("aDto", aDto);
-		model.addAttribute("year", year);
-		model.addAttribute("month", month);
-		
 		return "analysis/acount_pattern_main";
 	}
-
-	//투자비율 차트 기능
-	@ResponseBody
-	@RequestMapping(value = "/acountTotalRate.do", method = RequestMethod.GET)
-	public Map<String, List<AcountPatternDto>> acountTotalRate(Model model,HttpSession session) {
-		logger.info("analysis acountTotalRate start");
-
-		Map<String, List<AcountPatternDto>> map=new HashMap<>();
-		
-		MembersDto lDto=(MembersDto)session.getAttribute("loginDto");
-		String id=lDto.getId();
-		
-		AcountPatternDto dto=new AcountPatternDto();
-		dto.setId(id);
-		
-		logger.info("acountPatternDto: "+dto);
-		
-		List<AcountPatternDto> totalRate=analysisService.acountTotalRate(dto);
-		map.put("totalRate", totalRate);
-		
-		logger.info("totalRate: "+totalRate);
-		logger.info("analysis acountTotalRate end.");
-		
-		return map;
-	}
-	
-	
-	//기간별 수익 차트 기능
-	@ResponseBody
-	@RequestMapping(value = "/acountDateChartAjax.do", method = RequestMethod.GET)
-	public Map<String, List<AcountPatternDto>> acountDateChartAjax(Model model,HttpSession session) {
-		logger.info("analysis acountDateChartAjax start");
-		
-		MembersDto lDto=(MembersDto)session.getAttribute("loginDto");
-		String id=lDto.getId();
-		
-		AcountPatternDto dto=new AcountPatternDto();
-		dto.setId(id);
-		
-		logger.info("acountPatternDto: "+dto);
-		
-		Map<String, List<AcountPatternDto>> map=analysisService.acountDateChartAjax(dto);
-		
-		logger.info("acountDateChart: "+map);
-		logger.info("analysis acountDateChartAjax end.");
-		
-		return map;
-	}
-	
-	//투자 분류 내역 조회
-	public boolean acountTotalDetail(Model model,HttpSession session) {
-		logger.info("analysis acountTotalDetailAjax start");
-		
-		int count=0;
-		
-		
-		MembersDto lDto=(MembersDto)session.getAttribute("loginDto");
-		String id=lDto.getId();
-		
-		AcountPatternDto dto=new AcountPatternDto();
-		dto.setId(id);
-		
-		List<AcountPatternDto> totalDetailAjax=analysisService.acountTotalDetailAjax(dto);
-		
-		model.addAttribute("totalDetailAjax", totalDetailAjax);
-		
-		logger.info("totalDetailAjax: "+totalDetailAjax);
-		logger.info("analysis acountTotalDetailAjax end.");
-		
-		return count>0?true:false;
-	}
-	
-	//투자 금액 TOP5
-	public boolean acountMoneyTop5(Model model,HttpSession session) {
-		logger.info("analysis acountMoneyTop start");
-		
-		int count=0;
-		
-		
-		MembersDto lDto=(MembersDto)session.getAttribute("loginDto");
-		String id=lDto.getId();
-		
-		AcountPatternDto dto=new AcountPatternDto();
-		dto.setId(id);
-		
-		List<AcountPatternDto> acountMoneyTop=analysisService.acountMoneyTop(dto);
-		model.addAttribute("acountMoneyTop", acountMoneyTop);
-		
-		logger.info("acountMoneyTop: "+acountMoneyTop);
-		logger.info("analysis acountMoneyTop end.");
-		
-		return count>0?true:false;
-	}
-
 
 	//투자패턴-유라
 	@RequestMapping(value="/an_consumption_main.do")

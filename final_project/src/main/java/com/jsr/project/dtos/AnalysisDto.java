@@ -8,6 +8,7 @@ public class AnalysisDto {
 	private String a_code;
 	private String a_name;
 	private String a_img;
+	private String a_detail;
 	
 	private int ma_seq;
 	private String id;
@@ -68,11 +69,18 @@ public class AnalysisDto {
 	public void setMa_regDate(Date ma_regDate) {
 		this.ma_regDate = ma_regDate;
 	}
+	public String getA_detail() {
+		return a_detail;
+	}
+	public void setA_detail(String a_detail) {
+		this.a_detail = a_detail;
+	}
 	@Override
 	public String toString() {
 		return "AnalysisDto [a_seq=" + a_seq + ", a_code=" + a_code + ", a_name=" + a_name + ", a_img=" + a_img
-				+ ", ma_seq=" + ma_seq + ", id=" + id + ", ma_regDate=" + ma_regDate + "]";
+				+ ", a_detail=" + a_detail + ", ma_seq=" + ma_seq + ", id=" + id + ", ma_regDate=" + ma_regDate + "]";
 	}
+	
 	
 	
 

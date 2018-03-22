@@ -31,6 +31,10 @@
 		month = 12;
 		year--;
 	}
+	
+	cal.set(year, month - 1, 1);
+	int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
+	int lastDay = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
 %>
 </head>
 <body>
@@ -57,7 +61,7 @@
 	 	<div class="total_pattern_body">
 	 		<div>
 				<h2>소비패턴</h2>
-				<a href="total_pattern_main.do?year=<%=year%>&month=<%=month%>"><span>자세히보기</span></a>
+				<a href="total_pattern_main.do?sMonth=-2&eMonth=-1&year=<%=year%>&month=<%=month%>&lastDay=<%=lastDay%>"><span>자세히보기</span></a>
 	 		</div>
 			<div>
 				<p>소비패턴에 대한 설명</p>
