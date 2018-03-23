@@ -359,8 +359,8 @@
 		</insert>
 		
 		<insert id="loanInsert" parameterType="LoanDto">
-			INSERT INTO LOAN(ID,L_SEQ,L_NAME,L_MONEY,L_REMANE,L_STARTDATE,L_ENDDATE,L_MEMO)
-			VALUES(#{id},LOAN_SEQ.NEXTVAL,#{l_name},#{l_money},#{l_remane},#{l_startdate},#{l_enddate},#{l_memo})
+			INSERT INTO LOAN(ID,L_SEQ,L_NAME,L_MONEY,L_REMANE,L_STARTDATE,L_ENDDATE,L_MEMO,L_BAL)
+			VALUES(#{id},LOAN_SEQ.NEXTVAL,#{l_name},#{l_money},#{l_remane},#{l_startdate},#{l_enddate},#{l_memo},#{l_money}-#{l_remane})
 		</insert>
 		
 		<!-- ///////////////////////////////////////////// -->

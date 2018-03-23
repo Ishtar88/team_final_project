@@ -40,8 +40,17 @@ public interface IAnalysisDao {
 	//연간 투자 금액 top5
 	public List<AcountPatternDto> yearAcountMoneyTop(AcountPatternDto dto);
 	
+	//투자 수익률 TOP5
+	public List<AcountPatternDto> acountRateTop5(AcountPatternDto dto);
+	
 	//가장 수익이 높은 상품 조회
 	public AcountPatternDto yearProductTop(AcountPatternDto dto);
+	
+	//당월 투자 분류 내역 조회
+	public List<AcountPatternDto> currentAcountDetail(AcountPatternDto dto);
+	
+	//가장 많이 투자하고 있는 상품 조회
+	public AcountPatternDto acountMaxValueProduct(AcountPatternDto dto);
 	
 	//기간별 수익 차트 조회
 	//저축

@@ -132,6 +132,21 @@ public class AnalysisService implements IAnalysisService{
 		return IAnalysisDao.acountMonthMoney(dto);
 	}
 
+	@Override
+	public List<AcountPatternDto> acountRateTop5(AcountPatternDto dto) {
+		return IAnalysisDao.acountRateTop5(dto);
+	}
+
+	@Override
+	public List<AcountPatternDto> currentAcountDetail(AcountPatternDto dto) {
+		return IAnalysisDao.currentAcountDetail(dto);
+	}
+
+	@Override
+	public AcountPatternDto acountMaxValueProduct(AcountPatternDto dto) {
+		return IAnalysisDao.acountMaxValueProduct(dto);
+	}
+
 
 
 

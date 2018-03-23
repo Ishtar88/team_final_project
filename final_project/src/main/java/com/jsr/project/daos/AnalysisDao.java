@@ -147,6 +147,18 @@ public class AnalysisDao implements IAnalysisDao{
 	public AcountDto acountMonthMoney(AcountPatternDto dto) {
 		return sqlSession.selectOne(namespace+"acountMonthMoney", dto);
 	}
+	@Override
+	public List<AcountPatternDto> acountRateTop5(AcountPatternDto dto) {
+		return sqlSession.selectList(namespace+"acountRateTop5", dto);
+	}
+	@Override
+	public List<AcountPatternDto> currentAcountDetail(AcountPatternDto dto) {
+		return sqlSession.selectList(namespace+"currentAcountDetail", dto);
+	}
+	@Override
+	public AcountPatternDto acountMaxValueProduct(AcountPatternDto dto) {
+		return sqlSession.selectOne(namespace+"acountMaxValueProduct", dto);
+	}
 
 
 	

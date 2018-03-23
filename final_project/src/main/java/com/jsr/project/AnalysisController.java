@@ -128,6 +128,8 @@ public class AnalysisController {
 		isc=acountMoneyTop5(model, session);
 		//연간 투자 금액 top5
 		isc=yearAcountMoneyTop5(model, regdate, session);
+		//투자 수익률 TOP5
+		isc=acountRateTop5(model, session);
 		//연간 수익이 가장 많은 기간 조회
 		isc=yearMoneyTop(model, regdate, session);
 		//투자분류내역조회
@@ -136,6 +138,11 @@ public class AnalysisController {
 		isc=yearProductTop(model, regdate, session);
 		//당월 투자금액 조회
 		isc=acountMonthMoney(model, regdate, session);
+		//당월 투자 분류 내역 조회
+		isc=currentAcountDetail(model,regdate, session);
+		//가장 많이 투자하고 있는 상품 조회
+		isc=acountMaxValueProduct(model, regdate, session);
+		
 		
 		
 		
@@ -263,7 +270,7 @@ public class AnalysisController {
 		
 		AcountPatternDto dto=inputPatternDto(regdate,session);
 		
-		List<AcountPatternDto> acountMonthMoney=analysisService.acountTotalDetailAjax(dto);
+		AcountDto acountMonthMoney=analysisService.acountMonthMoney(dto);
 		
 		model.addAttribute("acountMonthMoney", acountMonthMoney);
 		
@@ -361,6 +368,60 @@ public class AnalysisController {
 		
 		logger.info("yearProductTop: "+yearProductTop);
 		logger.info("analysis yearProductTop end.");
+		
+		return count>0?true:false;
+	}
+	
+	//투자 수익률 TOP5
+	public boolean acountRateTop5(Model model,HttpSession session) {
+		logger.info("analysis acountRateTop5 start");
+		
+		int count=0;
+		
+		AcountPatternDto dto=inputPatternDto(session);
+		
+		
+		List<AcountPatternDto> acountRateTop5=analysisService.acountRateTop5(dto);
+		model.addAttribute("acountRateTop5", acountRateTop5);
+		
+		logger.info("acountRateTop5: "+acountRateTop5);
+		logger.info("analysis acountRateTop5 end.");
+		
+		return count>0?true:false;
+	}
+	
+	//당월 투자 분류 내역 조회
+	public boolean currentAcountDetail(Model model,String regdate,HttpSession session) {
+		logger.info("analysis currentAcountDetail start");
+		
+		int count=0;
+		
+		AcountPatternDto dto=inputPatternDto(regdate,session);
+		
+		
+		List<AcountPatternDto> currentAcountDetail=analysisService.currentAcountDetail(dto);
+		model.addAttribute("currentAcountDetail", currentAcountDetail);
+		
+		logger.info("currentAcountDetail: "+currentAcountDetail);
+		logger.info("analysis currentAcountDetail end.");
+		
+		return count>0?true:false;
+	}
+	
+	//가장 많이 투자하고 있는 상품 조회
+	public boolean acountMaxValueProduct(Model model,String regdate,HttpSession session) {
+		logger.info("analysis acountMaxValueProduct start");
+		
+		int count=0;
+		
+		AcountPatternDto dto=inputPatternDto(session);
+		
+		
+		AcountPatternDto acountMaxValueProduct=analysisService.acountMaxValueProduct(dto);
+		model.addAttribute("acountMaxValueProduct", acountMaxValueProduct);
+		
+		logger.info("acountMaxValueProduct: "+acountMaxValueProduct);
+		logger.info("analysis acountMaxValueProduct end.");
 		
 		return count>0?true:false;
 	}
