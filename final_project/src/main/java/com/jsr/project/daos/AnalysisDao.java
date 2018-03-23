@@ -8,8 +8,13 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.jsr.project.dtos.AcountDto;
+import com.jsr.project.dtos.AcountPatternDto;
+import com.jsr.project.dtos.FundDto;
 import com.jsr.project.dtos.GoalDto;
+import com.jsr.project.dtos.SaveDto;
 import com.jsr.project.dtos.SpendingDto;
+import com.jsr.project.dtos.StockDto;
 
 @Repository
 public class AnalysisDao implements IAnalysisDao{
@@ -21,9 +26,10 @@ public class AnalysisDao implements IAnalysisDao{
 	//소비패턴-수진
 	
 	@Override
-	public int total_spending(String p_regdate,String id) {
+	public int total_spending(String sMonth,String eMonth,String id) {
 		Map<String , String>map=new HashMap<String,String>();
-		map.put("p_regdate", p_regdate);
+		map.put("sMonth", sMonth);
+		map.put("eMonth", eMonth);
 		map.put("id", id);
 		return sqlSession.selectOne(namespace+"total_spending", map);
 	}
@@ -81,8 +87,7 @@ public class AnalysisDao implements IAnalysisDao{
 		map.put("p_regdate", p_regdate);
 		return sqlSession.selectList(namespace+"category_expense", map);
 	}
-	
-	
+
 	//투자패턴-유라
 	
 	

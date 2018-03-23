@@ -1,12 +1,18 @@
 package com.jsr.project.services;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.jsr.project.daos.IAnalysisDao;
+import com.jsr.project.dtos.AcountDto;
+import com.jsr.project.dtos.AcountPatternDto;
 import com.jsr.project.dtos.GoalDto;
+import com.jsr.project.dtos.SaveDto;
 import com.jsr.project.dtos.SpendingDto;
 
 @Service
@@ -18,8 +24,8 @@ public class AnalysisService implements IAnalysisService{
 	//소비패턴-수진
 	
 	@Override
-	public int total_spending(String p_regdate,String id) {
-		return IAnalysisDao.total_spending(p_regdate, id);
+	public int total_spending(String sMonth,String eMonth,String id) {
+		return IAnalysisDao.total_spending(sMonth, eMonth, id);
 	}
 
 	@Override
@@ -107,6 +113,7 @@ public class AnalysisService implements IAnalysisService{
 	}
 
 	@Override
+
 	public int howMuchInvest(String id) {
 		return IAnalysisDao.howMuchInvest(id);
 	}
@@ -136,13 +143,5 @@ public class AnalysisService implements IAnalysisService{
 		return IAnalysisDao.satisfySpending(id);
 	}
 
-	
-	
-	
 
-	
-	
-	
-	
-	
 }

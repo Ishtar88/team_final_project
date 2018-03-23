@@ -18,9 +18,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.catalina.authenticator.SavedRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -220,6 +222,96 @@ public class AcountController {
 		return reVal;
 	}
 	
+	
+	//자산 만기등록 기능 factory
+	public String endable_factory(Model model,String seq,@RequestParam(name = "enddate")@DateTimeFormat(pattern = "yyyy-MM") Date enddate,String acount) {
+		logger.info("acount endable factory start");
+		
+		int a_seq=Integer.parseInt(seq);
+		
+		SimpleDateFormat df=new SimpleDateFormat("yyyy-MM");
+		String date=df.format(enddate);
+		
+		logger.info("매개변수로 입력받은 seq: "+a_seq);
+		
+		if (acount.equals("save")) {
+			logger.info("save endable start");
+
+			SaveDto dto=new SaveDto();
+			dto.setS_seq(a_seq);
+			dto.setS_enddate(enddate);
+			
+			logger.info("saveDto: "+dto);
+				
+			boolean isc=acountService.saveEnd(dto);
+			if(isc) {
+				model.addAttribute("isc", isc);
+				logger.info("save endable success");
+			}else {
+				model.addAttribute("isc", isc);
+				logger.info("save endable fail");
+			}
+			
+			reVal="acount/save/save_detail";
+				
+		}else if (acount.equals("stock")) {
+			logger.info("stock endable start");
+			
+			StockDto dto=new StockDto();
+			dto.setSt_seq(a_seq);
+			dto.setSt_selldate(enddate);
+			
+			boolean isc=acountService.stockEnd(dto);
+			if(isc) {
+				model.addAttribute("isc", isc);
+				logger.info("stock endable success.");
+			}else {
+				model.addAttribute("isc", isc);
+				logger.info("stock endable fail.");
+			}
+			reVal="acount/stock/stock_detail";
+			
+		}else if (acount.equals("fund")) {
+			logger.info("fund endable start");
+
+			FundDto dto=new FundDto();
+			dto.setF_seq(a_seq);
+			dto.setF_enddate(enddate);
+			
+			boolean isc=acountService.fundEnd(dto);
+			if(isc) {
+				model.addAttribute("isc", isc);
+				logger.info("fund endable success.");
+			}else {
+				model.addAttribute("isc", isc);
+				logger.info("fund endable fail.");
+			}
+			reVal="acount/fund/fund_detail";
+			
+		}else if (acount.equals("loan")) {
+			logger.info("loan endable start");
+			
+			LoanDto dto=new LoanDto();
+			dto.setL_seq(a_seq);
+			dto.setL_enddate(enddate);
+			
+			boolean isc=acountService.loanEnd(dto);
+			if(isc) {
+				model.addAttribute("isc", isc);
+				logger.info("loan endable success.");
+			}else {
+				model.addAttribute("isc", isc);
+				logger.info("loan endable fail.");
+			}
+			reVal="acount/loan/loan_detail";
+			
+		}
+		
+		return reVal;
+	}
+	
+	
+	
 	/**
 	 * Simply selects the home view to render by returning its name.
 	 */
@@ -396,6 +488,20 @@ public class AcountController {
 		logger.info("acount delete start");
 		
 		delete_factory(model, seq, acount);
+		
+		return reVal;
+	}
+	
+	
+	@RequestMapping(value = "/acount_end.do", method = RequestMethod.POST)
+	public String acount_endable(Model model,String seq,@RequestParam(name = "enddate")@DateTimeFormat(pattern = "yyyy-MM") Date enddate,String acount) {
+		logger.info("acount endable start");
+		
+
+		
+		reVal=endable_factory(model, seq, enddate, acount);
+		
+		logger.info("acount endable end.");
 		
 		return reVal;
 	}

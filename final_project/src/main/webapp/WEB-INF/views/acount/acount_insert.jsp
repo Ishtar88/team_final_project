@@ -2,7 +2,7 @@
 <%request.setCharacterEncoding("UTF-8"); %>
 <%response.setContentType("text/html; charset=UTF-8"); %>
 <!DOCTYPE html>
-<jsp:include page="acount_header.jsp"></jsp:include>
+<jsp:include page="../header.jsp"></jsp:include>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -13,8 +13,8 @@
 		$('.saveInsertForm').click(function(){
 			$('.input_body_wrap').children().remove();
 			//form 및 테이블 생성
-			$('.input_body_wrap').append('<form class="save_form" action="save_insert.do" method="post">'+
-											'<input type="text" name="id" value="${lDto.id}">'+
+			$('.input_body_wrap').append('<form class="acount_form" action="save_insert.do" method="post" onsubmit="acount_insert()">'+
+											'<input type="hidden" name="id" value="${lDto.id}">'+
 													'<table class="save_body" border="1">'+
 													'<tr><th>구분</th><td><input type="radio" name="s_detail" value="예금">예금'+
 													'<input type="radio" name="s_detail" value="적금">적금'+
@@ -36,8 +36,8 @@
 		$('.stockInsertForm').click(function(){
 			$('.input_body_wrap').children().remove();
 			//form 및 테이블 생성
-			$('.input_body_wrap').append('<form class="stock_form" action="stock_insert.do" method="post">'+
-											'<input type="text" name="id" value="${lDto.id}">'+
+			$('.input_body_wrap').append('<form class="acount_form" action="stock_insert.do" method="post" onsubmit="acount_insert()">'+
+											'<input type="hidden" name="id" value="${lDto.id}">'+
 													'<table class="stock_body" border="1">'+
 													'<tr><th>주식명</th><td><input type="text" name="st_name">'+
 													'<tr><th>구매수량</th><td><input type="text" name="st_count">'+
@@ -56,8 +56,8 @@
 		$('.fundInsertForm').click(function(){
 			$('.input_body_wrap').children().remove();
 			//form 및 테이블 생성
-			$('.input_body_wrap').append('<form class="fund_form" action="fund_insert.do" method="post">'+
-											'<input type="text" name="id" value="${lDto.id}">'+
+			$('.input_body_wrap').append('<form class="acount_form" action="fund_insert.do" method="post" onsubmit="acount_insert()">'+
+											'<input type="hidden" name="id" value="${lDto.id}">'+
 													'<table class="fund_body" border="1">'+
 													'<tr><th>펀드명</th><td><input type="text" name="f_name">'+
 													'<tr><th>투자원금</th><td><input type="text" name="f_money">'+
@@ -76,8 +76,8 @@
 		$('.loanInsertForm').click(function(){
 			$('.input_body_wrap').children().remove();
 			//form 및 테이블 생성
-			$('.input_body_wrap').append('<form class="loan_form" action="loan_insert.do" method="post">'+
-											'<input type="text" name="id" value="${lDto.id}">'+
+			$('.input_body_wrap').append('<form class="acount_form" action="loan_insert.do" method="post" onsubmit="acount_insert()">'+
+											'<input type="hidden" name="id" value="${lDto.id}">'+
 													'<table class="loan_body" border="1">'+
 													'<tr><th>대출명</th><td><input type="text" name="l_name">'+
 													'<tr><th>대출원금</th><td><input type="text" name="l_money">'+
@@ -85,7 +85,6 @@
 													'<tr><th>시작날짜</th><td><input type="date" name="st_date">'+
 													'<tr><th>만기날짜</th><td><input type="date" name="en_date">'+
 													'<tr><th>메모</th><td><input type="text" name="l_memo"></td><tr>'+
-													
 													'<tr><td colspan="2"><input type="submit" value="등록">'+
 													'<input type="button" value="취소"></td></tr>'+
 													'</table>'
@@ -94,6 +93,10 @@
 		});
 		
 	});
+	
+	function acount_insert(){
+		var name=$(".acount_form").children().eq(1).children().children()
+	}
 
 </script>
 </head>

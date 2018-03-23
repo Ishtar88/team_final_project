@@ -572,15 +572,7 @@ window.onload = function () {
 						</div>
 					</div>
 			</div>
-		
-	<div class="spending_body_wrap">
-		<div class="spending_header_wrap">
-			    <div>
-				    <a class="item" href="#">수정</a>
-				    <a class="item" href="#">삭제</a>
-			    </div>
-	    </div>
-	</div>
+			
 	<div class="spending_insert_icon">
 		<a href="#" onclick="spendingInsert()">지출등록</a>	
 	</div>
