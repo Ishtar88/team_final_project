@@ -213,22 +213,48 @@ public class AnalysisController {
 	@RequestMapping(value = "/acount_pattern_main.do", method = RequestMethod.GET)
 	public String acount_pattern_main(Model model,String year,String month,HttpSession session) {
 		logger.info("analysis main page");
-
+		
+		boolean isc=false;
+		
 		int iMonth=Integer.parseInt(month);
 		if (iMonth<10) {
 			month="0"+iMonth;
 		}
-		String sDate=year+"-"+month;
+		String regdate=year+"-"+month;
 		SimpleDateFormat df=new SimpleDateFormat("yyyy-MM");
 		Date date=null;
 		try {
-			date=df.parse(sDate);
+			date=df.parse(regdate);
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
 
+		logger.info("acount_pattern_main.do ==> 전달받은 year-month:"+regdate);
+		
 		MembersDto lDto=(MembersDto)session.getAttribute("loginDto");
 		AcountDto aDto=acountService.acountTotalSearch(lDto);
+		//투자 금액 top5
+		isc=acountMoneyTop5(model, session);
+		//연간 투자 금액 top5
+		isc=yearAcountMoneyTop5(model, regdate, session);
+		//투자 수익률 TOP5
+		isc=acountRateTop5(model, session);
+		//연간 수익이 가장 많은 기간 조회
+		isc=yearMoneyTop(model, regdate, session);
+		//투자분류내역조회
+		isc=acountTotalDetail(model, session);
+		//가장높은 수익 상품 조회
+		isc=yearProductTop(model, regdate, session);
+		//당월 투자금액 조회
+		isc=acountMonthMoney(model, regdate, session);
+		//당월 투자 분류 내역 조회
+		isc=currentAcountDetail(model,regdate, session);
+		//가장 많이 투자하고 있는 상품 조회
+		isc=acountMaxValueProduct(model, regdate, session);
+		
+		
+		
+		
 		model.addAttribute("aDto", aDto);
 		model.addAttribute("year", year);
 		model.addAttribute("month", month);
@@ -244,11 +270,7 @@ public class AnalysisController {
 
 		Map<String, List<AcountPatternDto>> map=new HashMap<>();
 		
-		MembersDto lDto=(MembersDto)session.getAttribute("loginDto");
-		String id=lDto.getId();
-		
-		AcountPatternDto dto=new AcountPatternDto();
-		dto.setId(id);
+		AcountPatternDto dto=inputPatternDto(session);
 		
 		logger.info("acountPatternDto: "+dto);
 		
@@ -265,23 +287,105 @@ public class AnalysisController {
 	//기간별 수익 차트 기능
 	@ResponseBody
 	@RequestMapping(value = "/acountDateChartAjax.do", method = RequestMethod.GET)
-	public Map<String, List<AcountPatternDto>> acountDateChartAjax(Model model,HttpSession session) {
+	public Map<String, List<Object>> acountDateChartAjax(Model model,String year,String month,HttpSession session) {
 		logger.info("analysis acountDateChartAjax start");
+
+		String regdate=year+"-"+month;
 		
-		MembersDto lDto=(MembersDto)session.getAttribute("loginDto");
-		String id=lDto.getId();
+		AcountPatternDto dto=inputPatternDto(regdate, session);
 		
-		AcountPatternDto dto=new AcountPatternDto();
-		dto.setId(id);
-		
-		logger.info("acountPatternDto: "+dto);
-		
-		Map<String, List<AcountPatternDto>> map=analysisService.acountDateChartAjax(dto);
+		Map<String, List<Object>> map=analysisService.acountDateChartAjax((AcountPatternDto) dto);
 		
 		logger.info("acountDateChart: "+map);
 		logger.info("analysis acountDateChartAjax end.");
 		
 		return map;
+	}
+	
+	
+	
+	
+	//투자별 수익 현황
+	@ResponseBody
+	@RequestMapping(value = "/acountDetailChart.do", method = RequestMethod.GET)
+	public Map<String, List<AcountPatternDto>> acountDetailChart(Model model,String year,String month,HttpSession session) {
+		logger.info("analysis acountDetailChart start");
+
+		Map<String, List<AcountPatternDto>> map=new HashMap<>();
+		String regdate=year+"-"+month;
+		
+		AcountPatternDto dto=inputPatternDto(regdate, session);
+		
+		List<AcountPatternDto> list=analysisService.acountDetailChart(dto);
+		map.put("list", list);
+		
+		logger.info("acountDetailChart: "+map);
+		logger.info("analysis acountDetailChart end.");
+		
+		return map;
+	}
+	
+	
+	
+	//투자 수익 차트 조회
+	@ResponseBody
+	@RequestMapping(value = "/acountMaxValueChart.do", method = RequestMethod.GET)
+	public Map<String, List<AcountPatternDto>> acountMaxValueChart(Model model,HttpSession session) {
+		logger.info("analysis acountMaxValueChart start");
+		
+		Map<String, List<AcountPatternDto>> map=new HashMap<>();
+		
+		AcountPatternDto dto=inputPatternDto(session);
+		
+		List<AcountPatternDto> acountMaxValue=analysisService.acountDetailChart(dto);
+		map.put("acountMaxValue", acountMaxValue);
+		
+		logger.info("acountMaxValue: "+map);
+		logger.info("analysis acountMaxValueChart end.");
+		
+		return map;
+	}
+	
+	
+	
+	//당월 투자 비율 차트 조회
+	@ResponseBody
+	@RequestMapping(value = "/CurrentAcountTotalChart.do", method = RequestMethod.GET)
+	public Map<String, List<AcountPatternDto>> CurrentAcountTotalChart(Model model,String year,String month,HttpSession session) {
+		logger.info("analysis CurrentAcountTotal start");
+		
+		Map<String, List<AcountPatternDto>> map=new HashMap<>();
+		
+		String regdate=year+"-"+month;
+		
+		AcountPatternDto dto=inputPatternDto(regdate,session);
+		
+		List<AcountPatternDto> CurrentAcountTotal=analysisService.CurrentAcountTotalChart(dto);
+		map.put("CurrentAcountTotal", CurrentAcountTotal);
+		
+		logger.info("CurrentAcountTotal: "+map);
+		logger.info("analysis CurrentAcountTotal end.");
+		
+		return map;
+	}
+	
+	//당월 투자금액 조회
+	public boolean acountMonthMoney(Model model,String regdate,HttpSession session) {
+		logger.info("analysis acountMonthMoney start");
+		
+		int count=0;
+		
+		
+		AcountPatternDto dto=inputPatternDto(regdate,session);
+		
+		AcountDto acountMonthMoney=analysisService.acountMonthMoney(dto);
+		
+		model.addAttribute("acountMonthMoney", acountMonthMoney);
+		
+		logger.info("acountMonthMoney: "+acountMonthMoney);
+		logger.info("analysis acountMonthMoney end.");
+		
+		return count>0?true:false;
 	}
 	
 	//투자 분류 내역 조회
@@ -291,17 +395,13 @@ public class AnalysisController {
 		int count=0;
 		
 		
-		MembersDto lDto=(MembersDto)session.getAttribute("loginDto");
-		String id=lDto.getId();
+		AcountPatternDto dto=inputPatternDto(session);
 		
-		AcountPatternDto dto=new AcountPatternDto();
-		dto.setId(id);
+		List<AcountPatternDto> totalDetail=analysisService.acountTotalDetailAjax(dto);
 		
-		List<AcountPatternDto> totalDetailAjax=analysisService.acountTotalDetailAjax(dto);
+		model.addAttribute("totalDetail", totalDetail);
 		
-		model.addAttribute("totalDetailAjax", totalDetailAjax);
-		
-		logger.info("totalDetailAjax: "+totalDetailAjax);
+		logger.info("totalDetail: "+totalDetail);
 		logger.info("analysis acountTotalDetailAjax end.");
 		
 		return count>0?true:false;
@@ -314,11 +414,7 @@ public class AnalysisController {
 		int count=0;
 		
 		
-		MembersDto lDto=(MembersDto)session.getAttribute("loginDto");
-		String id=lDto.getId();
-		
-		AcountPatternDto dto=new AcountPatternDto();
-		dto.setId(id);
+		AcountPatternDto dto=inputPatternDto(session);
 		
 		List<AcountPatternDto> acountMoneyTop=analysisService.acountMoneyTop(dto);
 		model.addAttribute("acountMoneyTop", acountMoneyTop);
@@ -328,7 +424,146 @@ public class AnalysisController {
 		
 		return count>0?true:false;
 	}
+	
+	//연간 투자 금액 TOP5
+	public boolean yearAcountMoneyTop5(Model model,String regdate,HttpSession session) {
+		logger.info("analysis yearAcountMoneyTop start");
+		
+		int count=0;
+		
+		
+		AcountPatternDto dto=inputPatternDto(regdate, session);
+		
+		List<AcountPatternDto> yearAcountMoneyTop=analysisService.yearAcountMoneyTop(dto);
+		model.addAttribute("yearAcountMoneyTop", yearAcountMoneyTop);
+		
+		logger.info("yearAcountMoneyTop: "+yearAcountMoneyTop);
+		logger.info("analysis yearAcountMoneyTop end.");
+		
+		return count>0?true:false;
+	}
+	
+	
+	//1년중 수익이 가장 많은 기간 조회
+	public boolean yearMoneyTop(Model model,String regdate,HttpSession session) {
+		logger.info("analysis yearMoneyTop start");
+		
+		int count=0;
+		
+		AcountPatternDto dto=inputPatternDto(regdate, session);
 
+		
+		SaveDto yearMoneyTop=analysisService.yearMoneyTop(dto);
+		model.addAttribute("yearMoneyTop", yearMoneyTop);
+		
+		logger.info("yearMoneyTop: "+yearMoneyTop);
+		logger.info("analysis yearMoneyTop end.");
+		
+		return count>0?true:false;
+	}
+	
+	//가장 높은 수익 상품 조회
+	public boolean yearProductTop(Model model,String regdate,HttpSession session) {
+		logger.info("analysis yearProductTop start");
+		
+		int count=0;
+		
+		AcountPatternDto dto=inputPatternDto(regdate, session);
+
+		
+		AcountPatternDto yearProductTop=analysisService.yearProductTop(dto);
+		model.addAttribute("yearProductTop", yearProductTop);
+		
+		logger.info("yearProductTop: "+yearProductTop);
+		logger.info("analysis yearProductTop end.");
+		
+		return count>0?true:false;
+	}
+	
+	//투자 수익률 TOP5
+	public boolean acountRateTop5(Model model,HttpSession session) {
+		logger.info("analysis acountRateTop5 start");
+		
+		int count=0;
+		
+		AcountPatternDto dto=inputPatternDto(session);
+		
+		
+		List<AcountPatternDto> acountRateTop5=analysisService.acountRateTop5(dto);
+		model.addAttribute("acountRateTop5", acountRateTop5);
+		
+		logger.info("acountRateTop5: "+acountRateTop5);
+		logger.info("analysis acountRateTop5 end.");
+		
+		return count>0?true:false;
+	}
+	
+	//당월 투자 분류 내역 조회
+	public boolean currentAcountDetail(Model model,String regdate,HttpSession session) {
+		logger.info("analysis currentAcountDetail start");
+		
+		int count=0;
+		
+		AcountPatternDto dto=inputPatternDto(regdate,session);
+		
+		
+		List<AcountPatternDto> currentAcountDetail=analysisService.currentAcountDetail(dto);
+		model.addAttribute("currentAcountDetail", currentAcountDetail);
+		
+		logger.info("currentAcountDetail: "+currentAcountDetail);
+		logger.info("analysis currentAcountDetail end.");
+		
+		return count>0?true:false;
+	}
+	
+	//가장 많이 투자하고 있는 상품 조회
+	public boolean acountMaxValueProduct(Model model,String regdate,HttpSession session) {
+		logger.info("analysis acountMaxValueProduct start");
+		
+		int count=0;
+		
+		AcountPatternDto dto=inputPatternDto(session);
+		
+		
+		AcountPatternDto acountMaxValueProduct=analysisService.acountMaxValueProduct(dto);
+		model.addAttribute("acountMaxValueProduct", acountMaxValueProduct);
+		
+		logger.info("acountMaxValueProduct: "+acountMaxValueProduct);
+		logger.info("analysis acountMaxValueProduct end.");
+		
+		return count>0?true:false;
+	}
+
+	
+	//연간 내역 검색에 사용할 acountPatternDto생성
+	AcountPatternDto inputPatternDto(String regdate,HttpSession session) {
+		
+		MembersDto lDto=(MembersDto)session.getAttribute("loginDto");
+		String id=lDto.getId();
+		
+		AcountPatternDto dto=new AcountPatternDto();
+		dto.setId(id);
+		dto.setName(regdate);
+		
+		logger.info("id: "+id+" / "+regdate);
+		
+		return dto;
+	}
+	
+	//전체 검색에 사용할 acountPatternDto생성
+	AcountPatternDto inputPatternDto(HttpSession session) {
+		
+		MembersDto lDto=(MembersDto)session.getAttribute("loginDto");
+		String id=lDto.getId();
+		
+		AcountPatternDto dto=new AcountPatternDto();
+		dto.setId(id);
+		
+		logger.info("id: "+id);
+		
+		return dto;
+	}
+	
 
 	//투자패턴-유라
 	@RequestMapping(value="/an_consumption_main.do")

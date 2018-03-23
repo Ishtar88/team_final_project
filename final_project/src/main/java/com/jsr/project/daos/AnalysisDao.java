@@ -8,10 +8,13 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.jsr.project.dtos.AcountDto;
 import com.jsr.project.dtos.AcountPatternDto;
+import com.jsr.project.dtos.FundDto;
 import com.jsr.project.dtos.GoalDto;
 import com.jsr.project.dtos.SaveDto;
 import com.jsr.project.dtos.SpendingDto;
+import com.jsr.project.dtos.StockDto;
 
 @Repository
 public class AnalysisDao implements IAnalysisDao{
@@ -97,6 +100,7 @@ public class AnalysisDao implements IAnalysisDao{
 //		return null;
 //	}
 
+//---------------------------------------------------------------------------
 	//지출패턴-병훈
 	
 	@Override
@@ -113,21 +117,65 @@ public class AnalysisDao implements IAnalysisDao{
 	public List<AcountPatternDto> acountMoneyTop(AcountPatternDto dto) {
 		return sqlSession.selectList(namespace+"acountMoneyTop", dto);
 	}
+	
 	@Override
-	public List<AcountPatternDto> saveDateChartAjax(AcountPatternDto dto) {
+	public List<AcountPatternDto> yearAcountMoneyTop(AcountPatternDto dto) {
+		return sqlSession.selectList(namespace+"yearAcountMoneyTop", dto);
+	}
+	@Override
+	public List<Object> saveDateChartAjax(AcountPatternDto dto) {
 		return sqlSession.selectList(namespace+"saveDateChartAjax", dto);
 	}
+	
 	@Override
-	public List<AcountPatternDto> stockDateChartAjax(AcountPatternDto dto) {
+	public List<Object> stockDateChartAjax(AcountPatternDto dto) {
 		return sqlSession.selectList(namespace+"stockDateChartAjax", dto);
 	}
+	
 	@Override
-	public List<AcountPatternDto> fundDateChartAjax(AcountPatternDto dto) {
+	public List<Object> fundDateChartAjax(AcountPatternDto dto) {
 		return sqlSession.selectList(namespace+"fundDateChartAjax", dto);
 	}
+	@Override
+	public SaveDto yearMoneyTop(AcountPatternDto dto) {
+		return sqlSession.selectOne(namespace+"yearMoneyTop", dto);
+	}
+	@Override
+	public AcountPatternDto yearProductTop(AcountPatternDto dto) {
+		return sqlSession.selectOne(namespace+"yearProductTop", dto);
+	}
+	@Override
+	public List<AcountPatternDto> acountDetailChart(AcountPatternDto dto) {
+		return sqlSession.selectList(namespace+"acountDetailChart", dto);
+	}
+	@Override
+	public List<AcountPatternDto> acountMaxValueChart(AcountPatternDto dto) {
+		return sqlSession.selectList(namespace+"acountMaxValueChart", dto);
+	}
+	@Override
+	public List<AcountPatternDto> CurrentAcountTotalChart(AcountPatternDto dto) {
+		return sqlSession.selectList(namespace+"CurrentAcountTotalChart", dto);
+	}
+	@Override
+	public AcountDto acountMonthMoney(AcountPatternDto dto) {
+		return sqlSession.selectOne(namespace+"acountMonthMoney", dto);
+	}
+	@Override
+	public List<AcountPatternDto> acountRateTop5(AcountPatternDto dto) {
+		return sqlSession.selectList(namespace+"acountRateTop5", dto);
+	}
+	@Override
+	public List<AcountPatternDto> currentAcountDetail(AcountPatternDto dto) {
+		return sqlSession.selectList(namespace+"currentAcountDetail", dto);
+	}
+	@Override
+	public AcountPatternDto acountMaxValueProduct(AcountPatternDto dto) {
+		return sqlSession.selectOne(namespace+"acountMaxValueProduct", dto);
+	}
+
 
 	
-	
+//---------------------------------------------------------------------------
 	
 	//투자패턴-유라
 

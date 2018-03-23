@@ -224,7 +224,7 @@ window.onload = function () {
 					</a>
 					<span style="vertical-align: middle;">저축</span>
 				</header>
-				<table class="income_Tr" id="svBody" border="1" style="display: none;">
+				<table class="income_Tr" id="svBody" border="1">
 					<tr>
 						<th>수입명</th>
 						<th>금액</th>
