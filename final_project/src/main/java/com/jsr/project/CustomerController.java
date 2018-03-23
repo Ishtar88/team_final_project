@@ -60,9 +60,11 @@ public class CustomerController {
 		String id =IDto.getId(); 
 		System.out.println(id);
 		List<NoticeBoardDto> lists=noticeService.n_getAllList(); 
+		
 		model.addAttribute("lists", lists);
 		return "customer/noticeboardmain";
 	}
+	
 	@RequestMapping (value="notice_detail.do", method={RequestMethod.POST, RequestMethod.GET})
 	public String notice_detail(Model model, String n_seq, String count){
 		logger.info("notice board detail page"); 
@@ -74,6 +76,9 @@ public class CustomerController {
 		
 		return "customer/noticeboard_detail"; 
 	}
+	
+	
+	
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//QnA게시판 명령 
 	
@@ -81,25 +86,14 @@ public class CustomerController {
 	@RequestMapping(value="/qnamain.do", method={RequestMethod.POST,RequestMethod.GET})
 	public String qnalist(Model model, HttpSession session, HttpServletRequest request) {
 		logger.info("qna board main page"); 
-//		
-//		int currentPageNo = 1; 
-//		int maxPost = 10;
-//		
-//		if(request.getParameter("pages")!=null) {
-//			currentPageNo=Integer.parseInt(request.getParameter("pages"));
-//		}
-//		
-//		Paging paging = new Paging(currentPageNo, maxPost); 
-//		
-//		int offset=(paging.getCurrentPageNo()-1)*paging.getMaxPost(); 
-//		
+
 		MembersDto IDto =(MembersDto)session.getAttribute("loginDto");
 		String id =IDto.getId(); 
 		System.out.println(id);
-		
 			List<QnaBoardDto> lists=qnaService.q_getAlllist();
 			model.addAttribute("lists", lists);
 			session.setAttribute("id", id);
+			
 		return "customer/qnaboardmain"; 
 	}
 	

@@ -81,8 +81,68 @@ public class AnalysisDao implements IAnalysisDao{
 		map.put("p_regdate", p_regdate);
 		return sqlSession.selectList(namespace+"category_expense", map);
 	}
-
-	//지출패턴-병훈
+	
+	
 	//투자패턴-유라
+	
+	
+	@Override
+	public int selfPatternScore(String id) {
+		return sqlSession.selectOne(namespace+"selfPatternScore", id);
+	}
+	@Override
+	public int lifePatternScore(String id) {
+		return sqlSession.selectOne(namespace+"lifePatternScore", id);
+	}
+	@Override
+	public int playingPatternScore(String id) {
+		return sqlSession.selectOne(namespace+"playingPatternScore", id);
+	}
+	@Override
+	public int shoppingPatternScore(String id) {
+		return sqlSession.selectOne(namespace+"shoppingPatternScore",id);
+	}
+	@Override
+	public int compareLastMonth(String id) {
+		return sqlSession.selectOne(namespace+"compareLastMonth",id);
+	}
+	@Override
+	public int howMuchDay(String id) {
+		return sqlSession.selectOne(namespace+"howMuchDay",id);
+	}
+	@Override
+	public int mostCategory(String id) {
+		return sqlSession.selectOne(namespace+"mostCategory",id);
+	}
+	@Override
+	public int goalSuccess(String id) {
+		return sqlSession.selectOne(namespace+"goalSuccess",id);
+	}
+	@Override
+	public int howMuchInvest(String id) {
+		return sqlSession.selectOne(namespace+"howMuchInvest",id);
+	}
+	@Override
+	public int howMuchSave(String id) {
+		return sqlSession.selectOne(namespace+"howMuchSave",id);
+	}
+	@Override
+	public int essentialSpending(String id) {
+		return sqlSession.selectOne(namespace+"essentialSpending",id);
+	}
+	@Override
+	public int optionalSpending(String id) {
+		return sqlSession.selectOne(namespace+"optionalSpending",id);
+	}
+	@Override
+	public int carefulSpending(String id) {
+		return sqlSession.selectOne(namespace+"carefulSpending",id);
+	}
+	@Override
+	public int satisfySpending(String id) {
+		return sqlSession.selectOne(namespace+"satisfySpending",id);
+	}
+
+
 
 }

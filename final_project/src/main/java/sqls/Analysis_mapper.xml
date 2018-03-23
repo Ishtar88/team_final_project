@@ -16,7 +16,18 @@
 		<result property="p_regdate" column="P_REGDATE" />
 		<result property="id" column="ID" />
 		<result property="p_name" column="P_NAME" />
+		<result property="p_detail" column="P_DETAIL" />
+		<result property="p_location" column="P_LOCATION" />
+		<result property="p_regdate" column="P_REGDATE" />
 		<result property="p_money" column="P_MONEY" />
+		<result property="p_some" column="P_SOME" />
+		<result property="p_cashable" column="P_CASHABLE" />
+		<result property="p_card" column="P_CARD" />
+		<result property="p_sat" column="P_SAT" />
+		<result property="p_need" column="P_NEED" />
+		<result property="p_count" column="P_COUNT" />
+		<result property="p_step" column="P_STEP" />
+		
 	</resultMap>
 
 	<resultMap type="com.jsr.project.dtos.GoalDto" id="GoalDto">
@@ -109,6 +120,94 @@
 	</select>
 
 	<!-- 카테고리별 목표 달성률 -->
+
+
+
+<!-- 뚜디니 애드먼스 쿼리  -->
+
+SELECT SUM(P_MONEY) FROM SPENDING WHERE
+		P_REGDATE BETWEEN
+		ADD_MONTHS(SYSDATE,#{sMonth}) AND ADD_MONTHS(#{eDate},#{eMonth}) AND
+		ID=#{id}
+
+<!-- 유라 -->
+
+<!-- 	spending에서 갖고와야한당  -->
+	
+<!-- //자기계발형 인간  -->
+<select id="selfPatternScore" parameterType="String"  resultType="Integer">
+
+</select>
+
+<!-- //생활중심형 인간  -->
+<select id="lifePatternScore" parameterType="String"  resultType="Integer">
+
+</select>
+<!-- //유흥중심형 인간 -->
+<select id="playingPatternScore" parameterType="String"  resultType="Integer">
+
+</select>
+<!-- 	//쇼핑중심형 인간 -->
+<select id="shoppingPatternScore" parameterType="String"  resultType="Integer">
+
+</select>
+
+<!-- 저번달보다 얼마나 덜썼는지?-->
+<select id="compareLastMonth" parameterType="String"  resultType="Integer">
+
+</select>
+
+
+<!-- 가장 지출을 많이 한 요일은? -->
+<select id="howMuchDay" parameterType="String"  resultType="Integer">
+
+</select>
+
+
+<!-- 이번달에 가장 많이 지출한 분야는?  -->
+<select id="mostCategory" parameterType="String"  resultType="Integer">
+
+</select>
+
+
+<!-- 계획 이행률  -->
+<select id="goalSuccess" parameterType="String"  resultType="Integer">
+
+</select>
+
+<!-- 수입을 얼마만큼 투자에 지출했는지 비율  -->
+<select id="howMuchInvest" parameterType="String"  resultType="Integer">
+
+</select>
+
+<!-- 수입을 얼마만큼 저축에 지출했는지 비율  -->
+<select id="howMuchSave" parameterType="String"  resultType="Integer">
+
+</select>
+
+<!-- 지출부분 중 필수 지출 비율  -->
+<select id="essentialSpending" parameterType="String"  resultType="Integer">
+
+</select>
+
+<!-- 비 필수 지출비율은  -->
+<select id="optionalSpending" parameterType="String"  resultType="Integer">
+
+</select>
+
+<!-- 평균 구매 신중도는  -->
+<select id="carefulSpending" parameterType="String"  resultType="Integer">
+
+</select>
+
+<!-- 평균 소비 만족도는  -->
+
+<select id="satisfySpending" parameterType="String"  resultType="Integer">
+
+</select>
+
+
+
 
 
 </mapper>

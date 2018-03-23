@@ -123,6 +123,57 @@ public class AnalysisController {
 	@RequestMapping(value="/an_consumption_main.do")
 	public String an_consumption_main(Model model, HttpSession session) {
 		logger.info("analysis main page");
+		MembersDto ldto =(MembersDto)session.getAttribute("loginDto");
+		model.addAttribute("ldto", ldto);
+		String id= ldto.getId();
+		//자기계발형 인간 
+		int selfPattern =analysisService.selfPattern(id); 
+		//생활중심형 인간
+		int lifePattern =analysisService.lifePattern(id);
+		//유흥중심형 인간
+		int playingPattern = analysisService.playingPattern(id);
+		//쇼핑중심형 인간
+		int shoppingPattern=analysisService.shoppingPattern(id);
+		//저번달보다 얼마나 덜썼는지?
+		int compareLastMonth=analysisService.compareLastMonth(id); 
+		//가장 지출을 많이 한 요일은? 
+		int howMuchDay=analysisService.howMuchDay(id);
+		//이번달에 가장 많이 지출한 분야는?  
+		int mostCategory=analysisService.mostCategory(id);
+		//계획 이행률  
+		int goalSuccess=analysisService.goalSuccess(id);  //수진이가 한거에 있는뎅?! 
+		//수입을 얼마만큼 투자에 지출했는지 비율
+		int howMuchInvest=analysisService.howMuchInvest(id);
+		//수입을 얼마만큼 저축에 지출했는지 비율 
+		int howMuchSave=analysisService.howMuchSave(id);
+		// 지출부분 중 필수 지출 비율  
+		int essentialSpending=analysisService.essentialSpending(id);
+		//비 필수 지출비율은 
+		int optionalSpending=analysisService.optionalSpending(id);
+		//평균 구매 신중도는 
+		int carefulSpending=analysisService.carefulSpending(id); 
+		//평균 소비 만족도는  
+		int satisfySpending=analysisService.satisfySpending(id); 
+		
+		
+		model.addAttribute("id", id);
+		model.addAttribute("selfPattern", selfPattern); 
+		model.addAttribute("lifePattern", lifePattern); 
+		model.addAttribute("playingPattern", playingPattern); 
+		model.addAttribute("shoppingPattern", shoppingPattern); 
+		//
+		model.addAttribute("compareLastMonth", compareLastMonth); 
+		model.addAttribute("howMuchDay", howMuchDay); 
+		model.addAttribute("mostCategory", mostCategory); 
+		model.addAttribute("goalSuccess", goalSuccess); 
+		model.addAttribute("howMuchInvest", howMuchInvest); 
+		model.addAttribute("howMuchSave", howMuchSave); 
+		model.addAttribute("essentialSpending", essentialSpending); 
+		model.addAttribute("optionalSpending", optionalSpending); 
+		model.addAttribute("carefulSpending", carefulSpending); 
+		model.addAttribute("satisfySpending", satisfySpending); 
+		
+		
 		return "analysis/an_consumption_main";
 	}
 	

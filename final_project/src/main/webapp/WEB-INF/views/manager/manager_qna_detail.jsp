@@ -105,11 +105,11 @@ function backToList(){
 		</tr>
 		<tr>
 			<th>제목</th>
-			<td><input type="text" name="title" class="form-control"></td>
+			<td><input type="text" name="q_title" class="form-control"></td>
 		</tr>
 		<tr>
 			<th>내용</th>
-			<td><textarea rows="20" cols="40" name="content" class="form-control"></textarea> </td>
+			<td><textarea rows="20" cols="40" name="q_content" class="form-control"></textarea> </td>
 		</tr>
 		<tr>
 			<td colspan="2">

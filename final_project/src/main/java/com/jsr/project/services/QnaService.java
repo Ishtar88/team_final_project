@@ -51,7 +51,6 @@ public class QnaService implements IQnaService{
 	public boolean q_replyBoard(QnaBoardDto dto) {
 		int count=0; 
 		count=qnaDao.q_replyBoard(dto);
-		qnaDao.q_updateReply(dto.getQ_seq());
 		return count>0?true:false;
 	}
 

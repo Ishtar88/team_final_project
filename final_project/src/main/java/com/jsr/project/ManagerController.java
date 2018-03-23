@@ -275,14 +275,14 @@ public String notice_submitqna(QnaBoardDto dto) {
 	
 	//
 //	//질문게시판 답글달기 
-	@RequestMapping(value="/replyboard.do", method= {RequestMethod.POST,RequestMethod.GET})
-	public String replyboard(Locale locale, QnaBoardDto dto) {
-		logger.info("reply");;
+	@RequestMapping(value="/replyBoard.do", method= {RequestMethod.POST,RequestMethod.GET})
+	public String replyboard(QnaBoardDto dto) {
+		logger.info("reply");
 		boolean isS=qnaService.q_replyBoard(dto);
 		if (isS) {
 			return "redirect:qnamain.do";
 		} else {
-			logger.info("답글추가 실패", locale);
+			logger.info("답글추가 실패");
 			return "qnadetail.do?seq="+dto.getQ_seq(); 
 		}
 	}

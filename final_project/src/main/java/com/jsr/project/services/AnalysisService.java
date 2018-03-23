@@ -61,5 +61,88 @@ public class AnalysisService implements IAnalysisService{
 		return IAnalysisDao.category_expense(id, p_regdate);
 	}
 
+	
+	
+	
+	
+	// 지출패턴 - 유라 
+	@Override
+	public int selfPattern(String id) {
+		return IAnalysisDao.selfPatternScore(id);
+	}
 
+	@Override
+	public int lifePattern(String id) {
+		return IAnalysisDao.lifePatternScore(id);
+	}
+
+	@Override
+	public int playingPattern(String id) {
+		return IAnalysisDao.playingPatternScore(id);
+	}
+
+	@Override
+	public int shoppingPattern(String id) {
+		return IAnalysisDao.shoppingPatternScore(id);
+	}
+
+	@Override
+	public int compareLastMonth(String id) {
+		return IAnalysisDao.compareLastMonth(id);
+	}
+
+	@Override
+	public int howMuchDay(String id) {
+		return IAnalysisDao.howMuchDay(id);
+	}
+
+	@Override
+	public int mostCategory(String id) {
+		return IAnalysisDao.mostCategory(id);
+	}
+
+	@Override
+	public int goalSuccess(String id) {
+		return IAnalysisDao.goalSuccess(id);
+	}
+
+	@Override
+	public int howMuchInvest(String id) {
+		return IAnalysisDao.howMuchInvest(id);
+	}
+
+	@Override
+	public int howMuchSave(String id) {
+		return IAnalysisDao.howMuchSave(id);
+	}
+
+	@Override
+	public int essentialSpending(String id) {
+		return IAnalysisDao.essentialSpending(id);
+	}
+
+	@Override
+	public int optionalSpending(String id) {
+		return IAnalysisDao.optionalSpending(id);
+	}
+
+	@Override
+	public int carefulSpending(String id) {
+		return IAnalysisDao.carefulSpending(id);
+	}
+
+	@Override
+	public int satisfySpending(String id) {
+		return IAnalysisDao.satisfySpending(id);
+	}
+
+	
+	
+	
+
+	
+	
+	
+	
+	
 }
