@@ -24,7 +24,7 @@
 		$.ajax({
 			url : "findReward.do",
 			data : "category=" + category + "&search=" + search + "&r_detail="
-					+ r_detail+ "&sNum=1&eNum=8",
+					+ r_detail + "&sNum=1&eNum=8",
 			type : "post",
 			datetype : "json",
 			success : function(obj) {
@@ -61,18 +61,18 @@
 		}
 		$("#searchResult").append(str);
 	}
-	
-// 	var str2="";
-// 	function makePaging(pcount){
-// 		var search = $("input[name=search]").val();
-// 		var category = $("select[name=category]").val();
-// 		var r_detail = $("input[name=r_detail]").val();
-		
-// 		for (var i = 0; i < pcount; i++) {
-// 			str+="<tr><a href='findReward.do?category="+category+"&search="+search+"&r_detail="+r_detail+"&sNum="+i<1?1:1+(i*8)+"&eNum="+i<1?8:(i+1)*8+"</a>"+i+1+"</tr>'";
-// 		}
-// 		$(".tr").next(str2);
-// 	}
+
+	// 	var str2="";
+	// 	function makePaging(pcount){
+	// 		var search = $("input[name=search]").val();
+	// 		var category = $("select[name=category]").val();
+	// 		var r_detail = $("input[name=r_detail]").val();
+
+	// 		for (var i = 0; i < pcount; i++) {
+	// 			str+="<tr><a href='findReward.do?category="+category+"&search="+search+"&r_detail="+r_detail+"&sNum="+i<1?1:1+(i*8)+"&eNum="+i<1?8:(i+1)*8+"</a>"+i+1+"</tr>'";
+	// 		}
+	// 		$(".tr").next(str2);
+	// 	}
 
 	function buyReward(r_seq) {
 		window.open("rewardForm.do?r_seq=" + r_seq, "리워드상품 구매",
@@ -81,7 +81,8 @@
 
 	function searchAll() {
 		var r_detail = $("input[name=r_detail]").val();
-		location.href = "listOfCategory.do?r_detail=" + r_detail+"&sNum=1&eNum=10";
+		location.href = "listOfCategory.do?r_detail=" + r_detail
+				+ "&sNum=1&eNum=8";
 	}
 </script>
 <style type="text/css">
@@ -89,19 +90,30 @@ img {
 	width: 150px;
 	height: 150px;
 }
+
 </style>
 </head>
 <body>
 	<a href="rewardMain.do">main</a>
 
+ <div class="field" >
+          <select class="ui fluid search dropdown" name="category" >
+           <option value="r_name">제품이름</option>
+		<option value="b_name">브랜드</option>
+          </select>
+        </div>
+
 	<select name="category">
 		<option value="r_name">제품이름</option>
 		<option value="b_name">브랜드</option>
 	</select>
-	<input type="text" name="search" />
-	<input type="button" value="검색" onclick="searchItem()" />
-	<input type="button" value="전체검색" onclick="searchAll()" />
+	<div class="ui icon input">
+		<input type="text" placeholder="Search..." name="search">
+		<button class="ui yellow button" onclick="searchItem()">검색</button>
+		<button class="ui olive button" onclick="searchAll()">전체검색</button>
+	</div>
 	<input type="hidden" value="${r_detail}" name="r_detail" />
+
 
 	<table id="all">
 		<c:set var="i" value="0" />

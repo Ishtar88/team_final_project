@@ -4,9 +4,14 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
-<title>Insert title here</title>
-<title>Insert title here</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" type="text/css"
+	href="resources/assets/semantic.min.css">
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"
+	integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+	crossorigin="anonymous"></script>
+<script src="resources/assets/semantic.min.js"></script>
+<title>주소찾기</title>
 <script type="text/javascript"
 	src="http://code.jquery.com/jquery-latest.js"></script>
 
@@ -43,8 +48,7 @@
 	function makeListJson(jsonStr) {
 
 		var htmlStr = "";
-		htmlStr += "<table class='table table-bordered'>";
-		htmlStr += "<caption>주소검색 결과</caption>";
+		htmlStr += "<table class='ui unstackable table'>";
 		htmlStr += "<col width='50px;'><col width='200px;'><col width='150px;'><col width='100px;'>";
 		htmlStr += "<tr class='form-inline'>";
 		htmlStr += "<th class='form-group'>선택</th>";
@@ -109,8 +113,12 @@
 				<input type="hidden" name="resultType" value="json" />
 				<input type="hidden" name="confmKey"
 					value="U01TX0FVVEgyMDE4MDEyNTE2MjU1MjEwNzYzMDc=" />
-				<input type="text" name="keyword" onkeydown="enterSearch();" />
-				<input type="button" onclick="getAddr()" value="주소검색하기"/></td>
+					
+				<div class="ui icon input">
+ 				 <input type="text" placeholder="Search..." name="keyword" onkeydown="enterSearch();">
+				 <i class="search icon"></i>
+				</div>
+				<div class="ui button" onclick="getAddr()">검색</div>
 			</tr>
 		</table>
 	</form>
@@ -121,8 +129,8 @@
 	<table>
 		<tr>
 			<td>
-				<input type="button" value="선택" onclick="addrSelect()">
-				<input type="button" value="닫기" onclick="self.close();">
+				<button class="ui olive button" onclick="addrSelect()">선택</button>
+				<button class="ui green button" onclick="self.close();">닫기</button>
 			</td>
 		</tr>
 	</table>

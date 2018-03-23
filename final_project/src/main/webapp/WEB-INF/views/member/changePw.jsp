@@ -7,12 +7,17 @@
 %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="f"%>
-<jsp:include page="../header.jsp"></jsp:include>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<link rel="stylesheet" type="text/css"
+	href="resources/assets/semantic.min.css">
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"
+	integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+	crossorigin="anonymous"></script>
+<script src="resources/assets/semantic.min.js"></script>
+<title>비밀번호 변경</title>
 <script type="text/javascript"
 	src="http://code.jquery.com/jquery-latest.js"></script>
 <script type="text/javascript">
@@ -37,21 +42,25 @@
 		});
 	}
 
-	function newPwChk() {
-		var pw1 = $("input[name=newPw]").val();
-		var pw2 = $("input[name=newPwChk]").val();
-		if (pw1 != pw2) {
-			//alert("비밀번호를 확인 해 주세요");
-			$("#pwchk").text("비밀번호를 확인 해 주세요.");
-		} else {
-			$("#pwchk").text("");
-			$("#pwchk").text("올바른 비밀번호입니다.");
-			$("input[name=change]").attr("disabled",false);
-		}
-	}
+// 	function newPwChk() {
+// 		var pw1 = $("input[name=newPw]").val();
+// 		var pw2 = $("input[name=newPwChk]").val();
+// 		if (pw1 != pw2) {
+// 			//alert("비밀번호를 확인 해 주세요");
+// 			$("#pwchk").text("비밀번호를 확인 해 주세요.");
+// 		} else {
+// 			$("#pwchk").text("");
+// 			$("#pwchk").text("올바른 비밀번호입니다.");
+// 			$("input[name=change]").attr("disabled",false);
+// 		}
+// 	}
 
 	function pwChange() {
 		var newPw = $("input[name=newPw]").val();
+		var newPwChk = $("input[name=newPwChk]").val();
+		if(newPw!=newPwChk||newPw==""||newPwChk==""){
+			alert("비밀번호를 올바르게 입력 해 주세요.");
+		}else{
 		$.ajax({
 			url : "changePassword.do",
 			type : "post",
@@ -68,6 +77,9 @@
 				}
 			}
 		});
+			
+		}
+		
 	}
 </script>
  
@@ -82,25 +94,36 @@
 	<table>
 		<tr>
 			<td>현재 비밀번호</td>
-			<td><input type="password" name="m_password" /> <input
-				type="button" value="확인" onclick="pwChk()" /> <input type="button"
-				value="취소" onclick="end()" /></td>
+			<td>
+			<div class="ui icon input">
+ 				 <input type="password" name="m_password">
+				</div>
+			<button class="ui blue button" onclick="pwChk()">확인</button>
+			<button class="ui grey button" onclick="end()">취소</button>	
+			</td>
 		</tr>
 	</table>
 
 	<table id="chk">
 		<tr>
 			<td>새로운 비밀번호</td>
-			<td><input type="password" name="newPw" /></td>
+			<td><div class="ui icon input">
+ 				 <input type="password" name="newPw">
+				</div>
+			</td>
 		</tr>
 		<tr>
 			<td>새로운 비밀번호 확인</td>
-			<td><input type="password" onchange="newPwChk()" name="newPwChk" />
+			<td><div class="ui icon input">
+ 				 <input type="password" onchange="newPwChk()" name="newPwChk">
+				</div>
 				<p id="pwchk"></td>
 		</tr>
 		<tr>
-		<td colspan="2"><input type="button" value="변경" onclick="pwChange()" disabled="disabled" name="change"/> <input
-			type="button" value="취소" onclick="end()" /></td>
+		<td colspan="2">
+		<button class="ui green button" onclick="pwChange()" name="change">변경</button>
+		<button class="ui grey button" onclick="end()">취소</button>
+		</td>
 		</tr>
 	</table>
 </body>

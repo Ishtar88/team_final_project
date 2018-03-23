@@ -323,15 +323,15 @@ public class MembersController {
 		mdto.setM_address(m_address);
 		boolean isS=memberService.modifyUser(mdto);
 		if(isS) {
-			System.out.println("�닔�젙�꽦怨�");
+			System.out.println("수정완료");
 		}else {
-			System.out.println("�닔�젙�떎�뙣");
+			System.out.println("수정실패");
 		}
 
 		MembersDto memDto=memberService.getUser(loginDto.getId());
 		System.out.println(memDto);
 		model.addAttribute("mdto",memDto);
-		return "member/memberModify";
+		return "member/memberInfo";
 	}
 
 	@RequestMapping(value = "/kakaoLogin.do", method = RequestMethod.GET)

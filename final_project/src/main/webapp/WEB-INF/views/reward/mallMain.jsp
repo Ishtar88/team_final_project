@@ -20,8 +20,15 @@
 </script>
 <style type="text/css">
 img {
-	width: 200px;
-	height: 200px;
+	width: 250px;
+	height: 250px;
+}
+img:hover{
+cursor: pointer;
+}
+.text{
+text-align: center;
+font-size: 20px;
 }
 </style>
 </head>
@@ -35,16 +42,20 @@ img {
 				<input type="hidden" id=a value="외식" /></td>
 			<td><img alt="cafe" src="resources/category/cafe.png" onclick="byCategory(b.value)"> <input
 				type="hidden" id=b value="카페" /></td>
+		</tr>
+		<tr>
+			<td class="text">외식</td>
+			<td class="text">카페</td>
+		</tr>
+		<tr>
 			<td><img alt="store" src="resources/category/store.png" onclick="byCategory(c.value)"> <input
 				type="hidden" id=c value="편의점" /></td>
 			<td><img alt="ticket" src="resources/category/ticket.png" onclick="byCategory(d.value)">
 				<input type="hidden" id=d value="문화생활" /></td>
 		</tr>
 		<tr>
-			<td>외식</td>
-			<td>카페</td>
-			<td>편의점</td>
-			<td>문화생활</td>
+			<td class="text">편의점</td>
+			<td class="text">문화생활</td>
 		</tr>
 	</table>
 </body>
