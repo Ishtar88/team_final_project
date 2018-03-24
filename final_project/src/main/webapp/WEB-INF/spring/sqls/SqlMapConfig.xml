@@ -18,6 +18,7 @@
 		<typeAlias type="com.jsr.project.dtos.CompanyDto" alias="CompanyDto"/>
 		<typeAlias type="com.jsr.project.dtos.ProductDto" alias="ProductDto"/>
 		<typeAlias type="com.jsr.project.dtos.AnalysisDto" alias="AnalysisDto"/>
+		<typeAlias type="com.jsr.project.dtos.AcountPatternDto" alias="AcountPatternDto"/>
 	</typeAliases>
 	
 	<mappers>
