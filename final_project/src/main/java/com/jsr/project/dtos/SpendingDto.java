@@ -31,6 +31,27 @@ public class SpendingDto {
 	private int p_count;
 	
 	private int p_step;
+	
+	private GoalDto g_name;
+	private GoalDto g_money;
+	
+	
+
+	public GoalDto getG_name() {
+		return g_name;
+	}
+
+	public void setG_name(GoalDto g_name) {
+		this.g_name = g_name;
+	}
+
+	public GoalDto getG_money() {
+		return g_money;
+	}
+
+	public void setG_money(GoalDto g_money) {
+		this.g_money = g_money;
+	}
 
 	public int getP_seq() {
 		return p_seq;
@@ -173,9 +194,11 @@ public class SpendingDto {
 		return "SpendingDto [p_seq=" + p_seq + ", id=" + id + ", p_name=" + p_name + ", p_detail=" + p_detail
 				+ ", p_location=" + p_location + ", p_regdate=" + p_regdate + ", p_money=" + p_money + ", p_some="
 				+ p_some + ", p_cashable=" + p_cashable + ", p_card=" + p_card + ", p_sat=" + p_sat + ", p_need="
-				+ p_need + ", p_count=" + p_count + ", p_step=" + p_step + "]";
+				+ p_need + ", p_count=" + p_count + ", p_step=" + p_step + ", g_name=" + g_name + ", g_money=" + g_money
+				+ "]";
 	}
 
+	
 
 	
 }

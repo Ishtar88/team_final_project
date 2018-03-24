@@ -151,6 +151,30 @@ public class AcountService implements IAcountService {
 	
 	//----------------------------------------------
 
+
+	@Override
+	public boolean saveEnd(SaveDto dto) {
+		return acountDaoImp.saveEnd(dto);
+	}
+
+	@Override
+	public boolean stockEnd(StockDto dto) {
+		return acountDaoImp.stockEnd(dto);
+	}
+
+	@Override
+	public boolean fundEnd(FundDto dto) {
+		return acountDaoImp.fundEnd(dto);
+	}
+
+	@Override
+	public boolean loanEnd(LoanDto dto) {
+		return acountDaoImp.loanEnd(dto);
+	}
+	
+	
+	//----------------------------------------------
+
 	@Override
 	public boolean goalRegInsert(GoalDto dto) {
 		return acountDaoImp.goalRegInsert(dto);
@@ -251,6 +275,7 @@ public class AcountService implements IAcountService {
 	public boolean buyDobakFail(PointDto poDto) {
 		return acountDaoImp.minusPointDobak(poDto);
 	}
+
 
 
 	

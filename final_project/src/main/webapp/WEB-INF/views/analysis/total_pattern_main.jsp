@@ -19,9 +19,12 @@
 Calendar cal = Calendar.getInstance();
 int year = cal.get(Calendar.YEAR);
 int month = cal.get(Calendar.MONTH) + 1;
+<<<<<<< HEAD
 cal.set(year, month - 1, 1);
 int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
 int lastDay = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
+=======
+>>>>>>> refs/remotes/origin/yura2
 %>
 <script type="text/javascript"
 	src="http://code.jquery.com/jquery-latest.js"></script>
@@ -30,6 +33,10 @@ window.onload = function () {
 	
 	var spend_ratio=parseFloat($("#spend_ratio").text());
 	var invest_ratio=parseFloat($("#invest_ratio").text());
+<<<<<<< HEAD
+=======
+
+>>>>>>> refs/remotes/origin/yura2
 var chart1 = new CanvasJS.Chart("chartContainer1", {
 	
 	animationEnabled: true,
@@ -51,7 +58,14 @@ var chart1 = new CanvasJS.Chart("chartContainer1", {
 	}]
 });
 chart1.render();
+<<<<<<< HEAD
+=======
+
+
+
+>>>>>>> refs/remotes/origin/yura2
 //------------------------------------
+<<<<<<< HEAD
 var year=$("input[name=year]").val();
 var month=$("input[name=month]").val();
 		$.ajax({
@@ -143,6 +157,105 @@ var month=$("input[name=month]").val();
 			}
 		});
 		
+=======
+
+var year=$("input[name=year]").val();
+var month=$("input[name=month]").val();
+
+		$.ajax({
+			url : "total_pattern_main_ajax.do",
+			type : "post",
+			data : "year=" + year + "&month=" + month,
+			datetype : "json",
+			success : function(obj) {
+// 				alert(obj["GSList"][0]["p_name"]);
+// 				alert(obj["GSList"][0]["g_name"]["g_money"]);
+// 				alert(obj["GSList"][0]["p_money"]);
+				var list=obj["GSList"];
+				var list2=obj["spendMinusGoal"];
+				var list3=obj["goalMinusSpend"];
+				var arrayList1=[];
+				var arrayList2=[];
+				arrayList1.push({ label:"total", y:obj["total_goal"] });
+				arrayList2.push({ label:"total", y:obj["total_spending"] });
+				for (var i = 0; i < list.length; i++) {
+					arrayList1.push({ label:list[i].p_name, y:list[i].g_name.g_money });
+					arrayList2.push({ label:list[i].p_name, y:list[i].p_money });
+				}
+				for (var i = 0; i < list3.length; i++) {
+					arrayList1.push({ label:list3[i].g_name, y:list3[i].g_money });
+					arrayList2.push({ label:list3[i].g_name, y:0});
+				}
+				for (var i = 0; i < list2.length; i++) {
+					arrayList1.push({ label:list2[i].p_name, y:0});
+					arrayList2.push({ label:list2[i].p_name, y:list2[i].p_money });
+				}
+
+					var chart2 = new CanvasJS.Chart("chartContainer2", {
+						exportEnabled: true,
+						animationEnabled: true,
+						title:{
+							text: "Car Parts Sold in Different States"
+						},
+						subtitles: [{
+							text: "Click Legend to Hide or Unhide Data Series"
+						}], 
+						axisX: {
+							title: "States"
+						},
+						axisY: {
+							title: "예산 - Units",
+							titleFontColor: "#4F81BC",
+							lineColor: "#4F81BC",
+							labelFontColor: "#4F81BC",
+							tickColor: "#4F81BC"
+						},
+						axisY2: {
+							title: "지출 - Units",
+							titleFontColor: "#C0504E",
+							lineColor: "#C0504E",
+							labelFontColor: "#C0504E",
+							tickColor: "#C0504E"
+						},
+						toolTip: {
+							shared: true
+						},
+						legend: {
+							cursor: "pointer",
+							itemclick: toggleDataSeries
+						},
+						data: [{
+							type: "column",
+							name: "예산",
+							showInLegend: true,      
+							yValueFormatString: "#,##0.# Units",
+							dataPoints:arrayList1
+						},
+						{
+							type: "column",
+							name: "지출",
+							axisYType: "secondary",
+							showInLegend: true,
+							yValueFormatString: "#,##0.# Units",
+							dataPoints:arrayList2
+						}]
+					});
+					chart2.render();
+
+					function toggleDataSeries(e) {
+						if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+							e.dataSeries.visible = false;
+						} else {
+							e.dataSeries.visible = true;
+						}
+						e.chart.render();
+					}	
+
+			}
+		});
+		
+
+>>>>>>> refs/remotes/origin/yura2
 }
 </script>
 <style type="text/css">
@@ -153,6 +266,7 @@ height: 200px;
 </style>
 </head>
 <body>
+<<<<<<< HEAD
 	<div id="chartContainer1" style="height: 370px; width: 300px;"></div>
 	<script src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
 	<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
@@ -177,6 +291,25 @@ height: 200px;
 	<tr><td>${aDto2.a_detail}</td></tr>
 	</table>
 	<table border="1" id="chart1">
+=======
+	<div id="chartContainer1" style="height: 370px; width: 100%;"></div>
+	<script src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
+	<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+
+	<div id="chartContainer2" style="height: 370px; width: 100%;"></div>
+	<script src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
+	<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+</head>
+<body>
+</head>
+<body>
+	<a href="#">1개월</a>
+	<a href="#">3개월</a>
+	<a href="#">6개월</a>
+	<input type="hidden" name="year" value="<%=year%>"/>
+	<input type="hidden" name="month" value="<%=month%>"/>
+	<table border="1">
+>>>>>>> refs/remotes/origin/yura2
 		<tr>
 			<td>총 지출액</td>
 			<td colspan="2"><f:formatNumber value="${total_spending}"
@@ -212,7 +345,11 @@ height: 200px;
 		</tr>
 		
 	</table>
+<<<<<<< HEAD
 	<table border="1" id="chart2-2">
+=======
+	<table border="1">
+>>>>>>> refs/remotes/origin/yura2
 	<tr>
 			<td colspan="3">카테고리별 상세내역</td>
 		</tr>

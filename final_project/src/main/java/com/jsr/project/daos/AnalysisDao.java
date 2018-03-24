@@ -10,10 +10,15 @@ import org.springframework.stereotype.Repository;
 
 import com.jsr.project.dtos.AcountDto;
 import com.jsr.project.dtos.AcountPatternDto;
+<<<<<<< HEAD
 import com.jsr.project.dtos.AnalysisDto;
+=======
+import com.jsr.project.dtos.FundDto;
+>>>>>>> refs/remotes/origin/yura2
 import com.jsr.project.dtos.GoalDto;
 import com.jsr.project.dtos.SaveDto;
 import com.jsr.project.dtos.SpendingDto;
+import com.jsr.project.dtos.StockDto;
 
 @Repository
 public class AnalysisDao implements IAnalysisDao{
@@ -24,11 +29,18 @@ public class AnalysisDao implements IAnalysisDao{
 	
 	//소비패턴-수진
 	@Override
+<<<<<<< HEAD
 	public int total_spending(String sMonth,String eMonth,String eDate,String id) {
+=======
+	public int total_spending(String sMonth,String eMonth,String id) {
+>>>>>>> refs/remotes/origin/yura2
 		Map<String , String>map=new HashMap<String,String>();
 		map.put("sMonth", sMonth);
 		map.put("eMonth", eMonth);
+<<<<<<< HEAD
 		map.put("eDate", eDate);
+=======
+>>>>>>> refs/remotes/origin/yura2
 		map.put("id", id);
 		return sqlSession.selectOne(namespace+"total_spending", map);
 	}
@@ -81,6 +93,7 @@ public class AnalysisDao implements IAnalysisDao{
 		map.put("id", id);
 		return sqlSession.selectList(namespace+"category_expense", map);
 	}
+<<<<<<< HEAD
 	@Override
 	public List<SpendingDto> goalVerseExpense(String sMonth,String eMonth,String eDate,String id) {
 		Map<String , String>map=new HashMap<String,String>();
@@ -177,6 +190,10 @@ public class AnalysisDao implements IAnalysisDao{
 	
 	
 	// 지출패턴-유라
+=======
+
+	//투자패턴-유라
+>>>>>>> refs/remotes/origin/yura2
 	
 	
 	@Override

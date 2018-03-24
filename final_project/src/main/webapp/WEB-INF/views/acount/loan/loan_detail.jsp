@@ -14,6 +14,19 @@
   crossorigin="anonymous"></script>
 <script src="resources/assets/semantic.min.js"></script>
 <title>Insert title here</title>
+<script type="text/javascript">
+	function acountEnd(){
+		$(".acountEndForm").toggle();
+		
+	}
+	
+	function acount_end_cancel(){
+		$(".acountEndForm").css("display","none");
+	}
+</script>
+<style type="text/css">
+	.acountEndForm{display: none;}
+</style>
 </head>
 <body>
 <c:if test="${isc }">
@@ -63,9 +76,28 @@
 		<td>
 			<input type="button" value="수정" onclick="location.href='acount_update_page.do?acount=loan&seq='+${lDto.l_seq}">
 			<input type="button" value="삭제" onclick="location.href='acount_delete.do?acount=loan&seq='+${lDto.l_seq}">
+			<input type="button" value="만기" onclick="acountEnd()">
 			<input type="button" value="닫기" onclick="self.close()">
 		</td>
 	</tr>
 </table>
+		<form class="acountEndForm" action="acount_end.do" method="post">
+			<table>
+				<tr>
+					<td>
+						<input type="hidden" name="seq" value="${lDto.l_seq}">
+						<input type="hidden" name="acount" value="loan">
+						<input type="date" name="enddate" required="required">
+						<span>만기날짜를 입력해주세요</span>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<input type="submit" value="만기등록">
+						<input type="button" value="등록 취소" onclick="acount_end_cancel()">
+					</td>
+				</tr>
+			</table>
+		</form>
 </body>
 </html>

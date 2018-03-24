@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
@@ -32,4 +33,40 @@
 		<mapper resource="/sqls/Company_mapper.xml"/>
 		<mapper resource="/sqls/Analysis_mapper.xml"/>
 	</mappers>
+=======
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<typeAliases>
+		<typeAlias type="com.jsr.project.dtos.MembersDto" alias="MembersDto"/>
+		<typeAlias type="com.jsr.project.dtos.QnaBoardDto" alias="QnaBoardDto"/>
+		<typeAlias type="com.jsr.project.dtos.NoticeBoardDto" alias="NoticeBoardDto"/>
+		<typeAlias type="com.jsr.project.dtos.GoalDto" alias="GoalDto"/>
+		<typeAlias type="com.jsr.project.dtos.PointDto" alias="PointDto"/>
+		<typeAlias type="com.jsr.project.dtos.AcountDto" alias="AcountDto"/>
+		<typeAlias type="com.jsr.project.dtos.FundDto" alias="FundDto"/>
+		<typeAlias type="com.jsr.project.dtos.LoanDto" alias="LoanDto"/>
+		<typeAlias type="com.jsr.project.dtos.SaveDto" alias="SaveDto"/>
+		<typeAlias type="com.jsr.project.dtos.IncomeDto" alias="IncomeDto"/>
+		<typeAlias type="com.jsr.project.dtos.StockDto" alias="StockDto"/>
+		<typeAlias type="com.jsr.project.dtos.SpendingDto" alias="SpendingDto"/>
+		<typeAlias type="com.jsr.project.dtos.RewardDto" alias="RewardDto"/>
+		<typeAlias type="com.jsr.project.dtos.CompanyDto" alias="CompanyDto"/>
+		<typeAlias type="com.jsr.project.dtos.ProductDto" alias="ProductDto"/>
+		<typeAlias type="com.jsr.project.dtos.AnalysisDto" alias="AnalysisDto"/>
+		<typeAlias type="com.jsr.project.dtos.AcountPatternDto" alias="AcountPatternDto"/>
+	</typeAliases>
+	
+	<mappers>
+		<mapper resource="/sqls/Members_mapper.xml"/>
+		<mapper resource="/sqls/Acount_mapper.xml"/>
+		<mapper resource="/sqls/Qnaboard_mapper.xml"/>
+		<mapper resource="/sqls/Noticeboard_mapper.xml"/>
+		<mapper resource="/sqls/Income_mapper.xml"/>
+		<mapper resource="/sqls/Reward_mapper.xml"/>
+		<mapper resource="/sqls/Spending_mapper.xml"/>
+		<mapper resource="/sqls/Company_mapper.xml"/>
+		<mapper resource="/sqls/Analysis_mapper.xml"/>
+	</mappers>
+>>>>>>> refs/remotes/origin/yura2
 </configuration>

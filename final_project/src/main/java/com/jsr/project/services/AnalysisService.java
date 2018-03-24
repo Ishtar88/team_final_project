@@ -11,7 +11,10 @@ import org.springframework.transaction.annotation.Transactional;
 import com.jsr.project.daos.IAnalysisDao;
 import com.jsr.project.dtos.AcountDto;
 import com.jsr.project.dtos.AcountPatternDto;
+<<<<<<< HEAD
 import com.jsr.project.dtos.AnalysisDto;
+=======
+>>>>>>> refs/remotes/origin/yura2
 import com.jsr.project.dtos.GoalDto;
 import com.jsr.project.dtos.SaveDto;
 import com.jsr.project.dtos.SpendingDto;
@@ -25,8 +28,13 @@ public class AnalysisService implements IAnalysisService{
 	//소비패턴-수진
 	
 	@Override
+<<<<<<< HEAD
 	public int total_spending(String sMonth,String eMonth,String eDate,String id) {
 		return IAnalysisDao.total_spending(sMonth, eMonth, eDate, id);
+=======
+	public int total_spending(String sMonth,String eMonth,String id) {
+		return IAnalysisDao.total_spending(sMonth, eMonth, id);
+>>>>>>> refs/remotes/origin/yura2
 	}
 
 	@Override
@@ -197,6 +205,7 @@ public class AnalysisService implements IAnalysisService{
 	}
 
 	@Override
+
 	public int howMuchInvest(String id) {
 		return IAnalysisDao.howMuchInvest(id);
 	}
@@ -226,13 +235,5 @@ public class AnalysisService implements IAnalysisService{
 		return IAnalysisDao.satisfySpending(id);
 	}
 
-	
-	
-	
 
-	
-	
-	
-	
-	
 }
