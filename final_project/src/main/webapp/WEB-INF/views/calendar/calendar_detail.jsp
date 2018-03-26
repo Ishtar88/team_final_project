@@ -11,7 +11,7 @@
 <body>
 		<div class="calendar_wrap">
 			<div class="calendar_income">
-				<table border="1">
+				<table class="ui red table">
 					<tr>
 						<td><a href="spending_insert_page.do?command=calendar"><img alt="plus" src="resources/icon/plus.png" style="width: 15px; height: 15px;"></a></td>
 						<td colspan="4"><span>지출</span></td>

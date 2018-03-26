@@ -370,6 +370,9 @@ window.onload = function () {
 		width: 100px;
 		height: 100px;
 	}
+	.analy_search{
+		display: none;
+	}
 </style>
 </head>
 <body>

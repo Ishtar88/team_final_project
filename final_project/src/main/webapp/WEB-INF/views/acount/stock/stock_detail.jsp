@@ -26,6 +26,9 @@
 </script>
 <style type="text/css">
 	.acountEndForm{display: none;}
+	.stock_update_page_wrap{
+		width: 400px;
+	}
 </style>
 </head>
 <body>
@@ -34,76 +37,84 @@
 		self.close();
 	</script>
 </c:if>
-<table class="stock_detail">
+<div class="stock_update_page_wrap">
+<table class="stock_update_page ui olive table">
 	<tr>
-		<th>주식명</th>
-		<td>
+		<td class="ui transparent input">
+			주식명
+					<i class="ellipsis vertica icon"></i>
 			<input type="text" name="s_name" value="${sDto.st_name }" readonly="readonly">
 		</td>
 	</tr>
 	<tr>
-		<th>구매수량</th>
-		<td>
+		<td class="ui transparent input">
+		구매수량
+				<i class="ellipsis vertica icon"></i>
 			<input type="text" name="st_count" value="${sDto.st_count }" readonly="readonly">
 		</td>
 	</tr>
 	<tr>
-		<th>매수금액</th>
-		<td>
+		<td class="ui transparent input">
+		매수금액
+				<i class="ellipsis vertica icon"></i>
 			<input type="text" name="st_money" value="${sDto.st_money }" readonly="readonly">
 		</td>
 	</tr>
 	<tr>
-		<th>손익률</th>
-		<td>
+		<td class="ui transparent input">
+		손익률
+				<i class="ellipsis vertica icon"></i>
 			<input type="text" name="s_inter" value="${sDto.st_money/sDto.st_add }%" readonly="readonly">
 		</td>
 	</tr>
 	<tr>
-		<th>총 평가금액</th>
-		<td>
+		<td class="ui transparent input">
+		총 평가금액
+				<i class="ellipsis vertica icon"></i>
 			<input type="text" name="st_add" value="${sDto.st_add*st_count }" readonly="readonly">
 		</td>
 	</tr>
 	<tr>
-		<th>매수날짜</th>
-		<td>
+		<td class="ui transparent input">
+		매수날짜
+				<i class="ellipsis vertica icon"></i>
 			<input type="date" name="st_buydate" value='<fmt:formatDate value="${sDto.st_buydate }" pattern="yyyy-MM-dd"/>' readonly="readonly">
 		</td>
 	</tr>
 	<tr>
-		<th>메모</th>
-		<td>
+		<td class="ui transparent input">
+		메모
+				<i class="ellipsis vertica icon"></i>
 			<input type="text" name="st_memo" value="${sDto.st_memo }" readonly="readonly">
 		</td>
 	</tr>
 
-	<tr>
+			<tr>
 		<td>
-			<input type="button" value="수정" onclick="location.href='acount_update_page.do?acount=stock&seq=${sDto.st_seq}'">
-			<input type="button" value="삭제" onclick="location.href='acount_delete.do?acount=stock&seq=${sDto.st_seq}'">
-			<input type="button" value="매도" onclick="acountEnd()">
-			<input type="button" value="닫기" onclick="self.close()">
+			<button class="ui olive button" onclick="location.href='acount_update_page.do?acount=stock&seq=${sDto.st_seq}'">수정</button>
+			<div class="ui orange button" onclick="location.href='acount_delete.do?acount=stock&seq=${sDto.st_seq}'">삭제</div>
+			<div class="ui grey button" onclick="acountEnd()">매도</div>
+			<div class="ui button" onclick="self.close()">닫기</div>
 		</td>
 	</tr>
 </table>
 		<form class="acountEndForm" action="acount_end.do" method="post">
-			<table>
+			<table class="ui black table">
 				<tr>
 					<td>
 						<input type="hidden" name="seq" value="${sDto.st_seq}">
 						<input type="hidden" name="acount" value="stock">
-						<input type="date" name="enddate" required="required">
-						<span>매도날짜를 입력해주세요</span>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<input type="submit" value="매도등록">
-						<input type="button" value="등록 취소" onclick="acount_end_cancel()">
+						<div class="ui mini input">
+												<div class="ui transparent mini input">
+							매도날짜: <input type="date" name="enddate" required="required">
+							</div>
+						</div>
+						<button class="ui olive mini button">매도</button>
+						<div class="ui orange mini button" onclick="acount_end_cancel()">취소</div>
 					</td>
 				</tr>
 			</table>
 		</form>
+</div>
 </body>
 </html>

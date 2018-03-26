@@ -14,6 +14,11 @@
   crossorigin="anonymous"></script>
 <script src="resources/assets/semantic.min.js"></script>
 <title>Insert title here</title>
+<style type="text/css">
+	.income_update_page_wrap{
+		width: 300px;
+	}
+</style>
 </head>
 <body>
 <c:if test="${isc }">
@@ -22,44 +27,62 @@
 	</script>
 </c:if>
 <form action="income_update.do" method="post">
-<table class="income_update_page">
+<div class="income_update_page_wrap">
+<table class="income_update_page ui orange table">
 	<tr>
-		<th>수입명</th>
 		<td>
+		수입명
+							<i class="ellipsis vertica icon"></i>
+				<div class="ui mini input">
 			<input type="text" name="i_name" value="${iDto.i_name }">
+			</div>
 		</td>
 	</tr>
 	<tr>
-		<th>상세내용</th>
 		<td>
+		상세내용
+							<i class="ellipsis vertica icon"></i>
+				<div class="ui mini input">
 			<input type="text" name="i_memo" value="${iDto.i_memo }">
+			</div>
 		</td>
 	</tr>
 	<tr>
-		<th>금액</th>
 		<td>
+		금액
+							<i class="ellipsis vertica icon"></i>
+				<div class="ui mini input">
 			<input type="text" name="i_money" value="${iDto.i_money }">
+			</div>
 		</td>
 	</tr>
 	<tr>
-		<th>고정여부</th>
 		<td>
-			<input type="text" name="i_fix" value="${iDto.i_fix.equals('Y')?'고정수입':'변동수입' }" placeholder="고정수입:Y / 변동수입:N">
+			고정여부
+				<i class="ellipsis vertica icon"></i>
+				<div class="ui mini input">
+				<input type="radio" name="i_fix" value="Y" checked="${iDto.i_fix=='Y'?'checked':'' }" >고정수입 &nbsp;
+				<input type="radio" name="i_fix" value="N" checked="${iDto.i_fix=='N'?'checked':'' }">변동수입
+				</div>
 		</td>
 	</tr>
 	<tr>
-		<th>등록날짜</th>
 		<td>
+		등록날짜
+									<i class="ellipsis vertica icon"></i>
+				<div class="ui mini input">
 			<input type="date" name="reg_date" value='<fmt:formatDate value="${iDto.i_regdate }" pattern="yyyy-MM-dd"/>'>
+			</div>
 		</td>
 	</tr>
 	<tr>
 		<td>
-			<input type="submit" value="완료">
-			<input type="button" value="취소" onclick="location.href='income_cancel.do?seq='+${iDto.i_seq }">
+			<button class="ui olive button">수정완료</button>
+			<div class="ui orange button" onclick="location.href='income_cancel.do?i_seq=${iDto.i_seq }'">취소</div>
 		</td>
 	</tr>
 </table>
+</div>
 </form>
 </body>
 </html>

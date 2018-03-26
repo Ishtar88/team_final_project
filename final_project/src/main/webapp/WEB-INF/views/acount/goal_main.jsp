@@ -9,6 +9,19 @@
 	<title>Home</title>
 </head>
 <script type="text/javascript">
+
+	$(function(){
+		var list=$(".acount_list").children().children();
+		
+		
+		for (var i = 0; i < list.length; i++) {
+			list.eq(i).attr("class","item");
+		}
+		
+		list.eq(0).attr("class","active item");
+		
+	});
+
 	function addAcount(){
 		var val=$("#insertAcount").children().eq(0).val();
 		alert(val);

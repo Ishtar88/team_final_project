@@ -6,60 +6,84 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" type="text/css" href="resources/assets/semantic.min.css">
+<script
+  src="https://code.jquery.com/jquery-3.1.1.min.js"
+  integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+  crossorigin="anonymous"></script>
+<script src="resources/assets/semantic.min.js"></script>
 <title>Insert title here</title>
+<style type="text/css">
+	.income_form_body_wrap{
+		width: 300px;
+	}
+</style>
 </head>
 <c:if test="${isc }">
 	<script type="text/javascript">
 		self.close();
 	</script>
 </c:if>
-
 <body>
 <form action="income_insert.do" method="post" onsubmit="return income_insert()">
-	<table class="income_form_body">
+<div class="income_form_body_wrap">
+	<table class="income_form_body ui olive table">
 		<tr>
-			<th>수입명</th>
 			<td>
-				<input type="text" name="i_name" required="required">
+			수입명
+								<i class="ellipsis vertica icon"></i>
+				<div class="ui input">
+				<input type="text" name="i_name" value="${iDto.i_name }" required="required">
+				</div>
 			</td>
 		</tr>
 		<tr>
-			<th>상세내용</th>
 			<td>
-				<input type="text" name="i_memo" required="required">
+			상세내용
+								<i class="ellipsis vertica icon"></i>
+				<div class="ui input">
+				<input type="text" name="i_memo" value="${iDto.i_memo }" required="required">
+				</div>
 			</td>
 		</tr>
 		<tr>
-			<th>금액</th>
 			<td>
-				<input type="text" name="i_money" required="required">
+			금액
+								<i class="ellipsis vertica icon"></i>
+				<div class="ui input">
+				<input type="text" name="i_money" value="${iDto.i_money }" required="required">
+				</div>
 			</td>
 		</tr>
 		<tr>
-			<th>고정여부</th>
 			<td>
+			고정여부
+								<i class="ellipsis vertica icon"></i>
+				<div class="ui input">
 				<input type="radio" name="i_fix" value="Y">고정수입 &nbsp;
 				<input type="radio" name="i_fix" value="N">변동수입
+				</div>
 			</td>
 		</tr>
 				<c:choose>
 					<c:when test="${command.equals('calendar') }">
 						<tr>
 							<td colspan="2">
-								<input type="submit" value="등록"> 
-								<input type="button" value="돌아가기" onclick="location.href='calendar_detail.do?searchDate=${searchDate}'">
+								<button class="ui olive button">등록</button>
+								<div class="ui orange button" onclick="location.href='calendar_detail.do?searchDate=${searchDate}'">돌아가기</div>
 							</td>
 						</tr>
 					</c:when><c:otherwise>
 						<tr>
 							<td colspan="2">
-								<input type="submit" value="등록"> 
-								<input type="button" value="취소" onclick="self.close()">
+								<button class="ui olive button">등록</button>
+								<div class="ui orange button" onclick="self.close()">취소</div>
 							</td>
 						</tr>
 					</c:otherwise>
 				</c:choose>
-	</table>
+		</table>
+	</div>
 </form>
 </body>
 </html>

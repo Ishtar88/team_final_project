@@ -79,6 +79,18 @@ window.onload = function () {
 </script>
 <script type="text/javascript">
 
+	$(function(){
+		var list=$(".acount_list").children().children();
+		
+		
+		for (var i = 0; i < list.length; i++) {
+			list.eq(i).attr("class","item");
+		}
+		
+		list.eq(3).attr("class","active item");
+		
+	});
+
 	function income_insert_page(){
 		var url='income_insert_page.do';
 		var prop='width=600px; height=600px;';
@@ -116,41 +128,47 @@ window.onload = function () {
 	}	
 </style>
 <%
-	String paramYear = request.getParameter("year");
-	String paramMonth = request.getParameter("month");
-	
-	Calendar cal = Calendar.getInstance();
-	int year = cal.get(Calendar.YEAR);
-	int month = cal.get(Calendar.MONTH) + 1;
-	
-	if (paramYear != null) {
-		year = Integer.parseInt(paramYear);
-	}
-	if (paramMonth != null) {
-		month = Integer.parseInt(paramMonth);
-	}
-	if (month > 12) {
-		month = 1;
-		year++;
-	}
-	if (month == 0) {
-		month = 12;
-		year--;
-	}
+String paramYear = request.getParameter("year");
+String paramMonth = request.getParameter("month");
+
+Calendar cal = Calendar.getInstance();
+int year = cal.get(Calendar.YEAR);
+int lMonth = cal.get(Calendar.MONTH) + 1;
+
+if (paramYear != null) {
+	year = Integer.parseInt(paramYear);
+}
+if (paramMonth != null) {
+	lMonth = Integer.parseInt(paramMonth);
+}
+if (lMonth > 12) {
+	lMonth = 1;
+	year++;
+}
+if (lMonth == 0) {
+	lMonth = 12;
+	year--;
+}
+String sMonth=null;
+if(lMonth<10){
+	sMonth="0"+lMonth;
+}else{
+	sMonth=""+lMonth;
+}
+int month=Integer.parseInt(sMonth);
 %>
 </head>
 <body>
-<div class="acount_body_wrap">
 	<br>
-	<header>
-		<div class="ui right aligned">
-		    <a class="item" href="goal_main.do">목표관리</a>
-		    <a class="item" href="acount.do?year=<%=year %>&month=<%=month%>">자산관리</a>
-		    <a class="active item" href="income_main.do?year=<%=year%>&month=<%=month%>">수입관리</a>
-		    <a class="item" href="spending_main.do?year=<%=year%>&month=<%=month%>">지출관리</a>
-		    <a class="item" href="calendar_main.do?year=<%=year%>&month=<%=month%>">달력</a>
-	    </div>
-	</header>
+		<header>
+				<div class="acount_list">
+				 	 <a class="ui olive button" href="goal_main.do">목표관리</a>
+					  <a class="ui olive button" href="acount.do?year=<%=year %>&month=<%=month%>">자산관리</a>
+				 	 <a class="ui olive button" href="income_main.do?year=<%=year%>&month=<%=month%>">수입관리</a>
+				 	 <a class="ui olive button" href="spending_main.do?year=<%=year%>&month=<%=month%>">지출관리</a>
+				 	 <a class="ui olive button" href="calendar_main.do?year=<%=year%>&month=<%=month%>">달력</a>
+				 </div>
+		</header>
 	<br>
 		<div class="income_canvas_wrap">
 			<div id="chartContainer" style="height: 400px; width: 50%;"></div>
@@ -224,7 +242,7 @@ window.onload = function () {
 					</a>
 					<span style="vertical-align: middle;">저축</span>
 				</header>
-				<table class="income_Tr" id="svBody" border="1">
+				<table class="income_Tr ui selectable gray table" id="svBody" border="1">
 					<tr>
 						<th>수입명</th>
 						<th>금액</th>
@@ -235,29 +253,42 @@ window.onload = function () {
 					<c:choose>
 						<c:when test="${empty iList }">
 							<tr>
-								<td colspan="6" style="text-align: center;">-------조회된 결과가 없습니다.--------</td>
+								<td class="selectable" colspan="6" style="text-align: center;">-------조회된 결과가 없습니다.--------</td>
 							</tr>
 						</c:when><c:otherwise>
 							<c:forEach items="${iList }" var="iDto">
 								<tr>
-									<td>
+									<td class="selectable">
 										<a href="#" onclick="income_detail('${iDto.i_seq}')">
 											${iDto.i_name }
 										</a>
 									</td>
-									<td>${iDto.i_money } 원</td>
-									<td>${iDto.i_fix.equals("Y")?"고정수입":"변동수입" }</td>
-									<td><fmt:formatDate value="${iDto.i_regdate }" pattern="yyyy-MM-dd"/></td>
-									<td>${iDto.i_memo }</td>
+									<td class="selectable">
+									<a href="#" onclick="income_detail('${iDto.i_seq}')">
+									${iDto.i_money } 원
+									</a>
+									</td>
+									<td class="selectable">
+									<a href="#" onclick="income_detail('${iDto.i_seq}')">
+									${iDto.i_fix.equals("Y")?"고정수입":"변동수입" }
+									</a>
+									</td>
+									<td class="selectable">
+									<a href="#" onclick="income_detail('${iDto.i_seq}')">
+										<fmt:formatDate value="${iDto.i_regdate }" pattern="yyyy-MM-dd"/>
+									</a>
+									</td>
+									<td class="selectable">
+									<a href="#" onclick="income_detail('${iDto.i_seq}')">
+										${iDto.i_memo }
+									</a>
+									</td>
 								</tr>
 							</c:forEach>
 						</c:otherwise>
 					</c:choose>
 				</table>
 			</div>
-
-			
 		</div>
-	</div>
 </body>
 </html>
