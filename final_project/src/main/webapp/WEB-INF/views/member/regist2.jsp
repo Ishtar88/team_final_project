@@ -34,11 +34,12 @@
 <body>
 	<form action="regist3.do" method="post">
 		<table class="ui definition table">
-		<tr>
-		<td colspan="2">
-		*추가 정보 입력 시 100point 추가 지급 됩니다.
-		</td>
-		</tr>
+		<thead>
+				<tr>
+					<th colspan="2">*추가 정보 입력 시 100point 추가 지급 됩니다.</th>
+				</tr>
+			</thead>
+			<tbody>
 			<tr>
 				<td>우편번호</td>
 				<td><input type="hidden" id="confmKey" name="confmKey"
@@ -48,7 +49,7 @@
 			</tr>
 			<tr>
 				<td>도로명주소</td>
-				<td><input type="text" id="addrRoad" name="addrRoad" size="50px"></td>
+				<td><input type="text" id="addrRoad" name="addrRoad" size="70px"></td>
 			</tr>
 			<tr>
 				<td>상세주소</td>
@@ -80,6 +81,7 @@
 				<button class="ui olive button">회원가입</button>
 				</td>
 			</tr>
+			</tbody>
 		</table>
 	</form>
 </body>

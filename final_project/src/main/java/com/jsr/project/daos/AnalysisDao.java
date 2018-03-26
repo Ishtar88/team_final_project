@@ -93,6 +93,34 @@ public class AnalysisDao implements IAnalysisDao{
 	public AnalysisDto selectAnalysis(int a_seq) {
 		return sqlSession.selectOne(namespace+"selectAnalysis", a_seq);
 	}
+	
+	@Override
+	public List<SpendingDto> mostCategory(String sMonth, String eMonth, String eDate, String id) {
+		Map<String , String>map=new HashMap<String,String>();
+		map.put("sMonth", sMonth);
+		map.put("eMonth", eMonth);
+		map.put("eDate", eDate);
+		map.put("id", id);
+		return sqlSession.selectList(namespace+"mostCategory", map);
+	}
+	@Override
+	public int carefulSpending(String sMonth, String eMonth, String eDate, String id) {
+		Map<String , String>map=new HashMap<String,String>();
+		map.put("sMonth", sMonth);
+		map.put("eMonth", eMonth);
+		map.put("eDate", eDate);
+		map.put("id", id);
+		return sqlSession.selectOne(namespace+"carefulSpending", map);
+	}
+	@Override
+	public int satisfySpending(String sMonth, String eMonth, String eDate, String id) {
+		Map<String , String>map=new HashMap<String,String>();
+		map.put("sMonth", sMonth);
+		map.put("eMonth", eMonth);
+		map.put("eDate", eDate);
+		map.put("id", id);
+		return sqlSession.selectOne(namespace+"satisfySpending", map);
+	}
 
 
 	//지출패턴-병훈

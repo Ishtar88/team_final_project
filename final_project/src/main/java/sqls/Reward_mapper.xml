@@ -116,7 +116,7 @@
 	<select id="getMyOrder" parameterType="Map" resultMap="ProductDto">
 		SELECT
 		PRO_SEQ,ID,PRO_NUM,PRO_COUNT,PRO_REGDATE,PRO_QR,PRO_QRUSE,R_NAME,R_POINT,R_FILE
-		FROM PRODUCT P,REWARD R WHERE P.PRO_NUM=R.R_SEQ AND ID=#{id}
+		FROM PRODUCT P,REWARD R WHERE P.PRO_NUM=R.R_SEQ AND ID=#{id} ORDER BY PRO_REGDATE DESC
 	</select>
 
 	<select id="qrReceipt" parameterType="Map" resultMap="ProductDto">

@@ -21,19 +21,28 @@
 		<result property="m_useable" column="M_USEAABLE" />
 		<result property="m_mariable" column="M_MARIABLE" />
 		<result property="m_favorite" column="M_FAVORITE" />
+		<collection property="po_point" resultMap="PointDto"></collection>
+	</resultMap>
 
+	<resultMap type="com.jsr.project.dtos.PointDto" id="PointDto">
+		<result property="po_seq" column="PO_SEQ" />
+		<result property="id" column="ID" />
+		<result property="po_regdate" column="PO_REGDATE" />
+		<result property="po_name" column="PO_NAME" />
+		<result property="po_point" column="PO_POINT" />
+		<result property="po_detail" column="PO_DETAIL" />
 	</resultMap>
 <select id="login" resultMap="MembersDto" parameterType="MembersDto">
 		SELECT DISTINCT
 		M.ID,M_NAME,M_EMAIL,M_PASSWORD,M_PHONE,M_GRADE,
 		(SELECT
 		(SUBSTR(TO_CHAR(SYSDATE,'YYYY-MM-DD'),1,4)-SUBSTR(TO_CHAR(M_BIRTHDATE,'YYYY-MM-DD'),1,4))+1
-		AS AGE FROM MEMBERS WHERE ID=#{id}) AS AGE,
+		AS AGE FROM MEMBERS WHERE ID=#{id}) AS M_AGE,
 		M_GENDER,M_ADDRESS,M_JOB,M_REGDATE,M_USEABLE,M_MARIABLE,M_BIRTHDATE,M_FAVORITE,M_PROFILE_IMG,(SELECT
 		SUM(PO_POINT) FROM POINT WHERE ID=#{id})AS PO_POINT
 		FROM MEMBERS M LEFT
 		JOIN POINT P ON M.ID=P.ID WHERE M.ID=#{id} AND
-		M_PASSWORD=#{m_password}
+		M_PASSWORD=#{m_password} AND M_USEABLE='Y'
 	</select>
 
 	<select id="idChk" resultMap="MembersDto" parameterType="Map">
@@ -95,7 +104,7 @@
 		M.ID,M_NAME,M_EMAIL,M_PASSWORD,M_PHONE,M_GRADE,
 		(SELECT
 		(SUBSTR(TO_CHAR(SYSDATE,'YYYY-MM-DD'),1,4)-SUBSTR(TO_CHAR(M_BIRTHDATE,'YYYY-MM-DD'),1,4))+1
-		AS AGE FROM MEMBERS WHERE ID=#{id}) AS AGE,
+		AS AGE FROM MEMBERS WHERE ID=#{id}) AS M_AGE,
 		M_GENDER,M_ADDRESS,M_JOB,M_REGDATE,M_USEABLE,M_MARIABLE,M_BIRTHDATE,M_FAVORITE,M_PROFILE_IMG,(SELECT
 		SUM(PO_POINT) FROM POINT WHERE ID=#{id})AS PO_POINT
 		FROM MEMBERS M LEFT

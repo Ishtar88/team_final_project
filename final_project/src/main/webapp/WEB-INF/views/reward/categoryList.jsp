@@ -20,22 +20,28 @@
 		var search = $("input[name=search]").val();
 		var category = $("select[name=category]").val();
 		var r_detail = $("input[name=r_detail]").val();
-
-		$.ajax({
-			url : "findReward.do",
-			data : "category=" + category + "&search=" + search + "&r_detail="
-					+ r_detail + "&sNum=1&eNum=8",
-			type : "post",
-			datetype : "json",
-			success : function(obj) {
-				if (obj["list"][0] == null) {
-					alert("검색 내역이 없습니다.");
-				} else {
-					//alert(obj["pcount"]);
-					makeTable(obj);
+		
+		if(search==""){
+			alert("검색어를 입력 해 주세요");
+		}else{
+			$.ajax({
+				url : "findReward.do",
+				data : "category=" + category + "&search=" + search + "&r_detail="
+						+ r_detail + "&sNum=1&eNum=8",
+				type : "post",
+				datetype : "json",
+				success : function(obj) {
+					if (obj["list"][0] == null) {
+						alert("검색 내역이 없습니다.");
+					} else {
+						//alert(obj["pcount"]);
+						makeTable(obj);
+					}
 				}
-			}
-		});
+			});
+		}
+
+		
 	}
 
 	function makeTable(obj) {
@@ -90,23 +96,19 @@ img {
 	width: 150px;
 	height: 150px;
 }
-
+.field{
+display: inline-block;
+width:150px;
+}
 </style>
 </head>
 <body>
-	<a href="rewardMain.do">main</a>
-
  <div class="field" >
           <select class="ui fluid search dropdown" name="category" >
            <option value="r_name">제품이름</option>
 		<option value="b_name">브랜드</option>
           </select>
         </div>
-
-	<select name="category">
-		<option value="r_name">제품이름</option>
-		<option value="b_name">브랜드</option>
-	</select>
 	<div class="ui icon input">
 		<input type="text" placeholder="Search..." name="search">
 		<button class="ui yellow button" onclick="searchItem()">검색</button>
@@ -115,7 +117,7 @@ img {
 	<input type="hidden" value="${r_detail}" name="r_detail" />
 
 
-	<table id="all">
+	<table id="all" class="ui table">
 		<c:set var="i" value="0" />
 		<c:set var="j" value="4" />
 		<c:forEach items="${list}" var="rdto">
@@ -142,7 +144,7 @@ img {
 		</c:forEach>
 
 		<tr>
-			<td><c:forEach var="i" begin="0" end="${pcount-1}" step="1">
+			<td style="text-align: center;" colspan="4"><c:forEach var="i" begin="0" end="${pcount-1}" step="1">
 					<a class="pageNum"
 						href="listOfCategory.do?r_detail=${r_detail}&sNum=${i<1?'1':1+(i*8)}&eNum=${i<1?'8':(i+1)*8}">${i+1}</a>
 				</c:forEach></td>

@@ -226,6 +226,15 @@ public class RewardController {
 		return "reward/myOrder"; 
 
 	}
+	
+	@RequestMapping(value = "/showQR.do", method = RequestMethod.GET)
+	public String showQR(HttpServletRequest request,Model model,HttpSession session) {
+		int pro_seq=Integer.parseInt(request.getParameter("pro_seq"));
+		ProductDto proDto=rewardService.getQrReceipt(pro_seq);
+		model.addAttribute("proDto", proDto);
+		return "reward/QR"; 
+
+	}
 
 	@RequestMapping(value = "/qrReceipt.do", method = RequestMethod.GET)
 	public String qrReceipt(HttpServletRequest request,Model model,HttpSession session) {
@@ -239,6 +248,19 @@ public class RewardController {
 			model.addAttribute("proDto",proDto);
 			return "reward/qrReceipt"; 
 		}
+	}
+	
+	@RequestMapping(value = "/useQR.do", method = RequestMethod.POST)
+	public String useQR(HttpServletRequest request,ProductDto prodto,Model model) {
+		boolean isS=rewardService.useQR(prodto);
+		if(isS) {
+			model.addAttribute("isS", isS);
+			return "reward/qrReceipt";
+		}else {
+			model.addAttribute("isS", isS);
+			return "redirect:index.jsp";
+		}
+		
 	}
 	
 	@RequestMapping(value = "/updateReward.do", method = RequestMethod.POST)

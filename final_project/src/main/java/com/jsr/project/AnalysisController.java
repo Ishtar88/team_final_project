@@ -65,6 +65,7 @@ public class AnalysisController {
 
 		//토탈유형 구분
 		float expenseRatio=(float)expense_spending/total_spending;
+		System.out.println("지출율"+expenseRatio);
 		
 		AnalysisDto aDto1=null;
 		if(expenseRatio<=0.2) {
@@ -87,6 +88,8 @@ public class AnalysisController {
 		}else {
 			goalRatio=(float)total_goal/total_expense;
 		}
+		System.out.println("목표달성률"+goalRatio);
+		
 		
 		AnalysisDto aDto2=null;
 		if(goalRatio<=0.2) {
@@ -155,6 +158,7 @@ public class AnalysisController {
 		model.addAttribute("goalMinusSpend", goalMinusSpend);
 		model.addAttribute("aDto1", aDto1);
 		model.addAttribute("aDto2", aDto2);
+		model.addAttribute("goalRatio", goalRatio);
 		return "analysis/total_pattern_main";
 	}
 
@@ -267,8 +271,27 @@ public class AnalysisController {
 
 	//투자패턴-유라
 	@RequestMapping(value="/an_consumption_main.do")
-	public String an_consumption_main(Model model, HttpSession session) {
+	public String an_consumption_main(Model model, HttpSession session,String year,String month,String lastDay,String sMonth,String eMonth) {
 		logger.info("analysis main page");
+		
+		int iMonth=Integer.parseInt(month);
+		if (iMonth<10) {
+			month="0"+iMonth;
+		}
+		String eDate=year+"-"+month+"-"+lastDay;
+		
+		MembersDto loginDto=(MembersDto)session.getAttribute("loginDto");
+		String id=loginDto.getId();
+		
+		List<SpendingDto> categoryList=analysisService.mostCategory(sMonth, eMonth, eDate, id);
+		int carefulSpending=analysisService.carefulSpending(sMonth, eMonth, eDate, id);
+		int satisfySpending=analysisService.satisfySpending(sMonth, eMonth, eDate, id);
+		
+		
+		System.out.println(categoryList);
+		model.addAttribute("categoryList", categoryList);
+		model.addAttribute("carefulSpending", carefulSpending);
+		model.addAttribute("satisfySpending", satisfySpending);
 		return "analysis/an_consumption_main";
 	}
 

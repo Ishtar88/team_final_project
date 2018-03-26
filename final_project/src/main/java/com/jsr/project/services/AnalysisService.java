@@ -62,5 +62,20 @@ public class AnalysisService implements IAnalysisService{
 		return IAnalysisDao.selectAnalysis(a_seq);
 	}
 
+	@Override
+	public List<SpendingDto> mostCategory(String sMonth, String eMonth, String eDate, String id) {
+		return IAnalysisDao.mostCategory(sMonth, eMonth, eDate, id);
+	}
+
+	@Override
+	public int carefulSpending(String sMonth, String eMonth, String eDate, String id) {
+		return IAnalysisDao.carefulSpending(sMonth, eMonth, eDate, id);
+	}
+
+	@Override
+	public int satisfySpending(String sMonth, String eMonth, String eDate, String id) {
+		return IAnalysisDao.satisfySpending(sMonth, eMonth, eDate, id);
+	}
+
 
 }

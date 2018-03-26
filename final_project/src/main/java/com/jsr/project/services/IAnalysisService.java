@@ -18,4 +18,8 @@ public interface IAnalysisService {
 	public List<SpendingDto> goalVerseExpense(String sMonth,String eMonth,String eDate,String id);
 
 	public AnalysisDto selectAnalysis(int a_seq);
+	
+	public List<SpendingDto> mostCategory(String sMonth,String eMonth,String eDate,String id);
+	public int carefulSpending(String sMonth,String eMonth,String eDate,String id);
+	public int satisfySpending(String sMonth,String eMonth,String eDate,String id);
 }

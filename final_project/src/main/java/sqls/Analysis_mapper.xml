@@ -17,6 +17,8 @@
 		<result property="id" column="ID" />
 		<result property="p_name" column="P_NAME" />
 		<result property="p_money" column="P_MONEY" />
+		<result property="rownum" column="ROWNUM" />
+		<result property="total" column="TOTAL" />
 		<collection property="g_name" resultMap="GoalDto" />
 		<collection property="g_money" resultMap="GoalDto" />
 	</resultMap>
@@ -115,6 +117,33 @@
 	<select id="selectAnalysis" parameterType="Integer" resultMap="AnalysisDto">
 		SELECT A_SEQ,A_CODE,A_NAME,A_IMG,A_DETAIL FROM ANALYSIS WHERE
 		A_SEQ=#{a_seq}
+	</select>
+
+
+	<!--월별 분야별 지출액 -->
+	<select id="mostCategory" parameterType="Map" resultMap="SpendingDto">
+		SELECT ROWNUM,TOTAL,P_NAME FROM (
+		SELECT SUM(P_MONEY) TOTAL, P_NAME
+		FROM SPENDING WHERE ID=#{id}
+		AND P_REGDATE BETWEEN
+		ADD_MONTHS(SYSDATE,#{sMonth}) AND
+		ADD_MONTHS(#{eDate},#{eMonth})
+		GROUP
+		BY P_NAME ORDER BY TOTAL DESC)
+	</select>
+
+	<!--월별 평균 구매 신중도 -->
+	<select id="carefulSpending" parameterType="Map" resultType="Integer">
+		SELECT ROUND(AVG(P_NEED),1) FROM SPENDING WHERE ID=#{id} AND P_REGDATE
+		BETWEEN ADD_MONTHS(SYSDATE,#{sMonth}) AND
+		ADD_MONTHS(#{eDate},#{eMonth})
+	</select>
+
+	<!-- 월별 평균 소비 만족도 -->
+	<select id="satisfySpending" parameterType="Map" resultType="Integer">
+		SELECT ROUND(AVG(P_SAT)) FROM SPENDING WHERE ID=#{id} AND P_REGDATE
+		BETWEEN ADD_MONTHS(SYSDATE,#{sMonth}) AND
+		ADD_MONTHS(#{eDate},#{eMonth})
 	</select>
 
 

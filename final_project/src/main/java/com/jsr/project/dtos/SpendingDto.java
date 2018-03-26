@@ -34,8 +34,26 @@ public class SpendingDto {
 	
 	private GoalDto g_name;
 	private GoalDto g_money;
+	private int rownum;
+	private int total;
 	
 	
+
+	public int getRownum() {
+		return rownum;
+	}
+
+	public void setRownum(int rownum) {
+		this.rownum = rownum;
+	}
+
+	public int getTotal() {
+		return total;
+	}
+
+	public void setTotal(int total) {
+		this.total = total;
+	}
 
 	public GoalDto getG_name() {
 		return g_name;
@@ -195,7 +213,7 @@ public class SpendingDto {
 				+ ", p_location=" + p_location + ", p_regdate=" + p_regdate + ", p_money=" + p_money + ", p_some="
 				+ p_some + ", p_cashable=" + p_cashable + ", p_card=" + p_card + ", p_sat=" + p_sat + ", p_need="
 				+ p_need + ", p_count=" + p_count + ", p_step=" + p_step + ", g_name=" + g_name + ", g_money=" + g_money
-				+ "]";
+				+ ", rownum=" + rownum + ", total=" + total + "]";
 	}
 
 	

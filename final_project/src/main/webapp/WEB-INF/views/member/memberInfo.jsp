@@ -35,15 +35,21 @@ img {
 </style>
 </head>
 <body>
-	<a href="getUser.do">내 정보</a>
-	<a href="goal_main.do">예산 설정</a>
-	<a href="myOrder.do">구매 내역</a>
-
+<div class="ui secondary pointing menu">
+  <a class="active item" href="getUser.do">
+    내 정보
+  </a>
+  <a class="item" href="goal_main.do">
+    예산 설정
+  </a>
+  <a class="item" href="myOrder.do">
+    구매 내역
+  </a>
+</div>
 	<table class="ui definition table">
 		<thead>
 			<tr>
-				<th></th>
-				<th>내 정보</th>
+				<th colspan="2">내 정보</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -56,8 +62,12 @@ img {
 				<td><input type="text" value="${mdto.id}" readonly="readonly" /></td>
 			</tr>
 			<tr>
-				<td>이름</td>
-				<td><input type="text" value="${mdto.m_name}"
+				<td>보유 POINT</td>
+				<td><input type="text" value="${mdto.po_point.po_point}p" readonly="readonly" /></td>
+			</tr>
+			<tr>
+				<td>이름(나이)</td>
+				<td><input type="text" value="${mdto.m_name}(${mdto.m_age})"
 					readonly="readonly" /></td>
 			</tr>
 			<tr>

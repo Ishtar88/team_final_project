@@ -7,11 +7,16 @@
 %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="f"%>
-<jsp:include page="../header.jsp"></jsp:include>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" type="text/css"
+	href="resources/assets/semantic.min.css">
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"
+	integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+	crossorigin="anonymous"></script>
+<script src="resources/assets/semantic.min.js"></script>
 <title>Insert title here</title>
 <script type="text/javascript"
 	src="http://code.jquery.com/jquery-latest.js"></script>
@@ -37,7 +42,7 @@
 		var needP = $("input[name=po_point]").val();
 		var count = $("input[name=pro_count]").val();
 
-		if (count == "") {
+		if (count == ""||count==0) {
 			alert("구매 수량을 입력 해 주세요");
 			return false;
 		} else if (parseInt(haveP) < parseInt(needP)) {
@@ -63,36 +68,41 @@ img {
 </head>
 <body>
 	<form action="buyReward.do" method="post" onsubmit="return buyChk()">
-		<table>
+		<table class="ui purple table">
 			<tr>
 				<td><input type="hidden" value="${loginDto.id}" name="id" /></td>
 				<td><input type="hidden" value="${rdto.r_seq}" name="pro_num" /></td>
 			</tr>
 			<tr>
-				<td>상품명<input type="text" value="${rdto.r_name}"
+				<td>상품명
+				<input type="text" value="${rdto.r_name}"
 					readonly="readonly" /></td>
 			</tr>
 			<tr>
-				<td>상품가격<input type="text" id="price" value="${rdto.r_point}"
-					readonly="readonly" /></td>
+				<td>상품 가격<input type="text" id="price" value="${rdto.r_point}"
+					readonly="readonly" size="7px"/></td>
 			</tr>
 			<tr>
-				<td>보유 포인트는<input type="text"
-					value="${loginDto.po_point.po_point}" readonly="readonly" /></td>
+				<td>보유 포인트<input type="text"
+					value="${loginDto.po_point.po_point}" readonly="readonly" size="7px"/></td>
 			</tr>
 			<tr>
 				<td>구매수량<input type="number" name="pro_count" onclick="chk()"
-					onchange="pointSum()" /> <input type="text" name="po_point"
-					readonly="readonly" readonly="readonly" />
-
+					onchange="pointSum()" size="4px"/>
 				</td>
 			</tr>
 			<tr>
-				<td>사용기한은 구매일로부터 1년 입니다.</td>
+				<td>필요 포인트
+				<input type="text" name="po_point" readonly="readonly" readonly="readonly" size="7px"/>
+				</td>
 			</tr>
 			<tr>
-				<td>구매 하시겠습니까?<input type="submit" value="네" /><input
-					type="button" value="아니오" onclick="end()" />
+				<td>사용기한은 구매일로부터 1년 입니다. 구매 하시겠습니까?</td>
+			</tr>
+			<tr>
+				<td>
+				<button class="ui purple button">네</button>
+				<div class="ui grey button" onclick="end()">아니오</div>
 				</td>
 			</tr>
 		</table>

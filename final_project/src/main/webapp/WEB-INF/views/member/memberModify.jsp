@@ -38,8 +38,8 @@
 				'location=yes,height=570,width=520,scrollbars=yes,status=yes');
 	}
 	function changeImg() {
-		window.open("imgForm.do", "프로필이미지 변경");
-		self.close();
+		window.open("imgForm.do", "프로필이미지 변경",
+				'location=yes,height=700,width=800,scrollbars=yes,status=yes');
 	}
 
 	function goHome() {
@@ -58,19 +58,31 @@ img {
 </style>
 </head>
 <body>
+<div class="ui secondary pointing menu">
+  <a class="active item" href="getUser.do">
+    내 정보
+  </a>
+  <a class="item" href="goal_main.do">
+    예산 설정
+  </a>
+  <a class="item" href="myOrder.do">
+    구매 내역
+  </a>
+</div>
+
 	<form action="modifyUser.do" method="post">
 		<table class="ui definition table">
 			<thead>
 				<tr>
-					<th></th>
-					<th>내 정보 변경</th>
-				</tr>
+				<th colspan="2">내 정보 변경</th>
+			</tr>
 			</thead>
 			<tbody>
 				<tr>
 					<td>이미지</td>
 					<td><img alt="프로필" src="${mdto.m_profile_img}" name="profile">
-						<button class="ui button" onclick="changeImg()">이미지 변경</button></td>
+					<div class="ui button" onclick="changeImg()">이미지 변경</div>
+					</td>
 				</tr>
 				<tr>
 					<td>아이디</td>
@@ -132,8 +144,7 @@ img {
 						value="U01TX0FVVEgyMDE4MDEyNTE2MjU1MjEwNzYzMDc="> <input
 						type="text" name="zipNo" id="zipNo"
 						value="${fn:split(address,'+')[0]}" readonly="readonly" size="5px">
-						<div class="ui button" onclick="searchAdd();">주소검색</div>
-						</td>
+						<div class="ui button" onclick="searchAdd();">주소검색</div></td>
 				</tr>
 				<tr>
 					<td>도로명주소</td>
@@ -176,7 +187,7 @@ img {
 				</tr>
 				<tr>
 					<td colspan="2">
-							<div class="ui orange button" onclick="location.href='getUser.do'">취소</div>
+						<div class="ui orange button" onclick="location.href='getUser.do'">취소</div>
 						<button class="ui olive button">변경완료</button>
 				</tr>
 			</tbody>

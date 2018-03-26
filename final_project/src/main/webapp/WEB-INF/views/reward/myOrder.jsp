@@ -13,48 +13,70 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
+<script type="text/javascript"
+	src="http://code.jquery.com/jquery-latest.js"></script>
+<script type="text/javascript">
+function showQR(pro_seq){
+	window.open("showQR.do?pro_seq="+pro_seq, "QR확대",'location=yes,height=570,width=520,scrollbars=yes,status=yes');
+}
+</script>
+<style type="text/css">
+img {
+	width: 100px;
+	height: 100px;
+}
+#qr:hover{
+cursor: pointer;
+}
+</style>
 </head>
 <body>
-	<table id="all">
+<div class="ui secondary pointing menu">
+  <a class="active item" href="getUser.do">
+    내 정보
+  </a>
+  <a class="item" href="goal_main.do">
+    예산 설정
+  </a>
+  <a class="item" href="myOrder.do">
+    구매 내역
+  </a>
+</div>
+	<table id="all" class="ui celled table">
 		<c:choose>
 			<c:when test="${empty list }">
 				<tr>
-					<td style="text-align: center;">-------구매 내역이
-						없습니다.--------</td>
+					<td style="text-align: center;">구매 내역이 없습니다.</td>
 				</tr>
 			</c:when>
 			<c:otherwise>
+			<thead>
+				<tr>
+					<th>상품</th>
+					<th>QR(클릭시 확대)</th>
+					<th>수량</th>
+					<th>구매일</th>
+					<th>사용여부</th>
+				</tr>
+			</thead>
+			<tbody>
 				<c:forEach items="${list}" var="proDto">
 					<tr>
-						<td>
-							<div>
-								<input type="hidden" value="${proDto.pro_seq}" name="pro_seq" />
-							</div>
-							<div>
-								<img alt="QR" src="${proDto.pro_qr}">
-							</div>
-
-							<div>
-								상품명<input type="text" name="r_name"
-									value="${proDto.r_name.r_name}" readonly="readonly" />
-							</div>
-							<div>
-								구매수량<input type="text" name="r_name" value="${proDto.pro_count}"
-									readonly="readonly" />
-							</div>
-							<div>
-								구매일시<input type="text" name="r_name"
-									value="${proDto.pro_regDate}" readonly="readonly" />
-							</div>
-							<div>
-								사용여부<input type="text" name="r_name" value="${proDto.pro_qruse}"
-									readonly="readonly" />
-							</div> <a href="qrReceipt.do?pro_seq=${proDto.pro_seq}">QR확인</a>
+						<td><input type="hidden" value="${proDto.pro_seq}"
+							name="pro_seq" /> <img alt="상품 이미지"
+							src="resources/upload/${proDto.r_name.r_file}">${proDto.r_name.r_name}
 						</td>
+						<td><img alt="QR" src="${proDto.pro_qr}" onclick="showQR(${proDto.pro_seq})" id="qr">
+						<a href="qrReceipt.do?pro_seq=${proDto.pro_seq}">QR확인</a>
+						</td>
+						<td>${proDto.pro_count}</td>
+						<td><f:formatDate value="${proDto.pro_regDate}" pattern="yyyy-MM-dd"/></td>
+						<td>${proDto.pro_qruse}</td>
 					</tr>
 				</c:forEach>
-				</c:otherwise>
-				</c:choose>
+				</tbody>
+			</c:otherwise>
+		</c:choose>
 	</table>
 </body>
 </html>
