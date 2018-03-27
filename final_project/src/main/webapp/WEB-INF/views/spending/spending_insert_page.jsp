@@ -24,6 +24,10 @@
 </c:if>
 <script type="text/javascript">
 	$(function() {
+		
+		/* 									 */
+		/* css는 바뀌지만 semantic에서는 작동이 안됨 */
+		/* 									 */
 		$("input[name=p_some]").click(function() {
 			var chk = $(this).val();
 			if (chk == '현금') {
@@ -314,9 +318,7 @@
 	
 </script>
 <style type="text/css">
-.cashable_form, .card_form {
-	display: none;
-}
+
 .spending_form_body_wrap{
 	width: 300px;
 }
@@ -397,7 +399,7 @@
 			<tr>
 				<td>
 				지출수단
-									<i class="ellipsis vertica icon"></i>
+				<i class="ellipsis vertica icon"></i>
 				<input type="radio" name="p_some" value="현금" checked="" tabindex="0" class="hidden"><label>현금</label>
 					&nbsp; <input type="radio" name="p_some" value="카드" checked="" tabindex="0" class="hidden"><label>카드</label>
 					</td>

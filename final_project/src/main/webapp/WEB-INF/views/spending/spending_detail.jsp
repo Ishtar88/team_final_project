@@ -90,7 +90,7 @@
 		지출금액
 							<i class="ellipsis vertica icon"></i>
 				<div class="ui transparent input">
-			<input type="text" name="p_money" value="${sDto.p_money }" readonly="readonly">
+			<input type="text" name="p_money" value="${sDto.p_money }원" readonly="readonly">
 			</div>
 		</td>
 	</tr>

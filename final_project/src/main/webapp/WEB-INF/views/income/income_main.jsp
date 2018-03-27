@@ -110,7 +110,6 @@ window.onload = function () {
 	}
 </script>
 <style type="text/css">
-		body{position: relative;}
 	.income_header_wrap{
 		text-align: center;
 		border: 1px;
@@ -126,6 +125,9 @@ window.onload = function () {
 		width: 200px; height: 200px;
 		background-color: grey;
 	}	
+	.income_list_body{
+		width: 700px;
+	}
 </style>
 <%
 String paramYear = request.getParameter("year");
@@ -265,7 +267,7 @@ int month=Integer.parseInt(sMonth);
 									</td>
 									<td class="selectable">
 									<a href="#" onclick="income_detail('${iDto.i_seq}')">
-									${iDto.i_money } 원
+									<fmt:formatNumber value="${iDto.i_money }" type="number"/>원
 									</a>
 									</td>
 									<td class="selectable">

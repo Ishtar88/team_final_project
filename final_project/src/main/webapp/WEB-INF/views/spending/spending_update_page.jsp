@@ -62,6 +62,8 @@
 					el.src = "resources/icon/star_full.png";
 				}
 			}
+			
+
 		
 		$("input[name=p_some]").click(function() {
 			var chk = $(this).val();
@@ -249,10 +251,7 @@
 						});
 		
 		});
-
-		var satLocked = false;
-		var needLocked = false;
-
+		
 		function satChk(star) {
 			if (satLocked) {
 				satLocked = false;
@@ -353,6 +352,8 @@
 			}
 
 		}
+
+		
 	</script>
 	<form action="spending_update.do" method="post">
 		<div class="fund_update_page_wrap">
@@ -463,7 +464,7 @@
 							<input type="hidden" name="p_sat" value="${sDto.p_sat }">
 						</div> <c:forEach var="i" begin="1" end="5" step="1">
 							<img alt="star" src="resources/icon/star_empty.png"
-								id="satImage${i}">
+								id="satImage${i}" onclick="satChk('${i}')" onmouseover="satShow('${i}')" onmouseout="satNoShow('${i}')">
 						</c:forEach>
 					</td>
 				</tr>
@@ -473,7 +474,7 @@
 							<input type="hidden" name="p_need" value="${sDto.p_need }">
 						</div> <c:forEach var="i" begin="1" end="5" step="1">
 							<img alt="star" src="resources/icon/star_empty.png"
-								id="needImage${i}">
+								id="needImage${i}" onclick="needChk('${i}')" onmouseover="needShow('${i}')" onmouseout="needNoShow('${i}')">
 						</c:forEach>
 					</td>
 				</tr>

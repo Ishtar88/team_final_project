@@ -168,7 +168,7 @@
 		</select>
 		
 		<select id="spendingTotalCountSearch" parameterType="SpendingDto" resultType="SpendingDto">
-			SELECT COUNT(P_MONEY) AS COUNT FROM SPENDING WHERE TO_CHAR(P_REGDATE,'YYYY-MM')=#{p_location} AND ID=#{id}
+			SELECT COUNT(P_MONEY) AS P_COUNT FROM SPENDING WHERE TO_CHAR(P_REGDATE,'YYYY-MM')=#{p_location} AND ID=#{id}
 		</select>
 		
 		<select id="spendingSomeTotalSearch" parameterType="SpendingDto" resultType="SpendingDto">

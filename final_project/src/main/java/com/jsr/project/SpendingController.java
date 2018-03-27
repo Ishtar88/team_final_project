@@ -132,7 +132,7 @@ public class SpendingController {
 	@ResponseBody
 	@RequestMapping(value = "/spendingDetailSearch.do", method = RequestMethod.GET)
 	public Map<String, List<SpendingDto>> spendingDetailSearch(Model model,String pick,String year,String month,HttpSession session) {
-		logger.info("spending detail search start");
+		logger.info("spending detailSearch start");
 
 		Map<String, List<SpendingDto>> map=new HashMap<>();
 		
@@ -191,7 +191,7 @@ public class SpendingController {
 	@ResponseBody
 	@RequestMapping(value = "/spendingSideSearch.do", method = RequestMethod.GET)
 	public Map<String, Object> spendingSideSearch(Model model,String pick,String year,String month,HttpSession session) {
-		logger.info("spending insert page");
+		logger.info("spending spendingSideSearch start");
 		
 		MembersDto lDto=(MembersDto)session.getAttribute("loginDto");
 		String id=lDto.getId();
@@ -225,13 +225,20 @@ public class SpendingController {
 			SpendingDto currentMoney=spendingService.spendingcurrentMoneySearch(dto);
 			map.put("currentMoney", currentMoney);
 			
+			logger.info("currentMoney"+currentMoney);
+			
 			//일평균 지출액 조회
 			SpendingDto avgMoney=spendingService.spendingAvgMoneySearch(dto);
 			map.put("avgMoney", avgMoney);
 			
+			logger.info("avgMoney"+avgMoney);
+			
 			//총 지출건수
 			SpendingDto totalCount=spendingService.spendingTotalCountSearch(dto);
 			map.put("totalCount", totalCount);
+			
+			logger.info("totalCount"+totalCount);
+			
 			
 		}else if(pick.equals("category")) {
 			
@@ -251,6 +258,8 @@ public class SpendingController {
 			List<SpendingDto> moneyDto=spendingService.spendingMoneyTop(dto);
 			map.put("moneyDto", moneyDto);
 			
+			logger.info("moneyDto: "+moneyDto);
+			
 			
 		}else if(pick.equals("some")) {
 			
@@ -265,12 +274,14 @@ public class SpendingController {
 			logger.info("someCount: "+someCount);
 		}
 		
+		logger.info("spending spendingSideSearch end.");
+		
 		return map;
 	}
 	
 	@RequestMapping(value = "/spending_detail.do", method = RequestMethod.GET)
 	public String spending_detail(Model model,String seq) {
-		logger.info("spending insert page");
+		logger.info("spending detail page");
 		
 		int p_seq=Integer.parseInt(seq);
 		

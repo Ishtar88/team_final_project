@@ -11,10 +11,10 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 
-
 <script type="text/javascript">
 
 	$(function(){
+		
 		var list=$(".acount_list").children().children();
 		
 		
@@ -25,6 +25,10 @@
 		list.eq(4).attr("class","active item");
 		
 	});
+	
+	$(".pickIsDate").show();
+	$(".pickIsCategory").hide();
+	$(".pickIsSome").hide();
 
 
 	function spendingDetail2(seq){
@@ -275,18 +279,82 @@
 					var currentMoney=obj["currentMoney"];
 					var avgMoney=obj["avgMoney"];
 					var totalCount=obj["totalCount"];
+					$(".spending_total_money").children().next().remove();
+					$(".spending_avg_money").children().next().remove();
+					$(".spending_total_count").children().next().remove();
+					
+					$(".pickIsDate").show();
+					$(".pickIsCategory").hide();
+					$(".pickIsSome").hide();
+					
+					if (currentMoney==null) {
+						var cMoney="<td style='color:red;'>저장된 데이터가 없습니다.</td>";
+						$(".spending_total_money").append(cMoney);
+						
+					}else{
+						var cMoney="<td>"+currentMoney.p_money+"원</td>";
+						$(".spending_total_money").append(cMoney);
+					}
+					if (avgMoney==null) {
+						var aMoney="<td style='color:red;'>저장된 데이터가 없습니다.</td>";
+						$(".spending_avg_money").append(aMoney);
+					}else{
+						var aMoney="<td>"+avgMoney.p_money+"원</td>";
+						$(".spending_avg_money").append(aMoney);
+					}
+					if (totalCount==null) {
+						var tCount="<td style='color:red;'>저장된 데이터가 없습니다.</td>";
+						$(".spending_total_count").append(tCount);
+					}else{
+						var tCount="<td>"+totalCount.p_count+"회</td>";
+						$(".spending_total_count").append(tCount);
+					}
+					
 					
 					
 				}else if(pick=='category'){
 					var sumMoneyDto=obj["sumMoneyDto"];
 					var countDto=obj["countDto"];
 					var moneyDto=obj["moneyDto"];
+					
+					$(".pickIsDate").hide();
+					$(".pickIsCategory").show();
+					$(".pickIsSome").hide();
 				
 				
 				
 				}else if(pick=='some'){
 					var someTotal=obj["someTotal"];
 					var someCount=obj["someCount"];
+					$(".someMoney").children().remove();
+					$(".someCount").children().remove();
+					
+					$(".pickIsDate").hide();
+					$(".pickIsCategory").hide();
+					$(".pickIsSome").show();
+					
+					if (someTotal==null) {
+						var cMoney="<tr><td colspan='3'; style='color:red;'>저장된 데이터가 없습니다.</td></tr>";
+						$(".someMoney").append(cMoney);
+						
+					}else{
+						var cMoney="<c:forEach items='${someTotal }' var='dto'>"+
+						"<tr><td id='someTotal_p_seq'>${dto.p_seq }</td><td id='someTotal_p_some'>${dto.p_some }</td><td id='someTotal_p_money'>${dto.p_money }</td></tr></c:forEach>";
+						
+						$(".someMoney").append(cMoney);
+					}
+					
+					
+					if (someCount==null) {
+						var aMoney="<tr><td colspan='3'; style='color:red;'>저장된 데이터가 없습니다.</td></tr>";
+						$(".someCount").append(aMoney);
+					}else{
+						var aMoney="<c:forEach items='${someCount }' var='dto'>";
+						aMoney+="<tr><td class='someCount_p_seq'>${dto.p_seq }</td><td class='someCount_p_some'>${dto.p_some }</td><td class='someCount_p_count'>${dto.p_count }</td></tr></c:forEach>";
+						
+						$(".someCount").append(aMoney);
+					}
+					
 					
 					
 				}
@@ -366,25 +434,28 @@ window.onload = function () {
 }
 </script>
 <style type="text/css">
-	body{position: relative;}
 	.spending_header_wrap{
 		text-align: center;
-		border: 1px;
 	}
 	.spending_canvas_wrap,.spending_total_wrap,.spending_header_wrap{
 		align-content: center;
 	}
 
 	.spending_total_wrap{
-		left: 500px;
-		width: 200px; height: 350px;
-		background-color: grey;
+		width: 300px; height: 350px;
+		position: absolute; left: 320px; top: 100px;
 	}
 	.pickIsDate,.pickIsSome{display: none;}
 	.spending_header_wrap{
 		align-content: center;
 	}
-
+	.spending_detail_body{
+		width: 700px;
+	}
+	.pickIsSome{
+		position: absolute; left: 320px; top: 100px;
+		width: 300px; height: 300px;
+	}
 </style>
 <%
 String paramYear = request.getParameter("year");
@@ -415,6 +486,7 @@ if(lMonth<10){
 	sMonth=""+lMonth;
 }
 int month=Integer.parseInt(sMonth);
+
 %>
 </head>
 <body>
@@ -445,50 +517,23 @@ int month=Integer.parseInt(sMonth);
 			<div id="chartContainer" style="height: 300px; width: 50%;"></div>
 			<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 		</div>
-			<div class="spending_total_wrap">
+		<div class="spending_total_wrap">
 				<!-- 				 -->
 				<!--  	pick:date  	-->
 				<!--   사이드메뉴 상세내용   -->
 				<!-- 				 -->
 				<div class="pickIsDate">
-					<div class="spending_total_wrap">
-						<div class="spending_total_money">
-							<span class="field">당월 현재까지 사용 금액: </span>
-							<div class="field">
-							<c:choose>
-								<c:when test="${empty currentMoney}">
-									0원
-								</c:when><c:otherwise>
-									${currentMoney.p_money}원
-								</c:otherwise>
-							</c:choose>
-							</div>
-						</div>
-						<div class="spending_avg_money">
-							<p>일 평균 지출액</p>
-							<div class="field">
-								<c:choose>
-									<c:when test="${empty avgMoney}">
-										0원
-									</c:when><c:otherwise>
-										${avgMoney.p_money }원
-									</c:otherwise>
-								</c:choose>
-							</div>
-						</div>
-						<div class="spending_total_count">
-							<p>당월 총 결제 건수</p>
-							<div class="field">
-								<c:choose>
-									<c:when test="${empty totalCount}">
-										0원
-									</c:when><c:otherwise>
-										${totalCount.p_count }회
-									</c:otherwise>
-								</c:choose>
-							</div>
-						</div>
-					</div>
+					<table class="spending_total_wrap ui selectable inverted table">
+						<tr class="spending_total_money">
+							<td class="field">당월 현재까지 사용 금액: </td>
+						</tr>
+						<tr class="spending_avg_money">
+							<td>일 평균 지출액</td>
+						</tr>
+						<tr class="spending_total_count">
+							<td>당월 총 결제 건수</td>
+						</tr>
+					</table>
 				</div>
 				<!-- 				 -->
 				<!--  	pick:category  	-->
@@ -496,20 +541,20 @@ int month=Integer.parseInt(sMonth);
 				<!-- 				 -->
 				<div class="pickIsCategory">
 					<div class="spending_total_wrap">
-						<div class="spending_total_money">
-							<span class="field">총지출: </span>
-							<div class="field">
-							<c:choose>
-								<c:when test="${empty sumMoneyDto}">
-									0원
-								</c:when><c:otherwise>
-									${sumMoneyDto.p_money }원
-								</c:otherwise>
-							</c:choose>
-							</div>
-						</div>
 						<div class="spending_money_top3">
-							<table border="1">
+							<table class="ui selectable inverted table">
+								<tr class="spending_total_money">
+									<td class="field">총지출: </td>
+									<td class="field">
+									<c:choose>
+										<c:when test="${empty sumMoneyDto}">
+											0원
+										</c:when><c:otherwise>
+											${sumMoneyDto.p_money }원
+										</c:otherwise>
+									</c:choose>
+									</td>
+								</tr>
 								<tr>
 									<td colspan="3"><span>지출액 TOP3</span></td>
 								</tr>
@@ -533,7 +578,7 @@ int month=Integer.parseInt(sMonth);
 									</c:forEach>
 								</c:otherwise>
 								</c:choose>
-								<tr><td colspan="3">----------------------</td></tr>
+								<tr><td colspan="3" style="text-align: center;">-------------------------------------------------</td></tr>
 								<tr>
 									<td colspan="3"><span>지출건수 TOP3</span></td>
 								</tr>
@@ -567,7 +612,7 @@ int month=Integer.parseInt(sMonth);
 				<!-- 				 -->
 				<div class="pickIsSome">
 					<div class="spending_money_top3">
-							<table border="1">
+							<table class="ui selectable inverted table">
 								<tr>
 									<td colspan="3"><span>지출액 TOP3</span></td>
 								</tr>
@@ -576,24 +621,10 @@ int month=Integer.parseInt(sMonth);
 									<th>지출수단</th>
 									<th>금액</th>
 								</tr>
-								<c:choose>
-									<c:when test="${empty someTotal }">
-										<tr>
-											<td colspan="3">이번달 지출이 없습니다.</td>
-										</tr>
-									</c:when><c:otherwise>
-									<c:forEach items="${someTotal }" var="dto">
-										<tr>
-											<td id="someTotal_p_seq">${dto.p_seq }</td>
-											<td id="someTotal_p_some">${dto.p_some }</td>
-											<td id="someTotal_p_money">
-											${dto.p_money }
-											</td>
-										</tr>
-									</c:forEach>
-								</c:otherwise>
-								</c:choose>
-								<tr><td colspan="3">----------------------</td></tr>
+								<tbody class="someMoney">
+								</tbody>
+
+								<tr><td colspan="3" style="text-align: center;">-------------------------------------------------</td></tr>
 								<tr>
 									<td colspan="3"><span>지출건수 TOP3</span></td>
 								</tr>
@@ -602,26 +633,15 @@ int month=Integer.parseInt(sMonth);
 									<th>지출수단</th>
 									<th>지출건수</th>
 								</tr>
-								<c:choose>
-									<c:when test="${empty someCount }">
-										<tr>
-											<td colspan="3">이번달 지출이 없습니다.</td>
-										</tr>
-									</c:when><c:otherwise>
-										<c:forEach items="${someCount }" var="dto">
-											<tr>
-												<td class="someCount_p_seq">${dto.p_seq }</td>
-												<td class="someCount_p_some">${dto.p_some }</td>
-												<td class="someCount_p_count">${dto.p_count }</td>
-											</tr>
-										</c:forEach>
-									</c:otherwise>
-								</c:choose>
+								<tbody class="someCount">
+								</tbody>
+								
 							</table>
 						</div>
 					</div>
 			</div>
-			
+		<br><br><br><br><br><br><br><br><br>
+		
 	<div class="spending_insert_icon">
 		<a href="#" onclick="spendingInsert()">지출등록</a>	
 	</div>
