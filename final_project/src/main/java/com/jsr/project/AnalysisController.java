@@ -25,6 +25,7 @@ import com.jsr.project.dtos.AcountPatternDto;
 import com.jsr.project.dtos.GoalDto;
 import com.jsr.project.dtos.MembersDto;
 import com.jsr.project.dtos.RewardDto;
+import com.jsr.project.dtos.SaveDto;
 import com.jsr.project.dtos.SpendingDto;
 import com.jsr.project.services.IAcountService;
 import com.jsr.project.services.IAnalysisService;
@@ -59,8 +60,6 @@ public class AnalysisController {
 		int total_spending=analysisService.total_spending(a,b,id);
 		int invest_spending=analysisService.invest_spending(p_regdate, id);
 		int expense_spending=analysisService.expense_spending(p_regdate, id);
-		int invest_ratio=analysisService.invest_ratio(p_regdate, id);
-		int expense_ratio=analysisService.expense_ratio(p_regdate, id);
 		int total_goal=analysisService.total_goal(id);
 		int total_expense=analysisService.total_expense(id, p_regdate);
 		List<GoalDto> goalList=analysisService.category_goal(id);
@@ -116,8 +115,6 @@ public class AnalysisController {
 		model.addAttribute("total_spending", total_spending);
 		model.addAttribute("invest_spending", invest_spending);
 		model.addAttribute("expense_spending", expense_spending);
-		model.addAttribute("invest_ratio", invest_ratio);
-		model.addAttribute("expense_ratio", expense_ratio);
 		model.addAttribute("total_goal", total_goal);
 		model.addAttribute("total_expense", total_expense);
 		model.addAttribute("goalList", goalList);

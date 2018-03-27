@@ -128,6 +128,10 @@ window.onload = function () {
 	.income_list_body{
 		width: 700px;
 	}
+	.income_total_wrap{
+		position: absolute;
+		left: 600px; top: 180px;
+	}
 </style>
 <%
 String paramYear = request.getParameter("year");
@@ -173,27 +177,28 @@ int month=Integer.parseInt(sMonth);
 		</header>
 	<br>
 		<div class="income_canvas_wrap">
-			<div id="chartContainer" style="height: 400px; width: 50%;"></div>
+			<div id="chartContainer" style="height: 400px; width: 600PX;"></div>
 			<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 		</div>
 		<div class="income_total_wrap">
-			<div class="acount_total_money">
-				<p class="field">총수입: </p>
-				<div class="field">
-					<c:set var="total" value="0" />
-						<c:forEach items="${iList}" var="iDto">
-						<c:set var="total" value="${total+iDto.i_money}" />
-					</c:forEach>
-					${total}
-				</div>
-				<div class="field">
-					<span>수입 TOP5</span>
-					<div class="income_top5">
+			<table class="acount_total_money ui selectable inverted table">
+				<tr>
+					<td colspan="2" style="text-align: center;">총수입: 
+						<c:set var="total" value="0" />
+							<c:forEach items="${iList}" var="iDto">
+							<c:set var="total" value="${total+iDto.i_money}" />
+						</c:forEach>
+						<fmt:formatNumber value="${total }" type="number"/>원
+					</td>
+				</tr>
+				<tr><td colspan="2"></td></tr>
+					<tr><td colspan="2" style="text-align: center;">수입 TOP5</td></tr>
+				<tr class="field">
+					<td class="income_top5" colspan="2">
 						<c:choose>
 							<c:when test="${empty dtos }">
-								<div>수입이 없습니다.</div>
+								<td colspan="2" style="text-align: center;">수입이 없습니다.</td>
 							</c:when><c:otherwise>
-								<table>
 									<tr>
 										<th>수입명</th>
 										<th>금액</th>
@@ -201,16 +206,16 @@ int month=Integer.parseInt(sMonth);
 									<c:forEach items="${dtos }" var="dtos">
 										<tr>
 											<td>${dtos.i_name }</td>
-											<td>${dtos.i_money }</td>
+											<td><fmt:formatNumber value="${dtos.i_money }" type="number"/>원</td>
 										</tr>
 									</c:forEach>
-								</table>
 							</c:otherwise>
 						</c:choose>
-					</div>
-				</div>
-			</div>
+					</td>
+				</tr>
+			</table>
 		</div>
+		<br><br>
 	<div class="income_body_wrap">
 		<div class="income_header_wrap">
 			<header>

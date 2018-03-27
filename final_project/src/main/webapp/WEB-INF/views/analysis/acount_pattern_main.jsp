@@ -360,9 +360,6 @@ window.onload = function () {
 
 </script>
 <style type="text/css">
-	.acountTotalSidebar,.acountMoneyTop5,.acountYearMoney,.currentAcountDetail{
-		background-color: gray;
-	}
 	.acountDetailChart,.acountDateChart,.acountTotalChart,.acountMaxValueChart,.currentAcountTotalChart{
 		background-color: #D5D5D5;
 	}
@@ -372,6 +369,33 @@ window.onload = function () {
 	}
 	.analy_search{
 		display: none;
+	}
+	.acountTotalSidebar,.aocuntMaxMoney,.currentAcountDetail,.acountYearMoney,.acountYearRate{
+		width: 400px;
+	}
+	..aocuntMaxMoney{
+		width: 500px;
+	}
+	.acountMoneyTop5{
+		width: 600px;
+	}
+	.acountDetailTable,.currentAcountDetailTable{
+		width: 900px;
+	}
+	.acountMaxValueProduct{
+		width: 600px;	
+	}
+	.acountTotalSidebar{
+		position: absolute;
+		left: 600px; top:210px;
+	}
+	.acountYearMoney{
+		position: absolute;
+		left: 600px; top:1550px;
+	}
+	.acountYearRate{
+		position: absolute;
+		left: 600px; top:2150px;
 	}
 </style>
 </head>
@@ -390,47 +414,51 @@ window.onload = function () {
 <!--              -->
 <div class="acountTotalChart">
 <div>&nbsp;</div>
-	<div id="chartContainer1" style="height: 370px; width: 50%;"></div>
+	<div id="chartContainer1" style="height: 370px; width: 600px;"></div>
 	<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
-	<div class="acountTotalList">
-	
-	</div>
+
 	<div class="acountTotalSidebar">
-		<div class="aocuntDetail">
-			<h3>OOO형 투자유형</h3>
-			<div>
+	<table class=" ui celled table">
+		<tr class="aocuntDetail">
+			<td>OOO형 투자유형</td>
+		</tr>
+		<tr>
+			<td>
 				유형설명
-			</div>
-		</div>
-		
+			</td>
+		</tr>
+		</table>
+	</div>
 		<div class="acountMoneyTop5">
-			<h3>투자 금액 TOP5</h3>
-				<c:choose>
-					<c:when test="${empty acountMoneyTop }">
-					<div>
-						<div>데이터가 없습니다.</div>
-					</div>
-					</c:when><c:otherwise>
-						<c:forEach items="${acountMoneyTop }" var="dto">
-							<div>
-								<div>
-									<span>${dto.rn }. </span><span>${dto.name }</span>(<span>${dto.detail }</span>) <span>비율(<fmt:formatNumber value="${dto.money/aDto.ac_money*100 }" pattern="0.00"/>%)</span>
-								</div>
-							</div>
-						</c:forEach>
-					</c:otherwise>
-				</c:choose>
+			<table class="ui very basic table">
+				<tr>
+					<td colspan="4">투자 금액 TOP5</td>
+				</tr>
+					<c:choose>
+						<c:when test="${empty acountMoneyTop }">
+						<tr>
+							<td>데이터가 없습니다.</td>
+						</tr>
+						</c:when><c:otherwise>
+							<c:forEach items="${acountMoneyTop }" var="dto">
+									<tr>
+										<td>${dto.rn }. </td><td>${dto.name }</td><td>(${dto.detail })</td> <td>비율(<fmt:formatNumber value="${dto.money/aDto.ac_money*100 }" pattern="0.00"/>%)</td>
+									</tr>
+							</c:forEach>
+						</c:otherwise>
+					</c:choose>
+			</table>
 		</div>
 	</div>
 <div>&nbsp;</div>
-</div>
 
 <div class="temp"></div>
 
 <!--              -->
 <!-- 투자 분류별 내역 -->
 <!--              -->
-<table border="1">
+<div class="acountDetailTable">
+<table class="ui olive table">
 	<caption>투자분류내역</caption>
 	<tr>
 		<th>분류</th>
@@ -443,7 +471,7 @@ window.onload = function () {
 	</tr>
 		<c:choose>
 			<c:when test="${empty totalDetail }"> 
-			<tr class="acountDetailTable">
+			<tr>
 				<td colspan="6">-------------------검색된 내역이 없습니다.----------------------</td>
 			</tr>
 			</c:when><c:otherwise>
@@ -460,7 +488,7 @@ window.onload = function () {
 			</c:otherwise>
 		</c:choose> 
 </table>
-
+</div>
 <div class="temp"></div>
 
 <!--              -->
@@ -468,25 +496,35 @@ window.onload = function () {
 <!--              -->
 <div class="acountDateChart">
 <div>&nbsp;</div>
-	<div id="chartContainer2" style="height: 370px; width: 70%;"></div>
+	<div id="chartContainer2" style="height: 370px; width: 600px;"></div>
 	<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+	<br>
 	<div class="aocuntMaxMoney">
-		<h3>1년 중에 가장 수익을 많이 낸 기간은  <span style="color: orange;"><fmt:formatDate value="${yearMoneyTop.s_enddate }" pattern="YYYY"/></span> 년  <span style="color: orange;"><fmt:formatDate value="${yearMoneyTop.s_enddate }" pattern="MM"/></span>월입니다.</h3>
+		<table class="ui celled table">
+		<tr>
+			<td>1년 중에 가장 수익을 많이 낸 기간은  <span style="color: orange;"><fmt:formatDate value="${yearMoneyTop.s_enddate }" pattern="YYYY"/></span> 년  <span style="color: orange;"><fmt:formatDate value="${yearMoneyTop.s_enddate }" pattern="MM"/></span>월입니다.</td>
+		</tr>
+		</table>
 	</div>
-	
 	<div class="acountYearMoney">
-		<h3>연간 투자 금액 TOP5</h3>
+	<table class="ui very basic table">
+	<tr>
+		<td>연간 투자 금액 TOP5</td>
+	</tr>
 		<c:choose>
 			<c:when test="${empty yearAcountMoneyTop }">
-				<div>데이터가 없습니다.</div>
+			<tr>
+				<td>데이터가 없습니다.</td>
+			</tr>
 			</c:when><c:otherwise>
 				<c:forEach items="${yearAcountMoneyTop }" var="dto">
-					<div>
-						<span>${dto.rn }. </span><span>${dto.name }</span>(<span>${dto.detail }</span>)<span>비율(<fmt:formatNumber value="${dto.money/aDto.ac_money*100 }" pattern="0.00"/>%)</span>
-					</div>
+					<tr>
+							<td>${dto.rn }. </td><td>${dto.name }</td><td>(${dto.detail })</td><td>비율(<fmt:formatNumber value="${dto.money/aDto.ac_money*100 }" pattern="0.00"/>%)</td>
+					</tr>
 				</c:forEach>
 			</c:otherwise>
 		</c:choose>
+	</table>
 	</div>
 <div>&nbsp;</div>
 </div>
@@ -496,30 +534,41 @@ window.onload = function () {
 <!--              -->
 <!-- 투자별 수익 현황 차트 -->
 <!--              -->
+	<br>
 <div class="acountDetailChart">
 	<div>&nbsp;</div>
-	<div id="chartContainer3" style="height: 370px; width: 50%;"></div>
+	<div id="chartContainer3" style="height: 370px; width: 600px;"></div>
 	<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 	<div class="acountDetailList">
 		
 	</div>
 	<div class="aocuntMaxMoney">
-		<h3>현재 가장 수익을 많이 낸 상품은 <span style="color: orange;">${yearProductTop.detail }</span>이며 <span style="color: orange;">${yearProductTop.rate }%</span>의 수입을 냈습니다.</h3>
+		<table class="ui celled table">
+			<tr>
+				<td>현재 가장 수익을 많이 낸 상품은 <span style="color: orange;">${yearProductTop.detail }</span>이며 <span style="color: orange;">${yearProductTop.rate }%</span>의 수입을 냈습니다.</td>
+			</tr>
+		</table>	
 	</div>
 	
-	<div class="acountYearMoney">
-		<h3>투자 수익률 TOP5</h3>
+	<div class="acountYearRate">
+	<table class="ui very basic table">
+		<tr>
+		<td colspan="4">투자 수익률 TOP5</td>
+		</tr>
 		<c:choose>
 			<c:when test="${empty acountRateTop5 }">
-				<div>데이터가 없습니다.</div>
+			<tr>
+				<td colspan="4">데이터가 없습니다.</td>
+			</tr>
 			</c:when><c:otherwise>
 				<c:forEach items="${acountRateTop5 }" var="dto">
-					<div>
-						<span>${dto.rn }. </span><span>${dto.name }</span>(<span>${dto.detail }</span>)<span>비율(<fmt:formatNumber value="${dto.money/aDto.ac_money*100 }" pattern="0.00"/>%)</span>
-					</div>
+					<tr>
+						<td>${dto.rn }. </td><td>${dto.name }</td><td>(${dto.detail })</td><td>비율(<fmt:formatNumber value="${dto.money/aDto.ac_money*100 }" pattern="0.00"/>%)</td>
+					</tr>
 				</c:forEach>
 			</c:otherwise>
 		</c:choose>
+	</table>
 	</div>
 	<div>&nbsp;</div>
 </div>
@@ -532,14 +581,17 @@ window.onload = function () {
 <!--              -->
 <div class="acountMaxValueChart">
 <div>&nbsp;</div>
-	<div id="chartContainer4" style="height: 300px; width: 30%;"></div>
+	<div id="chartContainer4" style="height: 300px; width: 600px;"></div>
 	<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 	<div class="aocuntMaxValueList">
 
 	</div>
-	
 	<div class="acountMaxValueProduct">
-		<h3>현재 가장 많이 투자하고 있는 상품은 <span style="color: orange;">${acountMaxValueProduct.detail }</span>이며 <span style="color: orange;"><fmt:formatNumber value="${acountMaxValueProduct.money }" type="number"/></span>원입니다.</h3>
+	<table class="ui celled table">
+	<tr>
+		<td>현재 가장 많이 투자하고 있는 상품은 <span style="color: orange;">${acountMaxValueProduct.detail }</span>이며 <span style="color: orange;"><fmt:formatNumber value="${acountMaxValueProduct.money }" type="number"/></span>원입니다.</td>
+	</tr>
+	</table>
 	</div>
 </div>
 
@@ -549,31 +601,34 @@ window.onload = function () {
 <!-- 당월 투자 비율 차트 -->
 <!--              -->
 <div class="currentAcountTotalChart">
-<div>&nbsp;</div>
-<div><h2><span class="currentYear"><%=year %></span>년 <span class="currentMonth"><%=month %></span>월</h2></div>
-	<div id="chartContainer5" style="height: 370px; width: 50%;"></div>
+<div><h2><span class="currentYear"><%=year %></span>년 <span class="currentMonth"><%=month %></span>월</h2></div><br>
+	<div id="chartContainer5" style="height: 370px; width: 600px;"></div>
 	<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 	<div class="acountTotalList">
-	
-	<div class="currentAcountTotalMoney">
-		<h1>이번달 총 투자금액: <span><fmt:formatNumber value="${acountMonthMoney.ac_money }" type="number"/> </span> 원 </h1>
+			<div>
+				<h2>이번달 총 투자금액: <span><fmt:formatNumber value="${acountMonthMoney.ac_money }" type="number"/> </span> 원 </h2>
+			</div>
 	</div>
-	
-	</div>
-	<div>&nbsp;</div>
+	<br>
 	<div class="currentAcountDetail">
-		<h3>OOO형 투자유형</h3>
-		<div>
-			유형설명
-		</div>
-	</div>
-	<div>&nbsp;</div>
+	<table class="ui celled table">
+		<tr>
+			<td>OOO형 투자유형</td>
+		</tr>
+		<tr>
+			<td>
+				유형설명
+			</td>
+		</tr>
+	</table>
 </div>
-
+</div>
 <!--              -->
 <!-- 당월 투자 분류별 내역 -->
 <!--              -->
-<table class="currentAcountDetailTable" border="1">
+<br>
+<div class="currentAcountDetailTable">
+<table class="ui olive table">
 	<caption>투자분류내역</caption>
 	<tr>
 		<th>분류</th>
@@ -601,5 +656,6 @@ window.onload = function () {
 		</c:otherwise>
 	</c:choose>
 </table>
+</div>
 </body>
 </html>

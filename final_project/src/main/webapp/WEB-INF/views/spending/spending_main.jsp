@@ -338,8 +338,10 @@
 						$(".someMoney").append(cMoney);
 						
 					}else{
-						var cMoney="<c:forEach items='${someTotal }' var='dto'>"+
-						"<tr><td id='someTotal_p_seq'>${dto.p_seq }</td><td id='someTotal_p_some'>${dto.p_some }</td><td id='someTotal_p_money'>${dto.p_money }</td></tr></c:forEach>";
+						var cMoney="";
+						for (var i = 0; i < someTotal.length; i++) {
+							cMoney+="<tr><td>"+someTotal[i].p_seq+"</td><td>"+someTotal[i].p_some+"</td><td>"+someTotal[i].p_money+"원</td><td></tr>";
+						}
 						
 						$(".someMoney").append(cMoney);
 					}
@@ -349,8 +351,11 @@
 						var aMoney="<tr><td colspan='3'; style='color:red;'>저장된 데이터가 없습니다.</td></tr>";
 						$(".someCount").append(aMoney);
 					}else{
-						var aMoney="<c:forEach items='${someCount }' var='dto'>";
-						aMoney+="<tr><td class='someCount_p_seq'>${dto.p_seq }</td><td class='someCount_p_some'>${dto.p_some }</td><td class='someCount_p_count'>${dto.p_count }</td></tr></c:forEach>";
+						
+						var aMoney="";
+						for (var i = 0; i < someCount.length; i++) {
+							aMoney+="<tr><td>"+someCount[i].p_seq+"</td><td>"+someCount[i].p_some+"</td><td>"+someCount[i].p_count+"회</td><td></tr>";
+						}
 						
 						$(".someCount").append(aMoney);
 					}
@@ -514,7 +519,7 @@ int month=Integer.parseInt(sMonth);
 		</header>
 		
 		<div class="spending_canvas_wrap">
-			<div id="chartContainer" style="height: 300px; width: 50%;"></div>
+			<div id="chartContainer" style="height: 300px; width: 620px;"></div>
 			<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 		</div>
 		<div class="spending_total_wrap">
@@ -573,7 +578,9 @@ int month=Integer.parseInt(sMonth);
 										<tr>
 											<td class="categoryMoney_p_card">${dto.p_card }</td>
 											<td class="categoryMoney_p_name">${dto.p_name }</td>
-											<td class="categoryMoney_p_money">${dto.p_money }</td>
+											<td class="categoryMoney_p_money">
+											<fmt:formatNumber value="${dto.p_money }" type="number"/>원
+											</td>
 										</tr>
 									</c:forEach>
 								</c:otherwise>
@@ -597,7 +604,7 @@ int month=Integer.parseInt(sMonth);
 											<tr>
 												<td class="categoryCount_p_card">${dto.p_card }</td>
 												<td class="categoryCount_p_name">${dto.p_name }</td>
-												<td class="categoryCount_p_count">${dto.p_count }</td>
+												<td class="categoryCount_p_count">${dto.p_count }회</td>
 											</tr>
 										</c:forEach>
 									</c:otherwise>

@@ -47,7 +47,7 @@
 		var search=year+"-"+month+"-"+day;
 		
 		var url="calendar_detail.do?searchDate="+search;
-		var prop="width=600px; height=600px;";
+		var prop="width=800px; height=450px;";
 		
 		open(url,'',prop);
 	}
@@ -102,6 +102,7 @@
 th {
 	width: 30px;
 	vertical-align: middle;
+	text-align: center;
 }
 
 td {
@@ -109,6 +110,10 @@ td {
 	height: 120px;
 	cursor: pointer;
 	vertical-align: top;
+	
+}
+td>div{
+	text-align: center;
 }
 
 </style>
@@ -127,7 +132,7 @@ td {
 		</header>
 	<br>
 		<div class="calendar_body">
-			<table class="calender" border="1">
+			<table class="calender ui celled table" border="1">
 				<caption>
 					<a href="calendar_main.do?year=<%=year - 1%>&month=<%=month%>">◁◁</a> 
 					<a href="calendar_main.do?year=<%=year%>&month=<%=month - 1%>">◀</a> 

@@ -39,16 +39,6 @@ public class AnalysisService implements IAnalysisService{
 	}
 
 	@Override
-	public int invest_ratio(String p_regdate,String id) {
-		return IAnalysisDao.invest_ratio(p_regdate, id);
-	}
-
-	@Override
-	public int expense_ratio(String p_regdate,String id) {
-		return IAnalysisDao.expense_ratio(p_regdate, id);
-	}
-
-	@Override
 	public int total_goal(String id) {
 		return IAnalysisDao.total_goal(id);
 	}

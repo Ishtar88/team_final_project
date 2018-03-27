@@ -124,26 +124,19 @@ window.onload = function () {
 </script>
 
 <style type="text/css">
-body{position: relative;}
-	.acount_header_wrap{
-		text-align: center;
-		border: 1px;
+	.acount_total_wrap{
+		width: 300px; height: 100px;
 	}
 	.acount_body_wrap{
 		align-content: center;
 	}
-	.acount_total_wrap{
-		left: 500px;
-		width: 200px; height: 200px;
-		background-color: grey;
-	}
 	.acount_body{
 		width: 700px;
 	}
-	.save_body{
-		align-content: center;
-	}
 	
+	
+
+
 </style>
 <%
 	String paramYear = request.getParameter("year");
@@ -189,39 +182,45 @@ body{position: relative;}
 				 </div>
 		</header>
 	<br>
+	<div class="acount_total_wrap">
+		<table class="ui selectable inverted table">
+			<tr>
+				<td class="acount_total_money">
+					<h2 class="field" style="text-align: center;">총예산: <fmt:formatNumber value="${aDto.ac_money }" type="number"/>원</h2>
+				</td>
+			</tr>
+		</table>
+	</div>
 	<div class="acount_Chart">
 		<div class="acount_canvas_wrap">
-				<div id="chartContainer" style="height: 300px; width: 50%;"></div>
+				<div id="chartContainer" style="height: 300px; width: 700px;"></div>
 				<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 		</div>
-		<div class="acount_total_wrap">
-			<div class="acount_total_money">
-				<p class="field">총예산: <span><fmt:formatNumber value="${aDto.ac_money }" type="number"/></span>원</p>
-			</div>
+	</div>
+	<div class="mid_header">
+		<div class="ui segment" id="insert_acount_icon">
+				<a href="acount_insert_page.do"><img alt="acount_icon" src="resources/icon/plus.png" style="width: 17px; height: 17px;">자산등록</a>	
 		</div>
 	</div>
-	<div class="ui segment" id="insert_acount_icon">
-			<a href="acount_insert_page.do"><img alt="acount_icon" src="resources/icon/plus.png" style="width: 17px; height: 17px;">자산등록</a>	
-
-		<div class="acount_body_wrap">
-		<div class="acount_header_wrap">
-			<header>
-				<div class="ui right aligned">
-				    <div class="acount_searchDate">
-						 <a href="acount.do?year=<%=year-1%>&month=<%=month%>" >◁◁</a>
-						 <a href="acount.do?year=<%=year%>&month=<%=month-1%>" >◀</a>
-					 	  	<span class="acount_year"><%=year%>년 </span>
-					 	  	<span class="acount_month"><%=month%>월</span>
-					     <a href="acount.do?year=<%=year%>&month=<%=month+1%>" >▶</a>
-				  		 <a href="acount.do?year=<%=year+1%>&month=<%=month%>" >▷▷</a>
+			<div class="acount_body_wrap">
+			<div class="acount_header_wrap">
+				<header>
+					<div class="ui right aligned">
+					    <div class="acount_searchDate">
+							 <a href="acount.do?year=<%=year-1%>&month=<%=month%>" >◁◁</a>
+							 <a href="acount.do?year=<%=year%>&month=<%=month-1%>" >◀</a>
+						 	  	<span class="acount_year"><%=year%>년 </span>
+						 	  	<span class="acount_month"><%=month%>월</span>
+						     <a href="acount.do?year=<%=year%>&month=<%=month+1%>" >▶</a>
+					  		 <a href="acount.do?year=<%=year+1%>&month=<%=month%>" >▷▷</a>
+					    </div>
 				    </div>
-			    </div>
-			    <div class="acount_updateForm">
-			    	<a></a>
-			    </div>
-			</header>
-	    </div>
-	</div>
+				    <div class="acount_updateForm">
+				    	<a></a>
+				    </div>
+				</header>
+		    </div>
+		</div>
 		  <!------  ---------->		
 		<!---  저축정보 테이블   ---->
 		  <!------  ---------->
@@ -510,6 +509,6 @@ body{position: relative;}
 			</div>
 		</div>
 	</div>
-		</div>
+
 </body>
 </html>

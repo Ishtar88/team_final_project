@@ -47,20 +47,7 @@ public class AnalysisDao implements IAnalysisDao{
 		map.put("id", id);
 		return sqlSession.selectOne(namespace+"expense_spending", map);
 	}
-	@Override
-	public int invest_ratio(String p_regdate,String id) {
-		Map<String , String>map=new HashMap<String,String>();
-		map.put("p_regdate", p_regdate);
-		map.put("id", id);
-		return sqlSession.selectOne(namespace+"invest_ratio", map);
-	}
-	@Override
-	public int expense_ratio(String p_regdate,String id) {
-		Map<String , String>map=new HashMap<String,String>();
-		map.put("p_regdate", p_regdate);
-		map.put("id", id);
-		return sqlSession.selectOne(namespace+"expense_ratio", map);
-	}
+
 	@Override
 	public int total_goal(String id) {
 		Map<String , String>map=new HashMap<String,String>();
