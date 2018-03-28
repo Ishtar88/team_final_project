@@ -33,8 +33,20 @@
 </script>
 <style type="text/css">
 body {
-	background-color: #DADADA;
+	background :url("resources/background-image/coins2.jpg") no-repeat center;
+	background-size: cover;
 }
+
+.content{
+	color:white;
+	font-family:
+}
+
+#backimg{
+	background : no-repeat center;
+	background-size: cover;
+}
+
 
 body>.grid {
 	height: 100%;
@@ -46,18 +58,28 @@ body>.grid {
 
 .column {
 	max-width: 450px;
+	background-color: #BDBDBD;
+	opacity: 0.8;
 }
+
+
+#kakaoLogin{
+	float:left;
+}
+
+
+
 </style>
 <body>
 	<div class="ui middle aligned center aligned grid">
 		<div class="column">
-			<h2 class="ui teal image header">
-				<img src="assets/images/logo.png" class="image">
-				<div class="content">Log-in to your account</div>
+			<h2 class="ui image header">
+				<div class="content">꿈을 향한 당신의 여정, 시작해볼까요?</div>
 			</h2>
 			<form class="ui large form" action="login.do"
 				onsubmit="return loginChk()">
-				<div class="ui stacked segment">
+<!-- 				<div class="ui stacked segment"> -->
+					<div>
 					<div class="field">
 						<div class="ui left icon input">
 							<i class="user icon"></i> <input type="text" name="id"
@@ -72,16 +94,16 @@ body>.grid {
 					</div>
 					<div>
 						<input type="submit" value="Login"
-							class="ui fluid large teal submit button">
+							class="ui fluid large submit button">
 					</div>
-				</div>
+				
 				<div class="ui error message"></div>
 
-			</form>
-
-			<div id="kakaoLogin" style="padding-bottom: 10px;">
+			<div id="kakaoLogin" style="padding-top: 10px;">
 				<a id="kakao-login-btn"></a>
 			</div>
+			</form>
+
 
 			<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
 			<script type="text/javascript">
@@ -111,10 +133,10 @@ body>.grid {
 					}
 				});
 			</script>
-			<div class="ui message">
+			<div >
 				<a href="regist1.do">회원가입</a>
 			</div>
-			<div class="ui message">
+			<div >
 				<a href="findIdPw.do">아이디/비밀번호 찾기</a>
 		</div>
 	</div>

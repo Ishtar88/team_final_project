@@ -25,8 +25,12 @@
 	}
 </script>
 <style type="text/css">
-	.acountEndForm{display: none;}
+	.acountEndForm{display: none; vertical-align: middle;}
+	.save_update_page_wrap{
+		width: 400px;
+	}
 </style>
+
 </head>
 <body>
 <c:if test="${isc }">
@@ -34,81 +38,107 @@
 		self.close();
 	</script>
 </c:if>
-<table class="save_detail">
+<div class="save_update_page_wrap">
+<table class="save_update_page ui olive table">
 	<tr>
-		<th>저축분류</th>
-		<td>
-			<input type="text" name="s_detail" value="${svDto.s_detail }" readonly="readonly">
+
+		<td class="ui transparent input">
+			저축분류
+			<i class="ellipsis vertica icon"></i>
+				<div class="ui transparent input">
+				<input type="text" name="s_detail" value="${svDto.s_detail }" readonly="readonly">
+				</div>
 		</td>
 	</tr>
 	<tr>
-		<th>저축/적금/보험명</th>
 		<td>
+		저축/적금/보험명
+		<i class="ellipsis vertica icon"></i>
+			<div class="ui transparent input">
 			<input type="text" name="s_name" value="${svDto.s_name }" readonly="readonly">
+			</div>
 		</td>
 	</tr>
 	<tr>
-		<th>매달저축금액</th>
 		<td>
-			<input type="text" name="s_money" value="${svDto.s_money }" readonly="readonly">
+		매달저축금액
+		<i class="ellipsis vertica icon"></i>
+			<div class="ui transparent input">
+			<input type="text" name="s_money" value="${svDto.s_money }원" readonly="readonly">
+			</div>
 		</td>
 	</tr>
 	<tr>
-		<th>현재금액</th>
 		<td>
-			<input type="text" name="s_add" value="${svDto.s_add }" readonly="readonly">
+		현재금액
+		<i class="ellipsis vertica icon"></i>
+			<div class="ui transparent input">
+			<input type="text" name="s_add" value="${svDto.s_add }원" readonly="readonly">
+			</div>
 		</td>
 	</tr>
 	<tr>
-		<th>세율</th>
 		<td>
-			<input type="text" name="s_tax" value="${svDto.s_tax }" readonly="readonly">
+		세율
+		<i class="ellipsis vertica icon"></i>
+			<div class="ui transparent input">
+			<input type="text" name="s_tax" value="${svDto.s_tax }%" readonly="readonly">
+			</div>
 		</td>
 	</tr>
 	<tr>
-		<th>시작날짜</th>
 		<td>
+		시작날짜
+		<i class="ellipsis vertica icon"></i>
+			<div class="ui transparent input">
 			<input type="date" name="s_startdate" value='<fmt:formatDate value="${svDto.s_startdate }" pattern="yyyy-MM-dd"/>' readonly="readonly">
+			</div>
 		</td>
 	</tr>
 	<tr>
-		<th>만기날짜</th>
 		<td>
+		만기날짜
+		<i class="ellipsis vertica icon"></i>
+		<div class="ui transparent input">
 			<input type="date" name="s_enddate" value='<fmt:formatDate value="${svDto.s_enddate }" pattern="yyyy-MM-dd"/>' readonly="readonly">
+			</div>
 		</td>
 	</tr>
 	<tr>
-		<th>메모</th>
 		<td>
+		메모
+		<i class="ellipsis vertica icon"></i>
+		<div class="ui transparent input">
 			<input type="text" name="s_memo" value="${svDto.s_memo }" readonly="readonly">
+			</div>
 		</td>
 	</tr>
 	<tr>
 		<td>
-			<input type="button" value="수정" onclick="location.href='acount_update_page.do?acount=save&seq='+${svDto.s_seq}">
-			<input type="button" value="삭제" onclick="location.href='acount_delete.do?acount=save&seq='+${svDto.s_seq}">
-			<input type="button" value="만기" onclick="acountEnd()">
-			<input type="button" value="닫기" onclick="self.close()">
+			<button class="ui olive button" onclick="location.href='acount_update_page.do?acount=save&seq='+${svDto.s_seq}">수정</button>
+			<div class="ui orange button" onclick="location.href='acount_delete.do?acount=save&seq='+${svDto.s_seq}">삭제</div>
+			<div class="ui grey button" onclick="acountEnd()">만기</div>
+			<div class="ui button" onclick="self.close()">닫기</div>
 		</td>
 	</tr>
 	</table>
 		<form class="acountEndForm" action="acount_end.do" method="post">
-			<table>
+			<table class="ui black table">
 				<tr>
 					<td>
 						<input type="hidden" name="seq" value="${svDto.s_seq}">
 						<input type="hidden" name="acount" value="save">
-						<input type="date" pattern="yyyy-MM" name="enddate">
-						<span>만기날짜를 입력해주세요</span>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<input type="submit" value="만기등록">
-						<input type="button" value="등록 취소" onclick="acount_end_cancel()">
+						<div class="ui mini input">
+												<div class="ui transparent input">
+							만기날짜: <input type="date" pattern="yyyy-MM" name="enddate">
+							</div>
+						</div>
+						<button class="ui black mini button">등록</button>
+						<div class="ui orange mini button" onclick="acount_end_cancel()">취소</div>
 					</td>
 				</tr>
 			</table>
 		</form>
+	</div>
 </body>
 </html>

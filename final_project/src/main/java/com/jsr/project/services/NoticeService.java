@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.jsr.project.dtos.NoticeBoardDto;
+import com.jsr.project.dtos.QnaBoardDto;
 import com.jsr.project.daos.INoticeDao; 
 
 @Service
@@ -15,8 +16,8 @@ public class NoticeService implements INoticeService{
 	private INoticeDao noticeDao; 
 	
 	@Override
-	public List<NoticeBoardDto> n_getAllList() {
-		return noticeDao.n_getAllList();
+	public List<NoticeBoardDto> n_getAllList(QnaBoardDto dto) {
+		return noticeDao.n_getAllList(dto);
 	}
 
 	@Override

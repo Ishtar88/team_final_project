@@ -12,42 +12,33 @@ import com.jsr.project.dtos.MembersDto;
 public class ManagerService implements IManagerService {
 
 	@Autowired
-	private IManagerDao managerDao; 
-	
+	private IManagerDao managerDao;
+
 	@Override
 	public List<MembersDto> getAllMember() {
 		return managerDao.getAllMember();
 	}
+
+	@Override
+	public List<MembersDto> searchById(String id) {
+		return managerDao.searchById(id);
+	}
+
+	@Override
+	public List<MembersDto> searchByName(String m_name) {
+		return managerDao.searchByName(m_name);
+	}
+
+	@Override
+	public List<MembersDto> searchByPhone(String m_phone) {
+		return managerDao.searchByPhone(m_phone);
+	}
+
+	@Override
+	public boolean deleteMember(MembersDto mdto) {
+		return managerDao.deleteMember(mdto);
+	} 
 	
-	
-	@Override
-	public List<MembersDto> getSearchedMember(String id) {
-		return  managerDao.getSearchedMember(id);
-		
-	}
 
-	@Override
-	public MembersDto modifyMember(String id) {
-		return managerDao.modifyMember(id); 
-	}
-
-
-	@Override
-	public boolean afterModifyMember(MembersDto dto) {
-		return managerDao.afterModifyMember(dto); 
-		
-	}
-
-
-	@Override
-	public MembersDto deleteMember(String id) {
-		return managerDao.deleteMember(id); 
-	}
-
-
-	@Override
-	public boolean confirmDelete(String id) {
-		return managerDao.confirmDelete(id);
-	}
 
 }

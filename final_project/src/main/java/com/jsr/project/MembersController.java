@@ -345,6 +345,8 @@ public class MembersController {
 		String name=request.getParameter("name");
 		String m_name=name.substring(1, name.lastIndexOf("\""));
 		mdto.setM_name(m_name);
+		
+		System.out.println("카카오로그인정보"+mdto);
 
 		MembersDto loginDto=memberService.login(mdto);
 		System.out.println(loginDto);
@@ -352,18 +354,19 @@ public class MembersController {
 		if(loginDto==null){
 			boolean isS=memberService.kakaoLogin(mdto);
 			if(isS) {
-				System.out.println("媛��엯�셿猷�");
+				System.out.println("최초로그인:회원가입성공");
 
 				MembersDto loginDto2=memberService.login(mdto);
+				System.out.println(loginDto2);
 				session.setAttribute("loginDto", loginDto2);
 				session.setMaxInactiveInterval(60*60);
 				return "home";
 			}else {
-				System.out.println("媛��엯�떎�뙣");
+				System.out.println("최초로그인:회원가입실패");
 				return "redirect:index.jsp";
 			}
 		}else {
-			System.out.println("�씠誘� 媛��엯�맂 �쉶�썝");
+			System.out.println("최초로그인X:로그인");
 			session.setAttribute("loginDto", loginDto);
 			session.setMaxInactiveInterval(60*60);
 			return "home";

@@ -2,16 +2,28 @@
 <%request.setCharacterEncoding("UTF-8"); %>
 <%response.setContentType("text/html; charset=UTF-8"); %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" type="text/css"
+	href="resources/assets/semantic.min.css">
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"
+	integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+	crossorigin="anonymous"></script>
+<script src="resources/assets/semantic.min.js"></script>
+<style type="text/css">
+	.calendar_income{
+		width: 600px;	
+	}
+</style>
 <title>Insert title here</title>
 </head>
 <body>
 		<div class="calendar_wrap">
 			<div class="calendar_income">
-				<table border="1">
+				<table class="ui olive table">
 					<tr>
 						<td><a href="spending_insert_page.do?command=calendar"><img alt="plus" src="resources/icon/plus.png" style="width: 15px; height: 15px;"></a></td>
 						<td colspan="4"><span>지출</span></td>
@@ -69,7 +81,7 @@
 					</c:choose>
 					<tr>
 						<td colspan="4">
-							<input type="button" value="닫기" onclick="self.close()">
+							<button class="ui orange button" onclick="self.close()">닫기</button>
 						</td>				
 					</tr>
 				</table>

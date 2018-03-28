@@ -3,11 +3,12 @@ package com.jsr.project.services;
 import java.util.List;
 
 import com.jsr.project.dtos.NoticeBoardDto;
+import com.jsr.project.dtos.QnaBoardDto;
 
 public interface INoticeService {
 	
 	
-	public List<NoticeBoardDto> n_getAllList();
+	public List<NoticeBoardDto> n_getAllList(QnaBoardDto dto);
 	
 	//게시판 글쓰기 기능 - 관리자만 가능한 기능 
 	public boolean n_insertBoard(NoticeBoardDto dto);

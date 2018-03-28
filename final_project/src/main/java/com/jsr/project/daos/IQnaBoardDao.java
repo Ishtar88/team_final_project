@@ -6,8 +6,11 @@ import com.jsr.project.dtos.QnaBoardDto;
 
 public interface IQnaBoardDao {
 	
+//	페이지카운트 조회
+	public int q_pageCount();
+	
 //	글 목록 조회 
-	public List<QnaBoardDto> q_getAllList();
+	public List<QnaBoardDto> q_getAllList(QnaBoardDto qDto);
 	
 //	공개글 상세 조회 - 유저용 
 	public QnaBoardDto q_getBoard(int q_seq);

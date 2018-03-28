@@ -6,11 +6,11 @@ import com.jsr.project.dtos.MembersDto;
 
 public interface IManagerService {
 	
-	public List<MembersDto> getAllMember();
-	public List<MembersDto> getSearchedMember(String id); 
-	public MembersDto modifyMember(String id); 
-	public boolean afterModifyMember(MembersDto dto);
-	public MembersDto deleteMember(String id);
-	public boolean confirmDelete(String id);
+	public List<MembersDto> getAllMember( ); 
+	public List<MembersDto> searchById(String id);
+	public List<MembersDto> searchByName(String m_name);
+	public List<MembersDto> searchByPhone(String m_phone);
+	
+	public boolean deleteMember(MembersDto mdto); 
 	
 }

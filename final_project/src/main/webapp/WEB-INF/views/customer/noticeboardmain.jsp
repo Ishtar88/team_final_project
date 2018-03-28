@@ -15,7 +15,8 @@ pageEncoding="UTF-8"%>
 <style type="text/css">
  
  #boardtable {
- 		
+ 	margin: auto;
+ 		width: 600px;
  }
 
 </style>
@@ -28,9 +29,10 @@ pageEncoding="UTF-8"%>
 </head>
 <body>
 
-<h1 onclick="showoption()">공지 게시판</h1>
 <div id="boardtable">
-	<table border="1">
+<h1 onclick="showoption()">공지 게시판</h1>
+	<table class="ui teal table">
+	<col width="50px"><col width="100px"><col width="200px"><col width="150px"><col width="100">
 		<tr>
 			<th>번호</th>
 			<th>작성자</th>
@@ -64,6 +66,19 @@ pageEncoding="UTF-8"%>
 			</c:forEach>
 		</c:otherwise>
 	</c:choose>
+	<c:choose>
+		<c:when test="${count==0 }">
+		
+			</c:when><c:otherwise>
+			<tr>
+				<td colspan="10" style="text-align: center;"><c:set var="page"></c:set>
+					<c:forEach var="i" begin="0" step="1" end="${count}">
+						<a href="notice.do?snum=${i<1?i+1:i+(i*10)}&ennum=${i<1?10:(i+1)*10}">${i+1 }</a>
+					</c:forEach>
+					</td>
+			</tr>
+			</c:otherwise>
+		</c:choose>
 	</table>
 </div>
 </body>

@@ -16,8 +16,8 @@ public class ManagerDao implements IManagerDao {
 	@Autowired
 	private SqlSessionTemplate sqlSession; 
 	private String namespace="com.jsr.project.members."; 
-	
-	
+
+
 	//모든 회원 조회 
 	@Override
 	public List<MembersDto> getAllMember() {
@@ -25,37 +25,33 @@ public class ManagerDao implements IManagerDao {
 	}
 
 
-	//특정 회원 검색 
+	//특정 회원 검색(아이디) 
 	@Override
-	public List<MembersDto> getSearchedMember(String id) {
-		return sqlSession.selectList(namespace+"searchMember", id);
+	public List<MembersDto> searchById(String id) {
+		Map<String, String>map=new HashMap<String,String>();
+		map.put("id", id);
+		return sqlSession.selectList(namespace+"searchById", map);
+	}
+	//특정 회원 검색(이름) 
+	@Override
+	public List<MembersDto> searchByName(String m_name) {
+		Map<String, String>map=new HashMap<String,String>();
+		map.put("m_name", m_name);
+		return sqlSession.selectList(namespace+"searchByName", map);
+	}
+	//특정 회원 검색(전화번호) 
+	@Override
+	public List<MembersDto> searchByPhone(String m_phone) {
+		Map<String, String>map=new HashMap<String,String>();
+		map.put("m_phone", m_phone);
+		return sqlSession.selectList(namespace+"searchByPhone", map);
 	}
 
-	//회원 정보 매니저가 수정하기 
+	//탈퇴
 	@Override
-	public MembersDto modifyMember(String id) {
-		return sqlSession.selectOne(namespace+"modifyMember", id); 
-	}
-
-	//수정한 뒤 처리 
-	@Override
-	public boolean afterModifyMember(MembersDto dto) {
+	public boolean deleteMember(MembersDto mdto) {
 		int count=0; 
-		count= sqlSession.update(namespace+"afterModify", dto); 
-		return count>0?true:false; 
-	}
-
-	//탈퇴 전 마지막 확인 페이지 
-	@Override
-	public MembersDto deleteMember(String id) {
-		return sqlSession.selectOne(namespace+"deleteMember", id);
-	}
-
-	//탈퇴시키기 
-	@Override
-	public boolean confirmDelete(String id) {
-		int count=0; 
-		count = sqlSession.delete(namespace+"confirmDelete", id);
+		count = sqlSession.delete(namespace+"leaveUser", mdto);
 		return count>0?true:false; 
 	}
 

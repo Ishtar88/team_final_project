@@ -40,10 +40,24 @@ public class CustomerController {
 	
 	//고객센터 메인보기
 	@RequestMapping(value = "/customer.do", method = {RequestMethod.POST,RequestMethod.GET})
-	public String customer_home(Locale locale, Model model) {
+	public String customer_home(Locale locale,String snum,String ennum, Model model,HttpSession session) {
 		logger.info("customer board main page");
-		List<QnaBoardDto> q_lists=qnaService.q_getAlllist();
-		List<NoticeBoardDto> n_lists=noticeService.n_getAllList(); 
+		
+		
+		if (snum==null) {
+			snum=(String)session.getAttribute("snum");
+			ennum=(String)session.getAttribute("ennnum");
+		}else {
+			session.setAttribute("snum", snum);
+			session.setAttribute("ennum", ennum);
+		}
+		
+		QnaBoardDto qDto=new QnaBoardDto();
+		qDto.setSnum(snum);
+		qDto.setEnnum(ennum);
+		
+		List<QnaBoardDto> q_lists=qnaService.q_getAlllist(qDto);
+		List<NoticeBoardDto> n_lists=noticeService.n_getAllList(qDto); 
 		model.addAttribute("q_lists", q_lists);
 		model.addAttribute("n_lists", n_lists);
 		return "customer/Customer_main";
@@ -54,13 +68,28 @@ public class CustomerController {
 	//공지게시판 명령 
 	
 	@RequestMapping(value="notice.do", method = {RequestMethod.POST, RequestMethod.GET})
-	public String notice_home(Model model,HttpSession session) {
+	public String notice_home(Model model,String snum,String ennum,HttpSession session) {
 		logger.info("notice board main page");
 		MembersDto IDto =(MembersDto)session.getAttribute("loginDto");
 		String id =IDto.getId(); 
 		System.out.println(id);
-		List<NoticeBoardDto> lists=noticeService.n_getAllList(); 
+		
+		if (snum==null) {
+			snum=(String)session.getAttribute("snum");
+			ennum=(String)session.getAttribute("ennnum");
+		}else {
+			session.setAttribute("snum", snum);
+			session.setAttribute("ennum", ennum);
+		}
+		
+		QnaBoardDto qDto=new QnaBoardDto();
+		qDto.setSnum(snum);
+		qDto.setEnnum(ennum);
+		
+		List<NoticeBoardDto> lists=noticeService.n_getAllList(qDto); 
+		int count=qnaService.q_pageCount();
 		model.addAttribute("lists", lists);
+		model.addAttribute("count", count);
 		return "customer/noticeboardmain";
 	}
 	@RequestMapping (value="notice_detail.do", method={RequestMethod.POST, RequestMethod.GET})
@@ -79,7 +108,7 @@ public class CustomerController {
 	
 	//질문게시판 목록페이지 보기 
 	@RequestMapping(value="/qnamain.do", method={RequestMethod.POST,RequestMethod.GET})
-	public String qnalist(Model model, HttpSession session, HttpServletRequest request) {
+	public String qnalist(Model model, HttpSession session,String snum,String ennum, HttpServletRequest request) {
 		logger.info("qna board main page"); 
 //		
 //		int currentPageNo = 1; 
@@ -92,13 +121,27 @@ public class CustomerController {
 //		Paging paging = new Paging(currentPageNo, maxPost); 
 //		
 //		int offset=(paging.getCurrentPageNo()-1)*paging.getMaxPost(); 
-//		
+		
+		if (snum==null) {
+			snum=(String)session.getAttribute("snum");
+			ennum=(String)session.getAttribute("ennnum");
+		}else {
+			session.setAttribute("snum", snum);
+			session.setAttribute("ennum", ennum);
+		}
+		
+		QnaBoardDto qDto=new QnaBoardDto();
+		qDto.setSnum(snum);
+		qDto.setEnnum(ennum);
+				
 		MembersDto IDto =(MembersDto)session.getAttribute("loginDto");
 		String id =IDto.getId(); 
 		System.out.println(id);
 		
-			List<QnaBoardDto> lists=qnaService.q_getAlllist();
+			List<QnaBoardDto> lists=qnaService.q_getAlllist(qDto);
+			int count=qnaService.q_pageCount();
 			model.addAttribute("lists", lists);
+			model.addAttribute("count", count);
 			session.setAttribute("id", id);
 		return "customer/qnaboardmain"; 
 	}

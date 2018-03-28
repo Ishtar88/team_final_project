@@ -14,8 +14,8 @@ pageEncoding="UTF-8"%>
 <head>
 <style type="text/css">	
 	#noticeboard{
-		width:400px;
-		height:400px;
+		width:450px;
+		height:600px;
 		float:left;
 		margin-left:20px;
 		margin-right:20px;
@@ -23,8 +23,8 @@ pageEncoding="UTF-8"%>
 	}
 	
 	#qnaboard{
-		width:400px;
-		height:400px;
+		width:450px;
+		height:600px;
 		float:left;
 		background-color: pink;
 
@@ -39,9 +39,10 @@ pageEncoding="UTF-8"%>
 
 <!-- 공지게시판 시작 -->
 <div id="noticeboard"> 
-<span><a href="notice.do">공지게시판</a></span>
-<table border="1">
-<col width="50px"><col width="50px"><col width="200px"><col width="50px">
+<span><a href="notice.do">자세히보기</a></span>
+<table class="ui very basic table">
+<caption>공지게시판</caption>
+<col width="50px"><col width="50px"><col width="200px"><col width="100px">
 	<tr>
 		<th>번호</th>
 		<th>작성자</th>
@@ -53,23 +54,23 @@ pageEncoding="UTF-8"%>
 			<tr><td colspan="4"> ----작성된 글이 없습니다.-----</td></tr>
 			</c:when>
 		<c:otherwise>
-			<c:forEach items="${n_lists}" var="dto">
-				<tr>
-					<td>${dto.n_seq}</td>
-					<td>${dto.id}</td>
-					<c:choose>
-						<c:when test="${dto.n_delflag=='Y'}">
-							<td>----삭제된 글입니다.----</td>
-						</c:when>
-						<c:otherwise>
-							<td>
-								<a href="notice_detail.do?n_seq=${dto.n_seq}&count=count">
-									${dto.n_title}</a>
-							</td>
-						</c:otherwise>
-					</c:choose>
-					<td><f:formatDate value="${dto.n_regDate}" pattern="yy년MM월dd일"/></td>
-				</tr>
+			<c:forEach begin="0" end="10" step="1" var="i">
+					<tr>
+						<td>${n_lists[i].n_seq}</td>
+						<td>${n_lists[i].id}</td>
+						<c:choose>
+							<c:when test="${n_lists[i].n_delflag=='Y'}">
+								<td>----삭제된 글입니다.----</td>
+							</c:when>
+							<c:otherwise>
+								<td>
+									<a href="notice_detail.do?n_seq=${n_lists[i].n_seq}&count=count">
+										${n_lists[i].n_title}</a>
+								</td>
+							</c:otherwise>
+						</c:choose>
+						<td><f:formatDate value="${n_lists[i].n_regDate}" pattern="yy-MM-dd"/></td>
+					</tr>
 			</c:forEach>
 		</c:otherwise>
 	</c:choose>	
@@ -78,9 +79,10 @@ pageEncoding="UTF-8"%>
 
 <!-- qna게시판 시작 -->
 <div id="qnaboard"> 
-<span><a href="qnamain.do">QnA게시판</a></span>
-<table border="1">
-<col width="50px"><col width="50px"><col width="200px"><col width="50px">
+<span><a href="qnamain.do?snum=1&ennum=10">자세히보기</a></span>
+<table class="ui very basic table">
+<caption>QnA게시판</caption>
+<col width="50px"><col width="50px"><col width="200px"><col width="100px">
 	<tr>
 		<th>번호</th>
 		<th>작성자</th>
@@ -92,24 +94,24 @@ pageEncoding="UTF-8"%>
 			<tr><td colspan="4"> ----작성된 글이 없습니다.-----</td></tr>
 			</c:when>
 		<c:otherwise>
-			<c:forEach items="${q_lists}" var="dto">
+			<c:forEach begin="0" end="10" step="1" var="i">
 				<tr>
-					<td>${dto.q_seq}</td>
-					<td>${dto.id}</td>
+					<td>${q_lists[i].q_seq}</td>
+					<td>${q_lists[i].id}</td>
 					<c:choose>
-						<c:when test="${dto.q_delflag=='Y'}">
+						<c:when test="${q_lists[i].q_delflag=='Y'}">
 							<td>----삭제된 글입니다.----</td>
 						</c:when>
 						<c:otherwise>
 							<td>
-						<jsp:setProperty property="arrowNbsp" name="util" value="${dto.q_depth}" />
+						<jsp:setProperty property="arrowNbsp" name="util" value="${q_lists[i].q_depth}" />
 							<jsp:getProperty property="arrowNbsp" name="util" />
-							<a href="qnadetail.do?q_seq=${dto.q_seq}&count=count">	
-							    ${dto.q_title}</a>
+							<a href="qnadetail.do?q_seq=${q_lists[i].q_seq}&count=count">	
+							    ${q_lists[i].q_title}</a>
 							</td>
 						</c:otherwise>
 					</c:choose>
-					<td><f:formatDate value="${dto.q_regDate}" pattern="yy년MM월dd일"/></td>
+					<td><f:formatDate value="${q_lists[i].q_regDate}" pattern="yy-MM-dd"/></td>
 				</tr>
 			</c:forEach>
 		</c:otherwise>

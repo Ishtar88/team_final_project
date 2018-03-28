@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.jsr.project.dtos.NoticeBoardDto;
+import com.jsr.project.dtos.QnaBoardDto;
 
 @Repository
 public class NoticeBoardDao implements INoticeDao{
@@ -19,8 +20,8 @@ public class NoticeBoardDao implements INoticeDao{
 	
 	// 글 목록 조회
 	@Override
-	public List<NoticeBoardDto> n_getAllList() {  
-		return sqlSession.selectList(namespace+"noticeboard");
+	public List<NoticeBoardDto> n_getAllList(QnaBoardDto dto) {  
+		return sqlSession.selectList(namespace+"noticeboard",dto);
 	}
 
 	//글 상세 조회

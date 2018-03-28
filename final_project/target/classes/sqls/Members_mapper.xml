@@ -32,8 +32,9 @@
 		<result property="po_point" column="PO_POINT" />
 		<result property="po_detail" column="PO_DETAIL" />
 	</resultMap>
-<select id="login" resultMap="MembersDto" parameterType="MembersDto">
-		SELECT DISTINCT
+	<select id="login" resultMap="MembersDto" parameterType="MembersDto">
+		SELECT
+		DISTINCT
 		M.ID,M_NAME,M_EMAIL,M_PASSWORD,M_PHONE,M_GRADE,
 		(SELECT
 		(SUBSTR(TO_CHAR(SYSDATE,'YYYY-MM-DD'),1,4)-SUBSTR(TO_CHAR(M_BIRTHDATE,'YYYY-MM-DD'),1,4))+1
@@ -100,7 +101,8 @@
 	</insert>
 
 	<select id="getUser" parameterType="Map" resultMap="MembersDto">
-		SELECT DISTINCT
+		SELECT
+		DISTINCT
 		M.ID,M_NAME,M_EMAIL,M_PASSWORD,M_PHONE,M_GRADE,
 		(SELECT
 		(SUBSTR(TO_CHAR(SYSDATE,'YYYY-MM-DD'),1,4)-SUBSTR(TO_CHAR(M_BIRTHDATE,'YYYY-MM-DD'),1,4))+1
@@ -152,4 +154,33 @@
 		UPDATE MEMBERS SET
 		M_PASSWORD=#{m_password} WHERE ID=#{id}
 	</update>
+
+
+	<!-- 관리자 -->
+	<select id="showMember" resultMap="MembersDto">
+		SELECT
+		ID,M_NAME,M_EMAIL,M_PASSWORD,M_PHONE,M_GENDER,M_GRADE,M_ADDRESS,M_JOB,M_REGDATE,M_USEABLE,M_MARIABLE,M_FAVORITE,M_BIRTHDATE,M_GOALDATE,M_PROFILE_IMG
+		FROM MEMBERS
+	</select>
+
+	<select id="searchById" parameterType="Map" resultMap="MembersDto">
+		SELECT
+		ID,M_NAME,M_EMAIL,M_PASSWORD,M_PHONE,M_GENDER,M_GRADE,M_ADDRESS,M_JOB,M_REGDATE,M_USEABLE,M_MARIABLE,M_FAVORITE,M_BIRTHDATE,M_GOALDATE,M_PROFILE_IMG
+		FROM MEMBERS WHERE ID LIKE '%'|| #{id} ||'%'
+	</select>
+	
+	<select id="searchByName" parameterType="Map" resultMap="MembersDto">
+		SELECT
+		ID,M_NAME,M_EMAIL,M_PASSWORD,M_PHONE,M_GENDER,M_GRADE,M_ADDRESS,M_JOB,M_REGDATE,M_USEABLE,M_MARIABLE,M_FAVORITE,M_BIRTHDATE,M_GOALDATE,M_PROFILE_IMG
+		FROM MEMBERS WHERE M_NAME LIKE '%'|| #{m_name} ||'%'
+	</select>
+	
+	
+	<select id="searchByPhone" parameterType="Map" resultMap="MembersDto">
+		SELECT
+		ID,M_NAME,M_EMAIL,M_PASSWORD,M_PHONE,M_GENDER,M_GRADE,M_ADDRESS,M_JOB,M_REGDATE,M_USEABLE,M_MARIABLE,M_FAVORITE,M_BIRTHDATE,M_GOALDATE,M_PROFILE_IMG
+		FROM MEMBERS WHERE M_PHONE LIKE '%'|| #{m_phone} ||'%'
+	</select>
+	
+	
 </mapper>

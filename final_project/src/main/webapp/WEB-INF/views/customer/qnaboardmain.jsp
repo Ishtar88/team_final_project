@@ -17,7 +17,10 @@ pageEncoding="UTF-8"%>
  #insertbutton {
  		align-content: right;
  }
-
+	#boardtable{
+	margin:auto;
+		width: 600px;
+	}
 </style>
 <script type="text/javascript">
 	function insertForm(){
@@ -31,9 +34,10 @@ pageEncoding="UTF-8"%>
 </head>
 <body>
 
-<h1>QnA 게시판</h1>
 <div id="boardtable">
-	<table border="1">
+<h1>QnA 게시판</h1>
+	<table class="ui teal table">
+	<col width="50px"><col width="100px"><col width="200px"><col width="150px"><col width="100">
 		<tr>
 			<th>번호</th>
 			<th>작성자</th>
@@ -43,7 +47,7 @@ pageEncoding="UTF-8"%>
 		</tr>
 			<c:choose>
 		<c:when test="${empty lists}">
-			<tr><td colspan="10">---작성된 글이 없습니다.---</td></tr>
+			<tr><td colspan="10" style="text-align: center;">---작성된 글이 없습니다.---</td></tr>
 		</c:when>
 		<c:otherwise>
 			<c:forEach items="${lists}" var="dto">
@@ -58,7 +62,7 @@ pageEncoding="UTF-8"%>
 							<td>
 							<jsp:setProperty property="arrowNbsp" name="util" value="${dto.q_depth}" />
 							<jsp:getProperty property="arrowNbsp" name="util" />
-							<a href="qnadetail.do?q_seq=${dto.q_seq}&count=count">	
+							<a href="qnadetail.do?q_seq=${dto.q_seq}&count=count">
 							    ${dto.q_title}</a>
 							</td>
 						</c:otherwise>
@@ -69,9 +73,22 @@ pageEncoding="UTF-8"%>
 			</c:forEach>
 		</c:otherwise>
 	</c:choose>
+		<c:choose>
+		<c:when test="${count==0 }">
+		
+			</c:when><c:otherwise>
+			<tr>
+				<td colspan="10" style="text-align: center;"><c:set var="page"></c:set>
+					<c:forEach var="i" begin="0" step="1" end="${count-1}">
+						<a href="qnamain.do?snum=${i<1?i+1:i+(i*10)}&ennum=${i<1?10:(i+1)*10}">${i+1 }</a>
+					</c:forEach>
+					</td>
+			</tr>
+			</c:otherwise>
+		</c:choose>
 	</table>
 	<div id="insertbutton">
-			<input type="button" value="글추가" onclick="insertForm()"/>
+			<button class="ui olive button" onclick="insertForm()">글추가</button>
 		</div>
 </div>
 </body>

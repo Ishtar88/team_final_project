@@ -14,67 +14,96 @@
   crossorigin="anonymous"></script>
 <script src="resources/assets/semantic.min.js"></script>
 <title>Insert title here</title>
-
+<style type="text/css">
+	.save_update_body_wrap{
+		width: 400px;	
+	}
+</style>
 </head>
 <body>
 <form action="save_update.do" method="post">
 <input type="hidden" name="s_seq" value="${svDto.s_seq }">
-	<table class="save_update_body">
-		<tr>
-			<th>저축분류</th>
-			<td>
+<div class="save_update_body_wrap">
+	<table class="save_update_body ui red table">
+	<tr>
+		<td>
+			저축분류
+				<div class="ui transparent input">
 				<input type="text" name="s_detail" value="${svDto.s_detail }" readonly="readonly">
-			</td>
-		</tr>
+				</div>
+		</td>
+	</tr>
+	<tr>
+		<td>
+		저축/적금/보험명
+		<i class="ellipsis vertica icon"></i>
+			<div class="ui small input">
+			<input type="text" name="s_name" value="${svDto.s_name }">
+			</div>
+		</td>
+	</tr>
+	<tr>
+		<td>
+		매달저축금액
+		<i class="ellipsis vertica icon"></i>
+			<div class="ui small input">
+			<input type="text" name="s_money" value="${svDto.s_money }">
+			</div>
+		</td>
+	</tr>
+	<tr>
+		<td>
+		현재금액
+		<i class="ellipsis vertica icon"></i>
+			<div class="ui transparent input">
+			<input type="text" name="s_add" value="${svDto.s_add }원" readonly="readonly">
+			</div>
+		</td>
+	</tr>
+	<tr>
+		<td>
+		세율
+		<i class="ellipsis vertica icon"></i>
+			<div class="ui small input">
+			<input type="text" name="s_tax" value="${svDto.s_tax }">
+			</div>
+		</td>
+	</tr>
+	<tr>
+		<td>
+		시작날짜
+		<i class="ellipsis vertica icon"></i>
+			<div class="ui small input">
+			<input type="date" name="s_startdate" value='<fmt:formatDate value="${svDto.s_startdate }" pattern="yyyy-MM-dd"/>'>
+			</div>
+		</td>
+	</tr>
+	<tr>
+		<td>
+		만기날짜
+		<i class="ellipsis vertica icon"></i>
+		<div class="ui small input">
+			<input type="date" name="s_enddate" value='<fmt:formatDate value="${svDto.s_enddate }" pattern="yyyy-MM-dd"/>'>
+			</div>
+		</td>
+	</tr>
+	<tr>
+		<td>
+		메모
+		<i class="ellipsis vertica icon"></i>
+		<div class="ui small input">
+			<input type="text" name="s_memo" value="${svDto.s_memo }">
+			</div>
+		</td>
+	</tr>
 		<tr>
-			<th>저축/적금/보험명</th>
 			<td>
-				<input type="text" name="s_name" value="${svDto.s_name }">
-			</td>
-		</tr>
-		<tr>
-			<th>매달저축금액</th>
-			<td>
-				<input type="text" name="s_money" value="${svDto.s_money }">
-			</td>
-		</tr>
-		<tr>
-			<th>현재금액</th>
-			<td>
-				<input type="text" name="s_add" value="${svDto.s_add }" readonly="readonly">
-			</td>
-		</tr>
-		<tr>
-			<th>세율</th>
-			<td>
-				<input type="text" name="s_tax" value="${svDto.s_tax }">
-			</td>
-		</tr>
-		<tr>
-			<th>시작날짜</th>
-			<td>
-				<input type="date" name="st_date" value='<fmt:formatDate value="${svDto.s_startdate }" pattern="yyyy-MM-dd"/>'>
-			</td>
-		</tr>
-		<tr>
-			<th>만기날짜</th>
-			<td>
-				<input type="date" name="en_date" value='<fmt:formatDate value="${svDto.s_enddate }" pattern="yyyy-MM-dd"/>'>
-			</td>
-		</tr>
-		<tr>
-			<th>메모</th>
-			<td>
-				<input type="text" name="s_memo" value="${svDto.s_memo }">
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<input type="submit" value="완료">
-				<input type="button" value="취소" onclick="location.href='acount_cancel.do?acount=save&seq='+${svDto.s_seq }">
+				<button class="ui olive button">완료</button>
+				<div class="ui orange button" onclick="location.href='acount_cancel.do?acount=save&seq='+${svDto.s_seq }">취소</div>
 			</td>
 		</tr>
 	</table>
+</div>
 </form>
 </body>
 </html>

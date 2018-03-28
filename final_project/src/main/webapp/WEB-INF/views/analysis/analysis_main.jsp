@@ -71,7 +71,7 @@
 	 	<div class="spending_pattern_body">
 	 		<div>
 				<h2>지출패턴</h2>
-				<a href="an_consumption_main.do"><span>자세히보기</span></a>
+				<a href="an_consumption_main.do?sMonth=-2&eMonth=-1&year=<%=year%>&month=<%=month%>&lastDay=<%=lastDay%>"><span>자세히보기</span></a>
 	 		</div>
 			<div>
 				<p>지출패턴에 대한 설명</p>

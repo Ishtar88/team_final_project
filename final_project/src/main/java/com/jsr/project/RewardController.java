@@ -281,17 +281,12 @@ public class RewardController {
 
 		MultipartHttpServletRequest multi=(MultipartHttpServletRequest)request;
 		MultipartFile multiFile=multi.getFile("r_file");
+		
 		String r_file="";
+		
 		if(multiFile==null){
+			
 			r_file=rdto.getR_file();
-		}else {
-			r_file=multiFile.getOriginalFilename();
-			rdto.setR_file(r_file);			
-		}
-
-		File f=new File("C:/Users/Owner/git/team_final_project/final_project/src/main/webapp/resources/upload/"+r_file);
-		try {
-			multiFile.transferTo(f);
 			boolean isS=rewardService.updateReward(rdto);
 			if(isS) {
 				System.out.println("수정성공");
@@ -300,13 +295,33 @@ public class RewardController {
 				System.out.println("수정실패");
 				return "redirect:rewardList.do";
 			}
-		} catch (IllegalStateException e) {
-			e.printStackTrace();
-			return "redirect:rewardList.do";
-		} catch (IOException e) {
-			e.printStackTrace();
-			return "redirect:rewardList.do";
+			
+		}else {
+			
+			r_file=multiFile.getOriginalFilename();
+			rdto.setR_file(r_file);			
+			File f=new File("C:/Users/Owner/git/team_final_project/final_project/src/main/webapp/resources/upload/"+r_file);
+			try {
+				multiFile.transferTo(f);
+				boolean isS=rewardService.updateReward(rdto);
+				if(isS) {
+					System.out.println("수정성공");
+					return "redirect:rewardList.do";
+				}else {
+					System.out.println("수정실패");
+					return "redirect:rewardList.do";
+				}
+			} catch (IllegalStateException e) {
+				e.printStackTrace();
+				return "redirect:rewardList.do";
+			} catch (IOException e) {
+				e.printStackTrace();
+				return "redirect:rewardList.do";
+			}
+			
+			
 		}
+
 
 	}
 

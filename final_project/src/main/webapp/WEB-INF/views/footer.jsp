@@ -5,10 +5,16 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<style type="text/css">
+
+	#purple {background-color:#343DEA;}
+
+</style>
 <title>Insert title here</title>
 </head>
 <body>
-  <div class="ui inverted vertical footer segment">
+  <div id="purple" class="ui inverted vertical footer segment">
     <div class="ui container">
       <div class="ui stackable inverted divided equal height stackable grid">
 

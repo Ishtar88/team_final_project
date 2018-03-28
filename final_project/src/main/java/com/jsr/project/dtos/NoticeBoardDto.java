@@ -15,6 +15,30 @@ public class NoticeBoardDto {
 	private int n_readcount;
 	private String n_delflag;
 	
+	private String snum;
+	private String ennum;
+	
+	
+	public String getSnum() {
+		return snum;
+	}
+
+
+	public void setSnum(String snum) {
+		this.snum = snum;
+	}
+
+
+	public String getEnnum() {
+		return ennum;
+	}
+
+
+	public void setEnnum(String ennum) {
+		this.ennum = ennum;
+	}
+
+
 	public NoticeBoardDto() {
 		super();
 	}

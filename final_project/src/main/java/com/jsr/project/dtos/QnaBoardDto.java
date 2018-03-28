@@ -18,7 +18,30 @@ public class QnaBoardDto {
 	private String q_delflag; 
 	private String q_viewable;
 	
+	private String snum;
+	private String ennum;
 	
+	
+	public String getSnum() {
+		return snum;
+	}
+
+
+	public void setSnum(String snum) {
+		this.snum = snum;
+	}
+
+
+	public String getEnnum() {
+		return ennum;
+	}
+
+
+	public void setEnnum(String ennum) {
+		this.ennum = ennum;
+	}
+
+
 	public QnaBoardDto() {
 		super();
 	}

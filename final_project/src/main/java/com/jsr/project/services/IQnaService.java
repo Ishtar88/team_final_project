@@ -6,9 +6,12 @@ import java.util.List;
 import com.jsr.project.dtos.QnaBoardDto;
 
 public interface IQnaService {
+	
+	//페이지카운트 조회
+	public int q_pageCount();
 
 	// 글목록 조회
-	public List<QnaBoardDto> q_getAlllist();
+	public List<QnaBoardDto> q_getAlllist(QnaBoardDto qDto);
 	//새로운 글 쓰기 
 	public boolean q_insertBoard(QnaBoardDto dto); 
 	//글 조횟수

@@ -832,6 +832,7 @@ public class AcountController {
 		iDto.setI_memo(searchDate);
 		
 		System.out.println(searchDate);
+		logger.info("수입목록(iDto): "+iDto);
 		
 		List<IncomeDto> iList=acountService.calendarIncomeDetailSearch(iDto);
 		model.addAttribute("iList", iList);
@@ -840,6 +841,8 @@ public class AcountController {
 		SpendingDto pDto=new SpendingDto();
 		pDto.setId(id);
 		pDto.setP_location(searchDate);
+		model.addAttribute("pDto", pDto);
+		
 		List<SpendingDto> pList= acountService.calendarSpendingDetailSearch(pDto);
 		model.addAttribute("pList", pList);
 		

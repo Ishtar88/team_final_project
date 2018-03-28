@@ -60,6 +60,17 @@ window.onload = function () {
 </script>
 <script type="text/javascript">
 
+	$(function(){
+		var list=$(".acount_list").children().children();
+		
+		
+		for (var i = 0; i < list.length; i++) {
+			list.eq(i).attr("class","item");
+		}
+		
+		list.eq(1).attr("class","active item");
+		
+	});
 
 	function stToggle(){
 		$(".stock_Tr").toggle();
@@ -78,108 +89,137 @@ window.onload = function () {
 	
 	function saveDetail(s_seq){
 		var url='acount_detail.do?acount=save&seq='+s_seq;
-		var prop='width=600px; height=600px;';
+		var prop='width=450px; height=650px; align-content: center;';
 		
 		open(url,'',prop);
 	}
 	
 	function stockDetail(st_seq){
 		var url='acount_detail.do?acount=stock&seq='+st_seq;
-		var prop='width=600px; height=600px;';
+		var prop='width=450px; height=650px;';
 		
 		open(url,'',prop);
 	}
 	
 	function fundDetail(f_seq){
 		var url='acount_detail.do?acount=fund&seq='+f_seq;
-		var prop='width=600px; height=600px;';
+		var prop='width=450px; height=650px;';
 		
 		open(url,'',prop);
 	}
 	
 	function loanDetail(l_seq){
 		var url='acount_detail.do?acount=loan&seq='+l_seq;
-		var prop='width=600px; height=600px;';
+		var prop='width=450px; height=650px;';
 		
 		open(url,'',prop);
 	}
 	
+	$('.ui.sticky')
+	  .sticky({
+	    context: '#insert_acount_icon'
+	  })
+	;
+	
 </script>
-<%
-	Calendar cal=Calendar.getInstance();
-	int year=cal.get(Calendar.YEAR);
-	int lMonth=cal.get(Calendar.MONTH)+1;
-	String month=null;
-	if(lMonth<10){
-		month="0"+lMonth;
-	}
-%>
+
 <style type="text/css">
-	body{position: relative;}
-	.acount_header_wrap{
-		text-align: center;
-		border: 1px;
-	}
-	.acount_canvas_wrap,.acount_total_wrap{
-		align-content: center;
+	.acount_total_wrap{
+	margin:auto;
+		width: 300px; height: 100px;
 	}
 	.acount_body_wrap{
-	
+		align-content: center;
 	}
-	.acount_total_wrap{
-		left: 500px;
-		width: 200px; height: 200px;
-		background-color: grey;
+	.acount_body{
+		margin:auto;
+		width: 700px;
 	}
-	
+	.acount_header_wrap{
+		text-align: center;
+	}
+	.acount_Chart{
+		margin: auto;
+	}
+
+
 </style>
+<%
+	String paramYear = request.getParameter("year");
+	String paramMonth = request.getParameter("month");
+	
+	Calendar cal = Calendar.getInstance();
+	int year = cal.get(Calendar.YEAR);
+	int lMonth = cal.get(Calendar.MONTH) + 1;
+	
+	if (paramYear != null) {
+		year = Integer.parseInt(paramYear);
+	}
+	if (paramMonth != null) {
+		lMonth = Integer.parseInt(paramMonth);
+	}
+	if (lMonth > 12) {
+		lMonth = 1;
+		year++;
+	}
+	if (lMonth == 0) {
+		lMonth = 12;
+		year--;
+	}
+	String sMonth=null;
+	if(lMonth<10){
+		sMonth="0"+lMonth;
+	}else{
+		sMonth=""+lMonth;
+	}
+	int month=Integer.parseInt(sMonth);
+%>
 </head>
 <body>
 <div class="acount_body_wrap">
 	<br>
 		<header>
-			<div class="ui right aligned">
-			    <a class="active item" href="goal_main.do">목표관리</a>
-			    <a class="item" href="acount.do?year=<%=year %>&month=<%=month%>">자산관리</a>
-			    <a class="item" href="income_main.do?year=<%=year%>&month=<%=month%>">수입관리</a>
-			    <a class="item" href="spending_main.do?year=<%=year%>&month=<%=month%>">지출관리</a>
-			    <a class="item" href="calendar_main.do?year=<%=year%>&month=<%=month%>">달력</a>
-		    </div>
+				<div class="acount_list">
+				 	 <a class="ui olive button" href="goal_main.do">목표관리</a>
+					  <a class="ui olive button" href="acount.do?year=<%=year %>&month=<%=month%>">자산관리</a>
+				 	 <a class="ui olive button" href="income_main.do?year=<%=year%>&month=<%=month%>">수입관리</a>
+				 	 <a class="ui olive button" href="spending_main.do?year=<%=year%>&month=<%=month%>">지출관리</a>
+				 	 <a class="ui olive button" href="calendar_main.do?year=<%=year%>&month=<%=month%>">달력</a>
+				 </div>
 		</header>
 	<br>
-		<div class="acount_canvas_wrap">
-			<div id="chartContainer" style="height: 300px; width: 60%;"></div>
-			<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
-		</div>
-		<div class="acount_total_wrap">
-			<div class="acount_total_money">
-				<p class="field">총예산: </p>
-				<div class="field">${aDto.ac_money }</div>
-			</div>
-		</div>
-	<div class="acount_body_wrap">
-		<div class="acount_header_wrap">
-			    <div>
-				    <a class="item" href="acount.do">수정</a>
-				    <a class="item">삭제</a>
-			    </div>
-	    </div>
+	<div class="acount_total_wrap">
+		<table class="ui selectable inverted table">
+			<tr>
+				<td class="acount_total_money">
+					<h2 class="field" style="text-align: center;">총예산: <fmt:formatNumber value="${aDto.ac_money }" type="number"/>원</h2>
+				</td>
+			</tr>
+		</table>
 	</div>
-	<div class="acount_insert_icon">
-		<a href="acount_insert_page.do">저축등록</a>	
+	<div class="acount_Chart">
+		<div class="acount_canvas_wrap">
+				<div id="chartContainer" style="height: 300px; width: 700px;"></div>
+				<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+		</div>
+	</div>
+	<div class="mid_header">
+		<div class="insert_acount_icon">
+				<a href="acount_insert_page.do"><img alt="acount_icon" src="resources/icon/plus.png" style="width: 25px; height: 25px;"></a>	
+		</div>
 	</div>
 		  <!------  ---------->		
 		<!---  저축정보 테이블   ---->
 		  <!------  ---------->
-		<div class="save_body">
-			<div class="save_body">
+		  <div class="acount_body">
+			<div class="save_body" >
 				<header>
-					<a href="#" onclick="svToggle()">
+					<a href="#" href="#" onclick="svToggle()">
 						<img alt="plus/minus_icon" src="resources/icon/down_triangle.png" style="width: 20px; height: 20px;">
 					</a>
 					<span style="vertical-align: middle;">저축</span>
 				</header>
-				<table class="save_Tr" id="svBody" border="1" style="display: none;">
+				<table class="save_Tr ui selectable gray table" id="svBody" border="1">
 					<tr>
 						<th>저축분류</th>
 						<th>저축/적금/보험명</th>
@@ -190,20 +230,36 @@ window.onload = function () {
 					<c:choose>
 						<c:when test="${empty svList }">
 							<tr>
-								<td colspan="7" style="text-align: center;">-------조회된 결과가 없습니다.--------</td>
+								<td class="selectable" colspan="7" style="text-align: center;">-------조회된 결과가 없습니다.--------</td>
 							</tr>
 						</c:when><c:otherwise>
 							<c:forEach items="${svList }" var="svDto">
 								<tr>
-									<td>${svDto.s_detail }</td>
-									<td>
+									<td class="selectable">
+										<a href="#" onclick="saveDetail('${svDto.s_seq}')">
+											${svDto.s_detail }
+										</a>
+									</td>
+									<td class="selectable">
 										<a href="#" onclick="saveDetail('${svDto.s_seq}')">
 											${svDto.s_name }
 										</a>
 									</td>
-									<td>${svDto.s_add } 원</td>
-									<td><fmt:formatDate value="${svDto.s_startdate }" pattern="yyyy-MM-dd"/> </td>
-									<td><fmt:formatDate value="${svDto.s_enddate }" pattern="yyyy-MM-dd"/></td>
+									<td class="selectable">
+										<a href="#" onclick="saveDetail('${svDto.s_seq}')">
+											<fmt:formatNumber value="${svDto.s_add }" type="number"/> 원
+										</a>
+									</td>
+									<td class="selectable">
+										<a href="#" onclick="saveDetail('${svDto.s_seq}')">
+											<fmt:formatDate value="${svDto.s_startdate }" pattern="yyyy-MM-dd"/>
+										</a>
+									</td>
+									<td class="selectable">
+										<a href="#" onclick="saveDetail('${svDto.s_seq}')">
+											<fmt:formatDate value="${svDto.s_enddate }" pattern="yyyy-MM-dd"/>
+										</a>
+									</td>
 								</tr>
 							</c:forEach>
 								<tr>
@@ -214,7 +270,7 @@ window.onload = function () {
 										<c:forEach items="${svList}" var="svDto">
 											<c:set var="total" value="${total+svDto.s_add}" />
 										</c:forEach>
-										${total}
+										<fmt:formatNumber value="${total}" type="number"/>원
 									</td>
 								</tr>	
 						</c:otherwise>
@@ -224,15 +280,14 @@ window.onload = function () {
 		  <!------  ---------->		
 		<!---  주식정보 테이블   ---->
 		  <!------  ---------->
-		<div class="acount_body">
 			<div class="stock_body">
 				<header>
-					<a onclick="stToggle()">
-						<img alt="plus/minus_icon" class="st_icon" src="resources/icon/plus.png" style="width: 20px; height: 20px;">
+					<a href="#" onclick="stToggle()">
+						<img alt="plus/minus_icon" class="st_icon" src="resources/icon/down_triangle.png" style="width: 20px; height: 20px;">
 					</a>
 					<span style="vertical-align: middle;">주식</span>
 				</header>
-				<table class="stock_Tr" border="1" style="display: none;">
+				<table class="stock_Tr ui selectable gray table" border="1">
 					<tr>
 						<th>주식명</th>
 						<th>구매 수량</th>
@@ -244,21 +299,41 @@ window.onload = function () {
 					<c:choose>
 						<c:when test="${empty sList }">
 							<tr>
-								<td colspan="7" style="text-align: center;">-------조회된 결과가 없습니다.--------</td>
+								<td class="selectable" colspan="7" style="text-align: center;">-------조회된 결과가 없습니다.--------</td>
 							</tr>
 						</c:when><c:otherwise>
 							<c:forEach items="${sList }" var="sDto">
 								<tr>
-									<td>
+									<td class="selectable">
 										<a href="#" onclick="stockDetail('${sDto.st_seq}')">
 											${sDto.st_name }
 										</a>
 									</td>
-									<td>${sDto.st_count }</td>
-									<td>${sDto.st_count*sDto.st_money } 원</td>
-									<td>${sDto.st_money/sDto.st_add } %</td>
-									<td>${sDto.st_count*sDto.st_add }원 </td>
-									<td><fmt:formatDate value="${sDto.st_buydate }" pattern="yyyy-MM-dd"/></td>
+									<td class="selectable">
+									<a href="#" onclick="stockDetail('${sDto.st_seq}')">
+										${sDto.st_count }
+									</a>
+									</td>
+									<td class="selectable">
+									<a href="#" onclick="stockDetail('${sDto.st_seq}')">
+										<fmt:formatNumber value="${sDto.st_count*sDto.st_money }" type="number"/> 원
+									</a>
+									</td>
+									<td class="selectable">
+									<a href="#" onclick="stockDetail('${sDto.st_seq}')">
+									<fmt:formatNumber value="${sDto.st_money/sDto.st_add }" pattern="0.00"/> %
+									</a>
+									</td>
+									<td class="selectable">
+									<a href="#" onclick="stockDetail('${sDto.st_seq}')">
+									<fmt:formatNumber value="${sDto.st_count*sDto.st_add }" type="number"/> 원 
+									</a>
+									</td>
+									<td class="selectable">
+									<a href="#" onclick="stockDetail('${sDto.st_seq}')">
+									<fmt:formatDate value="${sDto.st_buydate }" pattern="yyyy-MM-dd"/>
+									</a>
+									</td>
 								</tr>
 							</c:forEach>
 								<tr>
@@ -269,7 +344,7 @@ window.onload = function () {
 										<c:forEach items="${sList}" var="sDto">
 											<c:set var="total" value="${total+(sDto.st_count*sDto.st_add)}" />
 										</c:forEach>
-										${total}
+										<fmt:formatNumber value="${total}" type="number"/> 원
 									</td>
 								</tr>	
 						</c:otherwise>
@@ -282,12 +357,12 @@ window.onload = function () {
 		  <!------  ---------->
 		  	<div class="fund_body">
 				<header>
-					<a onclick="fdToggle()">
-						<img alt="plus/minus_icon" src="resources/icon/plus.png" style="width: 20px; height: 20px;">
+					<a href="#" onclick="fdToggle()">
+						<img alt="plus/minus_icon" src="resources/icon/down_triangle.png" style="width: 20px; height: 20px;">
 					</a>
 					<span style="vertical-align: middle;">펀드</span>
 				</header>
-				<table class="fund_Tr" border="1" style="display: none;">
+				<table class="fund_Tr ui selectable gray table" border="1">
 					<tr>
 						<th>펀드명</th>
 						<th>투자원금</th>
@@ -299,21 +374,41 @@ window.onload = function () {
 					<c:choose>
 						<c:when test="${empty fList }">
 							<tr>
-								<td colspan="7" style="text-align: center;">-------조회된 결과가 없습니다.--------</td>
+								<td class="selectable" colspan="7" style="text-align: center;">-------조회된 결과가 없습니다.--------</td>
 							</tr>
 						</c:when><c:otherwise>
 							<c:forEach items="${fList }" var="fDto">
 								<tr>
-									<td>
+									<td class="selectable">
 										<a href="#" onclick="fundDetail('${fDto.f_seq}')">
 											${fDto.f_name }
 										</a>
 									</td>
-									<td>${fDto.f_money }</td>
-									<td>${fDto.f_money/fDto.f_add }</td>
-									<td>${fDto.f_add }</td>
-									<td><fmt:formatDate value="${fDto.f_buydate }" pattern="yyyy-MM-dd"/></td>
-									<td><fmt:formatDate value="${fDto.f_enddate }" pattern="yyyy-MM-dd"/></td>
+									<td class="selectable">
+										<a href="#" onclick="fundDetail('${fDto.f_seq}')">
+											<fmt:formatNumber value="${fDto.f_money }" type="number"/> 원
+										</a>
+									</td>
+									<td class="selectable">
+										<a href="#" onclick="fundDetail('${fDto.f_seq}')">
+											<fmt:formatNumber value="${fDto.f_money/fDto.f_add }" pattern="0.00"/>
+										</a>
+									</td>
+									<td class="selectable">
+										<a href="#" onclick="fundDetail('${fDto.f_seq}')">
+											<fmt:formatNumber value="${fDto.f_add }" type="number"/> 원
+										</a>
+									</td>
+									<td class="selectable">
+										<a href="#" onclick="fundDetail('${fDto.f_seq}')">
+											<fmt:formatDate value="${fDto.f_buydate }" pattern="yyyy-MM-dd"/>
+										</a>
+									</td>
+									<td class="selectable">
+										<a href="#" onclick="fundDetail('${fDto.f_seq}')">
+											<fmt:formatDate value="${fDto.f_enddate }" pattern="yyyy-MM-dd"/>
+										</a>
+									</td>
 								</tr>
 							</c:forEach>
 								<tr>
@@ -324,7 +419,7 @@ window.onload = function () {
 										<c:forEach items="${fList}" var="fDto">
 											<c:set var="total" value="${total+fDto.f_add}" />
 										</c:forEach>
-										${total}
+										<fmt:formatNumber value="${total}" type="number"/> 원
 									</td>
 								</tr>	
 						</c:otherwise>
@@ -336,12 +431,12 @@ window.onload = function () {
 		  <!------  ---------->
 		  	<div class="loan_body">
 				<header>
-					<a onclick="lnToggle()">
-						<img alt="plus/minus_icon" src="resources/icon/plus.png" style="width: 20px; height: 20px;">
+					<a href="#" onclick="lnToggle()">
+						<img alt="plus/minus_icon" src="resources/icon/down_triangle.png" style="width: 20px; height: 20px;">
 					</a>
 					<span style="vertical-align: middle;">대출</span>
 				</header>
-				<table class="loan_Tr" border="1" style="display: none;">
+				<table class="loan_Tr ui selectable gray table" border="1">
 					<tr>
 						<th>대출명</th>
 						<th>대출원금</th>
@@ -352,20 +447,36 @@ window.onload = function () {
 					<c:choose>
 						<c:when test="${empty lList }">
 							<tr>
-								<td colspan="7" style="text-align: center;">-------조회된 결과가 없습니다.--------</td>
+								<td class="selectable" colspan="7" style="text-align: center;">-------조회된 결과가 없습니다.--------</td>
 							</tr>
 						</c:when><c:otherwise>
 							<c:forEach items="${lList }" var="lDto">
 								<tr>
-									<td>
+									<td class="selectable">
 										<a href="#" onclick="loanDetail('${lDto.l_seq}')">
 											${lDto.l_name }
 										</a>
 									</td>
-									<td>${lDto.l_money }</td>
-									<td>${lDto.l_bal }</td>
-									<td><fmt:formatDate value="${lDto.l_startdate }" pattern="yyyy-MM-dd"/></td>
-									<td><fmt:formatDate value="${lDto.l_enddate }" pattern="yyyy-MM-dd"/></td>
+									<td class="selectable">
+									<a href="#" onclick="loanDetail('${lDto.l_seq}')">
+									<fmt:formatNumber value="${lDto.l_money }" type="number"/> 원
+									</a>
+									</td>
+									<td class="selectable">
+									<a href="#" onclick="loanDetail('${lDto.l_seq}')">
+									<fmt:formatNumber value="${lDto.l_bal }" type="number"/> 원
+									</a>
+									</td>
+									<td class="selectable">
+									<a href="#" onclick="loanDetail('${lDto.l_seq}')">
+									<fmt:formatDate value="${lDto.l_startdate }" pattern="yyyy-MM-dd"/>
+									</a>
+									</td>
+									<td class="selectable">
+									<a href="#" onclick="loanDetail('${lDto.l_seq}')">
+									<fmt:formatDate value="${lDto.l_enddate }" pattern="yyyy-MM-dd"/>
+									</a>
+									</td>
 								</tr>
 							</c:forEach>
 								<tr>
@@ -374,9 +485,9 @@ window.onload = function () {
 									<td>
 											<c:set var="total" value="0" />
 										<c:forEach items="${lList}" var="lDto">
-											<c:set var="total" value="${lDto.l_money-lDto.l_remane}" />
+											<c:set var="total" value="${total+lDto.l_money}" />
 										</c:forEach>
-										${total}
+										<fmt:formatNumber value="${total}" type="number"/> 원
 									</td>
 								</tr>	
 						</c:otherwise>
@@ -384,8 +495,7 @@ window.onload = function () {
 				</table>
 			</div>
 		</div>
-			
-		</div>
 	</div>
+
 </body>
 </html>

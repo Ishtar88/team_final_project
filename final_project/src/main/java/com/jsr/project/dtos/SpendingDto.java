@@ -37,7 +37,35 @@ public class SpendingDto {
 	private int rownum;
 	private int total;
 	
+	private int sum_money;
+	private String analysis;
+	private int ranknum;
 	
+	
+
+	public int getRanknum() {
+		return ranknum;
+	}
+
+	public void setRanknum(int ranknum) {
+		this.ranknum = ranknum;
+	}
+
+	public int getSum_money() {
+		return sum_money;
+	}
+
+	public void setSum_money(int sum_money) {
+		this.sum_money = sum_money;
+	}
+
+	public String getAnalysis() {
+		return analysis;
+	}
+
+	public void setAnalysis(String analysis) {
+		this.analysis = analysis;
+	}
 
 	public int getRownum() {
 		return rownum;
@@ -213,8 +241,11 @@ public class SpendingDto {
 				+ ", p_location=" + p_location + ", p_regdate=" + p_regdate + ", p_money=" + p_money + ", p_some="
 				+ p_some + ", p_cashable=" + p_cashable + ", p_card=" + p_card + ", p_sat=" + p_sat + ", p_need="
 				+ p_need + ", p_count=" + p_count + ", p_step=" + p_step + ", g_name=" + g_name + ", g_money=" + g_money
-				+ ", rownum=" + rownum + ", total=" + total + "]";
+				+ ", rownum=" + rownum + ", total=" + total + ", sum_money=" + sum_money + ", analysis=" + analysis
+				+ ", ranknum=" + ranknum + "]";
 	}
+
+	
 
 	
 

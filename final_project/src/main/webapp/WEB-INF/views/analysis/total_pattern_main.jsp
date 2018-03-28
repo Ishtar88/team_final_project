@@ -27,6 +27,22 @@
 <script type="text/javascript"
 	src="http://code.jquery.com/jquery-latest.js"></script>
 <script>
+
+// function pick(){
+// 	$("a").attr("class","item");
+// 	var pick=$(".item");
+	
+// 	switch (key) {
+// 	case value:
+		
+// 		break;
+
+// 	default:
+// 		break;
+// 	}
+// }
+
+
 	window.onload = function() {
 
 		var spend_ratio = parseFloat($("#spend_ratio").text());
@@ -61,11 +77,14 @@
 
 		var year = $("input[name=year]").val();
 		var month = $("input[name=month]").val();
-
+		var lastDay = $("input[name=lastDay]").val();
+		var sMonth = $("input[name=sMonth]").val();
+		var eMonth = $("input[name=eMonth]").val();
+		
 		$.ajax({
 			url : "total_pattern_main_ajax.do",
 			type : "post",
-			data : "year=" + year + "&month=" + month,
+			data : "year=" + year + "&month=" + month+"&lastDay="+lastDay+"&sMonth="+sMonth+"&eMonth="+eMonth,
 			datetype : "json",
 			success : function(obj) {
 
@@ -264,7 +283,9 @@ display: inline-block;
 
 	<input type="hidden" name="year" value="<%=year%>" />
 	<input type="hidden" name="month" value="<%=month%>" />
-
+	<input type="hidden" name="lastDay" value="<%=lastDay%>" />
+	<input type="hidden" name="sMonth" value="${sMonth}" />
+	<input type="hidden" name="eMonth" value="${eMonth}" />
 
 <p>카테고리별 상세내역</p>
 	<table border="1" id="chart2-2" class="ui unstackable table">

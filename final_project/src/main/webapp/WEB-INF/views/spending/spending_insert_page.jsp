@@ -24,6 +24,10 @@
 </c:if>
 <script type="text/javascript">
 	$(function() {
+		
+		/* 									 */
+		/* css는 바뀌지만 semantic에서는 작동이 안됨 */
+		/* 									 */
 		$("input[name=p_some]").click(function() {
 			var chk = $(this).val();
 			if (chk == '현금') {
@@ -314,18 +318,24 @@
 	
 </script>
 <style type="text/css">
-.cashable_form, .card_form {
-	display: none;
+
+.spending_form_body_wrap{
+	width: 300px;
+}
+#name,#detail,#card,#some,#radio{
+	display: inline-block;
 }
 </style>
 </head>
 <body>
 	<form action="spending_insert.do" method="post">
-		<table class="spending_form_body" border="1">
+	<div class="spending_form_body_wrap">
+		<table class="spending_form_body ui olive table">
 			<tr>
-				<th>지출 대분류</th>
 				<td>
-					<select name="p_name" style="width: 100px;">
+				지출 대분류
+				<i class="ellipsis vertica icon"></i>
+					<select class="ui fluid mini dropdown" id="name" name="p_name" style="width: 150px;">
 						<option>------------------</option>
 						<optgroup label="생활">
 							<option value="식사">식사</option>
@@ -358,9 +368,10 @@
 				</td>
 			</tr>
 			<tr>
-				<th>지출 소분류</th>
 				<td>
-					<select name="p_detail">
+				지출 소분류
+					<i class="ellipsis vertica icon"></i>
+					<select class="ui fluid mini dropdown" id="detail" name="p_detail" style="width: 150px;">
 						<optgroup label="소분류">
 							<option>소분류</option>
 						</optgroup>
@@ -368,29 +379,45 @@
 				</td>
 			</tr>
 			<tr>
-				<th>지출 장소</th>
-				<td><input type="text" name="p_location" required="required">
+				<td>
+				지출 장소
+									<i class="ellipsis vertica icon"></i>
+				<div class="ui mini input">
+				<input type="text" name="p_location" required="required">
+				</div>
 				</td>
 			</tr>
 			<tr>
-				<th>금액</th>
-				<td><input type="text" name="p_money" required="required">
+				<td>
+				금액
+									<i class="ellipsis vertica icon"></i>
+				<div class="ui mini input">
+				<input type="text" name="p_money" required="required">
+				</div>
 				</td>
 			</tr>
 			<tr>
-				<th>지출수단</th>
-				<td><input type="radio" name="p_some" value="현금">현금
-					&nbsp; <input type="radio" name="p_some" value="카드">카드</td>
+				<td>
+				지출수단
+				<i class="ellipsis vertica icon"></i>
+				<input type="radio" name="p_some" value="현금" checked="" tabindex="0" class="hidden"><label>현금</label>
+					&nbsp; <input type="radio" name="p_some" value="카드" checked="" tabindex="0" class="hidden"><label>카드</label>
+					</td>
 			</tr>
 			<tr class="cashable_form">
-				<th>현금영수증여부</th>
-				<td><input type="radio" name="p_cashable" value="Y">발급
-					&nbsp; <input type="radio" name="p_cashable" value="N">미발급</td>
+				<td>
+				현금영수증여부
+					<i class="ellipsis vertica icon"></i>
+						<input type="radio" name="p_cashable" value="Y">발급
+						&nbsp; 
+						<input type="radio" name="p_cashable" value="N">미발급
+					</td>
 			</tr>
 			<tr class="card_form">
-				<th>할부</th>
 				<td>
-					<select name="p_card">
+					할부
+					<i class="ellipsis vertica icon"></i>
+					<select class="ui fluid mini dropdown" id="card" name="p_card" style="width: 150px;">
 							<option value="1">일시불</option>
 							<c:forEach var="i" begin="2" end="12" step="1">
 								<option value="${i }">${i }개월</option>
@@ -400,14 +427,18 @@
 				</td>
 			</tr>
 			<tr>
-				<th>지출날짜</th>
 				<td>
+				지출날짜
+									<i class="ellipsis vertica icon"></i>
+				<div class="ui mini input">
 					<input type="date" name="buydate" required="required">
+					</div>
 				</td>
 			</tr>
 			<tr>
-				<th>만족도</th>
 					<td>
+				만족도
+					<i class="ellipsis vertica icon"></i>
 						<c:forEach var="i" begin="1" end="5" step="1">
 							<img alt="star" src="resources/icon/star_empty.png" id="satImage${i}" onclick="satChk('${i}')" onmouseover="satShow('${i}')" onmouseout="satNoShow('${i}')">
 						</c:forEach>
@@ -415,8 +446,9 @@
 					</td>
 			</tr>
 			<tr>
-				<th>필요성</th>
 						<td>
+				필요성
+				<i class="ellipsis vertica icon"></i>
 							<c:forEach var="i" begin="1" end="5" step="1">
 								<img alt="star" src="resources/icon/star_empty.png" id="needImage${i}" onclick="needChk('${i}')" onmouseover="needShow('${i}')" onmouseout="needNoShow('${i}')">
 							</c:forEach>
@@ -427,20 +459,21 @@
 					<c:when test="${command.equals('calendar') }">
 						<tr>
 							<td colspan="2">
-								<input type="submit" value="등록"> 
-								<input type="button" value="돌아가기" onclick="location.href='calendar_detail.do?searchDate=${searchDate}'">
+								<button class="ui olive button">등록</button> 
+								<div class="ui orange button" onclick="location.href='calendar_detail.do?searchDate=${searchDate}'">돌아가기</div>
 							</td>
 						</tr>
 					</c:when><c:otherwise>
 						<tr>
 							<td colspan="2">
-								<input type="submit" value="등록"> 
-								<input type="button" value="취소" onclick="self.close()">
+								<button class="ui olive button">등록</button>
+								<div class="ui orange button" onclick="self.close()">취소</div>
 							</td>
 						</tr>
 					</c:otherwise>
 				</c:choose>
 		</table>
+		</div>
 	</form>
 </body>
 </html>

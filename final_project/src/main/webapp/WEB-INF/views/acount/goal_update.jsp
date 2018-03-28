@@ -56,8 +56,8 @@
 			</div>
 		</div>
 			<div class="ui dividing header"></div>
-			<button class="ui right aligned olive button">목표설정</button>
-			<button class="ui right aligned button">취소</button>
+			<button class="ui olive button">목표설정</button>
+			<button class="ui button">취소</button>
 		</form>
 	</div>
 </div>

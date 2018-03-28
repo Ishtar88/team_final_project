@@ -1,140 +1,149 @@
-<%@page import="java.util.List" %>
-<%@page import="java.nio.charset.Charset" %>
+<%@page import="java.util.List"%>
+<%@page import="java.nio.charset.Charset"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%request.setCharacterEncoding("UTF-8"); %>
-<%response.setContentType("text/html; charset=UTF-8"); %>
-<%@taglib uri="http://java.sun.com/jsp/jstl/core"  prefix="c"%>
-<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="f" %>
+	pageEncoding="UTF-8"%>
+<%
+	request.setCharacterEncoding("UTF-8");
+%>
+<%
+	response.setContentType("text/html; charset=UTF-8");
+%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="f"%>
 <jsp:include page="..\manager/manager_header.jsp"></jsp:include>
-<jsp:useBean id="util" class="com.jsr.project.util.Util"/>
+<jsp:useBean id="util" class="com.jsr.project.util.Util" />
 <!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" type="text/css"
+	href="resources/assets/semantic.min.css">
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"
+	integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+	crossorigin="anonymous"></script>
+<script src="resources/assets/semantic.min.js"></script>
 <title>회원 정보 보기</title>
 </head>
 <style type="text/css">
-
+.field {
+	display: inline-block;
+	width: 150px;
+}
 
 </style>
 <script type="text/javascript"
 	src="http://code.jquery.com/jquery-latest.js"></script>
 <script type="text/javascript">
-	function searchId(){
-		
-		var id = $("input[name=id]").val();
-		alert(id);
-		
-		
+
+function searchUser() {
+	var category = $("select[name=category]").val();
+	var search = $("input[name=search]").val();
+	
+	if(search==""){
+		alert("검색어를 입력 해 주세요");
+	}else{
 		$.ajax({
-			url:"searchMember.do",
-			data:"id="+id,
-			type="get",
-			datetype="json", 
-			success function(obj){
-				goToSearched(obj);
+			url : "searchUser.do",
+			data : "category=" + category + "&search=" + search,
+			type : "post",
+			datetype : "json",
+			success : function(obj) {
+				//alert(obj["list"][0]["id"]);
+				if (obj["list"][0]== null) {
+					alert("검색 내역이 없습니다.");
+				} else {
+					makeTable(obj);
+				}
 			}
 		});
 	}
-	
-	
-	
-// 		function goToSearched(obj){
-// 	$(".show_table").remove(); 
-	// 		var lists = obj.list; 
-			
-// 			for(var i =0, i<lists.length; i++){
-// 				var dto=lists[i]; 
-// 				$("show_table").children(
-// 						"<table><tr><th>아이디 </th><th>이름</th><th>이메일</th><th>비밀번호</th><th>연락처</th><th>생년월일</th><th>프로필이미지</th><th>나이</th><th>성별</th><th>등급</th><th>주소</th><th>직업</th><th>가입날짜</th><th>목표갱신일</th><th>탈퇴여부</th><th>결혼여부</th><th>관심분야</th></tr><tr><td>" 
-// 						+ dto.id + "</td><td>" + dto.m_name +" </td><td>" + dto.m_email + "</td><td>"+ dto.m_password+
-// 						"</td><td>"+ dto.m_phone + "</td><td>"+${dto.m_birthdate}+ "</td><td>" +${dto.m_profile_img}+
-// 						"</td><td>" + ${dto.m_age} + "</td><td>"+${dto.m_gender}+"</td><td>"+${dto.m_grade}+
-// 						"</td><td>"+${dto.m_address}+"</td><td>" + ${dto.m_job} + "</td><td>" + ${dto.m_regdate}+
-// 						"</td><td>" +{dto.m_goaldate}+ "</td><td>" +${dto.m_useable} +"</td><td>"+ ${dto.m_mariable}+
-// 						"</td><td>"+${dto.m_favorite}+"</td></tr></table>");
-// 			}
-// 		}
-		
-// 		function modifyMember(id){
-// 			location.href="modifyMember.do?id="id; 
-// 		}
-		
-// 		function deleteMember(id){
-// 			location.href="deleteMember.do?id="id; 
-// 		}
 
-</script> 
+	
+}
+
+function makeTable(obj) {
+	var lists = obj.list;
+	$("#all").remove();
+	$("#searchResult").children().remove();
+
+	var str = "";
+	$("#searchResult").append("<thead><tr id='searchResult2'><th>아이디</th><th>이름</th><th>이메일</th><th>연락처</th><th>성별</th><th>등급</th><th>주소</th><th>가입일</th><th>탈퇴여부</th></tr></thead>");
+	for (var i = 0; i < lists.length; i++) {
+		var mdto = lists[i];
+		
+		str += "<tr><td>"+ mdto.id + "</td><td>"+mdto.m_name+"</td><td>"+mdto.m_email+"</td><td>"+mdto.m_phone+"</td><td>"+mdto.m_gender+
+		"</td><td>"+mdto.m_grade+"</td><td>"+mdto.m_address+"</td><td>"+mdto.m_regDate+"</td><td>"+mdto.m_useable+"</td></tr>";
+		
+
+	}
+	$("#searchResult2").after(str);
+}
+
+
+</script>
 <body>
-<!-- 회원검색~ -->
-아이디를 입력하세요! 
-<table>
-<tr>
-<td><input type="text" name="id"></td>
-<td><input type="button" value="id" onclick="searchId()"></td>
-</tr>
-</table>
-<div class="show_table">
-<!-- 회원정렬~ -->
-	<table border="1" class="members_table">
+	<div class="field">
+		<select class="ui fluid search dropdown" name="category">
+			<option value="id">아이디</option>
+			<option value="m_name">이름</option>
+			<option value="m_phone">전화번호</option>
+		</select>
+	</div>
+	<div class="ui icon input">
+		<input type="text" placeholder="Search..." name="search">
+		<button class="ui yellow button" onclick="searchUser()">검색</button>
+		<button class="ui olive button" onclick="searchAll()">전체검색</button>
+	</div>
+
+	<!-- 회원정렬-->
+	<table class="ui single line table" id="all">
+	<thead>
 		<tr>
 			<th>아이디</th>
 			<th>이름</th>
 			<th>이메일</th>
-			<th>비밀번호</th>
 			<th>연락처</th>
-			<th>생년월일</th>
-			<th>프로필이미지</th>
-			<th>나이</th>
 			<th>성별</th>
 			<th>등급</th>
 			<th>주소</th>
-			<th>직업</th>
-			<th>가입날짜</th>
-			<th>목표갱신일</th>
+			<th>가입일</th>
 			<th>탈퇴여부</th>
-			<th>결혼여부</th>
-			<th>관심분야</th>
-			<th>회원관리</th>
 		</tr>
-			<c:choose>
-				<c:when test="${empty lists}">
+	</thead>
+	<tbody>
+		<c:choose>
+			<c:when test="${empty list}">
 				<tr>
-					<td colspan="17">--가입한 회원이 없습니다.</td>
+					<td colspan="17">가입한 회원이 없습니다.</td>
 				</tr>
-				</c:when>
-				<c:otherwise>
-					<c:forEach items="${lists}" var="dto">
-						<tr>
-						<td>${dto.id}</td>
-						<td>${dto.m_name}</td>
-						<td>${dto.m_email}</td>
-						<td>${dto.m_password}</td>
-						<td>${dto.m_phone}</td>
-						<td>${dto.m_birthDate}</td>
-						<td>${dto.m_profile_img}</td>
-						<th>${dto.m_age}</th>
-						<td>${dto.m_gender}</td>
-						<td>${dto.m_grade}</td>
-						<td>${dto.m_address}</td>
-						<td>${dto.m_job}</td>
-						<td>${dto.m_regDate}</td>
-						<td>${dto.m_goalDate}</td>
-						<td>${dto.m_useable}</td>
-						<td>${dto.m_mariable}</td>
-						<td>${dto.m_favorite}</td>
-							<td>
-								<input type="button"  value="정보수정" onclick="modifyMember(${dto.id})"/>
-								<input type="button"  value="강제탈퇴" onclick="deleteMember(${dto.id})"/>
-							</td>
-						</tr>
-					</c:forEach>
-				</c:otherwise>
-			</c:choose>
-	</table>
-</div>
+			</c:when>
+			<c:otherwise>
+				<c:forEach items="${list}" var="mdto">
+					<tr>
+						<td>${mdto.id}</td>
+						<td>${mdto.m_name}</td>
+						<td>${mdto.m_email}</td>
+						<td>${mdto.m_phone}</td>
+						<td>${mdto.m_gender}</td>
+						<td>${mdto.m_grade}</td>
+						<td>${mdto.m_address}</td>
+						<td><f:formatDate value="${mdto.m_regDate}"
+								pattern="yyyy-MM-dd" /></td>
+						<td>${mdto.m_useable}</td>
 
+						<td>
+							<div class="ui button" onclick="deleteMember(${dto.id})">탈퇴</div>
+						</td>
+					</tr>
+				</c:forEach>
+			</c:otherwise>
+		</c:choose>
+	</tbody>
+	</table>
+
+	<table id="searchResult" class="ui single line table">
+
+	</table>
 </body>
 </html>
 

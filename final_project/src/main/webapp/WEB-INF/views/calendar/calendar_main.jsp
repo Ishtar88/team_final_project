@@ -20,6 +20,18 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 <script type="text/javascript">
+
+	$(function(){
+		var list=$(".acount_list").children().children();
+		
+		
+		for (var i = 0; i < list.length; i++) {
+			list.eq(i).attr("class","item");
+		}
+		
+		list.eq(5).attr("class","active item");
+		
+	});
 	
 	function calendar_detail(day){
 		var year=document.getElementsByClassName("paramYear")[0].innerHTML;
@@ -35,7 +47,7 @@
 		var search=year+"-"+month+"-"+day;
 		
 		var url="calendar_detail.do?searchDate="+search;
-		var prop="width=600px; height=600px;";
+		var prop="width=800px; height=450px;";
 		
 		open(url,'',prop);
 	}
@@ -48,25 +60,32 @@
 
 	String paramYear = request.getParameter("year");
 	String paramMonth = request.getParameter("month");
-
+	
 	Calendar cal = Calendar.getInstance();
 	int year = cal.get(Calendar.YEAR);
-	int month = cal.get(Calendar.MONTH) + 1;
-
+	int lMonth = cal.get(Calendar.MONTH) + 1;
+	
 	if (paramYear != null) {
 		year = Integer.parseInt(paramYear);
 	}
 	if (paramMonth != null) {
-		month = Integer.parseInt(paramMonth);
+		lMonth = Integer.parseInt(paramMonth);
 	}
-	if (month > 12) {
-		month = 1;
+	if (lMonth > 12) {
+		lMonth = 1;
 		year++;
 	}
-	if (month == 0) {
-		month = 12;
+	if (lMonth == 0) {
+		lMonth = 12;
 		year--;
 	}
+	String sMonth=null;
+	if(lMonth<10){
+		sMonth="0"+lMonth;
+	}else{
+		sMonth=""+lMonth;
+	}
+	int month=Integer.parseInt(sMonth);
 	
 	
 
@@ -77,18 +96,24 @@
 <style type="text/css">
 .calender {
 	width: 800px;
-	height: 800px;
+	height: 700px;
 }
 
-.calendar th {
-	width: 50px;
-	vertical-align: top;
+th {
+	width: 30px;
+	vertical-align: middle;
+	text-align: center;
 }
 
-.calendar td {
+td {
 	width: 100px;
 	height: 120px;
+	cursor: pointer;
 	vertical-align: top;
+	
+}
+td>div{
+	text-align: center;
 }
 
 </style>
@@ -97,21 +122,21 @@
 	<div class="acount_body_wrap">
 	<br>
 		<header>
-			<div class="ui right aligned">
-				<a class="item" href="goal_main.do">목표관리</a> 
-				<a class="item" href="acount.do?year=<%=year %>&month=<%=month%>">자산관리</a>
-				<a class="item" href="income_main.do?year=<%=year%>&month=<%=month%>">수입관리</a> 
-				<a class="active item" href="spending_main.do?year=<%=year%>&month=<%=month%>">지출관리</a> 
-				<a class="item" href="calendar_main.do?year=<%=year%>&month=<%=month%>">달력</a>
-			</div>
+				<div class="acount_list">
+				 	 <a class="ui olive button" href="goal_main.do">목표관리</a>
+					  <a class="ui olive button" href="acount.do?year=<%=year %>&month=<%=month%>">자산관리</a>
+				 	 <a class="ui olive button" href="income_main.do?year=<%=year%>&month=<%=month%>">수입관리</a>
+				 	 <a class="ui olive button" href="spending_main.do?year=<%=year%>&month=<%=month%>">지출관리</a>
+				 	 <a class="ui olive button" href="calendar_main.do?year=<%=year%>&month=<%=month%>">달력</a>
+				 </div>
 		</header>
 	<br>
 		<div class="calendar_body">
-			<table class="calender" border="1">
+			<table class="calender ui celled table" border="1">
 				<caption>
 					<a href="calendar_main.do?year=<%=year - 1%>&month=<%=month%>">◁◁</a> 
 					<a href="calendar_main.do?year=<%=year%>&month=<%=month - 1%>">◀</a> 
-						<span class="paramYear"><%=year%></span>년<span class="paramMonth"><%=month%></span>월</a>
+						<span class="paramYear"><%=year%></span>년<span class="paramMonth"><%=month%></span>월
 					<a href="calendar_main.do?year=<%=year%>&month=<%=month + 1%>">▶</a> 
 					<a href="calendar_main.do?year=<%=year + 1%>&month=<%=month%>">▷▷</a>
 				</caption>
@@ -133,7 +158,7 @@
 					}
 						for(int i=1;i<=lastDay;i++){
 						%>
-						<td><a href="#" onclick="calendar_detail('<%=i %>')"  ><%=i %></a>
+						<td onclick="calendar_detail('<%=i %>')"><p><%=i %></p>
 							<div>
 							<%
 								List<IncomeDto> iList = (List<IncomeDto>) request.getAttribute("iList");
@@ -147,7 +172,7 @@
 									if(date==i){
 										%>
 												<div>
-													<a href="#" style="color: blue;"><%=iDto.getI_money()%></a>
+													<a style="color: blue;"><%=iDto.getI_money()%></a>
 												</div>
 										<%
 										
@@ -164,8 +189,9 @@
 									if(date==i){
 										%>
 												<div>
-													<a href="#" style="color: red;">-<%=pDto.getP_money()%></a>
+													<a style="color: red;">-<%=pDto.getP_money()%></a>
 												</div>
+
 										<%
 										
 								}
@@ -193,5 +219,7 @@
 
 			</table>
 		</div>
+	</div>
+
 </body>
 </html>

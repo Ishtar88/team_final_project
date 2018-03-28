@@ -59,64 +59,36 @@ public class ManagerController {
 /////////////////////////////////////////회원메뉴///////////////////////////	
 	
 //	회원 열람 페이지로 이동하기 
-	@RequestMapping(value="showMember.do", method= RequestMethod.GET)
-	public String showMember(Model model) {
-		logger.info("회원정보 열람으로이동합니다");
-		List<MembersDto> lists=managerService.getAllMember();
-		model.addAttribute("lists", lists);
-		System.out.println(lists.size());
+	@RequestMapping(value="getAllMember.do", method= RequestMethod.GET)
+	public String getAllMember(Model model) {
+		List<MembersDto> list=managerService.getAllMember();
+		model.addAttribute("list", list);
 		return "manager/showMember";
 	}
 	
-//	회원 검색 결과 출력 페이지 
 	@ResponseBody
-	@RequestMapping(value="searchMember.do", method=RequestMethod.GET)
-	public Map<String, List<MembersDto>> searchMember(HttpServletRequest request,MembersDto dto) {
-		logger.info("회원 검색결과 페이지로 이동합니다.");
-		String id = request.getParameter("id");
-		Map<String, List<MembersDto>>  map=new HashMap<String, List<MembersDto>>();
-		List<MembersDto> list=managerService.getSearchedMember(id);
+	@RequestMapping(value="searchUser.do", method= RequestMethod.POST)
+	public Map<String, List<MembersDto>> searchUser(Model model,MembersDto mdto,String category,String search) {
+		
+		List<MembersDto> list=null;
+		
+		if(category.equals("id")){
+			list=managerService.searchById(search);
+		}else if(category.equals("m_name")) {
+			list=managerService.searchByName(search);
+		}else if(category.equals("m_phone")) {
+			list=managerService.searchByPhone(search);
+		}
+		
+		System.out.println(list.size());
+		System.out.println(list.get(0));
+		Map<String, List<MembersDto>> map=new HashMap<String,List<MembersDto>>();
 		map.put("list", list);
-		return map;  //페이지로 이동해야지!!! 
+		
+		return map;
 	}
 	
-	@RequestMapping(value="modifyMember.do", method=RequestMethod.GET)
-	public String modifyMember(Model model, String id) {
-		logger.info("하아아아아아.....");
-		MembersDto dto = managerService.modifyMember(id); 
-		model.addAttribute(dto); 
-		return "manager/modifyMember"; 
-	}
-	
-	@RequestMapping(value="afterModifyMember.do", method=RequestMethod.POST)
-	public String modifyMember(MembersDto dto) {
-		logger.info("하아아아아아.....");
-		boolean isc=managerService.afterModifyMember(dto); 
-		if (isc) {
-			return "redirect:manager/showMember.do";
-		}else {
-			return "redirect:manager/modifyMember.do";
-		}
-	}
-	
-	@RequestMapping(value="deleteMember.do", method=RequestMethod.GET)
-	public String deleteMember(Model model, String id) {
-		logger.info("회원삭제 확인페이지로 이동하기.....");
-		MembersDto dto = managerService.deleteMember(id); 
-		model.addAttribute(dto); 
-		return "manager/deleteMember"; 
-	}
-	
-	@RequestMapping(value="confirmDelete.do", method=RequestMethod.GET)
-	public String confirmDelete(String id) {
-		logger.info("회원삭제 확인페이지로 이동하기.....");
-		boolean isS = managerService.confirmDelete(id); 
-		if (isS) {
-			return "redirect:showMember.do"; 
-		} else {
-			return "redirect:deleteMember.do"; 
-		}
-	}
+
 
 ////////////////회사/상품 관리 ///////////////////////////////////////////////////////////////////////////////////////
 	
@@ -141,151 +113,6 @@ public class ManagerController {
 	}
 	
 
-	
-	
-	
-	
-//고객센터 관리////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	//게시판 메뉴 선택 페이지     
-	@RequestMapping(value="manager_customer.do", method = {RequestMethod.POST, RequestMethod.GET})
-	public String manager_customer() {
-	logger.info("게시판 메뉴 선택");
-	return "manager/manager_customer";
-	}
-	
-	
-	
-//공지 게시판 목록 보기    
-@RequestMapping(value="manager_notice.do", method = {RequestMethod.POST, RequestMethod.GET})
-public String manager_notice(Model model) {
-logger.info("notice board main page");
-List<NoticeBoardDto> lists=noticeService.n_getAllList(); 
-model.addAttribute("lists", lists);
-return "manager/manager_noticeboard";
-}
-
-//공지게시판 글 상세내역 읽기 
-@RequestMapping (value="manager_notice_detail.do", method={RequestMethod.POST, RequestMethod.GET})
-public String manager_notice_detail(Model model, int n_seq,String count){
-	logger.info("notice board detail page"); 
-	NoticeBoardDto dto = noticeService.n_detailBoard(n_seq,count);
-	model.addAttribute("dto", dto);
-	
-	return "manager/manager_noticeboard_detail"; 
-}
-
-//공지게시판 새로운 게시글 입력 폼으로 이동 
-@RequestMapping(value="insertnoticeform.do", method= {RequestMethod.POST,RequestMethod.GET})
-public String insertnoticeform() {
-	logger.info("notice board insert page");
-	return "manager_noticeinsertform"; 
-}
-
-//공지게시판 새로운 게시글 등록 
-@RequestMapping(value="insertnotice.do", method= {RequestMethod.GET})
-public String insertnotice(NoticeBoardDto dto) {
-	logger.info("notice board insert page");
-	boolean isS=noticeService.n_insertBoard(dto); 
-	if (isS) {
-		return "redirect:manager_notice.do"; 
-	}else {
-		return "redirect:insertnoticeform.do"; 
-	}
-}
-
-
-
-
-
-//qna 게시판 보기 
-@RequestMapping(value="manager_qna.do", method = {RequestMethod.POST, RequestMethod.GET})
-public String manager_qna(Model model) {
-logger.info("qna board main page");
-List<QnaBoardDto> lists=qnaService.q_getAlllist(); 
-model.addAttribute("lists", lists);
-return "manager/manager_qnaboard";
-}
-
-
-//qna 게시판 상세보기 
-@RequestMapping(value="manager_qnadetail.do")
-public String manager_qnadetail(Model model, int q_seq) {
-	logger.info("manager qnaboard detail page"); 
-	QnaBoardDto dto = qnaService.q_getAllBoard(q_seq);
-	model.addAttribute("dto", dto);
-	return "manager/manager_qna_detail"; 
-}
-
-//qna 게시판 새 글 추가폼 
-@RequestMapping(value="manager_insertqna.do")
-public String manager_insertqna() {
-	logger.info("manager qnaboard insert page");
-	return "manager/manager_insertqna"; 
-}
-
-//qna 게시판 글 추가 처리
-@RequestMapping(value="notice_submitqna.do")
-public String notice_submitqna(QnaBoardDto dto) {
-	String id = "ASD";
-	dto.setId(id);
-	boolean isc=qnaService.q_insertBoard(dto); 
-	if(isc) {
-		return "redirect:manager_qna.do"; 
-	}else {
-		return "redirect:manager_insertqna.do"; 
-	}
-	
-	
-}
-	
-	//질문게시판 게시글 수정폼 이동 
-	@RequestMapping(value="/notice_updateForm.do", method={RequestMethod.POST,RequestMethod.GET})
-	public String notice_updateForm(Model model, QnaBoardDto dto, String count, HttpSession session) {
-		dto=qnaService.q_getBoard(dto.getQ_seq(), count); 
-		model.addAttribute("dto", dto);
-		return "manager/notice_qnaboardupdate"; 
-	}
-
-	//질문게시판 게시글 수정 
-	@RequestMapping(value="/manager_updateboard.do", method={RequestMethod.POST,RequestMethod.GET})
-	public String updateboard(Model model, QnaBoardDto dto) {
-		logger.info("manager qna board update complete");
-		boolean isc=qnaService.q_updateBoard(dto); 
-		if (isc) {
-			return "redirect:manager_qna.do"; 
-		}else
-		return "redirect:manager_qna.do";
-	}
-
-	
-	//질문게시판 게시글 삭제 으아~~~~~~~~~~~~~
-	@RequestMapping(value="/notice_deleteBoard.do")
-	public String notice_deleteBoard(int q_seq) {
-		logger.info("manager qna board delete");
-		boolean isc= qnaService.q_deleteBoard(q_seq);
-		if (isc) {
-			return "redirect:manager_qna.do"; 
-		} else {
-			return "redirect:manager_qnadetail.do?q_seq="+q_seq; 
-		}
-	}
-
-
-	
-	//
-//	//질문게시판 답글달기 
-	@RequestMapping(value="/replyboard.do", method= {RequestMethod.POST,RequestMethod.GET})
-	public String replyboard(Locale locale, QnaBoardDto dto) {
-		logger.info("reply");;
-		boolean isS=qnaService.q_replyBoard(dto);
-		if (isS) {
-			return "redirect:qnamain.do";
-		} else {
-			logger.info("답글추가 실패", locale);
-			return "qnadetail.do?seq="+dto.getQ_seq(); 
-		}
-	}
-//			
 
 }

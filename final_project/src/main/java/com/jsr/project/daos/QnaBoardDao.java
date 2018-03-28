@@ -17,10 +17,16 @@ public class QnaBoardDao implements IQnaBoardDao{
 	private SqlSessionTemplate sqlSession; 
 	private String namespace="com.jsr.project.qnaboard.";
 	
+//	페이지 카운트 조회
+	@Override
+	public int q_pageCount() {
+		return sqlSession.selectOne(namespace+"pageCount");
+	}
+	
 //	글 목록 조회 - 유저 
 	@Override
-	public List<QnaBoardDto> q_getAllList() {
-		return sqlSession.selectList(namespace+"qnaboard");
+	public List<QnaBoardDto> q_getAllList(QnaBoardDto qDto) {
+		return sqlSession.selectList(namespace+"qnaboard",qDto);
 	}
 	
 //	공개글 상세 조회 - 유저
@@ -96,6 +102,8 @@ public class QnaBoardDao implements IQnaBoardDao{
 	public QnaBoardDto q_getBoardAjax(int q_seq) {
 		return sqlSession.selectOne(namespace+"q_detailAjax", q_seq);
 	}
+
+
 
 
 

@@ -9,14 +9,9 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
 <script type="text/javascript">
 
 
-
-function backToList(){
-	location.href="qnamain.do";
-}
 
 	function updateForm(q_seq){
 		var count = "count"; 
@@ -56,14 +51,17 @@ function backToList(){
 </script>
 <style type="text/css">
 	#replyForm{display:none;}
+	#container{
+		margin: auto;
+		width: 700px;
+	}
 </style>
 <title>Insert title here</title>
 </head>
 <body>
-<h1>게시글 상세보기</h1>
-<form action="" >
 <div id="container">
-	<table class="table table-striped" border="1">
+<h1>게시글 상세보기</h1>
+	<table class="ui grey table">
 		<tr>
 			<th>번호</th>
 			<td>${dto.q_seq}</td>
@@ -86,13 +84,12 @@ function backToList(){
 		</tr>
 		<tr>
 			<td colspan="2">
-				<input type="button" value="수정" onclick="updateForm(${dto.q_seq})" class="btn btn-success">
-				<input type="button" value="삭제" onclick="delForm(${dto.q_seq})" class="btn btn-danger">
-				<input type="button" value="목록" onclick="backToList()" class="btn btn-success">
+				<button onclick="updateForm(${dto.q_seq})" class="ui olive button">수정</button>
+				<button onclick="delForm(${dto.q_seq})" class="ui orange button">삭제</button>
+				<button onclick="location.href='qnamain.do?snum=${snum}&ennum=${ennum }'" class="ui button">돌아가기</button>
 			</td>
 		</tr>
 	</table>
 	</div>
-	</form>
 </body>
 </html>

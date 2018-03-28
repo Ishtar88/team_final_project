@@ -20,12 +20,20 @@ pageEncoding="UTF-8"%>
 	}
 	
 </script>
+<style type="text/css">
+	#container{
+		margin: auto;
+		width: 500px;
+	}
+</style>
 </head>
 <body>
+<div>
+</div>
 <div id="container">
 <h1>게시글<small>작성하기</small></h1>
 <form action="submitqna.do" method="post">
-	<table class="table table-striped">
+	<table class="ui orange table">
 		<tr>
 			<th>제목</th>
 			<td><input class="form-control" type="text" name="q_title" placeholder="제목을 입력하세요."/></td>	
@@ -36,8 +44,8 @@ pageEncoding="UTF-8"%>
 		</tr>
 		<tr>
 			<td colspan="2">
-				<input type="submit" class="btn btn-primary"  value="글작성" />
-				<input type="button"  class="btn btn-primary" value="목록" onclick="qnamain()"/>			
+				<button class="ui olive button">글작성</button>
+				<div class="ui button" onclick="qnamain()">목록</div>		
 			</td>
 		</tr>
 	</table>

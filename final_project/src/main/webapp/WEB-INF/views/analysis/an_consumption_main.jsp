@@ -27,147 +27,114 @@
 	int lastDay = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
 %>
 <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+<script src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
 <script>
 	window.onload = function() {
 
-		var chart1 = new CanvasJS.Chart(
-				"chartContainers1",
-				{
-					animationEnabled : true,
-					zoomEnabled : true,
+		var year = $("input[name=year]").val();
+		var month = $("input[name=month]").val();
+		var lastDay = $("input[name=lastDay]").val();
+		var sMonth = $("input[name=sMonth]").val();
+		var eMonth = $("input[name=eMonth]").val();
+
+		$.ajax({
+
+			url : "an_consumption_main_ajax.do",
+			type : "post",
+			data : "year=" + year + "&month=" + month + "&lastDay=" + lastDay
+					+ "&sMonth=" + sMonth + "&eMonth=" + eMonth,
+			datetype : "json",
+			success : function(obj) {
+				
+				var list = obj["spendAnalysis"];
+				var arrayList = [];
+				for (var i = 0; i < list.length; i++) {
+					arrayList.push({
+						y : list[i].sum_money,
+						label : list[i].analysis
+					});
+				}
+
+				var chart2 = new CanvasJS.Chart("chartContainer2", {
 					theme : "light2",
-					// 		title:{
-					// 			text:
-					// 		},
-					axisX : {
-						title : "원에 포인터를 갖다대보세요!",
-						suffix : "%",
-						minimum : 0,
-						maximum : 61,
-						gridThickness : 1
+					animationEnabled : true,
+					title : {
+						text : "Shares of Electricity Generation by Fuel"
 					},
-					axisY : {
-						title : "Agricultural Land (million sq.km)",
-						suffix : "mn"
-					},
+					subtitles : [ {
+						text : "United Kingdom, 2016",
+						fontSize : 16
+					} ],
 					data : [ {
-						type : "bubble",
-						toolTipContent : "<b>{name}</b><br/>Employment: {x}% <br/> Agri-Land: {y}mn sq. km<br/> 유형: {z}%",
-						dataPoints : [ {
-							x : 10,
-							y : 5.225,
-							z : 200,
-							name : "자기계발형"
-						}, {
-							x : 20,
-							y : 7.17,
-							z : 200,
-							name : "생활중심형"
-						}, {
-							x : 30,
-							y : 4.043,
-							z : 200,
-							name : "유흥중심형"
-						}, {
-							x : 40,
-							y : 9.647,
-							z : 200,
-							name : "쇼핑중심형"
-						}, ]
+						type : "pie",
+						indexLabelFontSize : 18,
+						radius : 80,
+						indexLabel : "{label} - {y}",
+						yValueFormatString : "###0\"\"",
+						click : explodePie,
+						dataPoints : arrayList
 					} ]
 				});
-		chart1.render();
+				chart2.render();
 
-		var chart5 = new CanvasJS.Chart("chartContainers5", {
-			animationEnabled : true,
-			exportEnabled : true,
-			theme : "light1", // "light1", "light2", "dark1", "dark2"
-			title : {
-				text : "Simple Column Chart with Index Labels"
-			},
-			data : [ {
-				type : "column", //change type to bar, line, area, pie, etc
-				//indexLabel: "{y}", //Shows y value on all Data Points
-				indexLabelFontColor : "#5A5757",
-				indexLabelPlacement : "outside",
-				dataPoints : [ {
-					x : 10,
-					y : 71
-				}, {
-					x : 20,
-					y : 55
-				}, {
-					x : 30,
-					y : 50
-				}, {
-					x : 40,
-					y : 65
-				}, {
-					x : 50,
-					y : 92,
-					indexLabel : "Highest"
-				}, {
-					x : 60,
-					y : 68
-				}, {
-					x : 70,
-					y : 38
-				}, {
-					x : 80,
-					y : 71
-				}, {
-					x : 90,
-					y : 54
-				}, {
-					x : 100,
-					y : 60
-				}, {
-					x : 110,
-					y : 36
-				}, {
-					x : 120,
-					y : 49
-				}, {
-					x : 130,
-					y : 21,
-					indexLabel : "Lowest"
-				} ]
-			} ]
+				function explodePie(e) {
+					for (var i = 0; i < e.dataSeries.dataPoints.length; i++) {
+						if (i !== e.dataPointIndex)
+							e.dataSeries.dataPoints[i].exploded = false;
+					}
+				}
+			}
+
 		});
-		chart5.render();
+
+		$.ajax({
+			url : "an_consumption_main_ajax.do",
+			type : "post",
+			data : "year=" + year + "&month=" + month + "&lastDay=" + lastDay
+					+ "&sMonth=" + sMonth + "&eMonth=" + eMonth,
+			datetype : "json",
+			success : function(obj) {
+
+				var list = obj["categoryList"];
+				var arrayList = [];
+				for (var i = 0; i < list.length; i++) {
+					arrayList.push({
+						label : list[i].p_name,
+						y : list[i].total
+					});
+				}
+				var chart = new CanvasJS.Chart("chartContainer", {
+
+					animationEnabled : true,
+					theme : "light2", // "light1", "light2", "dark1", "dark2"
+					title : {
+						text : "카테고리별 지출"
+					},
+					axisY : {
+						title : "지출액 (원)",
+						suffix : "",
+						includeZero : false
+					},
+					axisX : {
+						title : "카테고리"
+					},
+					data : [ {
+						type : "column",
+						yValueFormatString : "#,##0.0#\"\"",
+						dataPoints : arrayList
+					} ]
+				});
+				chart.render();
+
+			}
+		});
 
 	}
 </script>
 <style type="text/css">
-#counsumption_pattern {
-	border: 1px;
-	margin-left: 100px;
-	width: 300px;
-	height: 300px;
-	float: left;
-	background-color: gray;
-	color: black;
-}
-
-#patternDetail {
-	margin-left: 100px;
-	border-collapse: collapse;
-	width: 1000px;
-	height: 400px;
-}
-
-#variousGraph {
-	margin-left: 100px;
-	border-collapse: collapse;
-	width: 1000px;
-	height: 400px;
-}
-
-#recommend {
-	margin-left: 100px;
-	border-collapse: collapse;
-	width: 1000px;
-	height: 400px;
+img {
+	width: 150px;
+	height: 200px;
 }
 </style>
 </head>
@@ -183,40 +150,149 @@
 			최근6개월 </a>
 	</div>
 
+	<input type="hidden" name="year" value="<%=year%>" />
+	<input type="hidden" name="month" value="<%=month%>" />
+	<input type="hidden" name="lastDay" value="<%=lastDay%>" />
+	<input type="hidden" name="sMonth" value="${sMonth}" />
+	<input type="hidden" name="eMonth" value="${eMonth}" />
+
 	<table id="type1" class="ui unstackable table">
 		<tr>
-			<td><img alt="유형 이미지" src="" /></td>
-			<td><p></p></td>
+			<td><img alt="유형 이미지" src="${aDto3.a_img}" /></td>
+			<td>${aDto3.a_name}<p>${aDto3.a_detail}</p></td>
 		</tr>
 	</table>
 
-	<!--카테고리별 best순위 -->
-	<div id="chartContainers1" style="height: 370px; width: 50%;"></div>
+	<div id="chartContainer2" style="height: 370px; width: 100%;"></div>
+	<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+
+	<!--카테고리별 상세내역  -->
+	<div id="chartContainer" style="height: 370px; width: 100%;"></div>
 
 	<table id="type1" class="ui unstackable table">
+		<tr>
+			<th>순위</th>
+			<th>카테고리</th>
+			<th>금액</th>
+			<th>비율</th>
+		</tr>
 		<c:forEach items="${categoryList}" var="sdto">
 			<tr>
-			<td>${sdto.rownum}</td>
-				<td>${sdto.p_name}</td>
+				<td>${sdto.rownum}</td>
+				<td class="p_name">${sdto.p_name}</td>
+				<td class="total"><f:formatNumber value="${sdto.total}"
+						type="number" /></td>
+				<td><f:formatNumber value="${sdto.total/total_spending*100}"
+						pattern="0.00" />%</td>
 			</tr>
 		</c:forEach>
 	</table>
-	<!--카테고리별 상세내역  -->
-	<div id="chartContainers5" style="height: 100%; width: 100%;"></div>
 
-<table id="type1" class="ui unstackable table">
-<tr>
-<th>카테고리</th>
-<th>총액</th>
-<th>비율</th>
-</tr>
-		<c:forEach items="${categoryList}" var="sdto">
-			<tr>
-				<td>${sdto.p_name}</td>
-				<td>${sdto.total}</td>
-				<td></td>
-			</tr>
-		</c:forEach>
+	<table class="ui unstackable table">
+
+		<tr>
+			<td>평균 소비신중도</td>
+			<td><c:choose>
+					<c:when test="${carefulSpending eq '0'}">
+						<i class="star outline icon"></i>
+						<i class="star outline icon"></i>
+						<i class="star outline icon"></i>
+						<i class="star outline icon"></i>
+						<i class="star outline icon"></i>
+					</c:when>
+					<c:when test="${carefulSpending eq '1'}">
+						<i class="star icon"></i>
+						<i class="star outline icon"></i>
+						<i class="star outline icon"></i>
+						<i class="star outline icon"></i>
+						<i class="star outline icon"></i>
+					</c:when>
+					<c:when test="${carefulSpending eq '2'}">
+						<i class="star icon"></i>
+						<i class="star icon"></i>
+						<i class="star outline icon"></i>
+						<i class="star outline icon"></i>
+						<i class="star outline icon"></i>
+					</c:when>
+					<c:when test="${carefulSpending eq '3'}">
+						<i class="star icon"></i>
+						<i class="star icon"></i>
+						<i class="star icon"></i>
+						<i class="star outline icon"></i>
+						<i class="star outline icon"></i>
+					</c:when>
+					<c:when test="${carefulSpending eq '4'}">
+						<i class="star icon"></i>
+						<i class="star icon"></i>
+						<i class="star icon"></i>
+						<i class="star icon"></i>
+						<i class="star outline icon"></i>
+					</c:when>
+					<c:otherwise>
+						<i class="star icon"></i>
+						<i class="star icon"></i>
+						<i class="star icon"></i>
+						<i class="star icon"></i>
+						<i class="star icon"></i>
+					</c:otherwise>
+				</c:choose></td>
+		</tr>
+		<tr>
+			<td><img alt="유형 이미지" src="${aDto1.a_img}" /></td>
+			<td>${aDto1.a_name}<p>${aDto1.a_detail}</p></td>
+		</tr>
+
+		<tr>
+			<td>평균 소비만족도</td>
+			<td><c:choose>
+					<c:when test="${satisfySpending eq '0'}">
+						<i class="star outline icon"></i>
+						<i class="star outline icon"></i>
+						<i class="star outline icon"></i>
+						<i class="star outline icon"></i>
+						<i class="star outline icon"></i>
+					</c:when>
+					<c:when test="${satisfySpending eq '1'}">
+						<i class="star icon"></i>
+						<i class="star outline icon"></i>
+						<i class="star outline icon"></i>
+						<i class="star outline icon"></i>
+						<i class="star outline icon"></i>
+					</c:when>
+					<c:when test="${satisfySpending eq '2'}">
+						<i class="star icon"></i>
+						<i class="star icon"></i>
+						<i class="star outline icon"></i>
+						<i class="star outline icon"></i>
+						<i class="star outline icon"></i>
+					</c:when>
+					<c:when test="${satisfySpending eq '3'}">
+						<i class="star icon"></i>
+						<i class="star icon"></i>
+						<i class="star icon"></i>
+						<i class="star outline icon"></i>
+						<i class="star outline icon"></i>
+					</c:when>
+					<c:when test="${satisfySpending eq '4'}">
+						<i class="star icon"></i>
+						<i class="star icon"></i>
+						<i class="star icon"></i>
+						<i class="star icon"></i>
+						<i class="star outline icon"></i>
+					</c:when>
+					<c:otherwise>
+						<i class="star icon"></i>
+						<i class="star icon"></i>
+						<i class="star icon"></i>
+						<i class="star icon"></i>
+						<i class="star icon"></i>
+					</c:otherwise>
+				</c:choose></td>
+		</tr>
+		<tr>
+			<td><img alt="유형 이미지" src="${aDto2.a_img}" /></td>
+			<td>${aDto2.a_name}<p>${aDto2.a_detail}</p></td>
+		</tr>
 	</table>
 
 

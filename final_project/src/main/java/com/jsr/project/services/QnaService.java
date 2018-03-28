@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.jsr.project.daos.IQnaBoardDao;
 import com.jsr.project.dtos.QnaBoardDto;
@@ -15,8 +16,13 @@ public class QnaService implements IQnaService{
 	private IQnaBoardDao qnaDao;
 
 	@Override
-	public List<QnaBoardDto> q_getAlllist() {
-		return qnaDao.q_getAllList(); 
+	public List<QnaBoardDto> q_getAlllist(QnaBoardDto qDto) {
+		return qnaDao.q_getAllList(qDto); 
+	}
+	
+	@Override
+	public int q_pageCount() {
+		return qnaDao.q_pageCount();
 	}
 
 	@Override
@@ -73,7 +79,8 @@ public class QnaService implements IQnaService{
 		
 		return qnaDao.q_getAllBoard(q_seq);
 	}
-	
-	
+
+
+
 	
 }
