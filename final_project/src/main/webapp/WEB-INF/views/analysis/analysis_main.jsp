@@ -2,7 +2,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <%request.setCharacterEncoding("UTF-8"); %>
 <%response.setContentType("text/html; charset=UTF-8"); %>
-<jsp:include page="../analysis/pattern_header.jsp"></jsp:include>
 <!DOCTYPE html>
 <jsp:include page="../header.jsp"></jsp:include>
 <html>
@@ -36,29 +35,22 @@
 	int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
 	int lastDay = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
 %>
+
+<style type="text/css">
+
+	#block{
+		height:100px;
+	}
+
+</style>
 </head>
 <body>
-<div>
-	<div class="analy_search">
-		<span>1개월</span>
-		<span>3개월</span>
-		<span>6개월</span>
-	</div>
 	
-	<div class="analysis_searchDate">
-		 <a href="analysis_main.do?year=<%=year-1%>&month=<%=month%>" >◁◁</a>
-		 <a href="analysis_main.do?year=<%=year%>&month=<%=month-1%>" >◀</a>
-		 	  	<span class="analysis_year"><%=year%>년 </span>
-		 	  	<span class="analysis_month"><%=month%>월</span>
-		 <a href="analysis_main.do?year=<%=year%>&month=<%=month+1%>" >▶</a>
-		 <a href="analysis_main.do?year=<%=year+1%>&month=<%=month%>" >▷▷</a>
-	 </div>
-	 
-	 <div>
-	 	<div class="spending_img">
-	 		<img alt="소비패턴 이미지" src="">
-	 	</div>
-	 	<div class="total_pattern_body">
+	<div class="ui grid">
+	  <div class="sixteen wide column" id="block"></div>
+	 	<div class="wide column"></div>
+	 	
+	 		<div class="total_pattern_body">
 	 		<div>
 				<h2>소비패턴</h2>
 				<a href="total_pattern_main.do?sMonth=-2&eMonth=-1&year=<%=year%>&month=<%=month%>&lastDay=<%=lastDay%>"><span>자세히보기</span></a>
@@ -86,8 +78,8 @@
 			<div>
 				<p>투자패턴에 대한 설명</p>
 			</div>
+			<div class="wide column"></div>
 	 	</div>
 	 </div>
-</div>
 </body>
 </html>

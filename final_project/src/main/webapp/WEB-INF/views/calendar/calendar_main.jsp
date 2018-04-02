@@ -116,32 +116,41 @@ td>div{
 	text-align: center;
 }
 
+thead>tr>th{
+	text-align: center;
+}
+
+#month{
+	font-size:1.2em;
+	text-align: justicy;
+	font-weight:bold;
+}
+
 </style>
 </head>
 <body>
-	<div class="acount_body_wrap">
-	<br>
-		<header>
-				<div class="acount_list">
-				 	 <a class="ui olive button" href="goal_main.do">목표관리</a>
-					  <a class="ui olive button" href="acount.do?year=<%=year %>&month=<%=month%>">자산관리</a>
-				 	 <a class="ui olive button" href="income_main.do?year=<%=year%>&month=<%=month%>">수입관리</a>
-				 	 <a class="ui olive button" href="spending_main.do?year=<%=year%>&month=<%=month%>">지출관리</a>
-				 	 <a class="ui olive button" href="calendar_main.do?year=<%=year%>&month=<%=month%>">달력</a>
-				 </div>
-		</header>
-	<br>
-		<div class="calendar_body">
+	<div class="ui grid">	
+		<div class="sixteen wide column"></div>
+		
+		<div class="two wide column"></div>
+		<div class="twelve wide column" id="month">
+			<a href="calendar_main.do?year=<%=year - 1%>&month=<%=month%>"><i class="angle double left icon"></i></a> 
+					<a href="calendar_main.do?year=<%=year%>&month=<%=month - 1%>"><i class="angle left icon"></i></a> 
+						<span class="paramYear"><%=year%></span>년<span class="paramMonth"><%=month%></span>월
+					<a href="calendar_main.do?year=<%=year%>&month=<%=month + 1%>"><i class="angle right icon"></i></a> 
+					<a href="calendar_main.do?year=<%=year + 1%>&month=<%=month%>"><i class="angle double right icon"></i></a>
+		</div>
+		<div class="two wide column"></div>
+		
+		<div class="two wide column"></div>
+		<div class="twelve wide column">
 			<table class="calender ui celled table" border="1">
 				<caption>
-					<a href="calendar_main.do?year=<%=year - 1%>&month=<%=month%>">◁◁</a> 
-					<a href="calendar_main.do?year=<%=year%>&month=<%=month - 1%>">◀</a> 
-						<span class="paramYear"><%=year%></span>년<span class="paramMonth"><%=month%></span>월
-					<a href="calendar_main.do?year=<%=year%>&month=<%=month + 1%>">▶</a> 
-					<a href="calendar_main.do?year=<%=year + 1%>&month=<%=month%>">▷▷</a>
+					
 				</caption>
 				<c:set var="dayOfWeek" value="<%=dayOfWeek%>" />
 				<c:set var="lastDay" value="<%=lastDay%>" />
+				<thead>
 				<tr>
 					<th>일</th>
 					<th>월</th>
@@ -151,6 +160,8 @@ td>div{
 					<th>금</th>
 					<th>토</th>
 				</tr>
+				</thead>
+				<tbody>
 				<tr>
 				<%
 					for(int i=0;i<dayOfWeek-1;i++){
@@ -214,9 +225,9 @@ td>div{
 						}
 						
 					%>
+					<div class="two wide column"></div>
 				</tr>
-
-
+				</tbody>
 			</table>
 		</div>
 	</div>

@@ -8,6 +8,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.jsr.project.dtos.CompanyDto;
 import com.jsr.project.dtos.MembersDto;
 
 @Repository
@@ -16,7 +17,6 @@ public class ManagerDao implements IManagerDao {
 	@Autowired
 	private SqlSessionTemplate sqlSession; 
 	private String namespace="com.jsr.project.members."; 
-
 
 	//모든 회원 조회 
 	@Override

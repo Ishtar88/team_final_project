@@ -1,7 +1,9 @@
 package com.jsr.project;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.jsr.project.dtos.MembersDto;
@@ -52,14 +55,22 @@ public class CustomerController {
 			session.setAttribute("ennum", ennum);
 		}
 		
+		MembersDto lDto=(MembersDto)session.getAttribute("loginDto");
+		String grade=lDto.getM_grade();
+		
 		QnaBoardDto qDto=new QnaBoardDto();
 		qDto.setSnum(snum);
 		qDto.setEnnum(ennum);
+		qDto.setQ_title(grade);
 		
 		List<QnaBoardDto> q_lists=qnaService.q_getAlllist(qDto);
 		List<NoticeBoardDto> n_lists=noticeService.n_getAllList(qDto); 
 		model.addAttribute("q_lists", q_lists);
 		model.addAttribute("n_lists", n_lists);
+		
+		logger.info("q_lists(size):"+q_lists.size()+" / q_lists: "+q_lists);
+		logger.info("n_lists(size):"+n_lists.size()+" / n_lists: "+n_lists);
+		
 		return "customer/Customer_main";
 	}
 	
@@ -87,7 +98,7 @@ public class CustomerController {
 		qDto.setEnnum(ennum);
 		
 		List<NoticeBoardDto> lists=noticeService.n_getAllList(qDto); 
-		int count=qnaService.q_pageCount();
+		int count=qnaService.n_pageCount();
 		model.addAttribute("lists", lists);
 		model.addAttribute("count", count);
 		return "customer/noticeboardmain";
@@ -154,7 +165,7 @@ public class CustomerController {
 		String id =IDto.getId(); 
 		System.out.println(id);
 		
-		QnaBoardDto dto = qnaService.q_getBoard(q_seq, count); 
+		QnaBoardDto dto = qnaService.q_getBoard(q_seq,count); 
 		model.addAttribute("dto", dto); 
 		return "customer/qnaboarddetail";
 	}
@@ -219,17 +230,46 @@ public class CustomerController {
 	
 	//질문게시판 게시글 삭제 
 	@RequestMapping(value="/deleteBoard.do",  method={RequestMethod.POST,RequestMethod.GET})
-	public String deleteBoard(int q_seq) {
+	public String deleteBoard(int q_seq,HttpSession session) {
 		logger.info("customer board delete");
+		
+		String snum=(String)session.getAttribute("snum");
+		String ennum=(String)session.getAttribute("ennum");
+		
 		boolean isc=qnaService.q_deleteBoard(q_seq);
 		if (isc) {
-			return "redirect:qnamain.do";
+			return "redirect:manager_qna.do?snum="+snum+"&ennum="+ennum;
 		}else {
-			return "redirect:qnadetail.do?seq="+q_seq+"&count=count"; 
+			return "redirect:qnadetail.do?q_seq="+q_seq+"&count=count"; 
 		}
 	}
 
-
+	//qnaBoard검색 조회 기능
+	@ResponseBody
+	@RequestMapping(value="/qnaDetailAjax.do",  method={RequestMethod.POST,RequestMethod.GET})
+	public Map<String, List<QnaBoardDto>> qnaDetailAjax(String category,String search,HttpSession session) {
+		logger.info("qnaBoard qnaDetailAjax search start");
+		
+		MembersDto lDto=(MembersDto)session.getAttribute("loginDto");
+		String id=lDto.getId();
+		
+		Map<String, List<QnaBoardDto>> map=new HashMap<>();
+		
+		logger.info("입력하는 매개변수 id: "+"category: "+category+"search: "+search);
+		
+		QnaBoardDto dto=new QnaBoardDto();
+		dto.setId(id);
+		dto.setQ_title(category);
+		dto.setQ_content(search);
+		
+		List<QnaBoardDto> list=qnaService.qnaDetailAjax(dto);
+		logger.info("list: "+list);
+		map.put("list", list);
+		
+		logger.info("qnaBoard qnaDetailAjax search end.");
+		
+		return map;
+	}
 
 
 

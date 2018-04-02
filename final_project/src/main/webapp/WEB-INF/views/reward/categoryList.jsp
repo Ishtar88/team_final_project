@@ -90,33 +90,64 @@
 		location.href = "listOfCategory.do?r_detail=" + r_detail
 				+ "&sNum=1&eNum=8";
 	}
+	
+	function dobakReward(r_seq) {
+		window.open("dobakForm.do?r_seq=" + r_seq, "리워드상품 뽑기",
+				'location=yes,height=570,width=520,scrollbars=yes,status=yes');
+	}
 </script>
 <style type="text/css">
 img {
 	width: 150px;
 	height: 150px;
 }
-.field{
-display: inline-block;
-width:150px;
+
+.field {
+	display: inline-block;
+	width: 150px;
 }
 </style>
 </head>
 <body>
- <div class="field" >
-          <select class="ui fluid search dropdown" name="category" >
-           <option value="r_name">제품이름</option>
-		<option value="b_name">브랜드</option>
-          </select>
-        </div>
+<div class="ui grid">
+
+<div class="sixteen wide column"></div>
+<div class="sixteen wide column"></div>
+
+<!-- --------------------------------------------------------------첫 레이아웃 줄 시작 -->
+
+<!-- search part start -->
+
+    <!-- 공백 그리드  -->
+<div class="three wide column"></div>
+
+<div id="search" class="ten wide column">
+	<div class="field">
+		<select class="ui fluid search dropdown" name="category">
+			<option value="r_name">제품이름</option>
+			<option value="b_name">브랜드</option>
+		</select>
+	</div>
 	<div class="ui icon input">
 		<input type="text" placeholder="Search..." name="search">
 		<button class="ui yellow button" onclick="searchItem()">검색</button>
 		<button class="ui olive button" onclick="searchAll()">전체검색</button>
 	</div>
 	<input type="hidden" value="${r_detail}" name="r_detail" />
+</div>
+<!-- search part end -->
 
+    <!-- 공백 그리드  -->
+<div class="three wide column"></div>
 
+<!-- --------------------------------------------------------------첫 레이아웃 줄 끝-->    
+
+<!-- --------------------------------------------------------둘째 레이아웃 줄 시작 -->
+
+    <!-- 공백 그리드  -->
+<div class="three wide column"></div>
+
+	<div class="ten wide column">
 	<table id="all" class="ui table">
 		<c:set var="i" value="0" />
 		<c:set var="j" value="4" />
@@ -125,17 +156,17 @@ width:150px;
 				<tr>
 			</c:if>
 			<td>
-				<div onclick="buyReward('${rdto.r_seq}')">
-					<div>
-						<input type="hidden" value="${rdto.r_seq}" name="seq" />
-					</div>
-					<div>
-						<img alt="상품 이미지" src="resources/upload/${rdto.r_file}">
-					</div>
-					<div>${rdto.r_name}</div>
-					<div>${rdto.b_name.b_name}</div>
-					<div>${rdto.r_point}p</div>
+				<div>
+					<input type="hidden" value="${rdto.r_seq}" name="seq" />
 				</div>
+				<div>
+					<img alt="상품 이미지" src="resources/upload/${rdto.r_file}">
+				</div>
+				<div>${rdto.r_name}</div>
+				<div>${rdto.b_name.b_name}</div>
+				<div>${rdto.r_point}p</div>
+				<div class="ui grey button" onclick="buyReward('${rdto.r_seq}')">일반구매</div>
+				<div class="ui grey button" onclick="dobakReward('${rdto.r_seq}')">뽑기</div>
 			</td>
 			<c:if test="${i%j==j-1}">
 				</tr>
@@ -144,16 +175,20 @@ width:150px;
 		</c:forEach>
 
 		<tr>
-			<td style="text-align: center;" colspan="4"><c:forEach var="i" begin="0" end="${pcount-1}" step="1">
+			<td style="text-align: center;" colspan="4"><c:forEach var="i"
+					begin="0" end="${pcount-1}" step="1">
 					<a class="pageNum"
 						href="listOfCategory.do?r_detail=${r_detail}&sNum=${i<1?'1':1+(i*8)}&eNum=${i<1?'8':(i+1)*8}">${i+1}</a>
 				</c:forEach></td>
 		</tr>
 	</table>
+	</div>
 
-
-	<table id="searchResult">
+	<table id="searchResult" class="ui table">
 
 	</table>
+	    <!-- 공백 그리드  -->
+<div class="three wide column"></div>
+</div>
 </body>
 </html>

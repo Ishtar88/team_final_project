@@ -7,5 +7,7 @@ import com.jsr.project.dtos.CompanyDto;
 public interface ICompanyService {
 	
 	public List<CompanyDto> getAllCompany();
+	public boolean updateCompany(CompanyDto cdto);
+	public boolean insertCompany(CompanyDto cdto);
 
 }

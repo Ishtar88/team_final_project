@@ -39,7 +39,7 @@ pageEncoding="UTF-8"%>
 
 <!-- 공지게시판 시작 -->
 <div id="noticeboard"> 
-<span><a href="notice.do">자세히보기</a></span>
+<span><a href="notice.do?snum=1&ennum=10">자세히보기</a></span>
 <table class="ui very basic table">
 <caption>공지게시판</caption>
 <col width="50px"><col width="50px"><col width="200px"><col width="100px">
@@ -94,7 +94,7 @@ pageEncoding="UTF-8"%>
 			<tr><td colspan="4"> ----작성된 글이 없습니다.-----</td></tr>
 			</c:when>
 		<c:otherwise>
-			<c:forEach begin="0" end="10" step="1" var="i">
+			<c:forEach begin="0" end="9" step="1" var="i">
 				<tr>
 					<td>${q_lists[i].q_seq}</td>
 					<td>${q_lists[i].id}</td>
@@ -104,8 +104,8 @@ pageEncoding="UTF-8"%>
 						</c:when>
 						<c:otherwise>
 							<td>
-						<jsp:setProperty property="arrowNbsp" name="util" value="${q_lists[i].q_depth}" />
-							<jsp:getProperty property="arrowNbsp" name="util" />
+							<jsp:setProperty property="arrowNbsp" name="util" value="${q_lists[i].q_depth}" />
+ 							<jsp:getProperty property="arrowNbsp" name="util" />
 							<a href="qnadetail.do?q_seq=${q_lists[i].q_seq}&count=count">	
 							    ${q_lists[i].q_title}</a>
 							</td>

@@ -124,25 +124,29 @@ window.onload = function () {
 </script>
 
 <style type="text/css">
-	.acount_total_wrap{
-	margin:auto;
-		width: 300px; height: 100px;
-	}
-	.acount_body_wrap{
-		align-content: center;
-	}
-	.acount_body{
-		margin:auto;
-		width: 700px;
-	}
-	.acount_header_wrap{
-		text-align: center;
-	}
-	.acount_Chart{
-		margin: auto;
-	}
-
-
+/* 	.acount_total_wrap{ */
+/* 	margin:auto; */
+/* 		width: 300px; height: 100px; */
+/* 	} */
+/* 	.acount_body_wrap{ */
+/* 		align-content: center; */
+/* 	} */
+/* 	.acount_body{ */
+/* 		margin:auto; */
+/* 		width: 700px; */
+/* 	} */
+/* 	.acount_header_wrap{ */
+/* 		text-align: center; */
+/* 	} */
+/* 	.acount_Chart{ */
+/* 		margin: auto; */
+/* 	} */
+/* 	.acount_body_wrap{ */
+/* 		margin-top:10px; */
+/* 	} */
+#block{
+	height:200px;
+}
 </style>
 <%
 	String paramYear = request.getParameter("year");
@@ -174,44 +178,55 @@ window.onload = function () {
 	}
 	int month=Integer.parseInt(sMonth);
 %>
+
+
 </head>
 <body>
-<div class="acount_body_wrap">
-	<br>
-		<header>
-				<div class="acount_list">
-				 	 <a class="ui olive button" href="goal_main.do">목표관리</a>
-					  <a class="ui olive button" href="acount.do?year=<%=year %>&month=<%=month%>">자산관리</a>
-				 	 <a class="ui olive button" href="income_main.do?year=<%=year%>&month=<%=month%>">수입관리</a>
-				 	 <a class="ui olive button" href="spending_main.do?year=<%=year%>&month=<%=month%>">지출관리</a>
-				 	 <a class="ui olive button" href="calendar_main.do?year=<%=year%>&month=<%=month%>">달력</a>
-				 </div>
-		</header>
-	<br>
-	<div class="acount_total_wrap">
-		<table class="ui selectable inverted table">
+
+
+<!-- 분류별 총 금액 출력  -->
+
+
+
+<div class="ui grid">
+
+<div class="sixteen wide column" id="block"><h1>자산 관리</h1></div>
+<!-- --------------------------------------------------------------첫 레이아웃 줄 시작 -->
+<div class="wide column"></div>
+  <div class="seven wide column">
+  		<div class="acount_canvas_wrap">
+				<div id="chartContainer" style="height: 300px; width: 500px;"></div>
+				<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+		</div>
+  </div>
+  <div class="seven wide column">
+  	<!-- 총예산  출력 -->
+			<table class="ui selectable inverted table">
 			<tr>
 				<td class="acount_total_money">
 					<h2 class="field" style="text-align: center;">총예산: <fmt:formatNumber value="${aDto.ac_money }" type="number"/>원</h2>
 				</td>
 			</tr>
 		</table>
-	</div>
-	<div class="acount_Chart">
-		<div class="acount_canvas_wrap">
-				<div id="chartContainer" style="height: 300px; width: 700px;"></div>
-				<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
-		</div>
-	</div>
-	<div class="mid_header">
 		<div class="insert_acount_icon">
 				<a href="acount_insert_page.do"><img alt="acount_icon" src="resources/icon/plus.png" style="width: 25px; height: 25px;"></a>	
 		</div>
-	</div>
-		  <!------  ---------->		
+		
+  </div>
+ <div class="wide column"></div>
+  
+<!-- --------------------------------------------------------------첫 레이아웃 줄 끝 --> 
+
+
+
+<!-- --------------------------------------------------------------둘째 레이아웃 줄 시작 -->  
+  
+    <!------  ---------->		
 		<!---  저축정보 테이블   ---->
 		  <!------  ---------->
-		  <div class="acount_body">
+		  
+<div class="wide column"></div>
+ 	 <div class="seven wide column">
 			<div class="save_body" >
 				<header>
 					<a href="#" href="#" onclick="svToggle()">
@@ -277,6 +292,91 @@ window.onload = function () {
 					</c:choose>
 				</table>
 			</div>
+  		</div>
+
+  
+  <div class="seven wide column">
+  				  <!------  ---------->		
+		<!---  펀드정보 테이블   ---->
+		  <!------  ---------->
+		  	<div class="fund_body">
+				<header>
+					<a href="#" onclick="fdToggle()">
+						<img alt="plus/minus_icon" src="resources/icon/down_triangle.png" style="width: 20px; height: 20px;">
+					</a>
+					<span style="vertical-align: middle;">펀드</span>
+				</header>
+				<table class="fund_Tr ui selectable gray table" border="1">
+					<tr>
+						<th>펀드명</th>
+						<th>투자원금</th>
+						<th>손익률</th>
+						<th>평가금</th>
+						<th>등록날짜</th>
+						<th>만기날짜</th>
+					</tr>
+					<c:choose>
+						<c:when test="${empty fList }">
+							<tr>
+								<td class="selectable" colspan="7" style="text-align: center;">-------조회된 결과가 없습니다.--------</td>
+							</tr>
+						</c:when><c:otherwise>
+							<c:forEach items="${fList }" var="fDto">
+								<tr>
+									<td class="selectable">
+										<a href="#" onclick="fundDetail('${fDto.f_seq}')">
+											${fDto.f_name }
+										</a>
+									</td>
+									<td class="selectable">
+										<a href="#" onclick="fundDetail('${fDto.f_seq}')">
+											<fmt:formatNumber value="${fDto.f_money }" type="number"/> 원
+										</a>
+									</td>
+									<td class="selectable">
+										<a href="#" onclick="fundDetail('${fDto.f_seq}')">
+											<fmt:formatNumber value="${fDto.f_money/fDto.f_add }" pattern="0.00"/>
+										</a>
+									</td>
+									<td class="selectable">
+										<a href="#" onclick="fundDetail('${fDto.f_seq}')">
+											<fmt:formatNumber value="${fDto.f_add }" type="number"/> 원
+										</a>
+									</td>
+									<td class="selectable">
+										<a href="#" onclick="fundDetail('${fDto.f_seq}')">
+											<fmt:formatDate value="${fDto.f_buydate }" pattern="yyyy-MM-dd"/>
+										</a>
+									</td>
+									<td class="selectable">
+										<a href="#" onclick="fundDetail('${fDto.f_seq}')">
+											<fmt:formatDate value="${fDto.f_enddate }" pattern="yyyy-MM-dd"/>
+										</a>
+									</td>
+								</tr>
+							</c:forEach>
+								<tr>
+								<td colspan="4"></td>
+									<th>합계</th>
+									<td>
+										<c:set var="total" value="0" />
+										<c:forEach items="${fList}" var="fDto">
+											<c:set var="total" value="${total+fDto.f_add}" />
+										</c:forEach>
+										<fmt:formatNumber value="${total}" type="number"/> 원
+									</td>
+								</tr>	
+						</c:otherwise>
+					</c:choose>
+				</table>
+			</div>
+		  </div>
+   <div class="wide column"></div>
+  
+  <!-- --------------------------------------------------------------둘째 레이아웃 줄 끝 -->  
+   <div class="wide column"></div>
+  <div class="seven wide column">
+  				
 		  <!------  ---------->		
 		<!---  주식정보 테이블   ---->
 		  <!------  ---------->
@@ -351,81 +451,12 @@ window.onload = function () {
 					</c:choose>
 				</table>
 			</div>
-			
-		  <!------  ---------->		
-		<!---  펀드정보 테이블   ---->
-		  <!------  ---------->
-		  	<div class="fund_body">
-				<header>
-					<a href="#" onclick="fdToggle()">
-						<img alt="plus/minus_icon" src="resources/icon/down_triangle.png" style="width: 20px; height: 20px;">
-					</a>
-					<span style="vertical-align: middle;">펀드</span>
-				</header>
-				<table class="fund_Tr ui selectable gray table" border="1">
-					<tr>
-						<th>펀드명</th>
-						<th>투자원금</th>
-						<th>손익률</th>
-						<th>평가금</th>
-						<th>등록날짜</th>
-						<th>만기날짜</th>
-					</tr>
-					<c:choose>
-						<c:when test="${empty fList }">
-							<tr>
-								<td class="selectable" colspan="7" style="text-align: center;">-------조회된 결과가 없습니다.--------</td>
-							</tr>
-						</c:when><c:otherwise>
-							<c:forEach items="${fList }" var="fDto">
-								<tr>
-									<td class="selectable">
-										<a href="#" onclick="fundDetail('${fDto.f_seq}')">
-											${fDto.f_name }
-										</a>
-									</td>
-									<td class="selectable">
-										<a href="#" onclick="fundDetail('${fDto.f_seq}')">
-											<fmt:formatNumber value="${fDto.f_money }" type="number"/> 원
-										</a>
-									</td>
-									<td class="selectable">
-										<a href="#" onclick="fundDetail('${fDto.f_seq}')">
-											<fmt:formatNumber value="${fDto.f_money/fDto.f_add }" pattern="0.00"/>
-										</a>
-									</td>
-									<td class="selectable">
-										<a href="#" onclick="fundDetail('${fDto.f_seq}')">
-											<fmt:formatNumber value="${fDto.f_add }" type="number"/> 원
-										</a>
-									</td>
-									<td class="selectable">
-										<a href="#" onclick="fundDetail('${fDto.f_seq}')">
-											<fmt:formatDate value="${fDto.f_buydate }" pattern="yyyy-MM-dd"/>
-										</a>
-									</td>
-									<td class="selectable">
-										<a href="#" onclick="fundDetail('${fDto.f_seq}')">
-											<fmt:formatDate value="${fDto.f_enddate }" pattern="yyyy-MM-dd"/>
-										</a>
-									</td>
-								</tr>
-							</c:forEach>
-								<tr>
-								<td colspan="4"></td>
-									<th>합계</th>
-									<td>
-										<c:set var="total" value="0" />
-										<c:forEach items="${fList}" var="fDto">
-											<c:set var="total" value="${total+fDto.f_add}" />
-										</c:forEach>
-										<fmt:formatNumber value="${total}" type="number"/> 원
-									</td>
-								</tr>	
-						</c:otherwise>
-					</c:choose>
-				</table>
-			</div>
+  
+  </div>
+  
+  
+  <div class="seven wide column">
+  			
 		  <!------  ---------->		
 		<!---  대출정보 테이블   ---->
 		  <!------  ---------->
@@ -495,7 +526,7 @@ window.onload = function () {
 				</table>
 			</div>
 		</div>
-	</div>
+	   <div class="wide column"></div>
+</div>
 
-</body>
-</html>
+

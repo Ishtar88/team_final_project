@@ -11,6 +11,7 @@ public interface IManagerDao {
 	public List<MembersDto> searchByName(String m_name);
 	public List<MembersDto> searchByPhone(String m_phone);
 	
-	public boolean deleteMember(MembersDto mdto); 
+	public boolean deleteMember(MembersDto mdto);
+	
 	
 }

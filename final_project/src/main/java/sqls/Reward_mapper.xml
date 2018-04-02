@@ -52,9 +52,9 @@
 
 	<insert id="insertReward" parameterType="RewardDto">
 		INSERT INTO REWARD
-		(R_SEQ,R_NAME,B_SEQ,R_POINT,R_SELL,R_FILE,R_DETAIL)
+		(R_SEQ,R_NAME,B_SEQ,R_POINT,R_SELL,R_FILE,R_DETAIL,R_NUMBER)
 		VALUES
-		(REWARD_SEQ.NEXTVAL,#{r_name},#{b_seq},#{r_point},'Y',#{r_file},#{r_detail})
+		(REWARD_SEQ.NEXTVAL,#{r_name},#{b_seq},#{r_point},'Y',#{r_file},#{r_detail},#{r_number})
 	</insert>
 
 	<select id="rewardList" resultMap="RewardDto">
@@ -93,7 +93,7 @@
 	</select>
 
 	<select id="rewardOne" resultMap="RewardDto" parameterType="Map">
-		SELECT R_SEQ,R_NAME,R_POINT,R_SELL,R_FILE,R_REGDATE,C.B_SEQ,B_NAME
+		SELECT R_SEQ,R_NAME,R_POINT,R_SELL,R_FILE,R_REGDATE,C.B_SEQ,B_NAME,R_NUMBER
 		FROM
 		REWARD R JOIN COMPANY C ON R.B_SEQ=C.B_SEQ WHERE R_SEQ=#{r_seq}
 	</select>

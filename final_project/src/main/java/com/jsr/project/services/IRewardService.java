@@ -22,4 +22,5 @@ public interface IRewardService {
 	public List<RewardDto> listOfCategory(String r_detail,String sNum,String eNum);
 	public int pageCount(String r_detail);
 	public boolean updateReward(RewardDto rdto);
+
 }

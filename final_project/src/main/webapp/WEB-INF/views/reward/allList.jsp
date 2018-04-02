@@ -7,7 +7,7 @@
 %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="f"%>
-<jsp:include page="../header.jsp"></jsp:include>
+<jsp:include page="..\manager/manager_header.jsp"></jsp:include>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -32,6 +32,39 @@ img {
 </style>
 </head>
 <body>
+
+<div class="ui grid">
+
+<!-- --------------------------------------------------------------첫 레이아웃 줄 시작-->  
+
+    <!-- 공백 그리드  -->
+<div class="two wide column"></div>
+
+<div class="twelve wide column">
+<div class="ui secondary pointing menu">
+  <a class=" item" href="insertReward.do">
+   상품등록
+  </a>
+  <a class="active item" href="rewardList.do">
+   상품정보수정
+  </a>
+  <a class="item" href="insertCompanyGo.do">
+    기업등록
+  </a>
+  <a class="item" href="company.do">
+    기업정보수정
+  </a>
+</div>
+</div>
+
+<div class="two wide column"></div>
+
+<!-- --------------------------------------------------------------첫 레이아웃 줄 끝-->  
+
+    <!-- 공백 그리드  -->
+<div class="two wide column"></div>
+
+<div class="twelve wide column">
 	<form action="updateReward.do" method="post"
 		enctype="multipart/form-data">
 		<table class="ui celled table">
@@ -53,7 +86,8 @@ img {
 					<tr>
 						<td><input type="hidden" value="${rdto.r_seq}" name="r_seq" />${rdto.r_seq}</td>
 						<td><img alt="상품 이미지" src="resources/upload/${rdto.r_file}">
-							<input type="file" name="r_file" disabled="disabled" /></td>
+							<input type="file" name="r_file2" disabled="disabled" />
+						<input type="hidden" name="r_file1" value="${rdto.r_file}" /></td>
 						<td><select name="r_detail" disabled="disabled">
 								<option value="외식">외식</option>
 								<option value="카페">카페</option>
@@ -84,5 +118,10 @@ img {
 			</tbody>
 		</table>
 	</form>
+</div>
+	
+	    <!-- 공백 그리드  -->
+<div class="two wide column"></div>
+</div>
 </body>
 </html>

@@ -27,6 +27,14 @@
 			VALUES(POINT_SEQ.NEXTVAL,#{id},SYSDATE,'일반','목표설정 포인트 적립',100)
 		</insert>
 		
+		<update id="goalUpdate" parameterType="GoalDto">
+		UPDATE GOAL SET G_NAME=#{g_name},G_MEMO=#{g_memo},G_MONEY=#{g_money} WHERE G_SEQ=#{g_seq}
+		</update>
+		
+		<delete id="goalDelete" parameterType="GoalDto">
+		DELETE FROM GOAL WHERE G_SEQ=#{g_seq}
+		</delete>
+		
 		<!-- ////////////////////////////////////////// -->
 		
 		
@@ -426,6 +434,12 @@
 		<select id="dobakCheck" parameterType="RewardDto" resultType="RewardDto">
 			SELECT NVL(R_SEQ,0) AS R_SEQ FROM REWARD WHERE R_SEQ=#{r_seq} AND R_NUMBER=#{r_number}
 		</select>
+		
+		<insert id="minusPointDobakStart" parameterType="Map">
+			INSERT INTO POINT
+			(PO_SEQ,ID,PO_NAME,PO_POINT,PO_DETAIL)
+			VALUES(POINT_SEQ.NEXTVAL,#{id},'리워드몰이용',-100,'뽑기도전')
+		</insert>
 		
 		<insert id="buyDobak" parameterType="ProductDto">
 		<![CDATA[

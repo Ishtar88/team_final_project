@@ -10,6 +10,13 @@ public class CompanyDto {
 	private String b_address;
 	private String b_tel;
 	private Date b_regDate;
+	private String deal;
+	public String getDeal() {
+		return deal;
+	}
+	public void setDeal(String deal) {
+		this.deal = deal;
+	}
 	public CompanyDto() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -62,8 +69,9 @@ public class CompanyDto {
 	@Override
 	public String toString() {
 		return "CompanyDto [b_seq=" + b_seq + ", b_name=" + b_name + ", b_num=" + b_num + ", b_address=" + b_address
-				+ ", b_tel=" + b_tel + ", b_regDate=" + b_regDate + "]";
+				+ ", b_tel=" + b_tel + ", b_regDate=" + b_regDate + ", deal=" + deal + "]";
 	}
+	
 	
 	
 

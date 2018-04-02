@@ -59,12 +59,8 @@
 					theme : "light2",
 					animationEnabled : true,
 					title : {
-						text : "Shares of Electricity Generation by Fuel"
+						text : "지출패턴 비율"
 					},
-					subtitles : [ {
-						text : "United Kingdom, 2016",
-						fontSize : 16
-					} ],
 					data : [ {
 						type : "pie",
 						indexLabelFontSize : 18,
@@ -140,6 +136,15 @@ img {
 </head>
 
 <body>
+<div class="ui grid">
+
+<!-- --------------------------------------------------------------첫 레이아웃 줄 시작 -->
+<!-- 개월수 세부메뉴 시작  -->
+
+<!-- 공백 그리드  -->
+<div class="wide column"></div>
+
+	<div class="fourteen wide column">
 	<div class="ui secondary pointing menu">
 		<a class="active item"
 			href="an_consumption_main.do?sMonth=-2&eMonth=-1&year=<%=year%>&month=<%=month%>&lastDay=<%=lastDay%>">
@@ -149,26 +154,79 @@ img {
 			href="an_consumption_main.do?sMonth=-7&eMonth=-1&year=<%=year%>&month=<%=month%>&lastDay=<%=lastDay%>">
 			최근6개월 </a>
 	</div>
-
+	</div>
 	<input type="hidden" name="year" value="<%=year%>" />
 	<input type="hidden" name="month" value="<%=month%>" />
 	<input type="hidden" name="lastDay" value="<%=lastDay%>" />
 	<input type="hidden" name="sMonth" value="${sMonth}" />
 	<input type="hidden" name="eMonth" value="${eMonth}" />
+	
+	<!-- 공백 그리드  -->
+<div class="wide column"></div>
 
+	<!-- 개월수 세부메뉴 끝  -->
+	
+<!-- --------------------------------------------------------------첫 레이아웃 줄 끝-->	
+
+
+
+<!-- --------------------------------------------------------------둘째 레이아웃 줄 시작 -->
+<!-- 지출패턴 설명  및 사진 시작 -->
+
+	<!-- 공백 그리드  -->
+<div class="wide column"></div>
+
+
+<div class="fourteen wide column">
 	<table id="type1" class="ui unstackable table">
 		<tr>
-			<td><img alt="유형 이미지" src="${aDto3.a_img}" /></td>
+			<td><img alt="유형 이미지"  src="${aDto3.a_img}" /></td>
 			<td>${aDto3.a_name}<p>${aDto3.a_detail}</p></td>
 		</tr>
 	</table>
+</div>
+	
+	
+	<!-- 공백 그리드  -->
+<div class="wide column"></div>
+	
+	<!-- 지출패턴 설명  및 사진 끝  -->
+	
+<!-- --------------------------------------------------------------둘째 레이아웃 줄 끝 -->
 
+<!-- --------------------------------------------------------------셋째 레이아웃 줄 시작 -->
+
+	<!-- 공백 그리드  -->
+<div class="wide column"></div>
+	
+
+<!-- 지출패턴 그래프 시작 -->
+<div class="seven wide column">
 	<div id="chartContainer2" style="height: 370px; width: 100%;"></div>
 	<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+</div>
+<!-- 지출패턴 그래프 끝  -->
 
-	<!--카테고리별 상세내역  -->
+<!--카테고리별 상세지출내역 그래프 시작  -->
+<div class="seven wide column">
 	<div id="chartContainer" style="height: 370px; width: 100%;"></div>
+</div>
+	<!--카테고리별 상세지출내역 그래프 끝  -->
 
+	<!-- 공백 그리드  -->
+<div class="wide column"></div>
+
+<!-- --------------------------------------------------------------셋째 레이아웃 줄 끝 -->
+		
+
+<!-- --------------------------------------------------------------넷째 레이아웃 줄 시작 -->
+	
+	
+	<!-- 공백 그리드  -->
+<div class="wide column"></div>	
+	
+<!--카테고리별 상세지출내역 표 시작  -->
+<div class="fourteen wide column">
 	<table id="type1" class="ui unstackable table">
 		<tr>
 			<th>순위</th>
@@ -187,7 +245,24 @@ img {
 			</tr>
 		</c:forEach>
 	</table>
+</div>
 
+	<!-- 공백 그리드  -->
+<div class="wide column"></div>	
+	
+<!--카테고리별 상세지출내역 표 끝  -->
+
+<!-- --------------------------------------------------------------넷째 레이아웃 줄 끝 -->
+
+
+<!-- --------------------------------------------------------------다섯째 레이아웃 줄 시작 -->
+
+	<!-- 공백 그리드  -->
+<div class="wide column"></div>	
+	
+
+<!--평균 구매 신중도 & 소비만족도 시작 -->
+<div class="seven wide column">
 	<table class="ui unstackable table">
 
 		<tr>
@@ -241,7 +316,12 @@ img {
 			<td><img alt="유형 이미지" src="${aDto1.a_img}" /></td>
 			<td>${aDto1.a_name}<p>${aDto1.a_detail}</p></td>
 		</tr>
+		</table>
+</div>
 
+
+<div class="seven wide column">
+	<table class="ui unstackable table">
 		<tr>
 			<td>평균 소비만족도</td>
 			<td><c:choose>
@@ -294,7 +374,17 @@ img {
 			<td>${aDto2.a_name}<p>${aDto2.a_detail}</p></td>
 		</tr>
 	</table>
+</div>
 
+
+	
+<!--평균 구매 신중도 & 소비만족도 끝 -->
+
+	<!-- 공백 그리드  -->
+<div class="wide column"></div>	
+	
+	
+</div>
 
 
 

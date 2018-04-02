@@ -19,4 +19,14 @@ public class CompanyService implements ICompanyService {
 		return companyDao.getAllCompany();
 	}
 
+	@Override
+	public boolean updateCompany(CompanyDto cdto) {
+		return companyDao.updateCompany(cdto);
+	}
+
+	@Override
+	public boolean insertCompany(CompanyDto cdto) {
+		return companyDao.insertCompany(cdto);
+	}
+
 }

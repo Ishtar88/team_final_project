@@ -6,7 +6,6 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <jsp:include page="../header.jsp"></jsp:include>
-<jsp:include page="pattern_header.jsp"></jsp:include>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -18,6 +17,10 @@ String paramMonth = request.getParameter("month");
 Calendar cal = Calendar.getInstance();
 int year = cal.get(Calendar.YEAR);
 int month = cal.get(Calendar.MONTH) + 1;
+
+cal.set(year, month - 1, 1);
+int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
+int lastDay = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
 
 if (paramYear != null) {
 	year = Integer.parseInt(paramYear);
@@ -360,84 +363,128 @@ window.onload = function () {
 
 </script>
 <style type="text/css">
-	.temp{
-		width: 100px;
-		height: 100px;
-	}
-	.analy_search{
-		display: none;
-	}
-	.acountTotalSidebar,.aocuntMaxMoney,.currentAcountDetail,.acountYearMoney,.acountYearRate{
-		width: 400px;
-		margin: auto;
-	}
-	..aocuntMaxMoney{
-		width: 500px;
-		margin: auto;
-	}
-	.acountMoneyTop5{
-		width: 600px;
-		margin: auto;
-	}
-	.acountDetailTable,.currentAcountDetailTable{
-		width: 900px;
-		margin: auto;
-	}
-	.acountMaxValueProduct{
-		width: 600px;	
-		margin: auto;
-	}
-	.acountTotalSidebar{
-		position: absolute;
-		left: 600px; top:210px;
-		margin: auto;
-	}
-	.acountYearMoney{
-		position: absolute;
-		left: 600px; top:1550px;
-		margin: auto;
-	}
-	.acountYearRate{
-		position: absolute;
-		left: 600px; top:2150px;
-		margin: auto;
-	}
-	.acountTotalMoney{
-		margin: auto;
-	}
+
 
 </style>
 </head>
 <body>
+<div class="ui grid">
 
 
-<!--         -->
-<!-- 총자산 금액 -->
-<!--         -->
-<div class="acountTotalMoney">
-	<h1>총자산: <span><fmt:formatNumber type="number" value="${aDto.ac_money }"/></span>원</h1>
-</div>
+
+<!-- --------------------------------------------------------------첫 레이아웃 줄 시작 -->
+<!-- 개월수 세부메뉴 시작  -->
+
+
+
+    <div class="sixteen wide column">
+    <div class="ui secondary pointing menu">
+        <a class="active item"
+            href="acount_pattern_main.do?sMonth=-2&eMonth=-1&year=<%=year%>&month=<%=month%>&lastDay=<%=lastDay%>">
+            지난달 </a> <a class="item"
+            href="acount_pattern_main.do?sMonth=-4&eMonth=-1&year=<%=year%>&month=<%=month%>&lastDay=<%=lastDay%>">
+            최근3개월 </a> <a class="item"
+            href="acount_pattern_main.do?sMonth=-7&eMonth=-1&year=<%=year%>&month=<%=month%>&lastDay=<%=lastDay%>">
+            최근6개월 </a>
+    </div>
+    </div>
+    <input type="hidden" name="year" value="<%=year%>" />
+    <input type="hidden" name="month" value="<%=month%>" />
+    <input type="hidden" name="lastDay" value="<%=lastDay%>" />
+    <input type="hidden" name="sMonth" value="${sMonth}" />
+    <input type="hidden" name="eMonth" value="${eMonth}" />
+    
+
+
+    <!-- 개월수 세부메뉴 끝  -->
+    
+<!-- --------------------------------------------------------------첫 레이아웃 줄 끝-->    
+
+<div class="sixteen wide column for blank"></div>
+<div class="sixteen wide column for blank"></div>
+<div class="sixteen wide column for blank"></div>
+
+<!-- ------------------1, 5 , 1, 5,2 --------------------------------------------둘째 레이아웃 줄 시작 -->
+<!-- 공백 그리드  -->
+<div class="wide column"></div>
+
+
 
 <!--              -->
 <!-- 투자 비율 차트 -->
 <!--              -->
+<div class="five wide colulmn">
 <div class="acountTotalChart">
 <div>&nbsp;</div>
 	<div id="chartContainer1" style="height: 370px; width: 600px;"></div>
 	<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+</div>
+</div>
 
-	<div class="acountTotalSidebar">
+
+
+<!-- 공백 그리드  -->
+<div class="wide column"></div>
+
+
+<!--         -->
+<!-- 총자산 금액, 유형 및 설명 출력  시작-->
+<!--         -->
+
+
+
+<div class="five wide column">
+
+	<div class="acountTotalMoney">
+	<h1>총자산: <span><fmt:formatNumber type="number" value="${aDto.ac_money }"/></span>원</h1>
+	<div class="acountTotalList">
+			<div>
+				<h2>이번달 총 투자금액: <span><fmt:formatNumber value="${acountMonthMoney.ac_money }" type="number"/> </span> 원 </h2>
+			</div>
 	<table class=" ui celled table">
 		<tr class="aocuntDetail">
-			<td>OOO형 투자유형</td>
+			<td>
+			<c:choose>
+				<c:when test="solution=='SAFE'">
+					<span>안정적</span>
+				</c:when><c:when test="solution=='OFFEN'">
+					<span>공격적</span>
+				</c:when><c:otherwise>
+					<span>균형적</span>
+				</c:otherwise>
+			</c:choose>
+			투자유형</td>
 		</tr>
 		<tr>
 			<td>
-				유형설명
+				${dto.a_detail }
 			</td>
 		</tr>
 		</table>
 	</div>
+</div>
+</div>	
+
+
+<!-- 공백 그리드  -->
+<div class="two wide column"></div>
+
+
+<!-- --------------------------------------------------------------둘째 레이아웃 줄 끝 -->
+
+<div class="sixteen wide column for blank"></div>
+<div class="sixteen wide column for blank"></div>
+<div class="sixteen wide column for blank"></div>
+<div class="sixteen wide column for blank"></div>
+<div class="sixteen wide column for blank"></div>
+
+<!-- -----------------1, 6, 1, 7, 1 ---------------------------------------------셋째 레이아웃 줄 시작 -->
+
+<!-- 공백 그리드  -->
+<div class="wide column"></div>
+
+<!-- 투자 금액 탑파이브 시작  -->
+<div class="six wide column">
 		<div class="acountMoneyTop5">
 			<table class="ui very basic table">
 				<tr>
@@ -459,14 +506,16 @@ window.onload = function () {
 			</table>
 		</div>
 	</div>
-<div>&nbsp;</div>
 
-<div class="temp"></div>
+
+    <!-- 공백 그리드  -->
+<div class="wide column"></div>
+
 
 <!--              -->
 <!-- 투자 분류별 내역 -->
 <!--              -->
-<div class="acountDetailTable">
+<div class="seven wide column">	
 <table class="ui olive table">
 	<caption>투자분류내역</caption>
 	<tr>
@@ -498,11 +547,31 @@ window.onload = function () {
 		</c:choose> 
 </table>
 </div>
-<div class="temp"></div>
+
+
+<!-- 공백 그리드  -->
+<div class="wide column"></div>
+
+
+<!-- --------------------------------------------------------셋째 레이아웃 줄 끝 -->
+<div class="sixteen wide column for blank"></div>
+<div class="sixteen wide column for blank"></div>
+<div class="sixteen wide column for blank"></div>
+<div class="sixteen wide column for blank"></div>
+
+<!-- -------------------1, 6, 1, 6, 2-------------------------------------------넷째 레이아웃 줄 시작-->
+
+
+
+<!-- 공백 그리드  -->
+<div class="wide column"></div>
+
+
 
 <!--              -->
 <!-- 기간별 수익 차트 -->
 <!--              -->
+<div class="six wide column">
 <div class="acountDateChart">
 <div>&nbsp;</div>
 	<div id="chartContainer2" style="height: 370px; width: 600px;"></div>
@@ -515,6 +584,15 @@ window.onload = function () {
 		</tr>
 		</table>
 	</div>
+</div>
+</div>
+
+
+<!-- 공백 그리드  -->
+<div class="wide column"></div>
+
+
+<div class="six wide column">
 	<div class="acountYearMoney">
 	<table class="ui very basic table">
 	<tr>
@@ -535,15 +613,29 @@ window.onload = function () {
 		</c:choose>
 	</table>
 	</div>
-<div>&nbsp;</div>
 </div>
 
-<div class="temp"></div>
+
+
+<!-- 공백 그리드  -->
+<div class="two wide column"></div>
+
+<!-- ---------------------------------------------------------넷째 레이아웃 줄 끝-->
+<div class="sixteen wide column for blank"></div>
+<div class="sixteen wide column for blank"></div>
+<div class="sixteen wide column for blank"></div>
+<div class="sixteen wide column for blank"></div>
+
+<!-- -------------------1, 6, 1, 6, 2-------------------------------------------다섯째 레이아웃 줄 시작-->
+
+<!-- 공백 그리드  -->
+<div class="wide column"></div>
 
 <!--              -->
 <!-- 투자별 수익 현황 차트 -->
 <!--              -->
 	<br>
+<div class="six wide column">
 <div class="acountDetailChart">
 	<div>&nbsp;</div>
 	<div id="chartContainer3" style="height: 370px; width: 600px;"></div>
@@ -558,36 +650,23 @@ window.onload = function () {
 			</tr>
 		</table>	
 	</div>
-	
-	<div class="acountYearRate">
-	<table class="ui very basic table">
-		<tr>
-		<td colspan="4">투자 수익률 TOP5</td>
-		</tr>
-		<c:choose>
-			<c:when test="${empty acountRateTop5 }">
-			<tr>
-				<td colspan="4">데이터가 없습니다.</td>
-			</tr>
-			</c:when><c:otherwise>
-				<c:forEach items="${acountRateTop5 }" var="dto">
-					<tr>
-						<td>${dto.rn }. </td><td>${dto.name }</td><td>(${dto.detail })</td><td>비율(<fmt:formatNumber value="${dto.money/aDto.ac_money*100 }" pattern="0.00"/>%)</td>
-					</tr>
-				</c:forEach>
-			</c:otherwise>
-		</c:choose>
-	</table>
-	</div>
-	<div>&nbsp;</div>
+</div>
 </div>
 
-<div class="temp"></div>
+
+
+
+
+
+<!-- 공백 그리드  -->
+<div class='wide column'></div>
 
 <!--              -->
 <!--           -->
 <!-- 가장 많이 투자하고 있는 수익 차트 -->
 <!--              -->
+
+<div class='six wide column'>
 <div class="acountMaxValueChart">
 <div>&nbsp;</div>
 	<div id="chartContainer4" style="height: 300px; width: 600px;"></div>
@@ -603,39 +682,47 @@ window.onload = function () {
 	</table>
 	</div>
 </div>
+</div>
 
-<div class="temp"></div>
+
+
+
+<!-- 공백 그리드  -->
+<div class='two wide column'></div>
+
+<!-- ---------------------------------------------------------five 레이아웃 줄 끝-->
+
+
+<!-- ---------------------------------------------------------six 레이아웃 줄 start-->
+
+<!-- 공백 그리드  -->
+<div class="wide column"></div>
+
 
 <!--              -->
 <!-- 당월 투자 비율 차트 -->
 <!--              -->
+<div class='six wide column'>
 <div class="currentAcountTotalChart">
 <div><h2><span class="currentYear"><%=year %></span>년 <span class="currentMonth"><%=month %></span>월</h2></div><br>
 	<div id="chartContainer5" style="height: 370px; width: 600px;"></div>
 	<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
-	<div class="acountTotalList">
-			<div>
-				<h2>이번달 총 투자금액: <span><fmt:formatNumber value="${acountMonthMoney.ac_money }" type="number"/> </span> 원 </h2>
-			</div>
 	</div>
 	<br>
-	<div class="currentAcountDetail">
-	<table class="ui celled table">
-		<tr>
-			<td>OOO형 투자유형</td>
-		</tr>
-		<tr>
-			<td>
-				유형설명
-			</td>
-		</tr>
-	</table>
 </div>
-</div>
+
+
+
+
+<!-- 공백 그리드  -->
+<div class='"wide column'></div>
+
+
 <!--              -->
 <!-- 당월 투자 분류별 내역 -->
 <!--              -->
 <br>
+<div class='six wide column'>
 <div class="currentAcountDetailTable">
 <table class="ui olive table">
 	<caption>투자분류내역</caption>
@@ -665,6 +752,56 @@ window.onload = function () {
 		</c:otherwise>
 	</c:choose>
 </table>
+</div>
+</div>
+
+<!-- 공백 그리드  -->
+<div class='two wide column'></div>
+
+
+
+<!-- --------------------------------------------------------------다섯째 레이아웃 줄 끝-->
+<div class="sixteen wide column for blank"></div>
+<div class="sixteen wide column for blank"></div>
+<div class="sixteen wide column for blank"></div>
+<div class="sixteen wide column for blank"></div>
+<!-- -------------------1, 6, 1, 6, 2-------------------------------------------다섯째 레이아웃 줄 시작-->
+
+<!-- 공백 그리드  -->
+<div class='wide column'></div>
+
+
+<div class="six wide column">
+	<div class="acountYearRate">
+	<table class="ui very basic table">
+		<tr>
+		<td colspan="4">투자 수익률 TOP5</td>
+		</tr>
+		<c:choose>
+			<c:when test="${empty acountRateTop5 }">
+			<tr>
+				<td colspan="4">데이터가 없습니다.</td>
+			</tr>
+			</c:when><c:otherwise>
+				<c:forEach items="${acountRateTop5 }" var="dto">
+					<tr>
+						<td>${dto.rn }. </td><td>${dto.name }</td><td>(${dto.detail })</td><td>비율(<fmt:formatNumber value="${dto.money/aDto.ac_money*100 }" pattern="0.00"/>%)</td>
+					</tr>
+				</c:forEach>
+			</c:otherwise>
+		</c:choose>
+	</table>
+	</div>
+</div>
+
+
+
+
+<!-- 공백 그리드  -->
+<div class='five wide column'></div>
+
+
+
 </div>
 </body>
 </html>

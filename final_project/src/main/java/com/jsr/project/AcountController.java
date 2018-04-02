@@ -381,7 +381,7 @@ public class AcountController {
 
 	//목표설정
 	@RequestMapping(value = "/goal_insert.do", method = RequestMethod.POST)
-	public String goal_insert(Locale locale, Model model,GoalDto dto,HttpSession session) {
+	public String goal_insert(Locale locale, Model model,GoalDto dto,HttpSession session,String[] g_money,String[] g_name,String[] g_memo) {
 		logger.info("goal insert start", locale);
 		
 		MembersDto mDto=(MembersDto)session.getAttribute("loginDto");
@@ -389,39 +389,66 @@ public class AcountController {
 		String id=mDto.getId();
 		
 		dto.setId(id);
-		
 		System.out.println("id:"+mDto.getId());
 		
-		System.out.println(dto);
-		
-		acountService.goalPointInsert(id);
-		boolean isc=acountService.goalInsert(dto);
-		System.out.println("goalInsert action end");
-		if (isc) {
-			logger.info("acount insert end",locale);
-			return "acount/goal_main";
+		boolean isc=acountService.goalInsert(id, g_money, g_name, g_memo);
+		if(isc) {
+			System.out.println("목표추가성공");
 		}else {
-			logger.info("acount insert end",locale);
-			return "acount/goal_insert";
+			System.out.println("목표추가실패");
 		}
+		
+		
+		return "redirect:goal_main.do";
+		
 		
 	}
 	
 	//목표수정 페이지 이동
 	@RequestMapping(value = "/goal_update_page.do", method = RequestMethod.GET)
-	public String acount_update_page() {
+	public String acount_update_page(HttpSession session,Model model) {
 		logger.info("goal update page");
+		MembersDto lDto=(MembersDto)session.getAttribute("loginDto");
+		String id=lDto.getId();
 		
+		GoalDto totalmoneyDto=acountService.goalTotalMoney(id);
+		List<GoalDto> goalAllSearchList=acountService.goalAllSearch(id);
+		model.addAttribute("totalMoneyDto", totalmoneyDto);
+		model.addAttribute("goalAllSearchList", goalAllSearchList);
 		return "acount/goal_update";
 	}
 	
 	//목표수정
-	@RequestMapping(value = "/goal_update.do", method = RequestMethod.GET)
-	public String acount_update() {
+	@RequestMapping(value = "/goal_update.do", method = RequestMethod.POST)
+	public String acount_update(String[] g_seq,String[] g_money,String[] g_name,String[] g_memo) {
 		logger.info("goal update page");
 		
-		return "acount/goal_main";
+		boolean isS=acountService.goalUpdate(g_seq, g_money, g_name, g_memo);
+		if(isS) {
+			System.out.println("목표수정성공");
+		}else {
+			System.out.println("목표수정실패");
+		}
+		
+		
+		return "redirect:goal_main.do";
 	}
+	
+	@RequestMapping(value = "/goal_delete.do", method = RequestMethod.GET)
+	public String goal_delete(GoalDto gdto) {
+		logger.info("goal delete page");
+		
+		boolean isS=acountService.goalDelete(gdto);
+		if(isS) {
+			System.out.println("goal delete성공");
+		}else {
+			System.out.println("goal delete실패");
+		}
+		
+		return "redirect:goal_update_page.do";
+	}
+	
+	
 
 	@RequestMapping(value = "/acount_detail.do", method = RequestMethod.GET)
 	public String acount_detail(Model model,String seq,String acount) {
@@ -930,52 +957,7 @@ public class AcountController {
 		
 	}
 	
-	//뽑기를 뽑았을때 번호조회 기능
-	@ResponseBody
-	@RequestMapping(value = "/dobak_check.do", method = RequestMethod.POST)
-	public String dobak_check(Model model,PointDto poDto,ProductDto proDto,HttpSession session) {
-		logger.info("product check start");
-		
-		String reVal="";
-		
-		int point=poDto.getPo_point();
-		
-		String beforePoint="-"+point;
-		int po_point=Integer.parseInt(beforePoint);
-		poDto.setPo_point(po_point);
-		
-		int r_number=(int)(Math.random()*3+1);
-		
-		RewardDto rdto=new RewardDto();
-		rdto.setR_number(r_number);
-		
-		RewardDto dto=acountService.dobakCheck(rdto);
-		if (dto!=null) {
-			logger.info("상품 뽑기 성공");
-			
-			boolean isc=acountService.buyDobakSuccess(poDto, proDto);
-			if (isc) {
-				reVal="";
-			}else {
-				reVal="";
-			}
-			
-		}else {
-			logger.info("상품 뽑기 실패");
-			
-			boolean isc=acountService.buyDobakFail(poDto);
-			if (isc) {
-				reVal="";
-			}else {
-				reVal="";
-			}
-			
-		}
-			
-		logger.info("product check end.");
-		
-		return reVal;
-	}
+
 	
 	
 	

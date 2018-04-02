@@ -20,7 +20,13 @@ public class QnaBoardDao implements IQnaBoardDao{
 //	페이지 카운트 조회
 	@Override
 	public int q_pageCount() {
-		return sqlSession.selectOne(namespace+"pageCount");
+		return sqlSession.selectOne(namespace+"q_pageCount");
+	}
+	
+//	페이지 카운트 조회
+	@Override
+	public int n_pageCount() {
+		return sqlSession.selectOne(namespace+"n_pageCount");
 	}
 	
 //	글 목록 조회 - 유저 
@@ -101,6 +107,23 @@ public class QnaBoardDao implements IQnaBoardDao{
 	@Override
 	public QnaBoardDto q_getBoardAjax(int q_seq) {
 		return sqlSession.selectOne(namespace+"q_detailAjax", q_seq);
+	}
+	
+	//병훈 작업
+
+	@Override
+	public List<QnaBoardDto> qnaDetailAjax(QnaBoardDto dto) {
+		return sqlSession.selectList(namespace+"qnaDetailAjax", dto);
+	}
+
+	@Override
+	public boolean qna_multiDel(String[] chk) {
+		int count=0;
+		Map<String, String[]>map=new HashMap<>();
+		map.put("chk", chk);
+		
+		count=sqlSession.update(namespace+"qna_multiDel", map);
+		return count>0?true:false;
 	}
 
 

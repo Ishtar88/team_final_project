@@ -83,7 +83,7 @@ img {
 					readonly="readonly" size="7px"/></td>
 			</tr>
 			<tr>
-				<td>보유 포인트<input type="text"
+				<td>보유 포인트<input type="text" name="m_point"
 					value="${loginDto.po_point.po_point}" readonly="readonly" size="7px"/></td>
 			</tr>
 			<tr>

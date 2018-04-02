@@ -2,8 +2,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <%request.setCharacterEncoding("UTF-8"); %>
 <%response.setContentType("text/html; charset=UTF-8"); %>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <jsp:include page="../header.jsp"></jsp:include>
 <html>
@@ -34,7 +34,6 @@ window.onload = function () {
 			
 			
 			var chart = new CanvasJS.Chart("chartContainer", {
-				theme: "dark2",
 				exportFileName: "Doughnut Chart",
 				exportEnabled: true,
 				animationEnabled: true,
@@ -93,7 +92,7 @@ window.onload = function () {
 
 	function income_insert_page(){
 		var url='income_insert_page.do';
-		var prop='width=600px; height=600px;';
+		var prop='width=500px; height=450px;';
 		
 		open(url,'',prop);
 	}
@@ -104,36 +103,14 @@ window.onload = function () {
 	
 	function income_detail(seq){
 		var url='income_detail.do?i_seq='+seq;
-		var prop='width=600px; height=600px;';
+		var prop='width=300px; height=300px;';
 		
 		open(url,'',prop);
 	}
 </script>
 <style type="text/css">
-	.income_header_wrap{
-		text-align: center;
-		border: 1px;
-	}
-	.income_canvas_wrap,.income_total_wrap{
-		align-content: center;
-	}
-	.income_body_wrap{
-		align-content: center;
-	}
-	.income_total_wrap{
-		left: 500px;
-		width: 200px; height: 200px;
-		background-color: grey;
-	}	
-	.income_list_body{
-		margin:auto;
-		width: 700px;
-	}
-	.income_total_wrap{
-		position: absolute;
-		left: 600px; top: 180px;
-	}
 
+}
 </style>
 <%
 String paramYear = request.getParameter("year");
@@ -167,138 +144,203 @@ int month=Integer.parseInt(sMonth);
 %>
 </head>
 <body>
-	<br>
-		<header>
-				<div class="acount_list">
-				 	 <a class="ui olive button" href="goal_main.do">목표관리</a>
-					  <a class="ui olive button" href="acount.do?year=<%=year %>&month=<%=month%>">자산관리</a>
-				 	 <a class="ui olive button" href="income_main.do?year=<%=year%>&month=<%=month%>">수입관리</a>
-				 	 <a class="ui olive button" href="spending_main.do?year=<%=year%>&month=<%=month%>">지출관리</a>
-				 	 <a class="ui olive button" href="calendar_main.do?year=<%=year%>&month=<%=month%>">달력</a>
-				 </div>
-		</header>
-	<br>
-		<div class="income_canvas_wrap">
-			<div id="chartContainer" style="height: 400px; width: 600PX;"></div>
-			<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+
+
+<div class="ui grid">
+<div class="sixteen wide column for blank"></div>
+
+<!-- --------------------------------------------------------------첫 레이아웃 줄 시작 -->
+<!-- 개월수 세부메뉴 시작  -->
+
+
+<!--  income calender start -->
+<div class="sixteen wide column">
+	<div class="ui secondary pointing menu">
+			<div class="income_searchDate">
+				<a href="income_main.do?year=<%=year-1%>&month=<%=month%>"><i class="angle double left icon"></i></a> 
+				<a href="income_main.do?year=<%=year%>&month=<%=month-1%>"><i class="angle left icon"></i></a> 
+				<span class="income_year"><%=year%>년</span> 
+				<span class="income_month"><%=month%>월</span> 
+				<a href="income_main.do?year=<%=year%>&month=<%=month+1%>"><i class="angle right icon"></i></a> 
+				<a href="income_main.do?year=<%=year+1%>&month=<%=month%>"><i class="angle double right icon"></i></a>
+			</div>
+				<div class="income_updateForm">
+					<a></a>
 		</div>
-		<div class="income_total_wrap">
-			<table class="acount_total_money ui selectable inverted table">
-				<tr>
-					<td colspan="2" style="text-align: center;">총수입: 
-						<c:set var="total" value="0" />
-							<c:forEach items="${iList}" var="iDto">
-							<c:set var="total" value="${total+iDto.i_money}" />
-						</c:forEach>
-						<fmt:formatNumber value="${total }" type="number"/>원
-					</td>
-				</tr>
-				<tr><td colspan="2"></td></tr>
-					<tr><td colspan="2" style="text-align: center;">수입 TOP5</td></tr>
-				<tr class="field">
-					<td class="income_top5" colspan="2">
-						<c:choose>
-							<c:when test="${empty dtos }">
-								<td colspan="2" style="text-align: center;">수입이 없습니다.</td>
-							</c:when><c:otherwise>
-									<tr>
-										<th>수입명</th>
-										<th>금액</th>
-									</tr>
-									<c:forEach items="${dtos }" var="dtos">
-										<tr>
-											<td>${dtos.i_name }</td>
-											<td><fmt:formatNumber value="${dtos.i_money }" type="number"/>원</td>
-										</tr>
-									</c:forEach>
-							</c:otherwise>
-						</c:choose>
-					</td>
-				</tr>
-			</table>
-		</div>
-		<br><br>
-	<div class="income_body_wrap">
-		<div class="income_header_wrap">
-			<header>
-				<div class="ui right aligned">
-				    <div class="income_searchDate">
-						 <a href="income_main.do?year=<%=year-1%>&month=<%=month%>" ><i class="angle double left icon"></i></a>
-						 <a href="income_main.do?year=<%=year%>&month=<%=month-1%>" ><i class="angle left icon"></i></a>
-					 	  	<span class="income_year"><%=year%>년 </span>
-					 	  	<span class="income_month"><%=month%>월</span>
-					     <a href="income_main.do?year=<%=year%>&month=<%=month+1%>" ><i class="angle right icon"></i></a>
-				  		 <a href="income_main.do?year=<%=year+1%>&month=<%=month%>" ><i class="angle double right icon"></i></a>
-				    </div>
-			    </div>
-			    <div class="income_updateForm">
-			    	<a></a>
-			    </div>
-			</header>
-	    </div>
 	</div>
-	<br>
-	<div class="income_insert_icon">
-		<a href="#" onclick="income_insert_page()"><img alt="acount_icon" src="resources/icon/plus.png" style="width: 25px; height: 25px;"></a>	
-	</div>
-		  <!------  ---------->		
-		<!---  상세내역 테이블   ---->
-		  <!------  ---------->
-		<div class="income_list_body">
-			<div class="income_body">
-				<header>
-					<a href="#" onclick="incomeToggle()">
-						<img alt="plus/minus_icon" src="resources/icon/down_triangle.png" style="width: 20px; height: 20px;">
-					</a>
-					<span style="vertical-align: middle;">저축</span>
-				</header>
-				<table class="income_Tr ui selectable gray table" id="svBody" border="1">
-					<tr>
-						<th>수입명</th>
-						<th>금액</th>
-						<th>고정여부</th>
-						<th>날짜</th>
-						<th>메모</th>
-					</tr>
-					<c:choose>
-						<c:when test="${empty iList }">
+</div>
+<!--  income calender end -->
+
+<!-- --------------------------------------------------------------첫 레이아웃 줄 끝-->  
+
+
+<div class="sixteen wide column for blank"></div>
+<div class="sixteen wide column for blank"></div>
+<div class="sixteen wide column for blank"></div>
+
+<!-- ------------------1, 5 , 1, 5,2 --------------------------------------------둘째 레이아웃 줄 시작 -->
+
+
+
+<!-- 공백 그리드  -->
+<div class="wide column"></div>
+
+
+<!-- ㅌㅔㅇㅣㅂㅡㄹ ㅅㅜㅈㅓㅇㅎㅐㅅㅇㅡㅁ ㅈㅗㅎㄱㅔㅅㄷㅏㅇ ㅎㅎ  -->
+
+
+<!--  income total wrap start -->
+<div class="three wide column">
+	<div class="income_total_wrap">
+		<table class="acount_total_money ui selectable table">
+			<tr>
+				<td colspan="2" style="text-align: center;">총수입: <c:set
+						var="total" value="0" /> <c:forEach items="${iList}" var="iDto">
+						<c:set var="total" value="${total+iDto.i_money}" />
+					</c:forEach> <fmt:formatNumber value="${total }" type="number" />원
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2"></td>
+			</tr>
+			<tr>
+				<td colspan="2" style="text-align: center;">수입 TOP5</td>
+			</tr>
+			<tr class="field">
+				<td class="income_top5" colspan="2"><c:choose>
+						<c:when test="${empty dtos }">
+							<td colspan="2" style="text-align: center;">수입이 없습니다.</td>
+						</c:when>
+						<c:otherwise>
 							<tr>
-								<td class="selectable" colspan="6" style="text-align: center;">-------조회된 결과가 없습니다.--------</td>
+								<th>수입명</th>
+								<th>금액</th>
 							</tr>
-						</c:when><c:otherwise>
-							<c:forEach items="${iList }" var="iDto">
+							<c:forEach items="${dtos }" var="dtos">
 								<tr>
-									<td class="selectable">
-										<a href="#" onclick="income_detail('${iDto.i_seq}')">
-											${iDto.i_name }
-										</a>
-									</td>
-									<td class="selectable">
-									<a href="#" onclick="income_detail('${iDto.i_seq}')">
-									<fmt:formatNumber value="${iDto.i_money }" type="number"/>원
-									</a>
-									</td>
-									<td class="selectable">
-									<a href="#" onclick="income_detail('${iDto.i_seq}')">
-									${iDto.i_fix.equals("Y")?"고정수입":"변동수입" }
-									</a>
-									</td>
-									<td class="selectable">
-									<a href="#" onclick="income_detail('${iDto.i_seq}')">
-										<fmt:formatDate value="${iDto.i_regdate }" pattern="yyyy-MM-dd"/>
-									</a>
-									</td>
-									<td class="selectable">
-									<a href="#" onclick="income_detail('${iDto.i_seq}')">
-										${iDto.i_memo }
-									</a>
-									</td>
+									<td>${dtos.i_name }</td>
+									<td><fmt:formatNumber value="${dtos.i_money }"
+											type="number" />원</td>
 								</tr>
 							</c:forEach>
 						</c:otherwise>
-					</c:choose>
-				</table>
-			</div>
+					</c:choose></td>
+			</tr>
+			<tr>
+				<td>
+				Insert income
+				<!-- insert icon -->
+				<a href="#" onclick="income_insert_page()"><img alt="acount_icon"
+			src="resources/icon/plus.png" style="width: 25px; height: 25px;"></a></td>
+			</tr>
+		</table>
+	</div>
+</div>
+
+
+<!-- insert icon -->
+
+<!--  income total wrap end -->
+
+<!-- graph start -->
+<div class="seven wide column">
+	<div class="income_canvas_wrap">
+		<div id="chartContainer" style="height: 400px; width: 600PX;"></div>
+		<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+	</div>
+</div>
+<!-- graph end -->	
+	
+
+
+
+<div class="four wide column for blank"></div>
+
+<!-- --------------------------------------------------------------둘째 레이아웃 줄 끝 -->
+
+<div class="sixteen wide column for blank"></div>
+<div class="sixteen wide column for blank"></div>
+<div class="sixteen wide column for blank"></div>
+<div class="sixteen wide column for blank"></div>
+<div class="sixteen wide column for blank"></div>
+
+<!-- ----------------------------------------------------------셋째 레이아웃 줄 시작
+
+<!-- 공백 그리드  -->
+<div class="wide column"></div>
+
+
+	<!------  ---------->
+	<!---  상세내역 테이블   start---->
+	<!------  ---------->
+<div class="six wide column">
+	<div class="income_list_body">
+		<div class="income_body">
+			<header>
+				<a href="#" onclick="incomeToggle()"> <img alt="plus/minus_icon"
+					src="resources/icon/down_triangle.png"
+					style="width: 20px; height: 20px;">
+				</a> <span style="vertical-align: middle;">저축</span>
+			</header>
+			<table class="income_Tr ui selectable gray table" id="svBody"
+				border="1">
+				<tr>
+					<th>수입명</th>
+					<th>금액</th>
+					<th>고정여부</th>
+					<th>날짜</th>
+					<th>메모</th>
+				</tr>
+				<c:choose>
+					<c:when test="${empty iList }">
+						<tr>
+							<td class="selectable" colspan="6" style="text-align: center;">-------조회된
+								결과가 없습니다.--------</td>
+						</tr>
+					</c:when>
+					<c:otherwise>
+						<c:forEach items="${iList }" var="iDto">
+							<tr>
+								<td class="selectable"><a href="#"
+									onclick="income_detail('${iDto.i_seq}')"> ${iDto.i_name } </a>
+								</td>
+								<td class="selectable"><a href="#"
+									onclick="income_detail('${iDto.i_seq}')"> <fmt:formatNumber
+											value="${iDto.i_money }" type="number" />원
+								</a></td>
+								<td class="selectable"><a href="#"
+									onclick="income_detail('${iDto.i_seq}')">
+										${iDto.i_fix.equals("Y")?"고정수입":"변동수입" } </a></td>
+								<td class="selectable"><a href="#"
+									onclick="income_detail('${iDto.i_seq}')"> <fmt:formatDate
+											value="${iDto.i_regdate }" pattern="yyyy-MM-dd" />
+								</a></td>
+								<td class="selectable"><a href="#"
+									onclick="income_detail('${iDto.i_seq}')"> ${iDto.i_memo } </a>
+								</td>
+							</tr>
+						</c:forEach>
+					</c:otherwise>
+				</c:choose>
+			</table>
 		</div>
+	</div>
+</div>
+	<!------  ---------->
+	<!---  상세내역 테이블   end---->
+	<!------  ---------->
+	
+
+	
+	
+<div class="sixteen wide column for blank"></div>
+<div class="sixteen wide column for blank"></div>
+<div class="sixteen wide column for blank"></div>
+<div class="sixteen wide column for blank"></div>
+<div class="sixteen wide column for blank"></div>
+	
+	
+	
+</div>	
 </body>
 </html>

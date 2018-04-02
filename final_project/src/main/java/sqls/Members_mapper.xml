@@ -18,7 +18,7 @@
 		<result property="m_job" column="M_JOB" />
 		<result property="m_regDate" column="M_REGDATE" />
 		<result property="m_goalDate" column="M_GOALDATE" />
-		<result property="m_useable" column="M_USEAABLE" />
+		<result property="m_useable" column="M_USEABLE" />
 		<result property="m_mariable" column="M_MARIABLE" />
 		<result property="m_favorite" column="M_FAVORITE" />
 		<collection property="po_point" resultMap="PointDto"></collection>
@@ -127,8 +127,8 @@
 
 	<insert id="kakaoRegist" parameterType="MembersDto">
 		INSERT INTO
-		MEMBERS(ID,M_NAME,M_EMAIL,M_PASSWORD,M_PHONE,M_GENDER)
-		VALUES(#{id},#{m_name},#{m_email},#{m_password},' ',' ')
+		MEMBERS(ID,M_NAME,M_EMAIL,M_PASSWORD,M_PHONE,M_GENDER,M_USEABLE)
+		VALUES(#{id},#{m_name},#{m_email},#{m_password},' ',' ','Y')
 	</insert>
 
 	<select id="chkPassword" parameterType="MembersDto" resultMap="MembersDto">
@@ -160,7 +160,7 @@
 	<select id="showMember" resultMap="MembersDto">
 		SELECT
 		ID,M_NAME,M_EMAIL,M_PASSWORD,M_PHONE,M_GENDER,M_GRADE,M_ADDRESS,M_JOB,M_REGDATE,M_USEABLE,M_MARIABLE,M_FAVORITE,M_BIRTHDATE,M_GOALDATE,M_PROFILE_IMG
-		FROM MEMBERS
+		FROM MEMBERS WHERE M_GRADE='USER'
 	</select>
 
 	<select id="searchById" parameterType="Map" resultMap="MembersDto">

@@ -7,6 +7,7 @@ import com.jsr.project.dtos.AcountDto;
 import com.jsr.project.dtos.AcountPatternDto;
 import com.jsr.project.dtos.AnalysisDto;
 import com.jsr.project.dtos.GoalDto;
+import com.jsr.project.dtos.MembersDto;
 import com.jsr.project.dtos.SaveDto;
 import com.jsr.project.dtos.SpendingDto;
 
@@ -71,5 +72,13 @@ public interface IAnalysisService {
 		
 		//가장 많이 투자하고 있는 상품 조회
 		public AcountPatternDto acountMaxValueProduct(AcountPatternDto dto);
+		
+		
+		//투자패턴 유형 조회
+		public AcountDto acountPatternRate(MembersDto lDto);
+		
+		//투자패턴 유형 설명 조회
+		public List<AnalysisDto> acountPatternReview();
+		
 		
 }

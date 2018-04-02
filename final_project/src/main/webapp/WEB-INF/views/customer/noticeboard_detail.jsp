@@ -5,15 +5,8 @@
     <%response.setContentType("text/html; charset=utf-8"); %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
-<<jsp:include page="../header.jsp"></jsp:include>
+<jsp:include page="../header.jsp"></jsp:include>
 <html>
-<script type="text/javascript">
-	function goback(){
-		location.href="notice.do";
-	}
-
-</script>
-
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
@@ -39,7 +32,7 @@
 	<tr>
 		<th>작성일</th>
 		<td>
-		<fmt:formatDate value="${dto.n_regDate}" pattern="yy년MM월dd일"/></td>
+		<fmt:formatDate value="${dto.n_regDate}" pattern="yyyy년MM월dd일"/></td>
 	</tr>
 	<tr>
 		<th>제목</th>
@@ -50,7 +43,7 @@
 		<td><textarea class="form-control" rows="10" cols="60" placeholder="Readonly input here…" readonly>${dto.n_content}</textarea></td>
 	</tr>
 </table>
-<button class="ui olive button" onclick="goback()">목록</button>
+<button class="ui olive button" onclick="location.href='notice.do?snum=${snum}&ennum=${ennum }'">목록</button>
 </div>
 </body>
 </html>

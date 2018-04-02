@@ -208,29 +208,76 @@ display: inline-block;
 </style>
 </head>
 <body>
-<div class="ui secondary pointing menu">
-  <a class="active item" href="total_pattern_main.do?sMonth=-2&eMonth=-1&year=<%=year%>&month=<%=month%>&lastDay=<%=lastDay%>">
-   지난달
-  </a>
-  <a class="item" href="total_pattern_main.do?sMonth=-4&eMonth=-1&year=<%=year%>&month=<%=month%>&lastDay=<%=lastDay%>">
-    최근3개월
-  </a>
-  <a class="item" href="total_pattern_main.do?sMonth=-7&eMonth=-1&year=<%=year%>&month=<%=month%>&lastDay=<%=lastDay%>">
-    최근6개월
-  </a>
+
+
+<div class="ui grid">
+
+<!-- --------------------------------------------------------------첫 레이아웃 줄 시작 -->
+
+<!-- 공백 그리드  -->
+<div class="wide column"></div>
+
+<!--  개월수 세부메뉴 시작  -->
+<div class=" fourteen wide column">
+		<div class="ui secondary pointing menu">
+  				<a class="active item" href="total_pattern_main.do?sMonth=-2&eMonth=-1&year=<%=year%>&month=<%=month%>&lastDay=<%=lastDay%>">
+  				 지난달
+  				</a>
+  				<a class="item" href="total_pattern_main.do?sMonth=-4&eMonth=-1&year=<%=year%>&month=<%=month%>&lastDay=<%=lastDay%>">
+   				 최근3개월
+  				</a>
+  				<a class="item" href="total_pattern_main.do?sMonth=-7&eMonth=-1&year=<%=year%>&month=<%=month%>&lastDay=<%=lastDay%>">
+   				 최근6개월
+  				</a>
+		</div>
 </div>
+<!-- 개월수 세부메뉴 끝  -->
 
-<table id="type1" class="ui unstackable table">
-		<tr>
-			<td><img alt="유형 이미지" src="${aDto1.a_img}" /></td>
-			<td>${aDto1.a_name}<p>${aDto1.a_detail}</p></td>
-		</tr>
-	</table>
+<!-- 공백 그리드  -->
+<div class="wide column"></div>
 
+<!-- --------------------------------------------------------------첫 레이아웃 줄 끝 -->
+
+
+
+<!-- --------------------------------------------------------------둘째 레이아웃 줄 시작-->
+<!-- 공백 그리드  -->
+<div class="wide column"></div>
+
+
+
+<!-- 투자대비 지출 그래프 시작  -->
+<div class="five wide  column">
 	<div id="chartContainer1" style="height: 370px; width: 100%;"></div>
 	<script src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
 	<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+</div>
+	<!-- 투자대비 지출 그래프 끝 -->
+
+
+<!-- 투자대비 지출 사진 및 설명 시작  -->
+<div class="nine wide column">
+${loginDto.m_name}  님의 투자대비 지출은....! 
+</div>
+<!-- 투자대비 지출 사진 및 설명 시작  -->
+
+<!-- 공백 그리드  -->
+<div class="wide column"></div>
+
 	
+	
+<!-- --------------------------------------------------------------둘째 레이아웃 줄 끝 -->
+
+
+<!-- --------------------------------------------------------------셋째 레이아웃 줄 시작 -->
+	
+	<!-- 공백 그리드  -->
+<div class="wide column"></div>
+	
+	
+<!-- 투자대비 지출 표 시작  -->
+
+<div class="seven wide column">
 	<table border="1" id="chart1" class="ui unstackable table">
 		<tr>
 			<th>총 지출액</th>
@@ -250,14 +297,48 @@ display: inline-block;
 			<td><f:formatNumber value="${invest_spending}" type="number" /></td>
 		</tr>
 	</table>
+</div>
+<!-- 투자대비 지출 표 끝  -->	
+
+<div class=" seven wide column">
+<table id="type1" class="ui unstackable table">
+		<tr>
+			<td>
+			<img alt="유형 이미지" src="${aDto1.a_img}" /></td>
+			<td>${aDto1.a_name}<p>${aDto1.a_detail}</p></td>
+		</tr>
+	</table>
+</div>
+
 	
+	<!-- 공백 그리드  -->
+<div class="wide column"></div>
+	
+
+<!-- --------------------------------------------------------------셋째 레이아웃 줄 끝 -->
+
+
+
+<!-- --------------------------------------------------------------넷째 레이아웃 줄 시작 -->
+
+
+	
+	<!-- 공백 그리드  -->
+<div class="wide column"></div>
+
+<!-- 목표 대비 실제 지출 사진 및 설명 시작  -->
+<div class="seven wide column">
 	<table id="type2" class="ui unstackable table">
 		<tr>
 			<td><img alt="유형 이미지" src="${aDto2.a_img}" /></td>
 			<td>${aDto2.a_name}<p>${aDto2.a_detail}</p></td>
 		</tr>
 	</table>
+</div>
+<!-- 목표 대비 실제 지출 사진 및 설명 끝  -->	
 	
+<!-- 목표 대비 실제 지출 표 시작  -->	
+<div class="seven wide column">
 		<table border="1" id="chart2-1" class="ui unstackable table">
 		<tr>
 			<th>목표달성률</th>
@@ -275,10 +356,28 @@ display: inline-block;
 					type="number" /></td>
 		</tr>
 	</table>
+</div>
+<!-- 목표 대비 실제 지출 표 끝  -->	
 
+	
+	<!-- 공백 그리드  -->
+<div class="wide column"></div>
+
+
+<!-- --------------------------------------------------------------넷째 레이아웃 줄 끝 -->
+
+
+<!-- --------------------------------------------------------------다섯째 레이아웃 줄 시작 -->
+
+	<!-- 공백 그리드  -->
+<div class="wide column"></div>
+
+<!-- 목표 대비 실제 지출 그래프 시작  -->	
+<div class="seven wide column">
 	<div id="chartContainer2" style="height: 370px; width: 100%;"></div>
 	<script src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
 	<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+
 
 
 	<input type="hidden" name="year" value="<%=year%>" />
@@ -286,7 +385,14 @@ display: inline-block;
 	<input type="hidden" name="lastDay" value="<%=lastDay%>" />
 	<input type="hidden" name="sMonth" value="${sMonth}" />
 	<input type="hidden" name="eMonth" value="${eMonth}" />
+<!-- 목표 대비 실제 지출 그래프 끝  -->		
+</div>	
 
+
+
+<!-- 목표 대비 실제 지출 상세내역 시작  -->	
+
+<div class="seven wide column">
 <p>카테고리별 상세내역</p>
 	<table border="1" id="chart2-2" class="ui unstackable table">
 
@@ -318,5 +424,19 @@ display: inline-block;
 			</tr>
 		</c:forEach>
 	</table>
+	</div>
+	<!-- 목표 대비 실제 지출 상세내역 끝  -->	
+	
+		<!-- 공백 그리드  -->
+<div class="wide column"></div>
+
+
+
+
+
+<!-- --------------------------------------------------------------다섯째 레이아웃 줄 끝 -->
+
+
+</div>
 </body>
 </html>

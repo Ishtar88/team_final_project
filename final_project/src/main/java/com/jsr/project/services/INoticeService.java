@@ -15,8 +15,11 @@ public interface INoticeService {
 	public boolean n_readcount(int n_seq);
 	public NoticeBoardDto n_detailBoard(int n_seq, String count);
 	public boolean n_updateBoard(NoticeBoardDto dto);
-	public boolean n_mulDelBoard(String[] n_seq);
-	public boolean n_deleteBoard(NoticeBoardDto dto);
+	public boolean n_deleteBoard(int n_seq);
 	
 	public NoticeBoardDto n_getBoardAjax(int n_seq);
+	
+	//공지게시판 다중삭제
+	public boolean notice_multiDel(String[] chk);
+	
 }

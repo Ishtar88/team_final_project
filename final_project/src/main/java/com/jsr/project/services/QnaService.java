@@ -24,6 +24,11 @@ public class QnaService implements IQnaService{
 	public int q_pageCount() {
 		return qnaDao.q_pageCount();
 	}
+	
+	@Override
+	public int n_pageCount() {
+		return qnaDao.q_pageCount();
+	}
 
 	@Override
 	public boolean q_insertBoard(QnaBoardDto dto) {
@@ -35,6 +40,7 @@ public class QnaService implements IQnaService{
 		return qnaDao.q_readCount(q_seq);
 	}
 
+	@Transactional
 	@Override
 	public QnaBoardDto q_getBoard(int q_seq, String count) {
 		if (count.equals("count")) {
@@ -78,6 +84,18 @@ public class QnaService implements IQnaService{
 	public QnaBoardDto q_getAllBoard(int q_seq) {
 		
 		return qnaDao.q_getAllBoard(q_seq);
+	}
+	
+	//병훈 작업
+
+	@Override
+	public List<QnaBoardDto> qnaDetailAjax(QnaBoardDto dto) {
+		return qnaDao.qnaDetailAjax(dto);
+	}
+
+	@Override
+	public boolean qna_multiDel(String[] chk) {
+		return qnaDao.qna_multiDel(chk);
 	}
 
 

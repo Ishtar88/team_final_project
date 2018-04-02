@@ -9,9 +9,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import javax.security.auth.login.AccountNotFoundException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,14 +34,19 @@ import com.jsr.project.dtos.MembersDto;
 import com.jsr.project.dtos.PointDto;
 import com.jsr.project.dtos.ProductDto;
 import com.jsr.project.dtos.RewardDto;
+import com.jsr.project.services.IAcountService;
 import com.jsr.project.services.IRewardService;
 import com.jsr.project.util.QRUtil;
 
 @Controller
 public class RewardController {
+	
+	private static final Logger logger=LoggerFactory.getLogger(RewardController.class);
 
 	@Autowired
 	private IRewardService rewardService;
+	@Autowired
+	private IAcountService acountService;
 
 	@RequestMapping(value = "/rewardMain.do", method = RequestMethod.GET)
 	public String reward() {
@@ -56,6 +64,7 @@ public class RewardController {
 	public String addReward(HttpServletRequest request,RewardDto rdto) {
 
 		String r_name=request.getParameter("r_name");
+		
 		rdto.setR_name(r_name);
 		int b_seq=Integer.parseInt(request.getParameter("b_seq"));
 		rdto.setB_seq(b_seq);
@@ -63,6 +72,11 @@ public class RewardController {
 		rdto.setR_detail(r_detail);
 		int r_point=Integer.parseInt(request.getParameter("r_point"));
 		rdto.setR_point(r_point);
+		
+		int r_number=(int)(Math.random()*3+1);
+		rdto.setR_number(r_number);
+		
+		logger.info("뽑기 숫자생성 pNum: "+r_number);
 
 		MultipartHttpServletRequest multi=(MultipartHttpServletRequest)request;
 		MultipartFile multiFile=multi.getFile("uploadFile");
@@ -184,19 +198,99 @@ public class RewardController {
 		MembersDto loginDto=(MembersDto)session.getAttribute("loginDto");
 
 		System.out.println(loginDto);
-//		if(loginDto.getPo_point().getPo_point()==0) {
-//			
-//		}
 
 		model.addAttribute("rdto", rdto);
 		model.addAttribute("loginDto", loginDto);
-		System.out.println(loginDto);
+
 		return "reward/buyReward";
 
 	}
+	
+	@RequestMapping(value = "/dobakForm.do", method = RequestMethod.GET)
+	public String dobakForm(Model model,HttpSession session,String r_seq) {
+		int rr_seq=Integer.parseInt(r_seq);
+		RewardDto rdto=rewardService.rewardOne(rr_seq);
+		System.out.println(rdto);
+
+		MembersDto loginDto=(MembersDto)session.getAttribute("loginDto");
+
+		System.out.println(loginDto);
+
+		model.addAttribute("rdto", rdto);
+		model.addAttribute("loginDto", loginDto);
+
+		return "reward/dobak_insert_page";
+
+	}
+	
+	//뽑기를 뽑았을때 번호조회 기능
+
+	@RequestMapping(value = "/dobak_check.do", method = RequestMethod.POST)
+	public String dobak_check(Model model,ProductDto proDto,HttpSession session,String id,String r_seq,String po_point) {
+		logger.info("product check start");
+		
+		boolean isS=acountService.minusPointDobakStart(id);
+		if(isS) {
+			System.out.println("뽑기 도전 포인트 차감 성공");
+		}else {
+			System.out.println("뽑기 도전 포인트 차감 실패");
+		}
+		
+		RewardDto rdto=rewardService.rewardOne(Integer.parseInt(r_seq));
+		int r_number=rdto.getR_number();
+		int userNumber=(int)(Math.random()*3+1);
+		System.out.println("상품번호:"+r_number+"유저번호:"+userNumber);
+		
+		if(r_number==userNumber) {
+			logger.info("상품 뽑기 성공");
+			proDto.setId(id);
+			proDto.setPro_num(Integer.parseInt(r_seq));
+			proDto.setPro_count(1);
+			boolean isc=acountService.buyDobakSuccess(proDto);
+			if(isc) {
+				System.out.println("뽑기성공:구매성공");
+				model.addAttribute("isc", "success");
+				return "reward/dobak_insert_page";
+			}else {
+				model.addAttribute("isc", "success");
+				System.out.println("뽑기성공:구매실패");
+				return "reward/dobak_insert_page";
+			}
+		}else {
+			logger.info("상품 뽑기 실패");
+			model.addAttribute("isc", "fail");
+			return "reward/dobak_insert_page";
+		}
+
+		
+//		RewardDto dto=acountService.dobakCheck(rdto);
+//		if (dto!=null) {
+//			logger.info("상품 뽑기 성공");
+//			
+//			boolean isc=acountService.buyDobakSuccess(poDto, proDto);
+//			if (isc) {
+//				reVal="";
+//			}else {
+//				reVal="";
+//			}
+//			
+//		}else {
+//			logger.info("상품 뽑기 실패");
+//			
+//			boolean isc=acountService.buyDobakFail(poDto);
+//			if (isc) {
+//				reVal="";
+//			}else {
+//				reVal="";
+//			}
+//			
+//		}
+			
+		
+	}
 
 	@RequestMapping(value = "/buyReward.do", method = RequestMethod.POST)
-	public String buyReward(HttpServletRequest request,ProductDto prodto,PointDto podto,Model model) {
+	public String buyReward(HttpServletRequest request,ProductDto prodto,PointDto podto,Model model,String m_point) {
 		System.out.println(prodto);
 		System.out.println(podto);
 
@@ -280,13 +374,16 @@ public class RewardController {
 		rdto.setR_sell(r_sell);
 
 		MultipartHttpServletRequest multi=(MultipartHttpServletRequest)request;
-		MultipartFile multiFile=multi.getFile("r_file");
+		MultipartFile multiFile=multi.getFile("r_file2");
+		
 		
 		String r_file="";
 		
-		if(multiFile==null){
+		if(multiFile.getOriginalFilename().equals("")){
 			
-			r_file=rdto.getR_file();
+			r_file=request.getParameter("r_file1");
+			rdto.setR_file(r_file);
+			System.out.println("사진변경X"+rdto);
 			boolean isS=rewardService.updateReward(rdto);
 			if(isS) {
 				System.out.println("수정성공");
@@ -299,7 +396,8 @@ public class RewardController {
 		}else {
 			
 			r_file=multiFile.getOriginalFilename();
-			rdto.setR_file(r_file);			
+			rdto.setR_file(r_file);
+			System.out.println("사진변경O"+rdto);
 			File f=new File("C:/Users/Owner/git/team_final_project/final_project/src/main/webapp/resources/upload/"+r_file);
 			try {
 				multiFile.transferTo(f);

@@ -80,7 +80,7 @@
 		</tr>
 		<tr>
 			<th>내용</th>
-			<td><textarea rows="20" cols="40" >${dto.q_content}</textarea> </td>
+			<td><textarea rows="20" cols="40" readonly="readonly">${dto.q_content}</textarea> </td>
 		</tr>
 		<tr>
 			<td colspan="2">

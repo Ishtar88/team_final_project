@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.jsr.project.dtos.NoticeBoardDto;
 import com.jsr.project.dtos.QnaBoardDto;
@@ -30,6 +31,7 @@ public class NoticeService implements INoticeService{
 		return noticeDao.n_readCount(n_seq);
 	}
 
+	@Transactional
 	@Override
 	public NoticeBoardDto n_detailBoard(int n_seq, String count) {
 		if (count.equals("count")) {
@@ -44,19 +46,20 @@ public class NoticeService implements INoticeService{
 		return noticeDao.n_updateBoard(dto); 
 	}
 
-	@Override
-	public boolean n_mulDelBoard(String[] n_seq) {
-		return noticeDao.n_muldelBoard(n_seq); 
-	}
 
 	@Override
-	public boolean n_deleteBoard(NoticeBoardDto dto) {
-		return noticeDao.n_deleteOne(dto);
+	public boolean n_deleteBoard(int n_seq) {
+		return noticeDao.n_deleteOne(n_seq);
 	}
 
 	@Override
 	public NoticeBoardDto n_getBoardAjax(int n_seq) {
 		return noticeDao.n_getBoardAjax(n_seq);
+	}
+
+	@Override
+	public boolean notice_multiDel(String[] chk) {
+		return noticeDao.notice_multiDel(chk);
 	}
 
 }

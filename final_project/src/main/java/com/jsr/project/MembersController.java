@@ -335,7 +335,8 @@ public class MembersController {
 	}
 
 	@RequestMapping(value = "/kakaoLogin.do", method = RequestMethod.GET)
-	public String kakaoLogin(HttpServletRequest request, HttpSession session,MembersDto mdto,Model model) {
+	public String kakaoLogin(HttpServletRequest request,MembersDto mdto,HttpSession session,Model model) {
+		
 		String kakaoId=request.getParameter("kakaoId");
 		String m_password="kakao_"+kakaoId;
 

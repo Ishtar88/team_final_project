@@ -12,6 +12,7 @@ import com.jsr.project.dtos.AcountDto;
 import com.jsr.project.dtos.AcountPatternDto;
 import com.jsr.project.dtos.AnalysisDto;
 import com.jsr.project.dtos.GoalDto;
+import com.jsr.project.dtos.MembersDto;
 import com.jsr.project.dtos.SaveDto;
 import com.jsr.project.dtos.SpendingDto;
 
@@ -205,6 +206,15 @@ public class AnalysisDao implements IAnalysisDao{
 	@Override
 	public AcountPatternDto acountMaxValueProduct(AcountPatternDto dto) {
 		return sqlSession.selectOne(namespace+"acountMaxValueProduct", dto);
+	}
+	
+	@Override
+	public AcountDto acountPatternRate(MembersDto lDto) {
+		return sqlSession.selectOne(namespace+"acountPatternRate",lDto);
+	}
+	@Override
+	public List<AnalysisDto> acountPatternReview() {
+		return sqlSession.selectList(namespace+"acountPatternReview");
 	}
 
 

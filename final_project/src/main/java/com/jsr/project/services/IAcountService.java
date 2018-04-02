@@ -8,15 +8,19 @@ import com.jsr.project.dtos.*;
 public interface IAcountService {
 	
 	//목표등록 기능
-	public boolean goalInsert(GoalDto dto);
+	public boolean goalInsert(String id,String[] g_money,String[] g_name,String[] g_memo);
 	
-	public boolean goalRegInsert(GoalDto dto);
+	//public boolean goalRegInsert(GoalDto dto);
 	
-	public boolean goalPointInsert(String id);
+	//public boolean goalPointInsert(String id);
 	
 	public GoalDto goalTotalMoney(String id);
 	
 	public List<GoalDto> goalAllSearch(String id);
+	
+	public boolean goalUpdate(String[] g_seq,String[] g_money,String[] g_name,String[] g_memo);
+	
+	public boolean goalDelete(GoalDto gdto);
 	
 	//----------------------------------
 	
@@ -134,11 +138,10 @@ public interface IAcountService {
 	
 	//뽑기 기능
 	//성공
-	public boolean buyDobakSuccess(PointDto poDto,ProductDto proDto);
-	//실패
-	public boolean buyDobakFail(PointDto poDto);
+	public boolean buyDobakSuccess(ProductDto proDto);
+
 	
-	
+	public boolean minusPointDobakStart(String id);
 	
 	
 	//-----------------------------------------------

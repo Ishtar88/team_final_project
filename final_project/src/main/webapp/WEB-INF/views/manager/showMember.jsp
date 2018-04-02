@@ -40,7 +40,9 @@ function searchUser() {
 	var search = $("input[name=search]").val();
 	
 	if(search==""){
-		alert("검색어를 입력 해 주세요");
+		alert("검색어를 입력 해 주세요.");
+	}else if(category=="m_phone"&&isNaN(search)==true){
+		alert("숫자만 입력 해 주세요.");
 	}else{
 		$.ajax({
 			url : "searchUser.do",
@@ -48,7 +50,7 @@ function searchUser() {
 			type : "post",
 			datetype : "json",
 			success : function(obj) {
-				//alert(obj["list"][0]["id"]);
+				//alert(obj["list"][0]);
 				if (obj["list"][0]== null) {
 					alert("검색 내역이 없습니다.");
 				} else {
@@ -72,7 +74,7 @@ function makeTable(obj) {
 		var mdto = lists[i];
 		
 		str += "<tr><td>"+ mdto.id + "</td><td>"+mdto.m_name+"</td><td>"+mdto.m_email+"</td><td>"+mdto.m_phone+"</td><td>"+mdto.m_gender+
-		"</td><td>"+mdto.m_grade+"</td><td>"+mdto.m_address+"</td><td>"+mdto.m_regDate+"</td><td>"+mdto.m_useable+"</td></tr>";
+		"</td><td>"+mdto.m_grade+"</td><td>"+mdto.m_address+"</td><td>"+mdto.m_regDate+"</td><td>"+mdto.m_useable+"</td><td><button class='ui button' onclick='deleteMember(\""+mdto.id+"\")'>탈퇴</button></td></tr>";
 		
 
 	}
@@ -80,9 +82,26 @@ function makeTable(obj) {
 }
 
 
+function deleteMember(id){
+	location.href="deleteMember.do?id="+id;
+}
+function searchAll(){
+	location.href="getAllMember.do";
+}
 </script>
 <body>
-	<div class="field">
+<div class="ui grid">
+
+<div class="sixteen wide column for blank"></div>
+<div class="sixteen wide column for blank"></div>
+
+<!-- --------------------------------------------------------------첫 레이아웃 줄 시작 -->
+	    <!-- 공백 그리드  -->
+<div class="three wide column"></div>
+	
+	
+	<div class="ten wide column">
+		<div class="field">
 		<select class="ui fluid search dropdown" name="category">
 			<option value="id">아이디</option>
 			<option value="m_name">이름</option>
@@ -94,8 +113,23 @@ function makeTable(obj) {
 		<button class="ui yellow button" onclick="searchUser()">검색</button>
 		<button class="ui olive button" onclick="searchAll()">전체검색</button>
 	</div>
+	</div>
+
+	    <!-- 공백 그리드  -->
+<div class="three wide column"></div>
+
+
+<!-- --------------------------------------------------------------첫 레이아웃 줄 끝--> 
+
+
+<!-- -----------------------------------------------------------둘째 레이아웃 줄 시작 -->
+
+
+	    <!-- 공백 그리드  -->
+<div class="three wide column"></div>
 
 	<!-- 회원정렬-->
+	<div class="ten wide column">
 	<table class="ui single line table" id="all">
 	<thead>
 		<tr>
@@ -107,7 +141,8 @@ function makeTable(obj) {
 			<th>등급</th>
 			<th>주소</th>
 			<th>가입일</th>
-			<th>탈퇴여부</th>
+			<th>사용여부</th>
+			<th></th>
 		</tr>
 	</thead>
 	<tbody>
@@ -132,7 +167,7 @@ function makeTable(obj) {
 						<td>${mdto.m_useable}</td>
 
 						<td>
-							<div class="ui button" onclick="deleteMember(${dto.id})">탈퇴</div>
+							<div class="ui button" onclick="deleteMember('${mdto.id}')">탈퇴</div>
 						</td>
 					</tr>
 				</c:forEach>
@@ -144,6 +179,12 @@ function makeTable(obj) {
 	<table id="searchResult" class="ui single line table">
 
 	</table>
+	</div>
+	
+		    <!-- 공백 그리드  -->
+<div class="three wide column"></div>
+	
+</div>
 </body>
 </html>
 

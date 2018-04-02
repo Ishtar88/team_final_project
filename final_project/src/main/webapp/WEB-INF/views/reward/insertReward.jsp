@@ -7,7 +7,7 @@
 %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="f"%>
-<jsp:include page="../header.jsp"></jsp:include>
+<jsp:include page="..\manager/manager_header.jsp"></jsp:include>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -32,19 +32,53 @@ function chk(){
 </script>
 </head>
 <body>
-	<p>상품등록</p>
+<div class="ui grid">
+
+<!-- --------------------------------------------------------------첫 레이아웃 줄 시작-->  
+
+    <!-- 공백 그리드  -->
+<div class="two wide column"></div>
+
+<div class="twelve wide column">
+<div class="ui secondary pointing menu">
+  <a class="active item" href="insertReward.do">
+   상품등록
+  </a>
+  <a class="item" href="rewardList.do">
+   상품정보수정
+  </a>
+  <a class="item" href="insertCompanyGo.do">
+    기업등록
+  </a>
+  <a class="item" href="company.do">
+    기업정보수정
+  </a>
+</div>
+</div>
+
+    <!-- 공백 그리드  -->
+<div class="two wide column"></div>
+
+
+<!-- --------------------------------------------------------------첫 레이아웃 줄 끝-->  
+
+    <!-- 공백 그리드  -->
+<div class="two wide column"></div>
+
+
+<div class="twelve wide column">
 	<form action="addReward.do" method="post" enctype="multipart/form-data" onsubmit="return chk()">
-		<table border="1">
+		<table class="ui celled table">
 			<tr>
-				<td>상품이미지</td>
+				<th>상품이미지</th>
 				<td><input type="file" name="uploadFile" required="required" /></td>
 			</tr>
 			<tr>
-				<td>상품명</td>
+				<th>상품명</th>
 				<td><input type="text" name="r_name" /></td>
 			</tr>
 			<tr>
-				<td>제휴회사</td>
+				<th>제휴회사</th>
 				<td><select name="b_seq">
 						<c:forEach items="${list}" var="cdto">
 							<option value="${cdto.b_seq}">${cdto.b_name}</option>
@@ -52,7 +86,7 @@ function chk(){
 				</select></td>
 			</tr>
 			<tr>
-				<td>분류</td>
+				<th>분류</th>
 				<td><select name="r_detail">
 							<option value="외식">외식</option>
 							<option value="카페">카페</option>
@@ -61,13 +95,20 @@ function chk(){
 				</select></td>
 			</tr>
 			<tr>
-				<td>가격(포인트)</td>
+				<th>가격(포인트)</th>
 				<td><input type="number" name="r_point" onclick="countChk()"/></td>
 			</tr>
 			<tr>
-				<td colspan="2"><input type="submit" value="상품등록" /></td>
+				<td colspan="2"><button class="ui orange button">등록</button></td>
 			</tr>
 		</table>
 	</form>
+</div>
+
+   <!-- 공백 그리드  -->
+<div class="two wide column"></div>
+
+
+</div>
 </body>
 </html>

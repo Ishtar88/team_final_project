@@ -6,6 +6,7 @@ import com.jsr.project.dtos.AcountDto;
 import com.jsr.project.dtos.AcountPatternDto;
 import com.jsr.project.dtos.AnalysisDto;
 import com.jsr.project.dtos.GoalDto;
+import com.jsr.project.dtos.MembersDto;
 import com.jsr.project.dtos.SaveDto;
 import com.jsr.project.dtos.SpendingDto;
 
@@ -76,6 +77,13 @@ public interface IAnalysisDao {
 		
 		//당월 투자금액 조회
 		public AcountDto acountMonthMoney(AcountPatternDto dto);
+		
+		//투자패턴 유형 조회
+		public AcountDto acountPatternRate(MembersDto lDto);
+		
+		//투자패턴 유형 설명 조회
+		public List<AnalysisDto> acountPatternReview();
+		
 	
 	//투자패턴-유라
 

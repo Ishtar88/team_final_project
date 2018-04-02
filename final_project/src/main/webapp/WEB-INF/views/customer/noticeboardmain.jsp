@@ -60,7 +60,7 @@ pageEncoding="UTF-8"%>
 							</td>
 						</c:otherwise>
 					</c:choose>
-					<td><f:formatDate value="${dto.n_regDate}" pattern="yy년MM월dd일"/> </td>
+					<td><f:formatDate value="${dto.n_regDate}" pattern="yyyy년MM월dd일"/> </td>
 					<td>${dto.n_readcount}</td>
 				</tr>
 			</c:forEach>

@@ -29,20 +29,29 @@ public class AcountService implements IAcountService {
 	
 	@Transactional
 	@Override
-	public boolean goalInsert(GoalDto dto) {
+	public boolean goalInsert(String id,String[] g_money,String[] g_name,String[] g_memo) {
 		boolean isc=false;
-		acountDaoImp.goalInsert(dto);
-		isc=acountDaoImp.goalRegInsert(dto);
+		
+		for (int i = 0; i < g_money.length; i++) {
+			GoalDto gdto=new GoalDto();
+			gdto.setId(id);
+			gdto.setG_money(Integer.parseInt(g_money[i]));
+			gdto.setG_name(g_name[i]);
+			gdto.setG_memo(g_memo[i]);
+			acountDaoImp.goalInsert(gdto);
+			acountDaoImp.goalRegInsert(gdto);
+			isc=acountDaoImp.goalPointInsert(gdto);
+		}
 		
 		return isc;
 	}
 
-	@Override
-	public boolean goalPointInsert(String id) {
-		boolean isc=false;
-		isc=acountDaoImp.goalPointInsert(id);
-		return isc;
-	}
+//	@Override
+//	public boolean goalPointInsert(String id) {
+//		boolean isc=false;
+//		isc=acountDaoImp.goalPointInsert(id);
+//		return isc;
+//	}
 
 	@Override
 	public AcountDto acountTotalSearch(MembersDto dto) {
@@ -60,6 +69,30 @@ public class AcountService implements IAcountService {
 	public List<GoalDto> goalAllSearch(String id) {
 		return acountDaoImp.goalAllSearch(id);
 	}
+	
+	@Transactional
+	@Override
+	public boolean goalUpdate(String[] g_seq,String[] g_money, String[] g_name, String[] g_memo) {
+		
+		boolean isS=false;
+		
+		for (int i = 0; i < g_money.length; i++) {
+			GoalDto gdto=new GoalDto();
+			gdto.setG_seq(Integer.parseInt(g_seq[i]));
+			gdto.setG_money(Integer.parseInt(g_money[i]));
+			gdto.setG_name(g_name[i]);
+			gdto.setG_memo(g_memo[i]);
+			isS=acountDaoImp.goalUpdate(gdto);
+		}
+		
+		return isS;
+	}
+	
+	@Override
+	public boolean goalDelete(GoalDto gdto) {
+		return acountDaoImp.goalDelete(gdto);
+	}
+
 	
 	//----------------------------------------------
 
@@ -175,10 +208,6 @@ public class AcountService implements IAcountService {
 	
 	//----------------------------------------------
 
-	@Override
-	public boolean goalRegInsert(GoalDto dto) {
-		return acountDaoImp.goalRegInsert(dto);
-	}
 
 	@Transactional
 	@Override
@@ -265,16 +294,20 @@ public class AcountService implements IAcountService {
 
 	//뽑기 성공했을 때의 로직
 	@Override
-	public boolean buyDobakSuccess(PointDto poDto, ProductDto proDto) {
-		acountDaoImp.buyDobak(proDto);
-		return acountDaoImp.minusPointDobak(poDto);
+	public boolean buyDobakSuccess(ProductDto proDto) {
+		return acountDaoImp.buyDobak(proDto);
 	}
 
-	//뽑기 실패했을 때의 로직
+
 	@Override
-	public boolean buyDobakFail(PointDto poDto) {
-		return acountDaoImp.minusPointDobak(poDto);
+	public boolean minusPointDobakStart(String id) {
+		return acountDaoImp.minusPointDobakStart(id);
 	}
+
+
+
+	
+
 
 
 

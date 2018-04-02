@@ -22,20 +22,19 @@
 		
 <!-- 		글 목록 조회 - 유저   -->
 		<select id="qnaboard" resultType="QnaBoardDto" parameterType="QnaBoardDto">
-		<![CDATA[
 		SELECT RN,Q_SEQ, ID, Q_TITLE, Q_REGDATE, Q_READCOUNT, Q_REFER,Q_STEP, Q_DEPTH, Q_DELFLAG
 		FROM (SELECT ROW_NUMBER() OVER(ORDER BY Q_SEQ DESC) AS RN,
 				ROWNUM,Q_SEQ, ID, Q_TITLE, Q_REGDATE, Q_READCOUNT, Q_REFER,Q_STEP, Q_DEPTH, Q_DELFLAG
-				FROM QNA) WHERE RN BETWEEN #{snum} AND #{ennum}
+				FROM QNA) WHERE RN BETWEEN #{snum} AND #{ennum} 
 		ORDER BY Q_REFER DESC,Q_STEP ASC
-		]]>
 		
 		</select>
 		
-<!-- 		페이지카운트 조회 -유저 -->
-		<select id="pageCount" resultType="int">
+<!-- 	qna게시판	페이지카운트 조회 -유저 -->
+		<select id="q_pageCount" resultType="int">
 			SELECT CEIL(COUNT(*)/10) AS COUNT FROM QNA
 		</select>
+		
 		
 <!-- 		공개글 상세 조회 - 유저 -->
 		<select id ="q_detailboard" parameterType="int" resultType="QnaBoardDto" >
@@ -69,9 +68,9 @@
 			( Q_SEQ, ID,  Q_TITLE, Q_CONTENT, Q_REGDATE, Q_REFER, Q_STEP, Q_DEPTH, Q_READCOUNT, Q_DELFLAG, Q_VIEWABLE)
 			VALUES 
 			( QNA_SEQ.NEXTVAL, #{id}, #{q_title}, #{q_content}, SYSDATE, 
-			(SELECT REFER FROM ANSWERBOARD WHERE SEQ=#{q_seq}),
-			(SELECT STEP FROM ANSWERBOARD WHERE SEQ=#{q_seq})+1,
-			(SELECT DEPTH FROM ANSWERBOARD WHERE SEQ=#{q_seq})+1, 
+			(SELECT REFER FROM QNA WHERE SEQ=#{q_seq}),
+			(SELECT STEP FROM QNA WHERE SEQ=#{q_seq})+1,
+			(SELECT DEPTH FROM QNA WHERE SEQ=#{q_seq})+1, 
 			0, 'N' , #{q_viewable})
 		</insert>
 		
@@ -85,7 +84,7 @@
 	<update id="q_ansupdate" parameterType="QnaBoardDto">
 		UPDATE QNA SET STEP=STEP+1
 			WHERE REFER=(SELECT REFER FROM QNA WHERE SEQ=#{q_seq} )
-			STEP > (SELECT STEP FROM QNA WHERE SEQ=#{q_seq}  )				
+			STEP > (SELECT STEP FROM QNA WHERE SEQ=#{q_seq})				
 	</update>
 
 		
@@ -125,7 +124,32 @@
 <!-- 		<select id="writeList" resultMap="WriteInfoResult" parameterType="hashmap"> -->
 <!-- 			SELECT * FROM QNA ORDER BY  -->
 <!-- 		</select> -->
+		<select id="qnaDetailAjax" parameterType="QnaBoardDto" resultType="QnaBoardDto">
+					SELECT RN,Q_SEQ, ID, Q_TITLE,Q_CONTENT Q_REGDATE, Q_READCOUNT, Q_REFER,Q_STEP, Q_DEPTH, Q_DELFLAG
+					FROM (SELECT ROW_NUMBER() OVER(ORDER BY Q_SEQ DESC) AS RN,
+							ROWNUM,Q_SEQ, ID, Q_TITLE,Q_CONTENT Q_REGDATE, Q_READCOUNT, Q_REFER,Q_STEP, Q_DEPTH, Q_DELFLAG
+							FROM QNA) WHERE RN BETWEEN 1 AND 10 AND Q_DELFLAG='N' AND 
+							<choose>
+								<when test="q_title=='id'">
+									ID=#{id}
+								</when><when test="q_title=='title'">
+									Q_TITLE=#{q_title}
+								</when><when test="q_title=='content'">
+									Q_CONTENT=#{q_content}
+								</when>
+							</choose>
+							LIKE '%'|| #{q_content} || '%'
+					ORDER BY Q_REFER DESC,Q_STEP ASC
+		</select>
 		
+<!-- qna게시판 다중삭제 -->
+	<update id="qna_multiDel" parameterType="Map">
+		UPDATE QNA SET Q_DELFLAG='Y' WHERE Q_SEQ IN 
+		<foreach collection="chk" item="seq" open="(" close=")" separator=",">
+			#{seq}
+		</foreach>
+	</update>
+	
 		
 		
 	</mapper>

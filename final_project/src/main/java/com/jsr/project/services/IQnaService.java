@@ -9,6 +9,9 @@ public interface IQnaService {
 	
 	//페이지카운트 조회
 	public int q_pageCount();
+	
+	//페이지카운트 조회
+	public int n_pageCount();
 
 	// 글목록 조회
 	public List<QnaBoardDto> q_getAlllist(QnaBoardDto qDto);
@@ -31,8 +34,13 @@ public interface IQnaService {
 	//모든 글 불러오기(관리자용) 
 	public QnaBoardDto q_getAllBoard(int q_seq);
 	
+	//병훈 작업
 	
-
+	//qnaBoard검색 조회 기능
+	public List<QnaBoardDto> qnaDetailAjax(QnaBoardDto dto);
+	
+	//공지게시판 다중삭제
+	public boolean qna_multiDel(String[] chk);
 	
 	
 }

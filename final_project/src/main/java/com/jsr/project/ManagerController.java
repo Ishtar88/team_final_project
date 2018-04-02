@@ -81,7 +81,7 @@ public class ManagerController {
 		}
 		
 		System.out.println(list.size());
-		System.out.println(list.get(0));
+
 		Map<String, List<MembersDto>> map=new HashMap<String,List<MembersDto>>();
 		map.put("list", list);
 		
@@ -89,27 +89,77 @@ public class ManagerController {
 	}
 	
 
+	@RequestMapping(value="deleteMember.do", method= RequestMethod.GET)
+	public String deleteMember(MembersDto mdto) {
+		boolean isS=managerService.deleteMember(mdto);
+		if(isS) {
+			System.out.println("탈퇴성공");
+			return "redirect:getAllMember.do";
+		}else {
+			System.out.println("탈퇴실패");
+			return "redirect:getAllMember.do";
+		}
+		
+	}
 
 ////////////////회사/상품 관리 ///////////////////////////////////////////////////////////////////////////////////////
 	
-	@RequestMapping(value="manager_commercial.do", method= {RequestMethod.POST,RequestMethod.GET})
-	public String manager_commercial() {
-		logger.info("상품/회사 관리 페이지"); 
-		return "manager/manager_commercial";
-	}
-	
-	@RequestMapping(value="product.do", method=RequestMethod.GET)
-	public String manager_product() {
-		logger.info("상품 관리 페이지로 이동 "); 
-		return "manager/manager_product";
-	}
-	
 	@RequestMapping(value="company.do", method=RequestMethod.GET)
 	public String manager_company(Model model) {
-		logger.info("회사 관리 페이지로 이동"); 
+		logger.info("기업 조회 페이지로 이동"); 
 		List<CompanyDto> lists = companyService.getAllCompany(); 
 		model.addAttribute("lists", lists);
-		return "manager/manager_company";
+		return "manager/showCompany";
+	}
+	
+	@RequestMapping(value="modifyCompany.do", method=RequestMethod.GET)
+	public String modifyCompany(Model model) {
+		logger.info("기업 수정 페이지로 이동"); 
+		List<CompanyDto> lists = companyService.getAllCompany(); 
+		model.addAttribute("lists", lists);
+		return "manager/modifyCompany";
+	}
+	
+	@RequestMapping(value="updateCompany.do", method=RequestMethod.GET)
+	public String updateCompany(Model model,CompanyDto cdto) {
+		
+		if(cdto.getB_address().equals("")) {
+			cdto.setB_address(null);
+		}
+		if(cdto.getB_tel().equals("")) {
+			cdto.setB_tel(null);
+		}
+		
+		boolean isS=companyService.updateCompany(cdto);
+		if(isS) {
+			System.out.println("수정성공");
+			model.addAttribute("isS", isS);
+			return "redirect:modifyCompany.do";
+		}else {
+			System.out.println("수정실패");
+			model.addAttribute("isS", isS);
+			return "redirect:modifyCompany.do";
+		}
+		
+	}
+	
+	@RequestMapping(value="insertCompanyGo.do", method=RequestMethod.GET)
+	public String insertCompanyGo(Model model) {
+		logger.info("기업 등록 페이지로 이동"); 
+		return "manager/insertCompany";
+	}
+	
+	@RequestMapping(value="insertCompany.do", method=RequestMethod.POST)
+	public String insertCompany(Model model,CompanyDto cdto) {
+		
+		boolean isS=companyService.insertCompany(cdto);
+		if(isS) {
+			System.out.println("회사등록성공");
+		}else {
+			System.out.println("회사등록실패");
+		}
+		
+		return "manager/insertCompany";
 	}
 	
 

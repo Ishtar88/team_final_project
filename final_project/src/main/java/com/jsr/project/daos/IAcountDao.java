@@ -22,11 +22,15 @@ public interface IAcountDao {
 	
 	public boolean goalRegInsert(GoalDto dto);
 	
-	public boolean goalPointInsert(String id);
+	public boolean goalPointInsert(GoalDto dto);
 	
 	public GoalDto goalTotalMoney(String id);
 	
 	public List<GoalDto> goalAllSearch(String id);
+	
+	public boolean goalUpdate(GoalDto gdto);
+	
+	public boolean goalDelete(GoalDto gdto);
 	
 	//----------------------------------
 	
@@ -140,6 +144,8 @@ public interface IAcountDao {
 
 	//뽑기 체크여부 확인
 	public RewardDto dobakCheck(RewardDto rdto);
+	//뽑기 도전 시 포인트 차감
+	public boolean minusPointDobakStart(String id);
 	
 	//뽑기 기능
 	public boolean buyDobak(ProductDto proDto);

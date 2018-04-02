@@ -57,25 +57,27 @@ public class NoticeBoardDao implements INoticeDao{
 
 	//한 개의 글 삭제하기
 	@Override
-	public boolean n_deleteOne(NoticeBoardDto dto) {
+	public boolean n_deleteOne(int n_seq) {
 		int count=0; 
-		count=sqlSession.update(namespace+"n_deleteboard", dto);
+		count=sqlSession.update(namespace+"n_deleteboard", n_seq);
 		return count>0?true:false;
 	}
 	
-	//여러 개의 글 삭제하기 
-	@Override
-	public boolean n_muldelBoard(String[] n_seq) {
-		Map<String, String[]>map=new HashMap<String, String[]>(); 
-		map.put("n_seqs", n_seq);
-		int count=sqlSession.update(namespace+"n_muldelboard", map);
-		return count>0?true:false;
-	}
 
 	//ajax 처리
 	@Override
 	public NoticeBoardDto n_getBoardAjax(int n_seq) {
 		return sqlSession.selectOne(namespace+"n_detailAjax", n_seq);
+	}
+
+	@Override
+	public boolean notice_multiDel(String[] chk) {
+		int count=0; 
+		Map<String, String[]> map=new HashMap<>();
+		map.put("chk", chk);
+		
+		count=sqlSession.delete(namespace+"notice_multiDel",map);
+		return count>0?true:false;
 	}
 
 

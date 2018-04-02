@@ -439,34 +439,34 @@ window.onload = function () {
 }
 </script>
 <style type="text/css">
-	th{
-		text-align: center;
-	}
-	.spending_header_wrap{
-		text-align: center;
-	}
-	.spending_canvas_wrap,.spending_total_wrap,.spending_header_wrap{
-		align-content: center;
-	}
+/* 	th{ */
+/* 		text-align: center; */
+/* 	} */
+/* 	.spending_header_wrap{ */
+/* 		text-align: center; */
+/* 	} */
+/* 	.spending_canvas_wrap,.spending_total_wrap,.spending_header_wrap{ */
+/* 		align-content: center; */
+/* 	} */
 
-	.spending_total_wrap{
-		width: 300px; height: 350px;
-		position: absolute; left: 320px; top: 100px;
-	}
-	.pickIsDate,.pickIsSome{display: none;}
-	.spending_header_wrap{
-		align-content: center;
-	}
-	.spending_detail_body{
-		width: 700px;
-	}
-	.pickIsSome{
-		position: absolute; left: 320px; top: 100px;
-		width: 300px; height: 300px;
-	}
-	.spending_body,.spending_detail_body,.acount_Chart{
-		margin: auto;
-	}
+/* 	.spending_total_wrap{ */
+/* 		width: 300px; height: 350px; */
+/* 		position: absolute; left: 320px; top: 100px; */
+/* 	} */
+/* 	.pickIsDate,.pickIsSome{display: none;} */
+/* 	.spending_header_wrap{ */
+/* 		align-content: center; */
+/* 	} */
+/* 	.spending_detail_body{ */
+/* 		width: 700px; */
+/* 	} */
+/* 	.pickIsSome{ */
+/* 		position: absolute; left: 320px; top: 100px; */
+/* 		width: 300px; height: 300px; */
+/* 	} */
+/* 	.spending_body,.spending_detail_body,.acount_Chart{ */
+/* 		margin: auto; */
+/* 	} */
 </style>
 <%
 String paramYear = request.getParameter("year");
@@ -501,34 +501,62 @@ int month=Integer.parseInt(sMonth);
 %>
 </head>
 <body>
-<div class="spending_body_wrap">
-		<header>
-				<div class="acount_list">
-					 <div class="ui pointing menu"style="width: 414px;">
-					 <input type="hidden" name="pick" value="acount">
-				 	 <a class="active item" href="goal_main.do">목표관리</a>
-					  <a class="item" href="acount.do?year=<%=year %>&month=<%=month%>">자산관리</a>
-				 	 <a class="item" href="income_main.do?year=<%=year%>&month=<%=month%>">수입관리</a>
-				 	 <a class="item" href="spending_main.do?year=<%=year%>&month=<%=month%>">지출관리</a>
-				 	 <a class="item" href="calendar_main.do?year=<%=year%>&month=<%=month%>">달력</a>
-				 	 </div>
-				 </div>
-		    <br>
-		 <div class="second_menu" style="width: 235px;">
+
+
+<!-- --------------------------------------------------------------첫 레이아웃 줄 시작 -->
+<div class="ui grid">
+
+<!-- 	second menu start -->
+		<div class="sixteen wide column">
 		    <div class="ui secondary pointing menu">
 		    	<a class="active item" id="date" href="#" onclick="detailSearch('date')">날짜</a>
 			    <a class="item" id="category" href="#" onclick="detailSearch('category')">카테고리</a>
 			    <a class="item" id="some" href="#" onclick="detailSearch('some')">지불수단</a>
 		    </div>
-		 </div>
-		    <br>
-		</header>
+		</div>
+<!-- 	second menu end -->		
 		
+<!-- --------------------------------------------------------------첫 레이아웃 줄  끝 -->
+
+
+<!-- --------------------------------------------------------------2 레이아웃 줄 시작 -->
+
+<!--  calendar start -->
+
+	<div class="sixteen wide column ">
+	<div class="spending_header_wrap">
+		<header>
+			 <div class="spending_searchDate">
+				 <a href="spending_main.do?year=<%=year-1 %>&month=<%=month%>" ><i class="angle double left icon"></i></a>
+				 <a href="spending_main.do?year=<%=year %>&month=<%=month-1%>" ><i class="angle left icon"></i></a>
+			 	  	<span class="spending_year" style="color: black;"><%=year %>년</span>
+			 	  	<span class="spending_month" style="color: black;"><%=month%>월</span>
+			     <a href="spending_main.do?year=<%=year %>&month=<%=month+1%>" ><i class="angle right icon"></i></a>
+		  		 <a href="spending_main.do?year=<%=year+1 %>&month=<%=month%>" ><i class="angle double right icon"></i></a>
+			</div>
+		</header>
+	</div>
+	</div>
+	<br>
+	
+<!--  calendar end -->	
+<!-- --------------------------------------------------------------2 레이아웃 줄  끝 -->
+
+		
+<!-- 공백 그리드  -->
+<div class="wide column"></div>		
+		
+<!-- 		spending graph start  -->
+	<div class="seven wide column">
 		<div class="spending_canvas_wrap">
 			<div id="chartContainer" style="height: 300px; width: 620px;"></div>
 			<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 		</div>
-		<div class="spending_total_wrap">
+	</div>		
+		
+<!-- 		spending graph end  -->
+		
+	<div class="four wide column">
 				<!-- 				 -->
 				<!--  	pick:date  	-->
 				<!--   사이드메뉴 상세내용   -->
@@ -559,7 +587,7 @@ int month=Integer.parseInt(sMonth);
 									<td class="field">
 									<c:choose>
 										<c:when test="${empty sumMoneyDto}">
-											0원
+											원
 										</c:when><c:otherwise>
 											<fmt:formatNumber value="${sumMoneyDto.p_money }" type="number"/>
 											원
@@ -653,43 +681,39 @@ int month=Integer.parseInt(sMonth);
 							</table>
 						</div>
 					</div>
-			</div>
-		<br><br><br><br><br><br><br><br><br>
+		</div>
+		
+		<!-- 공백 그리드  -->
+<div class="three wide column"></div>		
+		
 		
 	<div class="spending_insert_icon">
 		<a href="#" onclick="spendingInsert()">
 		<img alt="plus/minus_icon" class="st_icon" src="resources/icon/plus.png" style="width: 25px; height: 25px;">
 		</a>	
 	</div>
-	<div class="spending_header_wrap">
-		<header>
-			 <div class="spending_searchDate">
-				 <a href="spending_main.do?year=<%=year-1 %>&month=<%=month%>" ><i class="angle double left icon"></i></a>
-				 <a href="spending_main.do?year=<%=year %>&month=<%=month-1%>" ><i class="angle left icon"></i></a>
-			 	  	<span class="spending_year" style="color: black;"><%=year %>년</span>
-			 	  	<span class="spending_month" style="color: black;"><%=month%>월</span>
-			     <a href="spending_main.do?year=<%=year %>&month=<%=month+1%>" ><i class="angle right icon"></i></a>
-		  		 <a href="spending_main.do?year=<%=year+1 %>&month=<%=month%>" ><i class="angle double right icon"></i></a>
-			</div>
-		</header>
-	</div>
-	<br>
+
+	
+	
+	
+<!-- 	under construction ------------------------------------------------- -->
 		  <!------  ---------->		
 		<!---  지출정보 테이블   ---->
 		  <!------  ---------->
-		<div class="spending_body">
-			<div class="spending_body">
-				<div class="spending_detail_body">
-					<table class="spending_detail ui selectable gray table">
-					<caption>지출상세내역</caption>
-						<tr>
+<!-- 		<div class="spending_body"> -->
+<!-- 			<div class="spending_body"> -->
+<!-- 				<div class="spending_detail_body"> -->
+<!-- 					<table class="spending_detail ui selectable gray table"> -->
+<%-- 					<caption>지출상세내역</caption> --%>
+<!-- 						<tr> -->
 							
-						</tr>
-					</table>
-				</div>
+<!-- 						</tr> -->
+<!-- 					</table> -->
+<!-- 				</div> -->
 
-			</div>
-		</div>
+<!-- 			</div> -->
+<!-- 		</div> -->
+<!-- 	under construction ------------------------------------------------- -->
 		
 	</div>
 </body>
