@@ -26,10 +26,12 @@
 		window.open("changePw.do", "비밀번호 변경",
 				'location=yes,height=570,width=520,scrollbars=yes,status=yes');
 	}
+	
+	
 </script>
 <style type="text/css">
-img {
-	height: 200px;
+#img {
+	height: 150px;
 	width: 150px;
 }
 </style>
@@ -38,9 +40,6 @@ img {
 <div class="ui secondary pointing menu">
   <a class="active item" href="getUser.do">
     내 정보
-  </a>
-  <a class="item" href="goal_main.do">
-    예산 설정
   </a>
   <a class="item" href="myOrder.do">
     구매 내역
@@ -55,7 +54,7 @@ img {
 		<tbody>
 			<tr>
 				<td>프로필 이미지</td>
-				<td><img alt="프로필" src="${mdto.m_profile_img}"></td>
+				<td><img id="img" alt="프로필" src="${mdto.m_profile_img}"></td>
 			</tr>
 			<tr>
 				<td>아이디</td>

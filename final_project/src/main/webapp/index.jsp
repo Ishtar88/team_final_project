@@ -8,17 +8,17 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta name="viewport"
-	content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width" />
-<title>Insert title here</title>
-</head>
+<meta charset="utf-8">
 <link rel="stylesheet" type="text/css"
-	href="resources/assets/semantic.min.css">
+	href="resources/css/jquery.fullpage.css" />
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-<script src="resources/assets/semantic.min.js"></script>
+<script src="resources/js/jquery.fullpage.js"></script>
+<!-- 		<script src="vendors/jquery.easings.min.js"></script> -->
+<!-- 		<script type="text/javascript" src="vendors/scrolloverflow.min.js"></script> -->
 <script type="text/javascript">
+		$(window).ready(function() {
+			$("#fullpage").fullpage();
+		});
 	onload = function() {
 		history.replaceState({}, null, location.pathname);
 	}
@@ -30,82 +30,144 @@
 			return false;
 		}
 	}
-</script>
+
+
+    </script>
+
 <style type="text/css">
-body {
-	background :url("resources/background-image/coins2.jpg") no-repeat center;
-	background-size: cover;
+	#myvid{ 
+		z-index: -200; 
+		}
+
+.section{
+/* 	background-image: no-repeat center; */
+/* 	background-size: cover; */
+	width:100%;
+	height:100%;
 }
 
-.content{
+span {
+	position: absolute;
+	font-size: 2em;
+	color: white;
+	font-weight: bold;
+	text-shadow:1px 1px 2px black;
+}
+
+h1 {
 	color:white;
-	font-family:
+	font-size:1.8em;
+	font-family:"Nanum Gothic", "맑은 고딕", 돋움;			
+	text-shadow:1px 1px 2px black;
 }
 
-#backimg{
-	background : no-repeat center;
+#page1{
+
+}
+
+#page2{
+	background: url('resources/background-image/drink.jpg' ) no-repeat center;
 	background-size: cover;
 }
 
-
-body>.grid {
-	height: 100%;
+#page3{
+	background: url('resources/background-image/saving_modify.jpg' ) no-repeat center;
+	background-size: cover;
 }
 
-.image {
-	margin-top: -100px;
+#page4{
+	background:url('resources/background-image/business2.jpg') no-repeat center;
+	background-size: cover;
+	
 }
 
-.column {
-	max-width: 450px;
-	background-color: #BDBDBD;
-	opacity: 0.8;
+#text1{
+	top: 20%;
+	left: 27%;
 }
-
-
-#kakaoLogin{
-	float:left;
+#text2{
+	top: 20%;
+	left: 55%;
 }
-
-
-
+#text3{
+	top: 25%;
+	left: 5%;
+}
+#text4{
+	position:absolute;
+	top: 20%;
+	left: 65%;
+	margin-right:50px;
+  padding:30px 50px;
+  background:rgba(35,35,35,0.1);
+  
+  }
+  input{
+  
+  	width:150px; 
+  	height:30px;
+  
+  }
+  
+ #kakaoLogin{
+ 	width: 100px;
+ 	height:30px;
+ }
+  
+}
 </style>
+</head>
 <body>
-	<div class="ui middle aligned center aligned grid">
-		<div class="column">
-			<h2 class="ui image header">
-				<div class="content">꿈을 향한 당신의 여정, 시작해볼까요?</div>
-			</h2>
-			<form class="ui large form" action="login.do"
-				onsubmit="return loginChk()">
-<!-- 				<div class="ui stacked segment"> -->
-					<div>
-					<div class="field">
-						<div class="ui left icon input">
-							<i class="user icon"></i> <input type="text" name="id"
-								placeholder="ID">
-						</div>
-					</div>
-					<div class="field">
-						<div class="ui left icon input">
-							<i class="lock icon"></i> <input type="password"
-								name="m_password" placeholder="Password">
-						</div>
-					</div>
-					<div>
-						<input type="submit" value="Login"
-							class="ui fluid large submit button">
-					</div>
-				
-				<div class="ui error message"></div>
 
-			<div id="kakaoLogin" style="padding-top: 10px;">
-				<a id="kakao-login-btn"></a>
+<!--  풀 페이지  -->
+<div id="fullpage">
+	
+<!-- 	첫화면  -->
+		<div class="section " id="page1">
+		<video id="myvid" loop muted controls="false"  data-autoplay>
+				<source src="resources/background-image/video_high.mp4"
+					type="video/mp4">
+			</video>
+			<span id="text1">바쁜 현대인의 삶. 당신은 오늘 어떤 하루를 보냈나요?</span> 
+		</div>
+		
+<!-- 		두번째 화면  -->
+		<div class="section" id="page2">
+			<span id="text2">혹시,  마음먹은 대로 되지 않는 재정상태에 <br>좌절하진 않았나요? </span>
+		</div>
+		
+<!-- 		세번째 화면 -->
+		<div class="section" id="page3">
+			<span id="text3">이제 캐시 매니저가 당신의 자산관리를 도와드립니다.</span>
+			
+		</div>
+		
+		
+<!-- 		네번째 화면 -->
+<div class="section" id="page4">
+	<div id="text4">
+				<h1>계획적인 삶을 향한 발걸음. <br>시작해볼까요?</h1>
+					<form class="orm" action="login.do"	onsubmit="return loginChk()">
+							<input type="text" name="id"	placeholder="ID">
+							<br>
+							<input type="password" 	name="m_password" placeholder="Password">
+							<input type="submit" value="Login" >
+							<div class="ui error message"></div>
+							<div id="kakaoLogin" style="padding-top: 10px;">
+							<a id="kakao-login-btn"></a>
+							</div>
+					</form>
+				<div >
+				<a href="regist1.do">회원가입</a>
+				<a href="findIdPw.do">아이디/비밀번호 찾기</a>
 			</div>
-			</form>
+		</div>
+</div>
+			
+			
+</div>
 
-
-			<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
+<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
 			<script type="text/javascript">
 				Kakao.init('5c49400a7e81a5ffd63bb4072dedf203');
 				Kakao.Auth.createLoginButton({
@@ -133,12 +195,5 @@ body>.grid {
 					}
 				});
 			</script>
-			<div >
-				<a href="regist1.do">회원가입</a>
-			</div>
-			<div >
-				<a href="findIdPw.do">아이디/비밀번호 찾기</a>
-		</div>
-	</div>
 </body>
 </html>

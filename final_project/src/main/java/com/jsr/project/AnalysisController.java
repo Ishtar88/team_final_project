@@ -46,7 +46,7 @@ public class AnalysisController {
 
 	//소비패턴-수진
 	@RequestMapping(value = "/total_pattern_main.do", method = RequestMethod.GET)
-	public String patternMain(HttpServletRequest request,HttpSession session,Model model,String year,String month,String lastDay,String sMonth,String eMonth) {
+	public String patternMain(HttpServletRequest request,HttpSession session,Model model,String year,String month,String lastDay,String sMonth,String eMonth,String menu) {
 		int iMonth=Integer.parseInt(month);
 		if (iMonth<10) {
 			month="0"+iMonth;
@@ -67,21 +67,16 @@ public class AnalysisController {
 
 		//토탈유형 구분
 		float expenseRatio=(float)expense_spending/total_spending;
-		System.out.println("지출율"+expenseRatio);
 		
 		AnalysisDto aDto1=null;
-		if(expenseRatio<=0.2) {
+		if(expenseRatio<=0.4) {
 			aDto1=analysisService.selectAnalysis(6);
-		}else if(expenseRatio<=0.4) {
-			aDto1=analysisService.selectAnalysis(7);
 		}else if(expenseRatio<=0.6) {
+			aDto1=analysisService.selectAnalysis(7);
+		}else{
 			aDto1=analysisService.selectAnalysis(8);
-		}else if(expenseRatio<=0.8) {
-			aDto1=analysisService.selectAnalysis(9);
-		}else {
-			aDto1=analysisService.selectAnalysis(10);
 		}
-		System.out.println(aDto1);
+		System.out.println("지출률"+expenseRatio+"지출유형"+aDto1);
 		
 		//목표유형
 		float goalRatio=0;
@@ -89,23 +84,16 @@ public class AnalysisController {
 			goalRatio=100;
 		}else {
 			goalRatio=(float)total_goal/total_expense;
-		}
-		System.out.println("목표달성률"+goalRatio);
-		
 		
 		AnalysisDto aDto2=null;
-		if(goalRatio<=0.2) {
+		if(goalRatio<=0.4) {
 			aDto2=analysisService.selectAnalysis(1);
-		}else if(goalRatio<=0.4) {
-			aDto2=analysisService.selectAnalysis(2);
 		}else if(goalRatio<=0.6) {
+			aDto2=analysisService.selectAnalysis(2);
+		}else{
 			aDto2=analysisService.selectAnalysis(3);
-		}else if(goalRatio<=0.8) {
-			aDto2=analysisService.selectAnalysis(4);
-		}else {
-			aDto2=analysisService.selectAnalysis(5);
 		}
-		System.out.println(aDto2);
+		System.out.println("목표달성률"+goalRatio+"지출유형"+aDto2);
 		
 		
 		
@@ -147,6 +135,14 @@ public class AnalysisController {
 				goalMinusSpend.add(gdto);
 			}
 		}
+		
+		if(menu.equals("aMonth")) {
+			model.addAttribute("menu", "aMonth");
+		}else if(menu.equals("threeMonth")) {
+			model.addAttribute("menu", "threeMonth");
+		}else if(menu.equals("sixMonth")) {
+			model.addAttribute("menu", "sixMonth");
+		}
 
 		model.addAttribute("sMonth", sMonth);
 		model.addAttribute("eMonth", eMonth);
@@ -163,6 +159,10 @@ public class AnalysisController {
 		model.addAttribute("aDto1", aDto1);
 		model.addAttribute("aDto2", aDto2);
 		model.addAttribute("goalRatio", goalRatio);
+		
+		
+		
+		}
 		return "analysis/total_pattern_main";
 	}
 
@@ -612,7 +612,7 @@ public class AnalysisController {
 
 	//투자패턴-유라
 	@RequestMapping(value="/an_consumption_main.do",method = RequestMethod.GET)
-	public String an_consumption_main(Model model, HttpSession session,String year,String month,String lastDay,String sMonth,String eMonth) {
+	public String an_consumption_main(Model model, HttpSession session,String year,String month,String lastDay,String sMonth,String eMonth,String menu) {
 		logger.info("analysis main page");
 		
 		int iMonth=Integer.parseInt(month);
@@ -661,6 +661,14 @@ public class AnalysisController {
 			aDto2=analysisService.selectAnalysis(42);
 		}else {
 			aDto2=analysisService.selectAnalysis(43);
+		}
+		
+		if(menu.equals("aMonth")) {
+			model.addAttribute("menu", "aMonth");
+		}else if(menu.equals("threeMonth")) {
+			model.addAttribute("menu", "threeMonth");
+		}else if(menu.equals("sixMonth")) {
+			model.addAttribute("menu", "sixMonth");
 		}
 		
 		

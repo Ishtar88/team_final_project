@@ -43,12 +43,12 @@
 <body>
 
 	<form action="dobak_check.do" method="post">
-		<table class="ui purple table">
+		<table class="ui pink table">
 			<tr>
 				<td><input type="hidden" value="${loginDto.id}" name="id" /></td>
 				<td><input type="hidden" value="${rdto.r_seq}" name="r_seq" /></td>
-				<td><input type="hidden" value="${rdto.r_point}"
-					name="po_point" /></td>
+				<td><input type="hidden" value="${-rdto.r_point*0.05}"
+					name="point" /></td>
 			</tr>
 			<tr>
 				<td>상품명 <input type="text" value="${rdto.r_name}"
@@ -56,11 +56,11 @@
 			</tr>
 
 			<tr>
-				<td>뽑기 도전 시 100포인트 차감됩니다. 도전 하시겠습니까?</td>
+				<td>뽑기 도전 시 정가의 5%인 <f:formatNumber value="${rdto.r_point*0.05}" pattern="0"/>포인트가 차감됩니다. 도전 하시겠습니까?</td>
 			</tr>
 			<tr>
 				<td>
-					<button class="ui purple button">네</button>
+					<button class="ui pink button">네</button>
 					<div class="ui grey button" onclick="end()">아니오</div>
 				</td>
 			</tr>

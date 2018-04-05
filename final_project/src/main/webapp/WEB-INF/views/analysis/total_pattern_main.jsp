@@ -198,7 +198,7 @@
 	}
 </script>
 <style type="text/css">
-img {
+#img {
 	width: 150px;
 	height: 200px;
 }
@@ -304,7 +304,7 @@ ${loginDto.m_name}  님의 투자대비 지출은....!
 <table id="type1" class="ui unstackable table">
 		<tr>
 			<td>
-			<img alt="유형 이미지" src="${aDto1.a_img}" /></td>
+			<img alt="유형 이미지" src="${aDto1.a_img}"   id="img"/></td>
 			<td>${aDto1.a_name}<p>${aDto1.a_detail}</p></td>
 		</tr>
 	</table>
@@ -330,7 +330,7 @@ ${loginDto.m_name}  님의 투자대비 지출은....!
 <div class="seven wide column">
 	<table id="type2" class="ui unstackable table">
 		<tr>
-			<td><img alt="유형 이미지" src="${aDto2.a_img}" /></td>
+			<td><img alt="유형 이미지" src="${aDto2.a_img}"  id="img"/></td>
 			<td>${aDto2.a_name}<p>${aDto2.a_detail}</p></td>
 		</tr>
 	</table>

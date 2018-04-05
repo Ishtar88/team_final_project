@@ -46,40 +46,45 @@
 </head>
 <body>
 	
-	<div class="ui grid">
-	  <div class="sixteen wide column" id="block"></div>
-	 	<div class="wide column"></div>
-	 	
-	 		<div class="total_pattern_body">
-	 		<div>
-				<h2>소비패턴</h2>
-				<a href="total_pattern_main.do?sMonth=-2&eMonth=-1&year=<%=year%>&month=<%=month%>&lastDay=<%=lastDay%>"><span>자세히보기</span></a>
-	 		</div>
-			<div>
-				<p>소비패턴에 대한 설명</p>
-			</div>
-	 	</div>
-	 	
-	 	<div class="spending_pattern_body">
-	 		<div>
-				<h2>지출패턴</h2>
+	
+<div class="ui grid">
+
+
+<div class="sixteen wide column"></div>
+<div class="sixteen wide column"></div>
+<div class="sixteen wide column"></div>
+	<table>
+		<tr>
+			<td>소비패턴</td>
+			<td>지출패턴</td>
+			<td>투자패턴</td>
+		</tr>
+	
+		<tr>
+			<td>	
+				<img class="img" alt="total_pattern" src="" >
+			</td>
+			<td>
+				<img  class="img" alt="consumption_pattern" src="" >
+			</td>
+			<td>
+				<img  class="img" alt="account_pattern" src=""  >
+			</td>
+		</tr>
+		<tr>
+			<td class="text">				
+				<a href="total_pattern_main.do?sMonth=-2&eMonth=-1&year=<%=year%>&month=<%=month%>&lastDay=<%=lastDay%>&menu=aMonth"><span>자세히보기</span></a>
+			</td>
+			<td class="text">
 				<a href="an_consumption_main.do?sMonth=-2&eMonth=-1&year=<%=year%>&month=<%=month%>&lastDay=<%=lastDay%>"><span>자세히보기</span></a>
-	 		</div>
-			<div>
-				<p>지출패턴에 대한 설명</p>
-			</div>
-	 	</div>
-	 	
-	 	<div class="acount_pattern_body">
-	 		<div>
-				<h2>투자패턴</h2>
+			</td>
+			<td class="text">
 				<a href="acount_pattern_main.do?year=<%=year %>&month=<%=month %>"><span>자세히보기</span></a>
-	 		</div>
-			<div>
-				<p>투자패턴에 대한 설명</p>
-			</div>
-			<div class="wide column"></div>
-	 	</div>
-	 </div>
+			</td>
+		</tr>
+	</table>
+
+</div>
+
 </body>
 </html>

@@ -145,7 +145,7 @@ public interface IAcountDao {
 	//뽑기 체크여부 확인
 	public RewardDto dobakCheck(RewardDto rdto);
 	//뽑기 도전 시 포인트 차감
-	public boolean minusPointDobakStart(String id);
+	public boolean minusPointDobakStart(String id,float po_point);
 	
 	//뽑기 기능
 	public boolean buyDobak(ProductDto proDto);

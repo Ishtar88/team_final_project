@@ -44,7 +44,7 @@
 </c:if>
 <style type="text/css">
 img {
-	height: 200px;
+	height: 150px;
 	width: 150px;
 }
 </style>
@@ -53,38 +53,50 @@ img {
 	<table class="ui celled table">
 		<tr>
 			<td><input type="radio" name="radioChk" />
-			<input type="hidden" value="resources/img/profile1.png" /></td>
-			<td><img alt="프로필" src="resources/img/profile1.png"></td>
+			<input type="hidden" value="resources/img/0.png" /></td>
+			<td><img alt="프로필" src="resources/img/0.png"></td>
 			<td><input type="radio" name="radioChk" />
-			<input type="hidden" value="resources/img/profile2.png" /></td>
-			<td><img alt="프로필" src="resources/img/profile2.png"></td>
+			<input type="hidden" value="resources/img/1.png" /></td>
+			<td><img alt="프로필" src="resources/img/1.png"></td>
 			<td><input type="radio" name="radioChk" />
-			<input type="hidden" value="resources/img/profile3.png" /></td>
-			<td><img alt="프로필" src="resources/img/profile3.png"></td>
+			<input type="hidden" value="resources/img/2.png" /></td>
+			<td><img alt="프로필" src="resources/img/2.png"></td>
 
 		</tr>
 		<tr>
 			<td><input type="radio" name="radioChk" />
-			<input type="hidden" value="resources/img/profile4.gif" /></td>
-			<td><img alt="프로필" src="resources/img/profile4.gif"></td>
+			<input type="hidden" value="resources/img/3.png" /></td>
+			<td><img alt="프로필" src="resources/img/3.png"></td>
 			<td><input type="radio" name="radioChk" />
-			<input type="hidden" value="resources/img/profile1.png" /></td>
-			<td><img alt="프로필" src="resources/img/profile1.png"></td>
+			<input type="hidden" value="resources/img/4.png" /></td>
+			<td><img alt="프로필" src="resources/img/4.png"></td>
 			<td><input type="radio" name="radioChk" />
-			<input type="hidden" value="resources/img/profile2.png" /></td>
-			<td><img alt="프로필" src="resources/img/profile2.png"></td>
+			<input type="hidden" value="resources/img/5.png" /></td>
+			<td><img alt="프로필" src="resources/img/5.png"></td>
 		</tr>
 		<tr>
 
 			<td><input type="radio" name="radioChk" />
-			<input type="hidden" value="resources/img/profile2.png" /></td>
-			<td><img alt="프로필" src="resources/img/profile2.png"></td>
+			<input type="hidden" value="resources/img/6.png" /></td>
+			<td><img alt="프로필" src="resources/img/6.png"></td>
 			<td><input type="radio" name="radioChk" />
-			<input type="hidden" value="resources/img/profile3.png" /></td>
-			<td><img alt="프로필" src="resources/img/profile3.png"></td>
+			<input type="hidden" value="resources/img/7.png" /></td>
+			<td><img alt="프로필" src="resources/img/7.png"></td>
 			<td><input type="radio" name="radioChk" />
-			<input type="hidden" value="resources/img/profile4.gif" /></td>
-			<td><img alt="프로필" src="resources/img/profile4.gif"></td>
+			<input type="hidden" value="resources/img/8.png" /></td>
+			<td><img alt="프로필" src="resources/img/8.png"></td>
+		</tr>
+		<tr>
+
+			<td><input type="radio" name="radioChk" />
+			<input type="hidden" value="resources/img/9.png" /></td>
+			<td><img alt="프로필" src="resources/img/9.png"></td>
+			<td><input type="radio" name="radioChk" />
+			<input type="hidden" value="resources/img/10.png" /></td>
+			<td><img alt="프로필" src="resources/img/10.png"></td>
+			<td><input type="radio" name="radioChk" />
+			<input type="hidden" value="resources/img/11.png" /></td>
+			<td><img alt="프로필" src="resources/img/11.png"></td>
 		</tr>
 		<tr>
 			<td colspan="12">

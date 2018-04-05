@@ -128,8 +128,8 @@
 	}
 </script>
 <style type="text/css">
-img {
-	width: 150px;
+#img {
+	width: 200px;
 	height: 200px;
 }
 </style>
@@ -180,7 +180,7 @@ img {
 <div class="fourteen wide column">
 	<table id="type1" class="ui unstackable table">
 		<tr>
-			<td><img alt="유형 이미지"  src="${aDto3.a_img}" /></td>
+			<td><img alt="유형 이미지"  src="${aDto3.a_img}"  id="img"/></td>
 			<td>${aDto3.a_name}<p>${aDto3.a_detail}</p></td>
 		</tr>
 	</table>
@@ -313,7 +313,7 @@ img {
 				</c:choose></td>
 		</tr>
 		<tr>
-			<td><img alt="유형 이미지" src="${aDto1.a_img}" /></td>
+			<td><img alt="유형 이미지" src="${aDto1.a_img}"   id="img"/></td>
 			<td>${aDto1.a_name}<p>${aDto1.a_detail}</p></td>
 		</tr>
 		</table>
@@ -370,7 +370,7 @@ img {
 				</c:choose></td>
 		</tr>
 		<tr>
-			<td><img alt="유형 이미지" src="${aDto2.a_img}" /></td>
+			<td><img alt="유형 이미지" src="${aDto2.a_img}"  id="img"/></td>
 			<td>${aDto2.a_name}<p>${aDto2.a_detail}</p></td>
 		</tr>
 	</table>

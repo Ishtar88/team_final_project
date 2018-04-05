@@ -300,8 +300,8 @@ public class AcountService implements IAcountService {
 
 
 	@Override
-	public boolean minusPointDobakStart(String id) {
-		return acountDaoImp.minusPointDobakStart(id);
+	public boolean minusPointDobakStart(String id,float po_point) {
+		return acountDaoImp.minusPointDobakStart(id,po_point);
 	}
 
 

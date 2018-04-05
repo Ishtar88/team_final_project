@@ -226,10 +226,13 @@ public class RewardController {
 	//뽑기를 뽑았을때 번호조회 기능
 
 	@RequestMapping(value = "/dobak_check.do", method = RequestMethod.POST)
-	public String dobak_check(Model model,ProductDto proDto,HttpSession session,String id,String r_seq,String po_point) {
+	public String dobak_check(Model model,ProductDto proDto,HttpSession session,String id,String r_seq,String point) {
 		logger.info("product check start");
 		
-		boolean isS=acountService.minusPointDobakStart(id);
+		float po_point=Math.round(Float.parseFloat(point));
+		System.out.println(po_point);
+		
+		boolean isS=acountService.minusPointDobakStart(id,po_point);
 		if(isS) {
 			System.out.println("뽑기 도전 포인트 차감 성공");
 		}else {
@@ -238,7 +241,7 @@ public class RewardController {
 		
 		RewardDto rdto=rewardService.rewardOne(Integer.parseInt(r_seq));
 		int r_number=rdto.getR_number();
-		int userNumber=(int)(Math.random()*3+1);
+		int userNumber=(int)(Math.random()*3);
 		System.out.println("상품번호:"+r_number+"유저번호:"+userNumber);
 		
 		if(r_number==userNumber) {

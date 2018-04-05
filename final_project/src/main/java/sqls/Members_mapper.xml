@@ -53,8 +53,8 @@
 
 	<insert id="regist" parameterType="MembersDto">
 		INSERT INTO
-		MEMBERS(ID,M_NAME,M_EMAIL,M_PASSWORD,M_PHONE,M_GENDER,M_GRADE,M_BIRTHDATE,M_ADDRESS,M_JOB,M_MARIABLE,M_FAVORITE,M_USEABLE,M_REGDATE)
-		VALUES(#{id},#{m_name},#{m_email},#{m_password},#{m_phone},#{m_gender},'USER',TO_DATE(#{m_birthDate}),
+		MEMBERS(ID,M_NAME,M_EMAIL,M_PASSWORD,M_PHONE,M_GENDER,M_GRADE,M_BIRTHDATE,M_PROFILE_IMG,M_ADDRESS,M_JOB,M_MARIABLE,M_FAVORITE,M_USEABLE,M_REGDATE)
+		VALUES(#{id},#{m_name},#{m_email},#{m_password},#{m_phone},#{m_gender},'USER',TO_DATE(#{m_birthDate},'resources/img/0.png'),
 		<choose>
 			<when test="m_address!=null">
 				#{m_address}

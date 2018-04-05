@@ -55,11 +55,11 @@
 			if (i % 4 == 0) {
 				str += "<tr class='tr'>";
 			}
-			str += "<td><div onclick='buyReward("
-					+ rdto.r_seq
-					+ ")'><img alt='상품 이미지' src='resources/upload/" + rdto.r_file + "'></div>"
+			str += "<td><div><img alt='상품 이미지' src='resources/upload/" + rdto.r_file + "'></div>"
 					+ "<div>" + rdto.r_name + "</div>" + "<div>" + rdto.r_point
-					+ "</div>" + "<div>" + rdto.b_name.b_name + "</div></td>";
+					+ "</div>" + "<div>" + rdto.b_name.b_name + "</div>"
+					+"<div class='ui purple basic button' onclick='buyReward(\""+rdto.r_seq+"\")'>일반구매</div>"
+					+"<div class='ui pink basic button' onclick='dobakReward(\""+rdto.r_seq+"\")'>뽑기</div></td>";
 			if (i % 4 == 3) {
 				str += "</tr>";
 			}
@@ -165,8 +165,9 @@ img {
 				<div>${rdto.r_name}</div>
 				<div>${rdto.b_name.b_name}</div>
 				<div>${rdto.r_point}p</div>
-				<div class="ui grey button" onclick="buyReward('${rdto.r_seq}')">일반구매</div>
-				<div class="ui grey button" onclick="dobakReward('${rdto.r_seq}')">뽑기</div>
+				<div class="ui purple basic button" onclick="buyReward('${rdto.r_seq}')">일반구매</div>
+				<div class="ui pink basic button" onclick="dobakReward('${rdto.r_seq}')">뽑기</div>
+				<input type="hidden" value="${rdto.r_seq}" name="r_seq"/>
 			</td>
 			<c:if test="${i%j==j-1}">
 				</tr>
@@ -175,20 +176,33 @@ img {
 		</c:forEach>
 
 		<tr>
-			<td style="text-align: center;" colspan="4"><c:forEach var="i"
-					begin="0" end="${pcount-1}" step="1">
-					<a class="pageNum"
+			<td style="text-align: center;" colspan="4">
+			 <div class="ui right floated pagination menu">
+
+				<c:forEach var="i" begin="0" end="${pcount-1}" step="1">
+					<a class="item"
 						href="listOfCategory.do?r_detail=${r_detail}&sNum=${i<1?'1':1+(i*8)}&eNum=${i<1?'8':(i+1)*8}">${i+1}</a>
-				</c:forEach></td>
+				</c:forEach>
+
+				</div>
+				</td>
 		</tr>
+		
 	</table>
 	</div>
+	
+	    <!-- 공백 그리드  -->
+<div class="three wide column"></div>
 
+
+<div class="three wide column"></div>
+<div class="ten wide column">
 	<table id="searchResult" class="ui table">
 
 	</table>
-	    <!-- 공백 그리드  -->
-<div class="three wide column"></div>
+</div>
+	<div class="three wide column"></div>
+	
 </div>
 </body>
 </html>

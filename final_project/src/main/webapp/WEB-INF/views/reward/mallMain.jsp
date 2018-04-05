@@ -25,7 +25,7 @@ table{
 	margin-left : 50px;
 	margin-top : 100px;
 }
-img {
+.img {
 	width: 250px;
 	height: 250px;
 	padding-right:20px;
@@ -46,14 +46,14 @@ font-size: 20px;
 	<h2>POINT MALL</h2>
 	<table>
 		<tr>
-			<td><img alt="restauraunt"
+			<td><img class="img" alt="restauraunt"
 				src="resources/category/restaurant.jpg" onclick="byCategory(a.value)">
-				<input type="hidden" id=a value="외식" /></td>
-			<td><img alt="cafe" src="resources/category/coffee.jpg" onclick="byCategory(b.value)"> <input
+				<input  type="hidden" id=a value="외식" /></td>
+			<td><img  class="img" alt="cafe" src="resources/category/coffee.jpg" onclick="byCategory(b.value)"> <input
 				type="hidden" id=b value="카페" /></td>
-			<td><img alt="store" src="resources/category/store.jpg" onclick="byCategory(c.value)"> <input
+			<td><img  class="img" alt="store" src="resources/category/store.jpg" onclick="byCategory(c.value)"> <input
 				type="hidden" id=c value="편의점" /></td>
-			<td><img alt="ticket" src="resources/category/ticket.jpg" onclick="byCategory(d.value)">
+			<td><img  class="img"  alt="ticket" src="resources/category/ticket.jpg" onclick="byCategory(d.value)">
 				<input type="hidden" id=d value="문화생활" /></td>
 		</tr>
 		<tr>

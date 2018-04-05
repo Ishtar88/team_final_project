@@ -19,9 +19,10 @@
 function showQR(pro_seq){
 	window.open("showQR.do?pro_seq="+pro_seq, "QR확대",'location=yes,height=570,width=520,scrollbars=yes,status=yes');
 }
+
 </script>
 <style type="text/css">
-img {
+#img {
 	width: 100px;
 	height: 100px;
 }
@@ -32,13 +33,10 @@ cursor: pointer;
 </head>
 <body>
 <div class="ui secondary pointing menu">
-  <a class="active item" href="getUser.do">
+  <a class="item" href="getUser.do">
     내 정보
   </a>
-  <a class="item" href="goal_main.do">
-    예산 설정
-  </a>
-  <a class="item" href="myOrder.do">
+  <a class="active item" href="myOrder.do">
     구매 내역
   </a>
 </div>
@@ -63,10 +61,10 @@ cursor: pointer;
 				<c:forEach items="${list}" var="proDto">
 					<tr>
 						<td><input type="hidden" value="${proDto.pro_seq}"
-							name="pro_seq" /> <img alt="상품 이미지"
+							name="pro_seq" /> <img id="img" alt="상품 이미지"
 							src="resources/upload/${proDto.r_name.r_file}">${proDto.r_name.r_name}
 						</td>
-						<td><img alt="QR" src="${proDto.pro_qr}" onclick="showQR(${proDto.pro_seq})" id="qr">
+						<td><img alt="QR" id="img" src="${proDto.pro_qr}" onclick="showQR(${proDto.pro_seq})" id="qr">
 						<a href="qrReceipt.do?pro_seq=${proDto.pro_seq}">QR확인</a>
 						</td>
 						<td>${proDto.pro_count}</td>

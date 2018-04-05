@@ -79,11 +79,11 @@
 						<c:forEach items="${goalAllSearchList }" var="dto">
 							<div class="row">
 								<div id="insertAcount" class="ui middle aligned input column">
-									<input type="text" name="g_money" value="${dto.g_money }" readonly="readonly">
+									<input type="text" name="g_money" value="${dto.g_money}" readonly="readonly">
 									<span>&nbsp;&nbsp;</span>
-									<input type="text" name="g_name" value="${dto.g_name }" readonly="readonly">
+									<input type="text" name="g_name" value="${dto.g_name}" readonly="readonly">
 									<span>&nbsp;&nbsp;</span>
-									<input type="text" name="g_memo" value="${dto.g_memo }" readonly="readonly">
+									<input type="text" name="g_memo" value="${dto.g_memo}" readonly="readonly">
 									<span>&nbsp;&nbsp;</span>
 								</div>
 							</div>

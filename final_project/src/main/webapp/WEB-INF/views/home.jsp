@@ -6,33 +6,22 @@
 
 <style type="text/css">
 
-img{
-	z-index: -1;
+#cat01{
+	z-index: -100;
 	position: absolute;
+	background-size: cover;
 }
 
-#cat01 > h2{
+#cat01 >  h3{
 	position:relative;
-	font-size:4em;
+	font-size:2em;
 	color:white;
 	text-shadow: 1px 2px 1px black;
 	line-height:600px; 
 	text-align: center;
 	text-transform: uppercase;
-	margin-left: 600px;
-	margin-top:50px;
-}
-
-#cat01 > h3{
-	position:relative;
-	font-family:'Malgun Gothic';
-	font-size:1.3em;
-	color:white;
-	line-height:0px; 
-	text-align: center;
-	text-transform: uppercase;
-	margin-left: 600px;
-	margin-top:-250px;
+	left: 100px;
+	top:-50px;
 }
 
 </style>
@@ -50,12 +39,10 @@ img{
 </head>
 <body>
 
-<img src="resources/background-image/catisthebest.jpg" alt="cat">
+<img src="resources/background-image/saving_money.jpg" alt="cat" id="cat01">
 <section id="cat01">	
-	<h2>고양이는 최고시다</h2>
-	<h3>그분들의 알흠다움을 알아서 받들어 모셔라</h3>
+	<h3>캐시 매니저에 오신것을 환영합니다.</h3>
 </section>
 
-<jsp:include page="footer.jsp"></jsp:include>
 </body>
 </html>

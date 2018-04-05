@@ -64,71 +64,70 @@
 </head>
   <style type="text/css">
 
-            body{
-            
-                        margin-left:210px;
-            } 
-            #purple {background-color:#343DEA;}
-            
-    .masthead.segment {
-      min-height: 50px;
-      padding: 1em 0em;
-    }
+   body{
+           		  margin-left:210px;
+ 			     } 
    
+   #purple {background-color:#343DEA;}
+            
     .ui.visible.wide.sidebar.inverted.vertical.menu{
     background-color:#343DEA;
+    width:210px;
     float:right;
+   
     }
    
     .pusher{
             position: relative;
-            margin-left:210px;
-            boarder: 1px solid black;
-            height:50px;
+            background-color:white;
+            height:0px;
+            width:100%;
+            margin-left: 10px;
     }
-   
-    .ui.inverted.button{
-                        background-color: black;
-                        color:white;   
-    }
+  
+ 	.right.item{
+ 		margin-left:1200px;
+ 		margin-top:10px;
+ 		left: 80%;
+ 	}
+ 	
+ 	
    
     #purplebr{
+    		position: relative;
+    		top:50px;
+    		left:0px;
             background-color:#343DEA;
             width:100%;
             height:50px;
             
     }
+    
+    #logo{
+    	margin-top:-5px;
+    	width:50px;
+    	height:50px;
+    	float:left;
+    }
+ 
   
+  .ui.grid{
+  	position:relative;
+  	top:50px;
+  }
 
   </style>
   <!------------------------
                         follow
    ------------------------->
   <script>
-  $(document)
-    .ready(function() {
+//   $(document)
+//     .ready(function() {
+    	
+//     	$(ui.grid).
 
       // fix menu when passed
-      $('.masthead')
-        .visibility({
-          once: false,
-          onBottomPassed: function() {
-            $('.fixed.menu').transition('fade in');
-          },
-          onBottomPassedReverse: function() {
-            $('.fixed.menu').transition('fade out');
-          }
-        })
-      ;
 
-      // create sidebar and attach to menu open
-      $('.visible.example .ui.sidebar')
-      .sidebar({
-        context: '.visible.example .bottom.segment'
-      })
-                ;
-    })
-  ;
   </script>
 <body>
 
@@ -171,21 +170,19 @@
             <div class="menu">
                         <a class="item" href="notice.do?snum=1&ennum=10">공지 게시판</a>
                         <a class="item" href="qnamain.do?snum=1&ennum=10">Q&A 게시판</a>    
-                        <a        class="item" href="#">Contact Us</a>
+                        <a  class="item" href="contactUs.do">Contact Us</a>
             </div>
     </div>
 </div>
 
 
 <div class="pusher" >
-    <div class="ui right aligned container">
-        <a class="toc item">
-        </a>
-        <div class="right item">
-          <a class="ui inverted button" href="getUser.do">${loginDto.m_name}님</a>
-          <a class="ui inverted button" href="logout.do">로그아웃</a>
+   		<div id="logo"><img src="resources/background-image/logo.jpg"  width="50x" height="48px"></div>
+
+   		      <div class="right item">
+          <a class="ui  primary basic  button" href="getUser.do">${loginDto.m_name}님</a>
+          <a class="ui  primary basic  button" href="logout.do">로그아웃</a>
         </div>
-    </div>
 </div>
 
 <div id="purplebr">

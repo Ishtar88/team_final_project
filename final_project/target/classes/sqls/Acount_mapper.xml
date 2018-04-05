@@ -10,7 +10,7 @@
 		</select>
 		
 		<select id="goalAllSearch" parameterType="String" resultType="GoalDto">
-			SELECT G_SEQ,ID,G_NAME,G_MONEY FROM GOAL WHERE ID=#{id}
+			SELECT G_SEQ,ID,G_NAME,G_MONEY,G_MEMO FROM GOAL WHERE ID=#{id}
 		</select>
 		
 		<insert id="goalInsert" parameterType="GoalDto">
@@ -318,6 +318,20 @@
 			WHERE L_SEQ=#{l_seq}
 		</update>
 		
+		<!--/////////////// 펀드 상환금 등록 기능 /////////////////////-->
+
+		<update id="loanRemaneValue" parameterType="LoanDto">
+			UPDATE LOAN SET L_REMANE=L_REMANE+#{l_remane} WHERE L_SEQ=#{l_seq}
+		</update>
+		
+		<update id="loanBalValue" parameterType="LoanDto">
+			UPDATE LOAN SET L_BAL=L_MONEY-L_REMANE WHERE L_SEQ=#{l_seq}
+		</update>
+		
+		<!-- //////////////////////////////////////////// -->
+		
+		
+		
 		<!-- //////////////////////////////////////////// -->
 		
 		
@@ -367,8 +381,8 @@
 		</insert>
 		
 		<insert id="loanInsert" parameterType="LoanDto">
-			INSERT INTO LOAN(ID,L_SEQ,L_NAME,L_MONEY,L_REMANE,L_STARTDATE,L_ENDDATE,L_MEMO,L_BAL)
-			VALUES(#{id},LOAN_SEQ.NEXTVAL,#{l_name},#{l_money},#{l_remane},#{l_startdate},#{l_enddate},#{l_memo},#{l_money}-#{l_remane})
+			INSERT INTO LOAN(ID,L_SEQ,L_NAME,L_MONEY,L_BAL,L_REMANE,L_STARTDATE,L_ENDDATE,L_MEMO,L_BAL,L_ENDABLE)
+			VALUES(#{id},LOAN_SEQ.NEXTVAL,#{l_name},#{l_money},#{l_money-l_remane},#{l_remane},#{l_startdate},#{l_enddate},#{l_memo},#{l_money}-#{l_remane},'N')
 		</insert>
 		
 		<!-- ///////////////////////////////////////////// -->
@@ -401,7 +415,7 @@
 		</select>
 		
 		<select id="calendarSpendingDetailSearch" parameterType="SpendingDto" resultType="SpendingDto">
-			SELECT P_NAME,P_MEMO,P_FIX,P_MONEY FROM SPENDING WHERE TO_CHAR(P_REGDATE,'YYYY-MM-DD')=#{p_location} AND ID=#{id}
+			SELECT P_NAME,P_MONEY,P_DETAIL,P_LOCATION,P_SOME FROM SPENDING WHERE TO_CHAR(P_REGDATE,'YYYY-MM-DD')=#{p_location} AND ID=#{id}
 		</select>
 		
 		

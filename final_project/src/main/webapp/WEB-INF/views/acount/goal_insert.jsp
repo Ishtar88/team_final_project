@@ -17,6 +17,14 @@
 		//예산 합산 
 		var beforeVal=$("input[name=totalMoney]").val();
 		beforeVal=parseInt(beforeVal);
+// 		var gmoneyArray=[];
+
+// 		for (var i = 0; i < array.length; i++) {
+			
+// 		}
+// 		var gMoney=$("input[name=g_money]").val();
+// 		alert(gMoney);
+
 		var val=$(ele).parent().parent().next().next().children().eq(0).val();
 		val=parseInt(val);
 		beforeVal=beforeVal+val;
@@ -27,7 +35,7 @@
 		
 		var field=$(ele).parent().parent().parent().find("input");
 		for (var i = 0; i < ele.length; i++) {
-			field.eq(i).attr("readonly","hidden");
+			field.eq(i).attr("readonly",true);
 		}
 		
 		
@@ -54,6 +62,13 @@
 		
 				 inputForm.append(div);
 			
+	}
+	
+	function chk() {
+		if (parseInt($("input[name=g_money]").val()) <= 0) {
+			alert("금액은 0원 이상이어야 합니다.");
+			$("input[name=g_money]").val("");
+		}
 	}
 </script>
 </head>
@@ -113,7 +128,7 @@
 					</optgroup>
 				</select>
 			<div class="ui input" id="insertAcount">
-				<input type="text" name="g_money" placeholder="금액입력" style="width: 200px;">
+				<input type="number" name="g_money" placeholder="금액입력" style="width: 200px;" onchange="chk()">
 				<div>&nbsp;</div>
 				<input type="text" name="g_memo" placeholder="내용을 입력해주세요.">
 			</div>
@@ -121,7 +136,7 @@
 		</div>
 			<div class="ui dividing header"></div>
 			<input type="submit" id="goal_submit" class="ui right aligned olive button" value="설정완료">
-			<input type="button" class="ui right aligned button" onclick="location.href='goal_cancel.do'">
+			<input type="button" class="ui right aligned button" onclick="location.href='goal_cancel.do'" value="취소">
 		</form>
 	</div>
 </div>

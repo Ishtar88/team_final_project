@@ -388,10 +388,10 @@ public class AcountDao implements IAcountDao {
 	}
 
 	@Override
-	public boolean minusPointDobakStart(String id) {
-		Map<String, String>map=new HashMap<String,String>();
+	public boolean minusPointDobakStart(String id,float po_point) {
+		Map<String, Object>map=new HashMap<String,Object>();
 		map.put("id", id);
-
+		map.put("po_point", po_point);
 		int count=0;
 
 		count=sqlSession.insert(namespace+"minusPointDobakStart", map);

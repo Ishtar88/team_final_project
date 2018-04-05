@@ -141,7 +141,7 @@ public interface IAcountService {
 	public boolean buyDobakSuccess(ProductDto proDto);
 
 	
-	public boolean minusPointDobakStart(String id);
+	public boolean minusPointDobakStart(String id,float po_point);
 	
 	
 	//-----------------------------------------------
