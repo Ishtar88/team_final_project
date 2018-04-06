@@ -45,9 +45,11 @@ public class MembersService implements IMembersService {
 		return ImemberDao.modifyUser(mdto);
 	}
 
+	@Transactional
 	@Override
 	public boolean kakaoLogin(MembersDto mdto) {
-		return ImemberDao.kakaoLogin(mdto);
+		ImemberDao.kakaoLogin(mdto);
+		return ImemberDao.addPoint(mdto.getId(), "100");
 	}
 
 	@Override

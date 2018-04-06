@@ -13,7 +13,7 @@
 
 <script type="text/javascript">
 
-	$(function(){
+/* 	$(function(){
 		
 		var list=$(".acount_list").children().children();
 		
@@ -22,13 +22,9 @@
 			list.eq(i).attr("class","item");
 		}
 		
-		list.eq(4).attr("class","active item");
+		list.eq(0).attr("class","active item");
 		
-	});
-	
-	$(".pickIsDate").show();
-	$(".pickIsCategory").hide();
-	$(".pickIsSome").hide();
+	}); */
 
 
 	function spendingDetail2(seq){
@@ -42,17 +38,17 @@
 		var year=$(".spending_year").html();
 		var month=$(".spending_month").html();
 		
-		var list=$(".second_menu").children().children();
+		var list=$(".acount_list").children().children();
 		
 		
 		for (var i = 0; i < list.length; i++) {
 			list.eq(i).attr("class","item");
 		}
 			switch (pick) {
-			case "date":
+			case "category":
 					list.eq(0).attr("class","active item");
 				break;
-			case "category":
+			case "date":
 				list.eq(1).attr("class","active item");
 			break;
 			case "some":
@@ -72,6 +68,10 @@
 			datatype:"json",
 			success:function(obj){
 				var lists=obj["lists"];
+				
+				if (lists==null) {
+					alert("등록되어 있는 정보가 없습니다.");
+				}
 				
 				$(".spending_detail_body").children().remove();
 				if (lists.length==0) {
@@ -172,6 +172,8 @@
 				datatype:"json",
 				success:function(obj){
 					var lists=obj["lists"];
+					
+
 					
 					if (pick=='date') {
 						
@@ -394,12 +396,42 @@ window.onload = function () {
 	
 	$.ajax({
 		url:"spendingChartSearch.do",
-		data:"pick=date&year="+year+"&month="+month,
+		data:"pick=category&year="+year+"&month="+month,
 		datatype:"json",
 		success:function(obj){
 			var lists=obj["lists"];
+			
+			if (lists==null) {
+				alert("등록되어 있는 정보가 없습니다.");
+			}
+			
+			var finals=[];
+			
+			for (var i = 0; i < lists.length; i++) {
+				finals.push({y:obj.lists[i].p_money, label:obj.lists[i].p_name})
+			}
+			
+			var chart = new CanvasJS.Chart("chartContainer", {
+				animationEnabled: true,
+				theme: "light2", // "light1", "light2", "dark1", "dark2"
+				title:{
+					text: "카테고리별 총 금액"
+				},
+				axisY: {
+					title: ""
+				},
+				data: [{        
+					type: "column",  
+					showInLegend: true, 
+					legendMarkerColor: "orange",
+					legendText: "카테고리별 총액",
+					dataPoints: finals
+				}]
+			});
+			chart.render();
+			
 				
-				var finals=[];
+/* 				var finals=[];
 				var date='';
 				
 				for (var i = 0; i < lists.length; i++) {
@@ -429,13 +461,16 @@ window.onload = function () {
 						dataPoints: finals
 					}]
 				});
-				chart.render();
+				chart.render(); */
 
 		},error:function(request,status,error){
 			alert("error! / "+"code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
 		}
 	}); //ajax 끝
 
+	
+	
+	
 }
 </script>
 <style type="text/css">
@@ -467,6 +502,9 @@ window.onload = function () {
 /* 	.spending_body,.spending_detail_body,.acount_Chart{ */
 /* 		margin: auto; */
 /* 	} */
+	.pickIsDate,.pickIsSome{
+		display: none;
+	}
 </style>
 <%
 String paramYear = request.getParameter("year");
@@ -507,10 +545,10 @@ int month=Integer.parseInt(sMonth);
 <div class="ui grid">
 
 <!-- 	second menu start -->
-		<div class="sixteen wide column">
+		<div class="acount_list sixteen wide column">
 		    <div class="ui secondary pointing menu">
-		    	<a class="active item" id="date" href="#" onclick="detailSearch('date')">날짜</a>
-			    <a class="item" id="category" href="#" onclick="detailSearch('category')">카테고리</a>
+			    <a class="active item" id="category" href="#" onclick="detailSearch('category')">카테고리</a>
+		    	<a class="item" id="date" href="#" onclick="detailSearch('date')">날짜</a>
 			    <a class="item" id="some" href="#" onclick="detailSearch('some')">지불수단</a>
 		    </div>
 		</div>
@@ -693,27 +731,31 @@ int month=Integer.parseInt(sMonth);
 		</a>	
 	</div>
 
-	
+		<!-- 공백 그리드  -->
+	<div class="one wide column"></div>		
 	
 	
 <!-- 	under construction ------------------------------------------------- -->
 		  <!------  ---------->		
 		<!---  지출정보 테이블   ---->
 		  <!------  ---------->
-<!-- 		<div class="spending_body"> -->
-<!-- 			<div class="spending_body"> -->
-<!-- 				<div class="spending_detail_body"> -->
-<!-- 					<table class="spending_detail ui selectable gray table"> -->
-<%-- 					<caption>지출상세내역</caption> --%>
-<!-- 						<tr> -->
+ 		<div class="spending_body ten wide column"> 
+ 			<div class="spending_body"> 
+ 				<div class="spending_detail_body"> 
+ 					<table class="spending_detail ui selectable gray table"> 
+ 					<caption>지출상세내역</caption> 
+ 						<tr> 
 							
-<!-- 						</tr> -->
-<!-- 					</table> -->
-<!-- 				</div> -->
+ 						</tr> 
+ 					</table> 
+ 				</div> 
 
-<!-- 			</div> -->
-<!-- 		</div> -->
+ 			</div> 
+ 		</div> 
 <!-- 	under construction ------------------------------------------------- -->
+
+		<!-- 공백 그리드  -->
+	<div class="five wide column"></div>	
 		
 	</div>
 </body>

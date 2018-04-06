@@ -29,7 +29,26 @@
 <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 <script src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
 <script>
+
 	window.onload = function() {
+		
+		
+		var menu=$("input[name=menu]").val();
+		var secondMenu=$(".some").children().children();
+		
+		for (var i = 0; i < secondMenu.length; i++) {
+			secondMenu.eq(i).attr("class","item");
+		}
+		
+		if(menu=="aMonth"){
+			secondMenu.eq(0).attr("class","active item");
+		}else if(menu=="threeMonth"){
+			secondMenu.eq(1).attr("class","active item");
+		}else{
+			secondMenu.eq(2).attr("class","active item");
+		}
+		
+		
 
 		var year = $("input[name=year]").val();
 		var month = $("input[name=month]").val();
@@ -144,17 +163,18 @@
 <!-- 공백 그리드  -->
 <div class="wide column"></div>
 
-	<div class="fourteen wide column">
+	<div class="some fourteen wide column">
 	<div class="ui secondary pointing menu">
 		<a class="active item"
-			href="an_consumption_main.do?sMonth=-2&eMonth=-1&year=<%=year%>&month=<%=month%>&lastDay=<%=lastDay%>">
+			href="an_consumption_main.do?sMonth=-2&eMonth=-1&year=<%=year%>&month=<%=month%>&lastDay=<%=lastDay%>&menu=aMonth">
 			지난달 </a> <a class="item"
-			href="an_consumption_main.do?sMonth=-4&eMonth=-1&year=<%=year%>&month=<%=month%>&lastDay=<%=lastDay%>">
+			href="an_consumption_main.do?sMonth=-4&eMonth=-1&year=<%=year%>&month=<%=month%>&lastDay=<%=lastDay%>&menu=threeMonth">
 			최근3개월 </a> <a class="item"
-			href="an_consumption_main.do?sMonth=-7&eMonth=-1&year=<%=year%>&month=<%=month%>&lastDay=<%=lastDay%>">
+			href="an_consumption_main.do?sMonth=-7&eMonth=-1&year=<%=year%>&month=<%=month%>&lastDay=<%=lastDay%>&menu=sixMonth">
 			최근6개월 </a>
 	</div>
 	</div>
+	<input type="hidden" name="menu" value="${menu}"/>
 	<input type="hidden" name="year" value="<%=year%>" />
 	<input type="hidden" name="month" value="<%=month%>" />
 	<input type="hidden" name="lastDay" value="<%=lastDay%>" />

@@ -226,7 +226,7 @@ public class RewardController {
 	//뽑기를 뽑았을때 번호조회 기능
 
 	@RequestMapping(value = "/dobak_check.do", method = RequestMethod.POST)
-	public String dobak_check(Model model,ProductDto proDto,HttpSession session,String id,String r_seq,String point) {
+	public String dobak_check(Model model,ProductDto proDto,HttpSession session,String id,String r_seq,String point,String haveP) {
 		logger.info("product check start");
 		
 		float po_point=Math.round(Float.parseFloat(point));

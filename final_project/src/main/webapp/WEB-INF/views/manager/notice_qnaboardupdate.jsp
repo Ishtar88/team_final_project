@@ -13,41 +13,43 @@ pageEncoding="UTF-8"%>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>헤엘ㄹ프  </title>
-</head>
-<script type="text/javascript">
-	function exit(){
-		location.href="manager_qnadetail.do?q_seq=${dto.q_seq}";
+<style type="text/css">
+	#container{
+		width: 500px;
+		margin: auto;
 	}
-</script>
+</style>
+</head>
 <body>
+<div id="container">
 <h1>게시글 수정하기 </h1>
-<form action="manager_updateboard.do" method="post">
-<input type="hidden" name="q_seq" value="${dto.q_seq}">
-<table border="1">
-	<tr>
-		<th>글번호</th>
-		<td>${dto.q_seq}</td>
-	</tr>
+<form action="manager_qnaupdateboard.do" method="post">
+<input type="hidden" name="n_seq" value="${dto.n_seq}">
+<table class="ui olive table">
+	<col style="width:100px;"><col style="width:400px;">
 	<tr>
 		<th>아이디</th>
-		<td>${dto.id}</td>
+		<td class="ui input">
+		<input type="text" value="${dto.id }" name="id" readonly="readonly">
+		</td>
 	</tr>
 	<tr>
 		<th>제목</th>
-		<td><input type="text" name="q_title" value="${dto.q_title}"/></td>
+		<td class="ui input"><input type="text" name="n_title" value="${dto.n_title}"/></td>
 	</tr>
 	<tr>
 		<th>내용</th>
-		<td><textarea rows="10" cols="60" name="q_content">${dto.q_content}</textarea></td>
+		<td><textarea rows="10" cols="60" name="n_content">${dto.n_content}</textarea></td>
 	</tr>
 	<tr>
 		<td colspan="2">
-			<input type="submit" value="submit"/>
-			<input type="button" value="cancel" onclick="exit()"/>
+			<button class="ui olive button">수정</button>
+			<div class="ui orange button" onclick="location.href='manager_noticeboard_detail.do?n_seq=${dto.n_seq}&count=no'">목록</div>
 		</td>
 	</tr>
 </table>
 </form>
+</div>
 </body>
 </html>
 

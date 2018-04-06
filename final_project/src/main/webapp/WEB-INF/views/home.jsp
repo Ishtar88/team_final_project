@@ -7,6 +7,7 @@
 <style type="text/css">
 
 #cat01{
+	margin-left:-30px;
 	z-index: -100;
 	position: absolute;
 	background-size: cover;

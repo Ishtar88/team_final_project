@@ -13,8 +13,7 @@
 	href="resources/css/jquery.fullpage.css" />
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script src="resources/js/jquery.fullpage.js"></script>
-<!-- 		<script src="vendors/jquery.easings.min.js"></script> -->
-<!-- 		<script type="text/javascript" src="vendors/scrolloverflow.min.js"></script> -->
+<script src="resources/assets/semantic.min.js"></script>
 <script type="text/javascript">
 		$(window).ready(function() {
 			$("#fullpage").fullpage();
@@ -83,7 +82,7 @@ h1 {
 
 #text1{
 	top: 20%;
-	left: 27%;
+	left: 33%;
 }
 #text2{
 	top: 20%;
@@ -112,6 +111,10 @@ h1 {
  #kakaoLogin{
  	width: 100px;
  	height:30px;
+ }
+ 
+	a{
+	text-decoration: none;
  }
   
 }
@@ -146,21 +149,29 @@ h1 {
 <!-- 		네번째 화면 -->
 <div class="section" id="page4">
 	<div id="text4">
+		<div class="column" style="width:400px;">
+
 				<h1>계획적인 삶을 향한 발걸음. <br>시작해볼까요?</h1>
-					<form class="orm" action="login.do"	onsubmit="return loginChk()">
-							<input type="text" name="id"	placeholder="ID">
-							<br>
-							<input type="password" 	name="m_password" placeholder="Password">
-							<input type="submit" value="Login" >
-							<div class="ui error message"></div>
-							<div id="kakaoLogin" style="padding-top: 10px;">
-							<a id="kakao-login-btn"></a>
-							</div>
-					</form>
-				<div >
-				<a href="regist1.do">회원가입</a>
-				<a href="findIdPw.do">아이디/비밀번호 찾기</a>
+					<form class="ui large form" action="login.do" onsubmit="return loginChk()">
+					<div class="field">
+							<input type="text" name="id" placeholder="ID">
+							<input type="password" name="m_password" placeholder="Password">
+					</div>
+						<input type="submit" value="Login"
+							class="ui fluid large submit button" style="width:315px;">
+				
+				<div class="ui error message"></div>
+
+			<div id="kakaoLogin" style="padding-top: 10px;">
+				<a id="kakao-login-btn"></a>
 			</div>
+			</form>
+			</div>
+			<br>
+				<div class="regist_detail">
+				<a href="regist1.do">회원가입 </a>
+				<a href="findIdPw.do">아이디/비밀번호 찾기</a>
+				</div>
 		</div>
 </div>
 			

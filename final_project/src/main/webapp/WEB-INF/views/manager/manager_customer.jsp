@@ -7,7 +7,7 @@ pageEncoding="UTF-8"%>
 <%response.setContentType("text/html; charset=UTF-8"); %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="f" %>
-<jsp:include page="..\header.jsp"></jsp:include>
+<jsp:include page="..\manager/manager_header.jsp"></jsp:include>
 <jsp:useBean id="util"  class="com.jsr.project.util.Util"  />
 <!DOCTYPE html>
 <html>
@@ -27,27 +27,18 @@ pageEncoding="UTF-8"%>
 		float:left;
 
 	}
-	
-	#container{
-		margin-top:70px; 
-		margin-left:50px;
-	
-	}
-	
 
 </style>
-<title>Customer Board Main Page</title>
+<title>Manager Board Main Page</title>
 
 </head>
 <body>
-<div id="container">
-
-<h1>고객센터</h1>
+<h1>관리자 게시판 관리</h1>
 
 <!-- 공지게시판 시작 -->
 <div id="noticeboard"> 
-<span><a href="notice.do?snum=1&ennum=10">자세히보기</a></span>
-<table class="ui single line selectable  table">
+<span><a href="manager_notice.do?snum=1&ennum=10">자세히보기</a></span>
+<table class="ui very basic table">
 <caption>공지게시판</caption>
 <col width="50px"><col width="50px"><col width="200px"><col width="100px">
 	<tr>
@@ -71,7 +62,7 @@ pageEncoding="UTF-8"%>
 							</c:when>
 							<c:otherwise>
 								<td>
-									<a href="notice_detail.do?n_seq=${n_lists[i].n_seq}&count=count">
+									<a href="manager_noticeboard_detail.do?n_seq=${n_lists[i].n_seq}&count=count">
 										${n_lists[i].n_title}</a>
 								</td>
 							</c:otherwise>
@@ -86,8 +77,8 @@ pageEncoding="UTF-8"%>
 
 <!-- qna게시판 시작 -->
 <div id="qnaboard"> 
-<span><a href="qnamain.do?snum=1&ennum=10">자세히보기</a></span>
-<table class="ui single line selectable  table">
+<span><a href="manager_qna.do?snum=1&ennum=10">자세히보기</a></span>
+<table class="ui very basic table">
 <caption>QnA게시판</caption>
 <col width="50px"><col width="50px"><col width="200px"><col width="100px">
 	<tr>
@@ -101,30 +92,26 @@ pageEncoding="UTF-8"%>
 			<tr><td colspan="4"> ----작성된 글이 없습니다.-----</td></tr>
 			</c:when>
 		<c:otherwise>
-			<c:forEach begin="0" end="9" step="1" var="i">
+			<c:forEach begin="0" end="10" step="1" var="i">
 				<tr>
 					<td>${q_lists[i].q_seq}</td>
 					<td>${q_lists[i].id}</td>
-					<c:choose>
-						<c:when test="${q_lists[i].q_delflag=='Y'}">
-							<td>----삭제된 글입니다.----</td>
-						</c:when>
-						<c:otherwise>
-							<td>
-							<jsp:setProperty property="arrowNbsp" name="util" value="${q_lists[i].q_depth}" />
- 							<jsp:getProperty property="arrowNbsp" name="util" />
-							<a href="qnadetail.do?q_seq=${q_lists[i].q_seq}&count=count">	
-							    ${q_lists[i].q_title}</a>
-							</td>
-						</c:otherwise>
-					</c:choose>
+						<td>
+							<a href="manager_qnadetail.do?q_seq=${q_lists[i].q_seq}&count=count">	
+<%-- 							<jsp:setProperty property="arrowNbsp" name="util" value="${dto.q_depth}" /> --%>
+<%-- 							<jsp:getProperty property="arrowNbsp" name="util" /> --%>
+							 	   ${q_lists[i].q_title}
+							  	  <c:if test="${q_lists[i].q_delflag=='Y'}">
+							   	 <span style="color: red;">(삭제글)</span>
+							    </c:if>
+							</a>
+						</td>
 					<td><f:formatDate value="${q_lists[i].q_regDate}" pattern="yy-MM-dd"/></td>
 				</tr>
 			</c:forEach>
 		</c:otherwise>
 	</c:choose>	
 </table>
-</div>
 </div>
 </body>
 </html>

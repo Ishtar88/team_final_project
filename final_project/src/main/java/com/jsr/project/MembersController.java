@@ -351,12 +351,13 @@ public class MembersController {
 
 		MembersDto loginDto=memberService.login(mdto);
 		System.out.println(loginDto);
-
+		
+	
 		if(loginDto==null){
 			boolean isS=memberService.kakaoLogin(mdto);
 			if(isS) {
 				System.out.println("최초로그인:회원가입성공");
-
+				
 				MembersDto loginDto2=memberService.login(mdto);
 				System.out.println(loginDto2);
 				session.setAttribute("loginDto", loginDto2);

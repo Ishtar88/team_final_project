@@ -161,7 +161,6 @@ public class AnalysisController {
 		model.addAttribute("goalRatio", goalRatio);
 		
 		
-		
 		}
 		return "analysis/total_pattern_main";
 	}
@@ -237,6 +236,7 @@ public class AnalysisController {
 		return map;
 	}
 
+	
 	//지출패턴-병훈
 
 	@RequestMapping(value = "/analysis_main.do", method = RequestMethod.GET)
@@ -290,6 +290,8 @@ public class AnalysisController {
 		isc=currentAcountDetail(model,regdate, session);
 		//가장 많이 투자하고 있는 상품 조회
 		isc=acountMaxValueProduct(model, regdate, session);
+		//투자패턴 유형 조회
+		isc=acountPatternRate(session, model);
 		
 		
 		
@@ -319,6 +321,9 @@ public class AnalysisController {
 		logger.info("totalRate: "+totalRate);
 		logger.info("analysis acountTotalRate end.");
 		
+		logger.info("---------------------------------------------------------------");
+		logger.info("---------------------------------------------------------------");
+		
 		return map;
 	}
 	
@@ -337,6 +342,9 @@ public class AnalysisController {
 		
 		logger.info("acountDateChart: "+map);
 		logger.info("analysis acountDateChartAjax end.");
+		
+		logger.info("---------------------------------------------------------------");
+		logger.info("---------------------------------------------------------------");
 		
 		return map;
 	}
@@ -361,6 +369,9 @@ public class AnalysisController {
 		logger.info("acountDetailChart: "+map);
 		logger.info("analysis acountDetailChart end.");
 		
+		logger.info("---------------------------------------------------------------");
+		logger.info("---------------------------------------------------------------");
+		
 		return map;
 	}
 	
@@ -381,6 +392,9 @@ public class AnalysisController {
 		
 		logger.info("acountMaxValue: "+map);
 		logger.info("analysis acountMaxValueChart end.");
+		
+		logger.info("---------------------------------------------------------------");
+		logger.info("---------------------------------------------------------------");
 		
 		return map;
 	}
@@ -405,6 +419,33 @@ public class AnalysisController {
 		logger.info("CurrentAcountTotal: "+map);
 		logger.info("analysis CurrentAcountTotal end.");
 		
+		logger.info("---------------------------------------------------------------");
+		logger.info("---------------------------------------------------------------");
+		
+		return map;
+	}
+	
+	//당월 투자 비율 차트 조회
+	@ResponseBody
+	@RequestMapping(value = "/acountMonthMoneyAjax.do", method = RequestMethod.GET)
+	public Map<String, AcountDto> acountMonthMoneyAjax(String year,String month,HttpSession session) {
+		logger.info("analysis acountMonthMoneyAjax start");
+		
+		Map<String, AcountDto> map=new HashMap<>();
+		
+		String regdate=year+"-"+month;
+		
+		AcountPatternDto dto=inputPatternDto(regdate,session);
+		
+		AcountDto acountMonthMoneyAjax=analysisService.acountMonthMoney(dto);
+		map.put("acountMonthMoneyAjax", acountMonthMoneyAjax);
+		
+		logger.info("acountMonthMoneyAjax: "+map);
+		logger.info("analysis acountMonthMoneyAjax end.");
+		
+		logger.info("---------------------------------------------------------------");
+		logger.info("---------------------------------------------------------------");
+		
 		return map;
 	}
 	
@@ -423,6 +464,9 @@ public class AnalysisController {
 		
 		logger.info("acountMonthMoney: "+acountMonthMoney);
 		logger.info("analysis acountMonthMoney end.");
+		
+		logger.info("---------------------------------------------------------------");
+		logger.info("---------------------------------------------------------------");
 		
 		return count>0?true:false;
 	}
@@ -443,6 +487,9 @@ public class AnalysisController {
 		logger.info("totalDetail: "+totalDetail);
 		logger.info("analysis acountTotalDetailAjax end.");
 		
+		logger.info("---------------------------------------------------------------");
+		logger.info("---------------------------------------------------------------");
+		
 		return count>0?true:false;
 	}
 	
@@ -461,6 +508,9 @@ public class AnalysisController {
 		logger.info("acountMoneyTop: "+acountMoneyTop);
 		logger.info("analysis acountMoneyTop end.");
 		
+		logger.info("---------------------------------------------------------------");
+		logger.info("---------------------------------------------------------------");
+		
 		return count>0?true:false;
 	}
 	
@@ -478,6 +528,9 @@ public class AnalysisController {
 		
 		logger.info("yearAcountMoneyTop: "+yearAcountMoneyTop);
 		logger.info("analysis yearAcountMoneyTop end.");
+		
+		logger.info("---------------------------------------------------------------");
+		logger.info("---------------------------------------------------------------");
 		
 		return count>0?true:false;
 	}
@@ -498,6 +551,9 @@ public class AnalysisController {
 		logger.info("yearMoneyTop: "+yearMoneyTop);
 		logger.info("analysis yearMoneyTop end.");
 		
+		logger.info("---------------------------------------------------------------");
+		logger.info("---------------------------------------------------------------");
+		
 		return count>0?true:false;
 	}
 	
@@ -515,6 +571,9 @@ public class AnalysisController {
 		
 		logger.info("yearProductTop: "+yearProductTop);
 		logger.info("analysis yearProductTop end.");
+		
+		logger.info("---------------------------------------------------------------");
+		logger.info("---------------------------------------------------------------");
 		
 		return count>0?true:false;
 	}
@@ -534,6 +593,9 @@ public class AnalysisController {
 		logger.info("acountRateTop5: "+acountRateTop5);
 		logger.info("analysis acountRateTop5 end.");
 		
+		logger.info("---------------------------------------------------------------");
+		logger.info("---------------------------------------------------------------");
+		
 		return count>0?true:false;
 	}
 	
@@ -552,6 +614,9 @@ public class AnalysisController {
 		logger.info("currentAcountDetail: "+currentAcountDetail);
 		logger.info("analysis currentAcountDetail end.");
 		
+		logger.info("---------------------------------------------------------------");
+		logger.info("---------------------------------------------------------------");
+		
 		return count>0?true:false;
 	}
 	
@@ -569,6 +634,9 @@ public class AnalysisController {
 		
 		logger.info("acountMaxValueProduct: "+acountMaxValueProduct);
 		logger.info("analysis acountMaxValueProduct end.");
+		
+		logger.info("---------------------------------------------------------------");
+		logger.info("---------------------------------------------------------------");
 		
 		return count>0?true:false;
 	}
@@ -602,6 +670,68 @@ public class AnalysisController {
 		
 		return dto;
 	}
+	
+	//투자패턴 유형 조회
+	boolean acountPatternRate(HttpSession session,Model model) {
+		logger.info("analysis acountPatternRate start");
+		
+		int count=0;
+		
+		final String safe="SAFE";
+		final String offen="OFFEN";
+		final String balance="BALANCE";
+		
+		MembersDto lDto=(MembersDto)session.getAttribute("loginDto");
+		AnalysisDto dto=new AnalysisDto();
+		
+		AcountDto acountPatternRate=analysisService.acountPatternRate(lDto);
+		
+		logger.info("acountPatternRate: "+acountPatternRate);
+
+		int save=acountPatternRate.getS_seq();
+		int st_f=acountPatternRate.getSt_seq();
+		
+		logger.info("save투자비율: "+save+" / stock&fund투자비율: "+st_f);
+		
+		String solution="";
+		
+		int sum=save-st_f;
+		
+		if (sum>30) {
+			solution=safe;
+			
+		}else if (sum<-20) {
+			solution=offen;
+			
+		}else {
+			solution=balance;
+			
+		}
+		
+		List<AnalysisDto> rList=analysisService.acountPatternReview();
+		for (int i = 0; i < rList.size(); i++) {
+			if (rList.get(i).getA_name().equals(solution)) {
+				dto.setA_detail(rList.get(i).getA_detail());
+				dto.setA_img(rList.get(i).getA_img());
+				dto.setA_code(rList.get(i).getA_code());
+			}
+		}
+		
+		
+		model.addAttribute("solution", solution);
+		model.addAttribute("dto", dto);		
+		
+		logger.info("solution: "+solution);
+		logger.info("dto: "+dto);
+		logger.info("analysis acountPatternRate end.");
+		logger.info("---------------------------------------------------------------");
+		logger.info("---------------------------------------------------------------");
+		
+		return count>0?true:false;
+	}
+	
+	
+
 	
 	
 	

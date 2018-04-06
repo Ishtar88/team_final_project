@@ -103,7 +103,7 @@
 		INSERT INTO PRODUCT
 		(PRO_SEQ,ID,PRO_NUM,PRO_COUNT,PRO_QR,PRO_QRUSE)
 		VALUES
-		(PRODUCT_SEQ.NEXTVAL,#{id},#{pro_num},#{pro_count},'http://chart.googleapis.com/chart?cht=qr&chs=300x300&chl=http://192.168.4.105:8090/project/qrReceipt.do?pro_seq='||TO_CHAR(PRODUCT_SEQ.NEXTVAL),'N')
+		(PRODUCT_SEQ.NEXTVAL,#{id},#{pro_num},#{pro_count},'http://chart.googleapis.com/chart?cht=qr&chs=300x300&chl=http://192.168.4.121:8090/final_project/qrReceipt.do?pro_seq='||TO_CHAR(PRODUCT_SEQ.NEXTVAL),'N')
 	]]>
 	</insert>
 

@@ -18,9 +18,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="stylesheet" type="text/css"
             href="resources/assets/semantic.min.css">
-<script src="https://code.jquery.com/jquery-3.1.1.min.js"
-            integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
-            crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script src="resources/assets/semantic.min.js"></script>
 
 <%
@@ -65,7 +63,7 @@
   <style type="text/css">
 
    body{
-           		  margin-left:210px;
+           		  margin-left:240px;
  			     } 
    
    #purple {background-color:#343DEA;}
@@ -93,15 +91,15 @@
  	
  	
    
-    #purplebr{
-    		position: relative;
-    		top:50px;
-    		left:0px;
-            background-color:#343DEA;
-            width:100%;
-            height:50px;
+/*     #purplebr{ */
+/*     		position: relative; */
+/*     		top:50px; */
+/*     		left:0px; */
+/*             background-color:#343DEA; */
+/*             width:100%; */
+/*             height:5px; */
             
-    }
+/*     } */
     
     #logo{
     	margin-top:-5px;
@@ -139,6 +137,11 @@
             <a class="active item" href="home.do">홈</a>
     </div>
     <div class="item">
+    	<a class="item" href="getUser.do">MY PAGE</a>
+    </div>
+    
+    
+    <div class="item">
     <a class="item" href="acount.do?year=<%=year%>&month=<%=month%>">자산관리</a>
             <div class="menu">
                         <a class="item" href="goal_main.do?year=<%=year%>&month=<%=month%>">목표관리</a>
@@ -148,46 +151,48 @@
                         <a class="item" href="calendar_main.do?year=<%=year%>&month=<%=month%>">달력</a>
             </div>
     </div>
+
+
     <div class="item">
     <a class="item" href="analysis_main.do?year=<%=year%>&month=<%=month%>">패턴분석</a>
             <div class="menu">
-                        <a class="item" href="total_pattern_main.do?sMonth=-2&eMonth=-1&year=<%=year%>&month=<%=month%>&lastDay=<%=lastDay%>">소비패턴</a>
-                        <a class="item" href="an_consumption_main.do?sMonth=-2&eMonth=-1&year=<%=year%>&month=<%=month%>&lastDay=<%=lastDay%>">지출패턴</a>
+                        <a class="item" href="total_pattern_main.do?sMonth=-2&eMonth=-1&year=<%=year%>&month=<%=month%>&lastDay=<%=lastDay%>&menu=aMonth">소비패턴</a>
+                        <a class="item" href="an_consumption_main.do?sMonth=-2&eMonth=-1&year=<%=year%>&month=<%=month%>&lastDay=<%=lastDay%>&menu=aMonth">지출패턴</a>
                         <a class="item" href="acount_pattern_main.do?year=<%=year %>&month=<%=month %>&lastDay=<%=lastDay%>">투자패턴</a>
             </div>
     </div>
+
+
     <div class="item">
     <a class="item" href="rewardMain.do?year=<%=year%>&month=<%=month%>">포인트몰</a>
-            <div class="menu">
-                        <a class="item" href="#">외식</a>
-                        <a class="item" href="#">카페</a>
-                        <a class="item" href="#">편의점</a>
-                        <a class="item" href="#">문화생활</a>
+             <div class="menu">
+                        <a class="item" href="listOfCategory.do?r_detail=외식&sNum=1&eNum=8">외식</a>
+                        <a class="item" href="listOfCategory.do?r_detail=카페&sNum=1&eNum=8">카페</a>
+                        <a class="item" href="listOfCategory.do?r_detail=편의점&sNum=1&eNum=8">편의점</a>
+                        <a class="item" href="listOfCategory.do?r_detail=문화생활&sNum=1&eNum=8">문화생활</a>
             </div>
     </div>
+ 
+ 
     <div class="item">
     <a class="item" href="customer.do?snum=1&ennum=10">고객센터</a>
             <div class="menu">
                         <a class="item" href="notice.do?snum=1&ennum=10">공지 게시판</a>
                         <a class="item" href="qnamain.do?snum=1&ennum=10">Q&A 게시판</a>    
-                        <a  class="item" href="contactUs.do">Contact Us</a>
             </div>
     </div>
-</div>
 
 
-<div class="pusher" >
-   		<div id="logo"><img src="resources/background-image/logo.jpg"  width="50x" height="48px"></div>
+	<div class="item">
+   		<a class="item" href="logout.do">로그아웃</a>
+	</div>
 
-   		      <div class="right item">
-          <a class="ui  primary basic  button" href="getUser.do">${loginDto.m_name}님</a>
-          <a class="ui  primary basic  button" href="logout.do">로그아웃</a>
-        </div>
-</div>
 
-<div id="purplebr">
+ </div>
+    
 
-</div>
+
+
 
 
 <!-- Page Contents -->

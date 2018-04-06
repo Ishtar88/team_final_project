@@ -375,19 +375,6 @@ window.onload = function () {
 <!-- --------------------------------------------------------------첫 레이아웃 줄 시작 -->
 <!-- 개월수 세부메뉴 시작  -->
 
-
-
-    <div class="sixteen wide column">
-    <div class="ui secondary pointing menu">
-        <a class="active item"
-            href="acount_pattern_main.do?sMonth=-2&eMonth=-1&year=<%=year%>&month=<%=month%>&lastDay=<%=lastDay%>">
-            지난달 </a> <a class="item"
-            href="acount_pattern_main.do?sMonth=-4&eMonth=-1&year=<%=year%>&month=<%=month%>&lastDay=<%=lastDay%>">
-            최근3개월 </a> <a class="item"
-            href="acount_pattern_main.do?sMonth=-7&eMonth=-1&year=<%=year%>&month=<%=month%>&lastDay=<%=lastDay%>">
-            최근6개월 </a>
-    </div>
-    </div>
     <input type="hidden" name="year" value="<%=year%>" />
     <input type="hidden" name="month" value="<%=month%>" />
     <input type="hidden" name="lastDay" value="<%=lastDay%>" />

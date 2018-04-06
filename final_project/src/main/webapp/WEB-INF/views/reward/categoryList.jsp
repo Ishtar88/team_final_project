@@ -55,7 +55,7 @@
 			if (i % 4 == 0) {
 				str += "<tr class='tr'>";
 			}
-			str += "<td><div><img alt='상품 이미지' src='resources/upload/" + rdto.r_file + "'></div>"
+			str += "<td><div><img id='img' alt='상품 이미지' src='resources/upload/" + rdto.r_file + "'></div>"
 					+ "<div>" + rdto.r_name + "</div>" + "<div>" + rdto.r_point
 					+ "</div>" + "<div>" + rdto.b_name.b_name + "</div>"
 					+"<div class='ui purple basic button' onclick='buyReward(\""+rdto.r_seq+"\")'>일반구매</div>"
@@ -97,7 +97,7 @@
 	}
 </script>
 <style type="text/css">
-img {
+#img {
 	width: 150px;
 	height: 150px;
 }
@@ -160,7 +160,7 @@ img {
 					<input type="hidden" value="${rdto.r_seq}" name="seq" />
 				</div>
 				<div>
-					<img alt="상품 이미지" src="resources/upload/${rdto.r_file}">
+					<img id="img" alt="상품 이미지" src="resources/upload/${rdto.r_file}">
 				</div>
 				<div>${rdto.r_name}</div>
 				<div>${rdto.b_name.b_name}</div>

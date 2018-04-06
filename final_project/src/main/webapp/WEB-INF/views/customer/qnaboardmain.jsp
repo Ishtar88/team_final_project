@@ -17,10 +17,30 @@ pageEncoding="UTF-8"%>
  #insertbutton {
  		align-content: right;
  }
-	#boardtable{
-	margin:auto;
-		width: 600px;
-	}
+	 #boardtable {
+ 	margin-top:100px;
+ 	margin-left:27%;
+ 		width: 600px;
+ }
+ 
+ .ui .fluid .search .dropdown{
+ 	float:left;
+ }
+ 
+ .ui .action .mini .input{
+  float:left;
+ }
+ 
+ h3{
+ 	font-size: 1.8em;
+ }
+ 
+ 
+ img{
+ 	width:10px;
+ 	height: 10px;
+ }
+	
 </style>
 <script type="text/javascript">
 	function insertForm(){
@@ -89,17 +109,15 @@ pageEncoding="UTF-8"%>
 <body>
 
 <div id="boardtable">
-<h1>QnA 게시판</h1>
 <div class="seach_input_wrap">
-		<div>
-			<select class="ui fluid search dropdown" name="category" style="width: 150px; display: inline-block;">
+			<div class="ui action mini input">
+				<h3 style="margin-right:210px;">QnA 게시판</h3>
+			<select class="ui fluid search dropdown" name="category" style="width: 100px; margin-right:5px; display: inline-block;">
 				<option value="id">작성자</option>
 				<option value="title">제목</option>
 				<option value="content">내용</option>
 				<option></option>
 			</select>
-		</div>
-			<div class="ui action mini input">
 				<input type="text" placeholder="검색어를 입력해주세요." name="search">
 				  <button class="ui icon button">
  				   <i class="search icon" onclick="qnaSearch()"></i>
@@ -108,7 +126,7 @@ pageEncoding="UTF-8"%>
 </div>
 
 
-	<table id="table" class="ui teal table">
+	<table id="table" class="ui single line selectable  table">
 	<col width="50px"><col width="100px"><col width="200px"><col width="150px"><col width="100px">
 		<tr>
 			<th>번호</th>
@@ -160,7 +178,7 @@ pageEncoding="UTF-8"%>
 		</c:choose>
 	</table>
 	<div id="insertbutton">
-			<button class="ui olive button" onclick="insertForm()">글추가</button>
+			<button class="ui right floated blue button" onclick="insertForm()">글추가</button>
 		</div>
 </div>
 </body>

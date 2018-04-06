@@ -1,44 +1,45 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
+<%request.setCharacterEncoding("UTF-8"); %>
+<%response.setContentType("text/html; charset=UTF-8"); %>
 <!DOCTYPE html>
+<jsp:include page="manager_header.jsp"></jsp:include>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
-<script type="text/javascript">
-	//목록으로 돌아가기
-	function qnamain(){
-		location.href="qnamain.do";
+<style type="text/css">
+	#container{
+		width: 600px;
+		margin: auto;
 	}
-	
-</script>
+</style>
 </head>
 <body>
 <div id="container">
 <h1>게시글<small>작성하기</small></h1>
 <form action="insertnotice.do" method="post">
-	<table class="table table-striped">
+<input type="hidden" name="id" value="ASD"/>
+<input type="hidden" name="snum" value="1"/>
+<input type="hidden" name="ennum" value="10"/>
+	<table class="ui gray table">
 		<tr>
 			<th>제목</th>
-			<td><input class="form-control" type="text" name="	q_title"/></td>
+			<td class="ui input"><input type="text" name="n_title"/></td>
 		</tr>
 		<tr>
 			<th>내용</th>
-			<td><textarea class="form-control" cols="60" rows="10" name="q_content"></textarea></td>
+			<td><textarea cols="60" rows="10" name="n_content"></textarea></td>
 		</tr>
 		<tr>
 			<td colspan="2">
-				<input type="submit" class="btn btn-primary"  value="글작성" />
-				<input type="button"  class="btn btn-primary" value="목록" onclick="qnamain()"/>			
+				<button class="ui olive button">글작성</button>
+				<div class="ui orange button" onclick="location.href='manager_notice.do?snum=${snum}&ennum=${ennum}'">목록</div>		
 			</td>
 		</tr>
 	</table>
 </form>
 </div>
 <script type="text/javascript">
-	$(function(){
+/* 	$(function(){
 		$("form").submit(function(){
 			var bool=true;
 			$("tr>td").each(function(){
@@ -51,7 +52,7 @@
 			});
 			return bool;// submit에 구현된 function() 종료---> submit이벤트가 종료
 		});
-	});
+	}); */
 </script>
 </body>
 </html>

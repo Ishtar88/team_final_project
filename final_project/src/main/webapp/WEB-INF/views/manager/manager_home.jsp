@@ -26,8 +26,9 @@ section {
 	height: 1300px;
 }
  .bg {
-	background: url('resources/img/business2.jpg') no-repeat center;
+	background: url('resources/background-image/city.jpg') no-repeat center;
 	background-size: cover;
+	color:white;
 }
 
 section h1 {
@@ -44,6 +45,11 @@ section h1 {
 	
 }
 
+a{
+	text-decoration: none;
+	color:white;
+}
+
 
 </style>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -56,10 +62,10 @@ section h1 {
 				직원의 행복을 최선의 가치로 삼는 기업.<br> JSR 컴퍼니가 여러분과 함께합니다.
 			</h1>
 			<div class="home_menu">
-			<button class="ui  inverted blue button"><a href="manager_home.do">HOME</a></button>
-			<button class="ui  inverted blue button"><a href="getAllMember.do">회원정보</a></button>
-			<button class="ui  inverted blue button"><a href="rewardList.do">상품정보</a></button>
-			<button class="ui  inverted blue button"><a href="manager_customer.do">고객센터</a></button>
+			<button class="ui inverted button"><a href="manager_home.do">HOME</a></button>
+			<button class="ui inverted button"><a href="getAllMember.do">회원정보</a></button>
+			<button class="ui inverted button"><a href="rewardList.do">상품정보</a></button>
+			<button class="ui inverted button"><a href="manager_customer.do?snum=1&ennum=10">고객센터</a></button>
 			</div>
 					
 	</section>

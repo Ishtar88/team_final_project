@@ -41,6 +41,11 @@
 	#block{
 		height:100px;
 	}
+	
+	.img{
+	height: 200px;
+	width: 200px;
+	}
 
 </style>
 </head>
@@ -62,13 +67,13 @@
 	
 		<tr>
 			<td>	
-				<img class="img" alt="total_pattern" src="" >
+				<img class="img" alt="total_pattern" src="resources/pattern-image/patternA.jpg" >
 			</td>
 			<td>
-				<img  class="img" alt="consumption_pattern" src="" >
+				<img  class="img" alt="consumption_pattern" src="resources/pattern-image/patternB.jpg" >
 			</td>
 			<td>
-				<img  class="img" alt="account_pattern" src=""  >
+				<img  class="img" alt="account_pattern" src="resources/pattern-image/patternC.jpg"  >
 			</td>
 		</tr>
 		<tr>
@@ -76,7 +81,7 @@
 				<a href="total_pattern_main.do?sMonth=-2&eMonth=-1&year=<%=year%>&month=<%=month%>&lastDay=<%=lastDay%>&menu=aMonth"><span>자세히보기</span></a>
 			</td>
 			<td class="text">
-				<a href="an_consumption_main.do?sMonth=-2&eMonth=-1&year=<%=year%>&month=<%=month%>&lastDay=<%=lastDay%>"><span>자세히보기</span></a>
+				<a href="an_consumption_main.do?sMonth=-2&eMonth=-1&year=<%=year%>&month=<%=month%>&lastDay=<%=lastDay%>&menu=aMonth"><span>자세히보기</span></a>
 			</td>
 			<td class="text">
 				<a href="acount_pattern_main.do?year=<%=year %>&month=<%=month %>"><span>자세히보기</span></a>

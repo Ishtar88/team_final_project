@@ -10,6 +10,7 @@
 	}
 </script>
 <style type="text/css">
+
 	
 	#black {
 	height:200px;
@@ -63,7 +64,7 @@
 	<span class="menu"><a href="manager_home.do"><br/>HOME</a></span>
 	<span class="menu"><a href="getAllMember.do"><br/>회원정보</a> </span>
 	<span class="menu"><a href="rewardList.do"><br/>상품정보</a></span>
-	<span class="menu"><a href="manager_customer.do"><br/>고객센터</a></span>
+	<span class="menu"><a href="manager_customer.do?snum=1&ennum=10"><br/>고객센터</a></span>
 </div>
 </div>
 

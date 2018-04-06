@@ -20,15 +20,21 @@ pageEncoding="UTF-8"%>
 	}
 	
 </script>
+<style type="text/css">
+	#container{
+		width: 500px;
+		margin: auto;	
+	}
+</style>
 </head>
 <body>
 <div id="container">
 <h1>게시글<small>작성하기</small></h1>
 <form action="notice_submitqna.do" method="post">
-	<table class="table table-striped">
+	<table class="ui olive table">
 		<tr>
 			<th>제목</th>
-			<td><input class="form-control" type="text" name="q_title" placeholder="제목을 입력하세요."/></td>	
+			<td class="ui input"><input class="form-control" type="text" name="q_title" placeholder="제목을 입력하세요."/></td>	
 			</tr>
 		<tr>
 			<th>내용</th>
@@ -36,15 +42,15 @@ pageEncoding="UTF-8"%>
 		</tr>
 		<tr>
 			<td colspan="2">
-				<input type="submit" class="btn btn-primary"  value="글작성" />
-				<input type="button"  class="btn btn-primary" value="목록" onclick="qnamain()"/>			
+				<button class="ui olive button">글작성</button>
+				<div class="ui button" onclick="location.href='manager_qna.do?snum=${snum}&ennum=${ennum}'">목록</div>		
 			</td>
 		</tr>
 	</table>
 </form>
 </div>
 <script type="text/javascript">
-	$(function(){
+/* 	$(function(){
 		$("form").submit(function(){
 			var bool=true;
 			$("tr>td").each(function(){
@@ -57,7 +63,7 @@ pageEncoding="UTF-8"%>
 			});
 			return bool;// submit에 구현된 function() 종료---> submit이벤트가 종료
 		});
-	});
+	}); */
 </script>
 </body>
 </html>

@@ -23,6 +23,18 @@
 	function end() {
 		window.close();
 	}
+	
+	function buyChk() {
+		var haveP = $("input[name=haveP]").val();
+		var needP = $("input[name=point]").val();
+		var needPP=Math.abs(parseInt(needP));
+
+		if (parseInt(haveP) < parseInt(needPP)) {
+			alert("보유 포인트가 부족합니다");
+			return false;
+		}
+
+	}
 </script>
 <c:choose>
 	<c:when test="${isc eq 'success'}">
@@ -42,10 +54,11 @@
 </head>
 <body>
 
-	<form action="dobak_check.do" method="post">
+	<form action="dobak_check.do" method="post" onsubmit="return buyChk()">
 		<table class="ui pink table">
 			<tr>
 				<td><input type="hidden" value="${loginDto.id}" name="id" /></td>
+				<td><input type="hidden" value="${loginDto.po_point.po_point}" name="haveP" /></td>
 				<td><input type="hidden" value="${rdto.r_seq}" name="r_seq" /></td>
 				<td><input type="hidden" value="${-rdto.r_point*0.05}"
 					name="point" /></td>

@@ -12,27 +12,31 @@ pageEncoding="UTF-8"%>
 <html>
 <head>
 <title>QnA Board Page</title>
+<script type="text/javascript">
+	
+	//전체선택 체크
+	function allSel(bool){
+		$("input[name=chk]").prop("checked",bool);
+	}
+	
+</script>
 <style type="text/css">
  
  #boardtable {
- 		
+ 		width: 600px;
+ 		margin: auto;
  }
 
 </style>
-<script type="text/javascript">
-	function insertForm(){
-		location.href="insertnoticeform.do";
-	}
-
-</script>
 </head>
 <body>
 
-<h1 onclick="showoption()">공지 게시판</h1>
 <div id="boardtable">
-	<table border="1">
+<h1>공지 게시판</h1>
+<form action="notice_multiDel.do" method="post">
+	<table class="ui grey table">
 		<tr>
-			<th>체크박스</th>
+			<th><input type="checkbox" name="all" onclick="allSel(this.checked)"></th>
 			<th>번호</th>
 			<th>작성자</th>
 			<th>제목</th>
@@ -46,33 +50,41 @@ pageEncoding="UTF-8"%>
 		<c:otherwise>
 			<c:forEach items="${lists}" var="dto">
 				<tr>
-					<td><input class="form-control" type="checkbox" name="chk" value="${dto.n_seq}"/></td>
+					<td><input type="checkbox" name="chk" value="${dto.n_seq}"/></td>
 					<td>${dto.n_seq}</td>
 					<td>${dto.id}</td>
-					<c:choose>
-						<c:when test="${dto.n_delflag=='Y'}">
-							<td>---삭제된 글입니다.---</td>
-						</c:when>	
-						<c:otherwise>
 							<td>
-							<a href="manager_notice_detail.do?n_seq=${dto.n_seq}">	
+							<a href="manager_noticeboard_detail.do?n_seq=${dto.n_seq}&count=count">	
 							    ${dto.n_title}</a>
 							</td>
-						</c:otherwise>
-					</c:choose>
-					<td><f:formatDate value="${dto.n_regDate}" pattern="yy년MM월dd일"/> </td>
+
+					<td><f:formatDate value="${dto.n_regDate}" pattern="yyyy년MM월dd일"/> </td>
 					<td>${dto.n_readcount}</td>
 				</tr>
 			</c:forEach>
 		</c:otherwise>
 	</c:choose>
+		<c:choose>
+		<c:when test="${count<2 }">
+			<a href="manager_notice.do?snum=1&ennum=10">1</a>
+			</c:when><c:otherwise>
+			<tr>
+				<td colspan="10" style="text-align: center;"><c:set var="page"></c:set>
+					<c:forEach var="i" begin="0" step="1" end="${count}">
+						<a href="manager_notice.do?snum=${i<1?i+1:i+(i*10)}&ennum=${i<1?10:(i+1)*10}">${i+1 }</a>
+					</c:forEach>
+					</td>
+			</tr>
+			</c:otherwise>
+		</c:choose>
 	<tr>
 		<td colspan="10">
-			<input type="button" value="글추가" onclick="insertForm()"/>
-			<input type="submit" value="삭제" />
+			<div class="ui olive button" onclick="location.href='insertnoticeform.do'">글추가</div>
+			<button class="ui orange button">삭제</button>
 		</td>
 	</tr>
 	</table>
+</form>
 </div>
 </body>
 </html>

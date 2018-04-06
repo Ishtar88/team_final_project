@@ -28,22 +28,26 @@
 	src="http://code.jquery.com/jquery-latest.js"></script>
 <script>
 
-// function pick(){
-// 	$("a").attr("class","item");
-// 	var pick=$(".item");
-	
-// 	switch (key) {
-// 	case value:
-		
-// 		break;
-
-// 	default:
-// 		break;
-// 	}
-// }
 
 
 	window.onload = function() {
+		
+	var menu=$("input[name=menu]").val();
+	var secondMenu=$(".some").children().children();
+	
+	for (var i = 0; i < secondMenu.length; i++) {
+		secondMenu.eq(i).attr("class","item");
+	}
+	
+	if(menu=="aMonth"){
+		secondMenu.eq(0).attr("class","active item");
+	}else if(menu=="threeMonth"){
+		secondMenu.eq(1).attr("class","active item");
+	}else{
+		secondMenu.eq(2).attr("class","active item");
+	}
+	
+		
 
 		var spend_ratio = parseFloat($("#spend_ratio").text());
 		var invest_ratio = parseFloat($("#invest_ratio").text());
@@ -87,7 +91,7 @@
 			data : "year=" + year + "&month=" + month+"&lastDay="+lastDay+"&sMonth="+sMonth+"&eMonth="+eMonth,
 			datetype : "json",
 			success : function(obj) {
-
+		
 				var list = obj["GSList"];
 				var list2 = obj["spendMinusGoal"];
 				var list3 = obj["goalMinusSpend"];
@@ -133,7 +137,7 @@
 				}
 
 				var chart2 = new CanvasJS.Chart("chartContainer2", {
-					exportEnabled : true,
+					exportEnabled : false,
 					animationEnabled : true,
 					title : {
 						text : "예산 대비 실제 지출"
@@ -193,12 +197,37 @@
 				}
 
 			}
-		});
+					
+				
 
+		});
+		
 	}
+	
+	function detailSearch(pick){
+		var list=$(".some").children().children();
+		for (var i = 0; i < list.length; i++) {
+			list.eq(i).attr("class","item");
+		}
+			switch (pick) {
+			case "aMonth":
+					list.eq(0).attr("class","active item");
+				break;
+			case "threeMonth":
+				list.eq(1).attr("class","active item");
+			break;
+			case "sixMonth":
+				list.eq(2).attr("class","active item");
+			break;
+
+			default:
+				break;
+			}
+	}
+
 </script>
 <style type="text/css">
-#img {
+img {
 	width: 150px;
 	height: 200px;
 }
@@ -214,23 +243,26 @@ display: inline-block;
 
 <!-- --------------------------------------------------------------첫 레이아웃 줄 시작 -->
 
+
+
 <!-- 공백 그리드  -->
 <div class="wide column"></div>
 
 <!--  개월수 세부메뉴 시작  -->
-<div class=" fourteen wide column">
+<div class="some fourteen wide column">
 		<div class="ui secondary pointing menu">
-  				<a class="active item" href="total_pattern_main.do?sMonth=-2&eMonth=-1&year=<%=year%>&month=<%=month%>&lastDay=<%=lastDay%>">
+  				<a class="active item" href="total_pattern_main.do?sMonth=-2&eMonth=-1&year=<%=year%>&month=<%=month%>&lastDay=<%=lastDay%>&menu=aMonth">
   				 지난달
   				</a>
-  				<a class="item" href="total_pattern_main.do?sMonth=-4&eMonth=-1&year=<%=year%>&month=<%=month%>&lastDay=<%=lastDay%>">
+  				<a class="item" href="total_pattern_main.do?sMonth=-4&eMonth=-1&year=<%=year%>&month=<%=month%>&lastDay=<%=lastDay%>&menu=threeMonth">
    				 최근3개월
   				</a>
-  				<a class="item" href="total_pattern_main.do?sMonth=-7&eMonth=-1&year=<%=year%>&month=<%=month%>&lastDay=<%=lastDay%>">
+  				<a class="item" href="total_pattern_main.do?sMonth=-7&eMonth=-1&year=<%=year%>&month=<%=month%>&lastDay=<%=lastDay%>&menu=sixMonth">
    				 최근6개월
   				</a>
 		</div>
 </div>
+<input type="hidden" name="menu" value="${menu}"/>
 <!-- 개월수 세부메뉴 끝  -->
 
 <!-- 공백 그리드  -->
@@ -257,7 +289,7 @@ display: inline-block;
 
 <!-- 투자대비 지출 사진 및 설명 시작  -->
 <div class="nine wide column">
-${loginDto.m_name}  님의 투자대비 지출은....! 
+
 </div>
 <!-- 투자대비 지출 사진 및 설명 시작  -->
 
@@ -288,13 +320,13 @@ ${loginDto.m_name}  님의 투자대비 지출은....!
 			<th>지출부분</th>
 			<td id="spend_ratio"><f:formatNumber
 					value="${expense_spending/total_spending*100}" pattern="0.00" />%</td>
-			<td><f:formatNumber value="${expense_spending}" type="number" /></td>
+			<td><f:formatNumber value="${expense_spending}" type="number" />원</td>
 		</tr>
 		<tr>
 			<th>투자/저축부분</th>
 			<td id="invest_ratio"><f:formatNumber
 					value="${invest_spending/total_spending*100}" pattern="0.00" />%</td>
-			<td><f:formatNumber value="${invest_spending}" type="number" /></td>
+			<td><f:formatNumber value="${invest_spending}" type="number" />원</td>
 		</tr>
 	</table>
 </div>
@@ -304,7 +336,7 @@ ${loginDto.m_name}  님의 투자대비 지출은....!
 <table id="type1" class="ui unstackable table">
 		<tr>
 			<td>
-			<img alt="유형 이미지" src="${aDto1.a_img}"   id="img"/></td>
+			<img alt="유형 이미지" src="${aDto1.a_img}" /></td>
 			<td>${aDto1.a_name}<p>${aDto1.a_detail}</p></td>
 		</tr>
 	</table>
@@ -330,7 +362,7 @@ ${loginDto.m_name}  님의 투자대비 지출은....!
 <div class="seven wide column">
 	<table id="type2" class="ui unstackable table">
 		<tr>
-			<td><img alt="유형 이미지" src="${aDto2.a_img}"  id="img"/></td>
+			<td><img alt="유형 이미지" src="${aDto2.a_img}" /></td>
 			<td>${aDto2.a_name}<p>${aDto2.a_detail}</p></td>
 		</tr>
 	</table>
@@ -348,12 +380,12 @@ ${loginDto.m_name}  님의 투자대비 지출은....!
 		<tr>
 			<th>총 예산</th>
 			<td colspan="2"><f:formatNumber value="${total_goal}"
-					type="number" /></td>
+					type="number" />원</td>
 		</tr>
 		<tr>
 			<th>총 지출액</th>
 			<td colspan="2"><f:formatNumber value="${total_expense}"
-					type="number" /></td>
+					type="number" />원</td>
 		</tr>
 	</table>
 </div>
@@ -405,22 +437,22 @@ ${loginDto.m_name}  님의 투자대비 지출은....!
 			<tr>
 				<th>${sdto.p_name}</th>
 				<td><f:formatNumber value="${sdto.g_name.g_money}"
-						type="number" /></td>
-				<td><f:formatNumber value="${sdto.p_money}" type="number" /></td>
+						type="number" />원</td>
+				<td><f:formatNumber value="${sdto.p_money}" type="number" />원</td>
 			</tr>
 		</c:forEach>
 		<c:forEach items="${goalMinusSpend}" var="gdto">
 			<tr>
 				<th>${gdto.g_name}</th>
-				<td><f:formatNumber value="${gdto.g_money}" type="number" /></td>
-				<td>0</td>
+				<td><f:formatNumber value="${gdto.g_money}" type="number" />원</td>
+				<td>0원</td>
 			</tr>
 		</c:forEach>
 		<c:forEach items="${spendMinusGoal}" var="sdto">
 			<tr>
 				<th>${sdto.p_name}</th>
-				<td>0</td>
-				<td><f:formatNumber value="${sdto.p_money}" type="number" /></td>
+				<td>0원</td>
+				<td><f:formatNumber value="${sdto.p_money}" type="number" />원</td>
 			</tr>
 		</c:forEach>
 	</table>
@@ -435,6 +467,10 @@ ${loginDto.m_name}  님의 투자대비 지출은....!
 
 
 <!-- --------------------------------------------------------------다섯째 레이아웃 줄 끝 -->
+
+
+
+
 
 
 </div>

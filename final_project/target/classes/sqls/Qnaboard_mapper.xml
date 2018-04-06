@@ -68,9 +68,9 @@
 			( Q_SEQ, ID,  Q_TITLE, Q_CONTENT, Q_REGDATE, Q_REFER, Q_STEP, Q_DEPTH, Q_READCOUNT, Q_DELFLAG, Q_VIEWABLE)
 			VALUES 
 			( QNA_SEQ.NEXTVAL, #{id}, #{q_title}, #{q_content}, SYSDATE, 
-			(SELECT REFER FROM QNA WHERE SEQ=#{q_seq}),
-			(SELECT STEP FROM QNA WHERE SEQ=#{q_seq})+1,
-			(SELECT DEPTH FROM QNA WHERE SEQ=#{q_seq})+1, 
+			(SELECT Q_REFER FROM QNA WHERE Q_SEQ=#{q_seq}),
+			(SELECT Q_STEP FROM QNA WHERE Q_SEQ=#{q_seq})+1,
+			(SELECT Q_DEPTH FROM QNA WHERE Q_SEQ=#{q_seq})+1, 
 			0, 'N' , #{q_viewable})
 		</insert>
 		
@@ -82,9 +82,9 @@
 	
 <!-- 	답변 글 수정  -관리자 -->
 	<update id="q_ansupdate" parameterType="QnaBoardDto">
-		UPDATE QNA SET STEP=STEP+1
-			WHERE REFER=(SELECT REFER FROM QNA WHERE SEQ=#{q_seq} )
-			STEP > (SELECT STEP FROM QNA WHERE SEQ=#{q_seq})				
+		UPDATE QNA SET Q_STEP=Q_STEP+1
+			WHERE Q_REFER=(SELECT Q_REFER FROM QNA WHERE Q_SEQ=#{q_seq} ) AND
+			Q_STEP > (SELECT Q_STEP FROM QNA WHERE Q_SEQ=#{q_seq})				
 	</update>
 
 		

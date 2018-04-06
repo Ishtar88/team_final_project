@@ -25,17 +25,23 @@
 <script type="text/javascript">
 	$(function() {
 		
+		$(".cashable_form").transition('scale');
+		$(".card_form").transition('scale');
+		$("input[name=p_card]").hide();
+		
 		/* 									 */
 		/* css는 바뀌지만 semantic에서는 작동이 안됨 */
 		/* 									 */
 		$("input[name=p_some]").click(function() {
 			var chk = $(this).val();
 			if (chk == '현금') {
-				$(".cashable_form").css("display","table-row");
-				$(".card_form").css("display","none");
+/* 				$(".cashable_form").css("display","table-row");
+				$(".card_form").css("display","none"); */
+				$(".cashable_form").transition('scale');
 			} else {
-				$(".card_form").css("display","table-row");
-				$(".cashable_form").css("display","none");
+/* 				$(".card_form").css("display","table-row");
+				$(".cashable_form").css("display","none"); */
+				$(".card_form").transition('scale');
 			}
 		});
 		
@@ -233,6 +239,7 @@
 			alert(star+"점을 선택하셨습니다.");
 			var point=$("input[name=p_need]").val(star);
 		}
+		
 	}
 	
 	function satLock(star){
@@ -312,7 +319,31 @@
 		
 	}
 	
-
+	function spending_insert(){
+		var sat=$("input[name=p_sat]").val();
+		var need=$("input[name=p_need]").val();
+		
+		if (sat=="") {
+			alert("만족도를 체크해주세요.");
+			return false;
+		}
+		if (need=="") {
+			alert("평가도를 체크해주세요.");
+			return false;
+		}
+		
+ 		var money=$("input[name=p_money]").val();
+		if (money!='^[0-9]*$') {
+			alert("금액은 숫자를 입력해주세요.");
+			return false;
+		} 
+		
+		var name1=$("select[name=p_name]").val();
+		if (name1=='noSelect') {
+			alert("분류를 선택해주세요.");
+			return false;
+		}
+	}
 	
 	
 	
@@ -325,10 +356,11 @@
 #name,#detail,#card,#some,#radio{
 	display: inline-block;
 }
+
 </style>
 </head>
 <body>
-	<form action="spending_insert.do" method="post">
+	<form action="spending_insert.do" method="post" onsubmit="return spending_insert()">
 	<div class="spending_form_body_wrap">
 		<table class="spending_form_body ui olive table">
 			<tr>
@@ -336,7 +368,7 @@
 				지출 대분류
 				<i class="ellipsis vertica icon"></i>
 					<select class="ui fluid mini dropdown" id="name" name="p_name" style="width: 150px;">
-						<option>------------------</option>
+						<option value="noSelect">------------------</option>
 						<optgroup label="생활">
 							<option value="식사">식사</option>
 							<option value="생활/마트">생활/마트</option>
@@ -392,7 +424,7 @@
 				금액
 									<i class="ellipsis vertica icon"></i>
 				<div class="ui mini input">
-				<input type="text" name="p_money" required="required">
+				<input type="number" name="p_money" required="required">
 				</div>
 				</td>
 			</tr>
@@ -401,7 +433,8 @@
 				지출수단
 				<i class="ellipsis vertica icon"></i>
 				<input type="radio" name="p_some" value="현금" checked="" tabindex="0" class="hidden"><label>현금</label>
-					&nbsp; <input type="radio" name="p_some" value="카드" checked="" tabindex="0" class="hidden"><label>카드</label>
+					&nbsp; 
+				<input type="radio" name="p_some" value="카드" checked="" tabindex="0" class="hidden"><label>카드</label>
 					</td>
 			</tr>
 			<tr class="cashable_form">
